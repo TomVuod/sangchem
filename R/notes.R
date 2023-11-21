@@ -1,1 +1,0 @@
-linear_model(development_data, fix_effs = list("sang_prop"), rand_effs = list())
