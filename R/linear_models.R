@@ -1,5 +1,7 @@
 #' @export
-linear_model<-function(data, dependent_var="mass", size_correction=TRUE,
+#'
+#' @import lmerTest
+linear_model<-function(data, MS_data,dependent_var="mass", size_correction=TRUE,
                        peak_subset=NULL,
                        fix_effs=list(), rand_effs=list(), transformation=identity,
                        species="F. sanguinea",...){
@@ -15,7 +17,7 @@ linear_model<-function(data, dependent_var="mass", size_correction=TRUE,
     data$mass<-data$mass/(data$head_width/10^3)^2
   if (any(is.na(data[,"mass"]))) stop("Size correction generated NA values")
   if (!is.null(peak_subset)) data$mass<-
-    data$mass*mapply(function(x) subsample_proportion(peak_subset,x),
+    data$mass*mapply(function(x) subsample_proportion(peak_subset,x, MS_data),
                      data$chromatogram_ID)
   if (any(is.na(data[,"mass"]))) stop("Peak subsetting generated NA values")
   data[,dependent_var]<-transformation(data[,dependent_var])
@@ -32,4 +34,22 @@ linear_model<-function(data, dependent_var="mass", size_correction=TRUE,
   mod.sum<-summary(mod.res)
   mod.sum$call<-call(model_call,formula=eval(parse(text=model_formula)))
   list(mod.res,mod.sum,mod.diag)
+}
+
+#' @import DHARMa
+model_diagnostics<-function(model){
+  counter=1
+  results=c()
+  if (class(model)=="lmerModLmerTest"){
+    for (test in c(testUniformity,testOutliers,testDispersion,testQuantiles)){
+      results[counter]=test(model,plot=FALSE)$p.value
+      counter=counter+1
+    }
+  }
+  results[counter]<-shapiro.test(residuals(model))$p.value
+  if (length(results)==5)
+    names(results)<-c("testUniformity","testOutliers","testDispersion","testQuantiles","ShapiroTest")
+  else
+    names(results)<-c("ShapiroTest")
+  results
 }
