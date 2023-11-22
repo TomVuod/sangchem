@@ -1,0 +1,13 @@
+---
+title: "Changes of CHCs amount over time"
+author: "Tomasz Włodarczyk"
+date: "22/11/2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+In this report we will check how the all CHCs ot their specific subset chnages in ants
+of both species as colony develops. 
