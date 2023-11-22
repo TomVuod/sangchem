@@ -17,4 +17,6 @@ Imports:
     lme4,
     lmerTest,
     DHARMa
+Suggests:
+    stringi
 RoxygenNote: 7.2.1

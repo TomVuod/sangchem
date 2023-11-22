@@ -1,0 +1,24 @@
+---
+title: "Finding peaks discriminating markers"
+author: "Tomasz Włodarczyk"
+date: "22-11-2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This  report shows how the peaks discriminative for F. sanguinea and F. fusca were determined. We will use the chemical data collected from the filed colonies in the [earlier study](https://www.sciencedirect.com/science/article/abs/pii/S0022191016301640).
+
+```{r}
+library(sangchem)
+library(stringi)
+# load data from the the earlier study
+data("field_colonies")
+
+# select samples from F. sanguinea ants and free-living F. fusca ants encoded in chromatogram_ID
+fusca_samples<-as.character(unique(PhD_data$chromatogram_ID)[stri_detect_regex(unique(PhD_data$chromatogram_ID),
+                                                                               "fus[0-9].?-[0-9]\\([1-2]\\)")])
+sanguinea_samples<-as.character(unique(PhD_data$chromatogram_ID)[stri_detect_regex(unique(PhD_data$chromatogram_ID),"sangFs[0-9].?\\([0-9]\\)")])
+```
