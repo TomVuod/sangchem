@@ -1,0 +1,102 @@
+---
+title: "Finding peaks discriminating species"
+author: "Tomasz Włodarczyk"
+date: "23-11-2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Ants in mixed colonies mixed CHCs to produce hybrid chemical identity. Here we develop the method to assign each sample a number indicating how much it is characteristic of one or the other species.
+```{r warning=FALSE}
+suppressMessages({
+  library(sangchem)
+  library(stringi)
+  library(dplyr)
+  library(mixOmics)
+})
+
+# load data from the the earlier study
+data("field_colonies")
+
+# select samples from F. sanguinea ants and free-living F. fusca ants encoded in chromatogram_ID
+fusca_samples <- as.character(unique(field_colonies$chromatogram_ID)[stri_detect_regex(unique(field_colonies$chromatogram_ID), "fus[0-9].?-[0-9]\\([1-2]\\)")])
+sanguinea_samples<-as.character(unique(field_colonies$chromatogram_ID)[stri_detect_regex(unique(field_colonies$chromatogram_ID),"sangFs[0-9].?\\([0-9]\\)")])
+
+# remove outliers
+sanguinea_samples <- setdiff(sanguinea_samples,c("sangFs2(1)","sangFs5(2)","sangFs26(1)","sangFs26(2)"))
+fusca_samples <- setdiff(fusca_samples,c("fus9-2(1)", "fus26-3(2)"))
+discrimination_data <- filter(field_colonies,chromatogram_ID %in% c(fusca_samples,sanguinea_samples)) 
+peak_prop_unfiltered <- peak_proportions_table(discrimination_data)
+# feature selection
+peak_prop <- freq_abun_QC(peak_prop_unfiltered)
+# re-normalize rows to 1
+peak_prop <- peak_prop/rowSums(peak_prop)
+```
+
+The main idea is to fit a sPLS_DA model to the training set (sampled from field colonies) and use it predict the explanatory variable (species) in the test data (samples from experimental colonies). However the sPLS_DA model run on the raw data will yield the classificator which used only few variables (peaks) due to the well separation of samples of both species. The unused variables might also be informative in the species discrimination task. We want to use as much data as it is possible to make robust predictions and thus we will use principal component analysis output. The same rotation matrix will be then used to transform test data. 
+
+```{r}
+PCA_main <- prcomp(peak_prop, scale=FALSE)
+```
+```{r}
+# remove zeros to use PLS-DA option logratio
+peak_prop[peak_prop==0] <- 10^-6 
+#define groups to be compared
+Y <- rownames(peak_prop) %in% sanguinea_samples
+```
+
+The following workflow is based on the tutorial available at the official [`mixOmics` package web site](https://mixomics.org/mixmc/hmp-bodysites-case-study/).
+```{r}
+# run the main model
+species_discrimination.plsda <- plsda(peak_prop, Y, ncomp=10, logratio = "CLR",scale=FALSE)
+plotIndiv(species_discrimination.plsda,group=Y,
+          legend=TRUE,ellipse=TRUE,comp=1:2)
+
+# determine the optimal number of components used in the model
+spec_discr.plsda.perf<-perf(species_discrimination.plsda, nrepeat = 10,folds=5,
+                            progressBar = FALSE,validation = "Mfold",
+                            auc=TRUE,scale=FALSE)
+
+plot(spec_discr.plsda.perf, sd = TRUE, overlay = 'measure')
+```
+
+The diagnostic plots shows that using one compoment is enough to accurately discriminate between species.
+```{r}
+selected_n <- 1
+
+# dtermine the number of the original variables to be kept in each component (actually
+# here we have only one component)
+spec_discr.splsda <- tune.splsda(peak_prop,Y,test.keepX = c(1:60),ncomp = selected_n, validation="Mfold", progressBar=FALSE, dist="max.dist", nrepeat=5, cpus=2, logratio = "CLR", folds=5, measure="BER", scale=FALSE)
+
+# final model
+spec_discr.plsda_2 <- splsda(peak_prop,Y,ncomp=selected_n,
+                           keepX =spec_discr.splsda$choice.keepX,logratio = "CLR",
+                           scale=FALSE)
+
+```
+
+Now we want to correlate relative abundances of CHCs with the species predicted by the model for each sample.
+```{r message=FALSE}
+# quantify predicted species (F. sanguinea closer to one and F. fusca closer to 0)
+predicted_species <- predict(spec_discr.plsda_2, peak_prop)$predict[,2,1]
+
+library(Hmisc) 
+cor_p_val<-rcorr(cbind(peak_prop, predicted_species))
+cor_p_val$P[cor_p_val$r==1]<-0
+#significance threshold = 0.05
+significant_correlations <- cor_p_val$r["predicted_species",][cor_p_val$P["predicted_species",]<0.05]
+peaks_sang <- names(significant_correlations)[significant_correlations>0]
+peaks_sang <- as.numeric((setdiff(peaks_sang,"predicted_species")))
+peaks_fusca <- as.numeric(names(significant_correlations)[significant_correlations<0])
+print(peaks_sang)
+print(peaks_fusca)
+```
+
+The objects `peaks_sang` and `peaks_fusca` are stored in the package and can be collectively loaded into the global environment along with the other objects by running `load_globals()`.
+
+```{r}
+print(sessionInfo())
+```
