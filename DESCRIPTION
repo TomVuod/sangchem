@@ -16,7 +16,9 @@ Imports:
     mixOmics,
     lme4,
     lmerTest,
-    DHARMa
+    DHARMa,
+    rlang
 Suggests:
-    stringi
-RoxygenNote: 7.2.1
+    stringi,
+    Hmisc
+RoxygenNote: 7.2.3

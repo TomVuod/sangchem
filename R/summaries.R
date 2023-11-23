@@ -1,31 +1,42 @@
 #' Peak proportions
-#' 
+#'
 #' Represent MS data in the form of relative abundances of each peak
-#' 
+#'
+#' @import dplyr
 #' @export
-relative_amounts<-function(chrID, chromatogram_data, peak_subset=NULL){
-  if (!(is.numeric(chrID))) stop("Chromatogram ID should be numeric")
-  if (length(chrID)!=1) stop("One chromatogram ID should be passed in")
-  if (!(chrID %in% chromatogram_data$chromatogram_ID)) {
+relative_amounts<-function(chromatogram_data, chrID=NULL, peak_subset=NULL){
+  if(!is.data.frame(chromatogram_data)) stop("'chromatogram_data' should be a data frame")
+  if(nrow(chromatogram_data)==0) {
+    warning("Empty data frame passed to 'relative_amounts'")
+    return(NULL)
+    }
+  if (!missing(chrID) && !(is.numeric(chrID))) stop("Chromatogram ID should be numeric")
+  if (!missing(chrID) && length(chrID)!=1) stop("One chromatogram ID should be passed in")
+  if (!missing(chrID) && !(chrID %in% chromatogram_data$chromatogram_ID)) {
     warning(sprintf("Chromatogram ID not found: %s", as.character(chrID)))
     return(NULL)
   }
-  filter(chromatogram_data,chromatogram_ID %in% chrID,peak_ID>1) %>%
-    select(chromatogram_ID,peak_ID,abundance) -> filtered_data
-  if (!is.null(peak_subset)) filtered_data<-filter(filtered_data,peak_ID %in% peak_subset)
-  filtered_data<-aggregate(filtered_data$abundance,
+  if(missing(chrID)) {
+    chrID <- unique(chromatogram_data$chromatogram_ID)
+    if(length(chrID)!=1) stop("Guessing chromatogram ID from the data failed.")
+  }
+  dplyr::filter(chromatogram_data,chromatogram_ID %in% chrID,peak_ID>1) %>%
+    dplyr::select(chromatogram_ID,peak_ID,abundance) -> filtered_data
+  if (!is.null(peak_subset)) filtered_data <- dplyr::filter(filtered_data,peak_ID %in% peak_subset)
+  if(nrow(filtered_data)==0) return(NULL)
+  filtered_data <- aggregate(filtered_data$abundance,
                            list(peak_ID=filtered_data$peak_ID),sum)
-  filtered_data<-rename(filtered_data,abundance=x)
-  filtered_data<-filtered_data[,c("abundance","peak_ID")]
+  filtered_data <- rename(filtered_data,abundance=x)
+  filtered_data <- filtered_data[,c("peak_ID", "abundance")]
   filtered_data$abundance<-filtered_data$abundance/sum(filtered_data$abundance)
   rename(filtered_data, relative_abundance=abundance)
 }
 
 
 #' Averaged CHC profile
-#' 
+#'
 #' Construct CHC profile by averaging the input profiles
-#' 
+#'
 #' @export
 averaged_profile<-function(chr_IDs,MS_data,
                            CHC_amount_data, proportions=TRUE){
@@ -34,7 +45,7 @@ averaged_profile<-function(chr_IDs,MS_data,
   #if (length(chr_IDs)!=2) stop("Two chromatogram ID values should be passed in")
   output<-data.frame()
   for (i in 1:length(chr_IDs)){
-    new_data<-relative_amounts(chr_IDs[i], chromatogram_data= MS_data)
+    new_data<-relative_amounts(chromatogram_data= MS_data, chr_IDs[i])
     if (is.null(new_data)) next
     if (!proportions){
       mass=filter(CHC_amount_data,chromatogram_ID==chr_IDs[i])$corrected_mass
@@ -77,12 +88,12 @@ average_by_sepcies <- function(dev_data, MS_data = MS_data, CHC_amounts = CHC_am
 }
 
 #' Average samples by sample
-#' 
+#'
 #' Produce averaged samples by species and sampling date
-#' 
+#'
 #' @export
 sample_averaged<-function(dev_data, MS_data, CHC_amounts){
-    dev_data %>% 
+    dev_data %>%
     filter(callow==0,caste=="worker", chromatogram_ID %in% MS_data$chromatogram_ID) %>%
     group_by(colony, census_date) %>%
     group_map(~average_by_sepcies(.x, MS_data = mass_spectra_data, CHC_amounts = CHC_amounts)) %>%
@@ -90,9 +101,9 @@ sample_averaged<-function(dev_data, MS_data, CHC_amounts){
 }
 
 #' Prportion of peak subset
-#' 
+#'
 #' Calculate proportion of a set of peaks in samples
-#' 
+#'
 #' @export
 subsample_proportion<-function(peak_IDs, chromatogram_IDs, MS_data){
   if (is.null(peak_IDs)) stop("Peak IDs argument null")
@@ -101,13 +112,35 @@ subsample_proportion<-function(peak_IDs, chromatogram_IDs, MS_data){
   if (is.null(chromatogram_IDs)) stop("Chromatogram IDs argument null")
   if (any(is.na(chromatogram_IDs))) stop("A NA value in Chromatogram IDs argument")
   if (!all(is.numeric(chromatogram_IDs))) warning("Chromatogram IDs are not numeric")
-  if (!all(chromatogram_IDs %in% unique(MS_data$chromatogram_ID))) 
+  if (!all(chromatogram_IDs %in% unique(MS_data$chromatogram_ID)))
     warning("Not all chromatograms represented in the passed dataset")
   res<-c()
   for(i in 1:length(chromatogram_IDs)){
-    prop_data <- relative_amounts(chromatogram_IDs[i], MS_data)
+    prop_data <- relative_amounts(MS_data, chromatogram_IDs[i])
     res[i] <- sum(prop_data[prop_data$peak_ID %in% peak_IDs,"relative_abundance"])/sum(prop_data[,"relative_abundance"])
   }
   names(res)<-as.character(chromatogram_IDs)
   res
-} 
+}
+
+#' Relative abundances table
+#'
+#' Calculate relative abundances of peaks with chromatogram IDs as columns
+#' @export
+peak_proportions_table <- function(MS_data){
+  if (!is.data.frame(MS_data)) stop("Data frame object missing")
+  demanded_columns <- c('abundance','chromatogram_ID',"peak_ID")
+  missing_columns <- setdiff(c('abundance','chromatogram_ID',"peak_ID"), colnames(MS_data))
+  if (length(missing_columns)>0) stop(sprintf("Missing columns: %s", paste(missing_columns, collapse = ", ")))
+  if(nrow(MS_data)==0) stop("Empty data frame")
+  if (sum(is.na(MS_data[,"peak_ID"]))>0) warning(sprintf("Some rows contain NA values for the peak_ID"))
+  MS_data <- MS_data[!is.na(MS_data[,"peak_ID"]),]
+  chr_IDs <- c()
+  prop_data <- lapply(split(MS_data, MS_data$chromatogram_ID), relative_amounts) %>%
+    purrr::imap(function(x,y) {if(is.null(x)) return(NULL); colnames(x)[2] <- y; x}) %>%
+    # account for NULL which might be returneb by 'relative_amounts'
+    purrr::reduce(function(x,y,...) {if(is.null(y)) return(x); merge(x,y,...)}, all.x=TRUE, all.y=TRUE, by="peak_ID") %>%
+    {function(x) {rownames(x) <- x[,1]; x[,-1]}}()
+  prop_data[is.na(prop_data)] <- 0
+  t(prop_data)
+}

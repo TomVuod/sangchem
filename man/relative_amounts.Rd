@@ -4,7 +4,7 @@
 \alias{relative_amounts}
 \title{Peak proportions}
 \usage{
-relative_amounts(chrID, chromatogram_data, peak_subset = NULL)
+relative_amounts(chromatogram_data, chrID = NULL, peak_subset = NULL)
 }
 \description{
 Represent MS data in the form of relative abundances of each peak
