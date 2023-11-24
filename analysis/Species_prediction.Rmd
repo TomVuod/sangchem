@@ -1,8 +1,10 @@
 ---
 title: "Finding peaks discriminating species"
 author: "Tomasz Włodarczyk"
-date: "23-11-2023"
+date: "24-11-2023"
 output: html_document
+params:
+  save_globals: FALSE
 ---
 
 ```{r setup, include=FALSE}
@@ -39,63 +41,56 @@ peak_prop <- peak_prop/rowSums(peak_prop)
 The main idea is to fit a sPLS_DA model to the training set (sampled from field colonies) and use it predict the explanatory variable (species) in the test data (samples from experimental colonies). However the sPLS_DA model run on the raw data will yield the classificator which used only few variables (peaks) due to the well separation of samples of both species. The unused variables might also be informative in the species discrimination task. We want to use as much data as it is possible to make robust predictions and thus we will use principal component analysis output. The same rotation matrix will be then used to transform test data. 
 
 ```{r}
-PCA_main <- prcomp(peak_prop, scale=FALSE)
-```
-```{r}
-# remove zeros to use PLS-DA option logratio
-peak_prop[peak_prop==0] <- 10^-6 
-#define groups to be compared
-Y <- rownames(peak_prop) %in% sanguinea_samples
+PCA_species_discr <- prcomp(peak_prop, scale=FALSE)
 ```
 
-The following workflow is based on the tutorial available at the official [`mixOmics` package web site](https://mixomics.org/mixmc/hmp-bodysites-case-study/).
+We also need to deifne our reponse variable to be explained by discrimination model.
+```{r}
+#define groups to be compared
+Y <- rownames(PCA_species_discr$x) %in% sanguinea_samples
+```
+
+Now that we have prepared the input data we can run the model. The following workflow is based on the tutorial available at the official [`mixOmics` package web site](https://mixomics.org/mixmc/hmp-bodysites-case-study/).
 ```{r}
 # run the main model
-species_discrimination.plsda <- plsda(peak_prop, Y, ncomp=10, logratio = "CLR",scale=FALSE)
-plotIndiv(species_discrimination.plsda,group=Y,
+species_discrimination_PC.plsda <- plsda(PCA_species_discr$x, Y, ncomp=10, scale=FALSE)
+plotIndiv(species_discrimination_PC.plsda,group=Y,
           legend=TRUE,ellipse=TRUE,comp=1:2)
 
 # determine the optimal number of components used in the model
-spec_discr.plsda.perf<-perf(species_discrimination.plsda, nrepeat = 10,folds=5,
+spec_discr_PC.plsda.perf<-perf(species_discrimination_PC.plsda, nrepeat = 10,folds=5,
                             progressBar = FALSE,validation = "Mfold",
                             auc=TRUE,scale=FALSE)
 
-plot(spec_discr.plsda.perf, sd = TRUE, overlay = 'measure')
+plot(spec_discr_PC.plsda.perf, sd = TRUE, overlay = 'measure')
 ```
 
 The diagnostic plots shows that using one compoment is enough to accurately discriminate between species.
 ```{r}
-selected_n <- 1
+selected_n <- 3
 
 # dtermine the number of the original variables to be kept in each component (actually
 # here we have only one component)
-spec_discr.splsda <- tune.splsda(peak_prop,Y,test.keepX = c(1:60),ncomp = selected_n, validation="Mfold", progressBar=FALSE, dist="max.dist", nrepeat=5, cpus=2, logratio = "CLR", folds=5, measure="BER", scale=FALSE)
+spec_discr_PC.splsda <- tune.splsda(PCA_species_discr$x,Y,test.keepX = c(1:60),ncomp = selected_n,
+                                 validation="Mfold", progressBar=FALSE, dist="max.dist", 
+                                 nrepeat=5, cpus=2, folds=5, measure="BER",
+                                 scale=FALSE)
 
 # final model
-spec_discr.plsda_2 <- splsda(peak_prop,Y,ncomp=selected_n,
-                           keepX =spec_discr.splsda$choice.keepX,logratio = "CLR",
+species_prediction_model <- splsda(PCA_species_discr$x, Y, ncomp=selected_n,
+                           keepX =spec_discr_PC.splsda$choice.keepX,
                            scale=FALSE)
 
+# visuzalize results for the first two commponents
+plotIndiv(species_prediction_model, group=Y, legend=TRUE, ellipse=TRUE, comp=1:2)
+
 ```
-
-Now we want to correlate relative abundances of CHCs with the species predicted by the model for each sample.
-```{r message=FALSE}
-# quantify predicted species (F. sanguinea closer to one and F. fusca closer to 0)
-predicted_species <- predict(spec_discr.plsda_2, peak_prop)$predict[,2,1]
-
-library(Hmisc) 
-cor_p_val<-rcorr(cbind(peak_prop, predicted_species))
-cor_p_val$P[cor_p_val$r==1]<-0
-#significance threshold = 0.05
-significant_correlations <- cor_p_val$r["predicted_species",][cor_p_val$P["predicted_species",]<0.05]
-peaks_sang <- names(significant_correlations)[significant_correlations>0]
-peaks_sang <- as.numeric((setdiff(peaks_sang,"predicted_species")))
-peaks_fusca <- as.numeric(names(significant_correlations)[significant_correlations<0])
-print(peaks_sang)
-print(peaks_fusca)
+```{r eval=params$save_globals, echo=params$save_globals}
+globals <- readRDS(system.file("globals.rds", package="sangchem"))
+globals[["species_prediction_model"]] <- species_prediction_model
+globals[["PCA_species_discr"]] <- PCA_species_discr
+saveRDS(globals, system.file("globals.rds", package="sangchem"))
 ```
-
-The objects `peaks_sang` and `peaks_fusca` are stored in the package and can be collectively loaded into the global environment along with the other objects by running `load_globals()`.
 
 ```{r}
 print(sessionInfo())
