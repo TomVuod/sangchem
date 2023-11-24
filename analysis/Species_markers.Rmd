@@ -1,8 +1,10 @@
 ---
 title: "Finding peaks discriminating species"
 author: "Tomasz Włodarczyk"
-date: "23-11-2023"
+date: "24-11-2023"
 output: html_document
+params:
+  save_globals: FALSE
 ---
 
 ```{r setup, include=FALSE}
@@ -89,7 +91,12 @@ print(peaks_fusca)
 ```
 
 The objects `peaks_sang` and `peaks_fusca` are stored in the package and can be collectively loaded into the global environment along with the other objects by running `load_globals()`.
-
+```{r eval=params$save_globals, echo=params$save_globals}
+globals <- readRDS(system.file("globals.rds", package="sangchem"))
+globals[["peak_sang"]] <- peaks_sang
+globals[["peak_fusca"]] <- peaks_fusca
+saveRDS(globals, system.file("globals.rds", package="sangchem"))
+```
 ```{r}
 print(sessionInfo())
 ```

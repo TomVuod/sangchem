@@ -162,7 +162,7 @@ pre code {
 
 <h1 class="title toc-ignore">Finding peaks discriminating species</h1>
 <h4 class="author">Tomasz Włodarczyk</h4>
-<h4 class="date">23-11-2023</h4>
+<h4 class="date">24-11-2023</h4>
 
 </div>
 
@@ -232,8 +232,8 @@ peaks_sang &lt;- names(significant_correlations)[significant_correlations&gt;0]
 peaks_sang &lt;- as.numeric((setdiff(peaks_sang,&quot;predicted_species&quot;)))
 peaks_fusca &lt;- as.numeric(names(significant_correlations)[significant_correlations&lt;0])
 print(peaks_sang)</code></pre>
-<pre><code>##  [1]  22  24  30  35  42  43  47  49  51  54  56  57  58  59  60  61  63  68  71  75  76  77  78  79
-## [25]  81  83  85  92  93  94  95  97  99 102 109 110 111 113 124 125 126</code></pre>
+<pre><code>##  [1]  22  24  30  35  42  43  47  49  51  54  56  57  58  59  60  61  63  68  71  75  76  77  78  79  81
+## [26]  83  85  92  93  94  95  97  99 102 109 110 111 113 124 125 126</code></pre>
 <pre class="r"><code>print(peaks_fusca)</code></pre>
 <pre><code>##  [1]  7  8  9 11 12 13 14 15 16 18 19 23 27 29 31 32 33 36 37 38 41 45 46 53</code></pre>
 <p>The objects <code>peaks_sang</code> and <code>peaks_fusca</code> are stored in the package and can be collectively loaded into the global environment along with the other objects by running <code>load_globals()</code>.</p>
@@ -252,37 +252,26 @@ print(peaks_sang)</code></pre>
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] sangchem_0.0.9000 Hmisc_5.0-1       mixOmics_6.18.1   ggplot2_3.4.4     lattice_0.20-45  
-## [6] MASS_7.3-55       dplyr_1.1.2       stringi_1.7.12   
+## [1] Hmisc_5.0-1       mixOmics_6.18.1   ggplot2_3.4.4     lattice_0.20-45   MASS_7.3-55      
+## [6] dplyr_1.1.2       stringi_1.7.12    sangchem_0.0.9000
 ## 
 ## loaded via a namespace (and not attached):
-##   [1] minqa_1.2.5         colorspace_2.1-0    ellipsis_0.3.2      rsconnect_1.1.1    
-##   [5] rprojroot_2.0.4     htmlTable_2.4.2     corpcor_1.6.10      base64enc_0.1-3    
-##   [9] fs_1.5.2            rstudioapi_0.15.0   farver_2.1.1        roxygen2_7.2.3     
-##  [13] remotes_2.4.2.1     ggrepel_0.9.3       RSpectra_0.16-1     fansi_1.0.4        
-##  [17] xml2_1.3.3          splines_4.1.3       cachem_1.0.7        knitr_1.45         
-##  [21] pkgload_1.3.0       jsonlite_1.8.4      Formula_1.2-5       nloptr_2.0.3       
-##  [25] cluster_2.1.2       shiny_1.8.0         compiler_4.1.3      backports_1.4.1    
-##  [29] Matrix_1.5-4        fastmap_1.1.1       cli_3.6.1           later_1.3.0        
-##  [33] htmltools_0.5.5     prettyunits_1.2.0   tools_4.1.3         lmerTest_3.1-3     
-##  [37] igraph_1.4.2        gtable_0.3.4        glue_1.6.2          reshape2_1.4.4     
-##  [41] Rcpp_1.0.10         jquerylib_0.1.4     vctrs_0.6.1         nlme_3.1-155       
-##  [45] xfun_0.39           stringr_1.5.1       ps_1.7.5            brio_1.1.3         
-##  [49] testthat_3.1.7      lme4_1.1-32         mime_0.12           miniUI_0.1.1.1     
-##  [53] lifecycle_1.0.4     devtools_2.4.5      scales_1.2.1        promises_1.2.0.1   
-##  [57] parallel_4.1.3      RColorBrewer_1.1-3  yaml_2.3.5          memoise_2.0.1      
-##  [61] DHARMa_0.4.6        gridExtra_2.3       sass_0.4.5          rpart_4.1.16       
-##  [65] highr_0.10          desc_1.4.2          checkmate_2.1.0     boot_1.3-28        
-##  [69] pkgbuild_1.4.2      BiocParallel_1.28.3 rlang_1.1.0         pkgconfig_2.0.3    
-##  [73] matrixStats_0.63.0  evaluate_0.23       purrr_1.0.1         labeling_0.4.3     
-##  [77] htmlwidgets_1.6.2   processx_3.8.1      tidyselect_1.2.0    plyr_1.8.8         
-##  [81] magrittr_2.0.3      R6_2.5.1            generics_0.1.3      profvis_0.3.7      
-##  [85] foreign_0.8-82      pillar_1.9.0        withr_2.5.2         nnet_7.3-17        
-##  [89] tibble_3.2.1        crayon_1.5.2        rARPACK_0.11-0      utf8_1.2.3         
-##  [93] ellipse_0.5.0       rmarkdown_2.25      urlchecker_1.0.1    usethis_2.2.2      
-##  [97] grid_4.1.3          data.table_1.14.8   callr_3.7.3         digest_0.6.31      
-## [101] xtable_1.8-4        tidyr_1.3.0         httpuv_1.6.9        numDeriv_2016.8-1.1
-## [105] munsell_0.5.0       bslib_0.4.0         sessioninfo_1.2.2</code></pre>
+##  [1] sass_0.4.5          tidyr_1.3.0         jsonlite_1.8.4      splines_4.1.3       ellipse_0.5.0      
+##  [6] bslib_0.4.0         Formula_1.2-5       highr_0.10          yaml_2.3.5          ggrepel_0.9.3      
+## [11] numDeriv_2016.8-1.1 pillar_1.9.0        backports_1.4.1     glue_1.6.2          digest_0.6.31      
+## [16] RColorBrewer_1.1-3  checkmate_2.1.0     minqa_1.2.5         colorspace_2.1-0    htmltools_0.5.5    
+## [21] Matrix_1.5-4        plyr_1.8.8          pkgconfig_2.0.3     purrr_1.0.1         corpcor_1.6.10     
+## [26] scales_1.2.1        RSpectra_0.16-1     BiocParallel_1.28.3 lme4_1.1-32         tibble_3.2.1       
+## [31] htmlTable_2.4.2     generics_0.1.3      farver_2.1.1        cachem_1.0.7        withr_2.5.2        
+## [36] nnet_7.3-17         cli_3.6.1           magrittr_2.0.3      evaluate_0.23       fansi_1.0.4        
+## [41] nlme_3.1-155        foreign_0.8-82      data.table_1.14.8   rsconnect_1.1.1     tools_4.1.3        
+## [46] lifecycle_1.0.4     matrixStats_0.63.0  stringr_1.5.1       munsell_0.5.0       cluster_2.1.2      
+## [51] DHARMa_0.4.6        compiler_4.1.3      jquerylib_0.1.4     rlang_1.1.0         grid_4.1.3         
+## [56] nloptr_2.0.3        rstudioapi_0.15.0   htmlwidgets_1.6.2   igraph_1.4.2        base64enc_0.1-3    
+## [61] labeling_0.4.3      rmarkdown_2.25      boot_1.3-28         gtable_0.3.4        lmerTest_3.1-3     
+## [66] rARPACK_0.11-0      reshape2_1.4.4      R6_2.5.1            gridExtra_2.3       knitr_1.45         
+## [71] fastmap_1.1.1       utf8_1.2.3          parallel_4.1.3      Rcpp_1.0.10         vctrs_0.6.1        
+## [76] rpart_4.1.16        tidyselect_1.2.0    xfun_0.39</code></pre>
 
 
 
