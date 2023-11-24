@@ -1,5 +1,5 @@
 ---
-title: "Finding peaks discriminating species"
+title: "Species identity score assignment"
 author: "Tomasz Włodarczyk"
 date: "24-11-2023"
 output: html_document
@@ -92,6 +92,107 @@ globals[["PCA_species_discr"]] <- PCA_species_discr
 saveRDS(globals, system.file("globals.rds", package="sangchem"))
 ```
 
+# Predicted species of ants sampled from mixed colonies 
+
+## Data preparation
+```{r}
+data("development data")
+dev_samples <- development_data[!(development_data$colony=="SD18-11"&development_data$sang_prop>0.1),] %>% filter(caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target")) %>%
+  dplyr::select(chromatogram_ID, species, colony, sang_prop, callow, census_date)
+species_indices <- calculate_SII(mass_spectra_data[mass_spectra_data$chromatogram_ID %in% dev_samples$chromatogram_ID,])
+dev_samples <- left_join(dev_samples, species_indices)
+```
+
+## Predicted species of different categories of ants as a function of the proportion of *F. sanguinea* ants in a colony
+### Mature *F. sanguinea*
+```{r}
+library(lme4)
+library(DHARMa)
+model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==0,]
+lm_model <- lmer(predicted_species~sang_prop+(1|colony)+(1|colony:census_date), data=model_input)
+summary(lm_model)
+
+# model diagnostics
+hist(residuals(lm_model))
+shapiro.test(residuals(lm_model))
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
+plot(simulationOutput)
+```
+
+### *F. fusca*
+```{r}
+model_input <- dev_samples[dev_samples$species=="F. fusca",]
+lm_model <- lmer(predicted_species~sang_prop+(1|colony)+(1|colony:census_date), data=model_input)
+summary(lm_model)
+
+# model diagnostics
+hist(residuals(lm_model))
+shapiro.test(residuals(lm_model))
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
+plot(simulationOutput)
+```
+
+### Callow *F. sanguinea*
+```{r}
+model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==1,]
+lm_model <- lmer(predicted_species~sang_prop+(1|colony), data=model_input)
+summary(lm_model)
+
+# model diagnostics
+hist(residuals(lm_model))
+shapiro.test(residuals(lm_model))
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
+plot(simulationOutput)
+```
+
+## Difference in species prediction between mature *F. sanguinea* ants and their slaves
+```{r}
+model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==0,]
+model_input$index_diff <- model_input$predicted_species - find_nestmates_SII(model_input$chromatogram_ID, dev_samples)
+lm_model <- lmer(index_diff~sang_prop+(1|colony)+(1|colony:census_date), data=model_input)
+summary(lm_model)
+
+# model diagnostics
+hist(residuals(lm_model))
+shapiro.test(residuals(lm_model))
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
+plot(simulationOutput)
+```
+
+## Difference in species prediction between callow *F. sanguinea* ants and their slaves
+
+Since the linear model does not meet one of diagnostics criterion we will apply Wilcoxon paired test.
+```{r}
+library(ggpubr)
+library(rstatix)
+model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==1&dev_samples$sang_prop<2,]
+model_input$slave_species_index <- find_nestmates_SII(model_input$chromatogram_ID, dev_samples)
+print(wilcox.test(model_input$predicted_species, model_input$slave_species_index, paired=TRUE))
+df <- data.frame(species_identity_index=c(model_input$predicted_species, model_input$slave_species_index), species="F. fusca")
+df$species[1:nrow(model_input)] <- "callow F. sanguinea"
+stat_tests <- wilcox_test(df, species_identity_index~species, paired=TRUE) %>%
+  add_significance("p") %>%
+  add_xy_position(x="species", dodge=0.8, fun="max")
+ggboxplot(df, x="species", y="species_identity_index")+
+  scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
+  stat_pvalue_manual(stat_tests, label="p", tip.length = 0, size=3.5)
+```
+
+## Difference in species prediction between callow and mature *F. sanguinea* ants.
+```{r}
+model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==1,]
+model_input$index_diff <- model_input$predicted_species - find_nestmates_SII(model_input$chromatogram_ID, dev_samples, heterospecific = FALSE)
+# no random effect since it captures no variance
+lm_model <- lm(index_diff~sang_prop, data=model_input)
+summary(lm_model)
+
+# model diagnostics
+hist(residuals(lm_model))
+shapiro.test(residuals(lm_model))
+```
+
 ```{r}
 print(sessionInfo())
 ```
+
+

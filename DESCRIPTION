@@ -20,5 +20,6 @@ Imports:
     rlang
 Suggests:
     stringi,
-    Hmisc
+    Hmisc,
+    ggpubr
 RoxygenNote: 7.2.3
