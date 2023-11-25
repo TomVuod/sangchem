@@ -5,8 +5,8 @@
 \title{Calculate species identity index}
 \usage{
 calculate_SII(
-  MS_data,
-  prediction_model = species_prediction_model,
+  normalized_TIC,
+  PLS_DA_model = species_prediction_model,
   PCA_res = PCA_species_discr
 )
 }

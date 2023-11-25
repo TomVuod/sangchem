@@ -19,7 +19,8 @@
 
 #' @export
 load_globals <- function(){
-  .env <- parent.env(sys.frame(sys.nframe()))
+  .env <- parent.frame()
   globals_list <- readRDS(file.path(system.file(package="sangchem"), "globals.rds"))
   lapply(ls(globals_list), function(obj.name) assign(obj.name, get(obj.name, pos = globals_list), envir = .env))
+  invisible()
 }

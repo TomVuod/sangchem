@@ -1,0 +1,87 @@
+---
+title: "Finding peaks discriminating callow F. sanguinea workers"
+author: "Tomasz Włodarczyk"
+date: "25-11-2023"
+output: html_document
+params:
+  save_globals: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r warning=FALSE}
+suppressMessages({
+  library(sangchem)
+  library(dplyr)
+  library(mixOmics)
+})
+
+# load data
+data("development_data")
+data("mass_spectra_data")
+
+DA_data <- dplyr::filter(development_data, caste=="worker", !remarks %in% c("aggression actor", "aggression target", "queenless colony")) %>%
+  dplyr::select(colony, species, callow, census_date, chromatogram_ID) %>%
+  split(list(.$colony, .$census_date), drop=TRUE) %>%
+  lapply(function(x){if(sum(x$callow)==0) return(NULL); x}) %>%
+  {function(x) x[!unlist((lapply(x, is.null)))]}() %>%
+  purrr::map2(seq_along(.), function(x,y){x$group <- y; x}) %>%
+  {function(x) do.call(rbind, x)}()
+
+Y <- (DA_data$callow==1) + (DA_data$species=="F. sanguinea")
+
+peak_prop <- peak_proportions_table(mass_spectra_data[mass_spectra_data$chromatogram_ID %in% DA_data$chromatogram_ID,])
+peak_prop <- peak_prop[match(DA_data$chromatogram_ID, rownames(peak_prop)),]
+# replace zeros with a small number before transformation
+peak_prop[peak_prop==0] <- 10^-16
+# apply central log ratio transformation
+peak_transformed <- t(apply(peak_prop, 1, clr_transformation))
+PCA_callow_discr <- prcomp(peak_transformed, scale. = TRUE)
+```
+```{r}
+discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,multilevel=DA_data$group, 
+                                keepX=seq(1:60), ncomp=7, scale = FALSE)
+plotIndiv(discr_analysis_callow, legend=TRUE,ellipse=TRUE,comp=1:2)
+
+perf.discr_analysis_callow <- perf(discr_analysis_callow, 
+                                validation = "Mfold", 
+                                folds = 4, 
+                           progressBar = FALSE, 
+                           auc = TRUE, 
+                           nrepeat = 10,
+                           scale = FALSE)
+plot(perf.discr_analysis_callow, col = color.mixo(1:3), sd = TRUE, legend.position = "horizontal")
+selected_n <- 5
+discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
+                                   Y=Y,
+                                   multilevel=DA_data$group,
+                                   ncomp = selected_n,
+                                   test.keepX = seq(1:120), 
+                                   dist = 'mahalanobis.dist',
+                                   validation = 'loo',
+                                   progressBar = FALSE,
+                                   scale = FALSE) 
+
+discr_analysis_callows_res <- splsda(PCA_callow_discr$x,Y=Y,
+                      multilevel= DA_data$group,
+                      keepX=discr_analysis_callows_tuned$choice.keepX,
+                      ncomp=selected_n,
+                      scale = FALSE)
+
+plotIndiv(discr_analysis_callows_res,
+          legend=TRUE, ellipse=TRUE, comp=1:2)
+```
+```{r}
+unit_input <- diag(rep(1,ncol(peak_prop)))
+colnames(unit_input) <- rownames(unit_input) <-colnames(peak_prop)
+res <- calculate_SII(unit_input, discr_analysis_callows_res, PCA_callow_discr, predicted_category=3)
+colnames(res)[1] <- "peak ID"
+# normalize scores
+res[,2] <- res[,2] - mean(res[,2])
+res[,2] <- res[,2]/sd(res[,2])
+print(res[order(res$predicted_species),])
+```

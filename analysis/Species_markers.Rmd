@@ -11,7 +11,7 @@ params:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-This  report shows how the peaks discriminative for *F. sanguinea* and *F. fusca* were determined. We will use the chemical data collected from the filed colonies in the [earlier study](https://www.sciencedirect.com/science/article/abs/pii/S0022191016301640). In this way our method of marker selection is blind to the dataset to which markers will be applied avoiding potential source of the bias in the analysis results.
+
 
 ```{r warning=FALSE}
 suppressMessages({
@@ -37,8 +37,12 @@ peak_prop_unfiltered <- peak_proportions_table(discrimination_data)
 peak_prop <- freq_abun_QC(peak_prop_unfiltered)
 # re-normalize rows to 1
 peak_prop <- peak_prop/rowSums(peak_prop)
-# remove zeros to use PLS-DA option logratio
-peak_prop[peak_prop==0] <- 10^-6 
+# replace zeros with a small number before transformation
+peak_prop[peak_prop==0] <- 10^-16
+# apply central log ratio transformation
+preak_prop <- apply(peak_prop, 1, clr_transformation)
+
+
 #define groups to be compared
 Y <- rownames(peak_prop) %in% sanguinea_samples
 ```

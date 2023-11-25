@@ -1,22 +1,21 @@
 #' Calculate species identity index
 #'
 #' @export
-calculate_SII <- function(MS_data, prediction_model=species_prediction_model,
-                          PCA_res = PCA_species_discr){
-  peak_prop <- peak_proportions_table(MS_data)
-  peak_prop <- peak_prop[,colnames(peak_prop) %in% rownames(PCA_res$rotation)]
-  peak_prop <- peak_prop/rowSums(peak_prop)
-  missing_variables <- setdiff(rownames(PCA_res$rotation), colnames(peak_prop))
-  peak_prop <- cbind(peak_prop, matrix(0, nrow=nrow(peak_prop), ncol=length(missing_variables),
-                                       dimnames = list(rownames(peak_prop), missing_variables)))
-  peak_prop <- peak_prop[,rownames(PCA_res$rotation)]
-
+calculate_SII <- function(normalized_TIC, PLS_DA_model=species_prediction_model,
+                          PCA_res = PCA_species_discr, predicted_category=2){
+  normalized_TIC <- normalized_TIC[,colnames(normalized_TIC) %in% rownames(PCA_res$rotation)]
+  normalized_TIC <- normalized_TIC/rowSums(normalized_TIC)
+  missing_variables <- setdiff(rownames(PCA_res$rotation), colnames(normalized_TIC))
+  normalized_TIC <- cbind(normalized_TIC, matrix(0, nrow=nrow(normalized_TIC), ncol=length(missing_variables),
+                                                   dimnames = list(rownames(normalized_TIC), missing_variables)))
+  normalized_TIC <- normalized_TIC[,rownames(PCA_res$rotation)]
+  normalized_TIC[normalized_TIC==0] <- 10^-16
+  transformed_TIC <- t(apply(normalized_TIC,1,clr_transformation))
   # PCA transformation using data from training set
-  peak_prop <- t(apply(peak_prop, 1, function(x) x-PCA_res$center))
-  peak_prop <- peak_prop%*%PCA_res$rotation
-  predicted <- predict(prediction_model, peak_prop)$predict
+  transformed_TIC_PC <- predict(PCA_res, transformed_TIC)
+  predicted <- predict(PLS_DA_model, transformed_TIC_PC)$predict
   cbind(data.frame(chromatogram_ID=as.numeric(dimnames(predicted)[[1]])),
-        predicted_species=predicted[,2,prediction_model$ncomp])
+        predicted_species=predicted[,predicted_category,PLS_DA_model$ncomp])
 }
 
 #' @export

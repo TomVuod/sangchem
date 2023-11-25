@@ -46,9 +46,8 @@ peak_corrs %>%
   unlist() %>%
   as.numeric() -> high_trans_peaks
 
-# remova the case of queenless colony
-dev_data<-development_data[!(development_data$colony=="SD18-11"&development_data$sang_prop>0.1),]
-dev_data<-filter(dev_data,caste=="worker",!is.na(head_width),callow==0, !remarks %in% c("aggression actor", "aggression target"))
+# remove the case of queenless colony
+dev_data<-filter(dev_data,caste=="worker",!is.na(head_width),callow==0, !remarks %in% c("aggression actor", "aggression target", "queenless colony"))
 ```
 
 # *Formica sanguina*
