@@ -1,0 +1,84 @@
+---
+title: "Change in the CHC profile in separated callow *F. sanguinea* ants"
+author: "Tomasz Włodarczyk"
+date: "26-11-2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r warning=FALSE}
+suppressMessages({
+  library(sangchem)
+  library(dplyr)
+  library(lmerTest)
+})
+
+# load data
+data("separation_experiment_data")
+data("mass_spectra_data")
+```
+
+# Change in the totcal CHC amount over time
+```{r}
+separation_data <- filter(separation_experiment_data, treatment_id<5)
+
+lm_model <- lmer(I(sqrt(corrected_mass))~mean_delta+(1|colony), data = separation_data[-74,])
+
+print(summary(lm_model))
+
+# model diagnostics
+hist(residuals(lm_model))
+shapiro.test(residuals(lm_model))
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
+plot(simulationOutput)
+```
+
+# Change in the totcal CHC amount over time
+```{r}
+separation_data <- filter(separation_experiment_data, treatment_id<5)
+# remove row 74 which is an outlier
+lm_model <- lmer(I(sqrt(corrected_mass))~mean_delta+(1|colony), data = separation_data[-74,])
+print(summary(lm_model))
+
+# model diagnostics
+hist(residuals(lm_model))
+shapiro.test(residuals(lm_model))
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
+plot(simulationOutput)
+```
+
+# Change in the amount of compunds discriminating callow *F. sanguinea*
+```{r}
+load_globals()
+separation_data$corrected_mass_part <- separation_data$corrected_mass * subsample_proportion(peaks_callow, separation_data$chromatogram_ID)
+lm_model <- lmer(I(sqrt(corrected_mass_part))~mean_delta+(1|colony), data = separation_data)
+print(summary(lm_model))
+shapiro.test(residuals(lm_model))
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
+plot(simulationOutput)
+```
+
+# Change in the amount of compunds discriminating *F. sanguinea*
+```{r}
+load_globals()
+separation_data$corrected_mass_part <- separation_data$corrected_mass * subsample_proportion(peaks_sang, separation_data$chromatogram_ID)
+lm_model <- lmer(I((corrected_mass_part))~I((mean_delta)^(1.5))+(1|colony), data = separation_data[-c(69, 74),])
+print(summary(lm_model))
+hist(residuals(lm_model))
+shapiro.test(residuals(lm_model))
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
+plot(simulationOutput)
+```
+
+# Change in the amount of compunds discriminating *F. fusca*
+```{r}
+load_globals()
+separation_data$corrected_mass_part <- separation_data$corrected_mass * subsample_proportion(peaks_fusca, separation_data$chromatogram_ID)
+lm_model <- lmer(corrected_mass_part~mean_delta+(1|colony), data = separation_data)
+print(summary(lm_model))
+shapiro.test(residuals(lm_model))
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
+plot(simulationOutput)
+```
