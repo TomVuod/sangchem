@@ -16,7 +16,6 @@
   .load_globals(parent.env(sys.frame(sys.nframe())))
 }
 
-
 #' @export
 load_globals <- function(){
   .env <- parent.frame()

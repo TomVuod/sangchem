@@ -1,7 +1,7 @@
 ---
-title: "Finding peaks discriminating callow F. sanguinea workers"
+title: "Finding peaks discriminating callow and mature *F. sanguinea* workers"
 author: "Tomasz Włodarczyk"
-date: "25-11-2023"
+date: "26-11-2023"
 output: html_document
 params:
   save_globals: FALSE
@@ -10,9 +10,6 @@ params:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
-
-
 ```{r warning=FALSE}
 suppressMessages({
   library(sangchem)
@@ -25,7 +22,7 @@ data("development_data")
 data("mass_spectra_data")
 
 DA_data <- dplyr::filter(development_data, caste=="worker", !remarks %in% c("aggression actor", "aggression target", "queenless colony")) %>%
-  dplyr::select(colony, species, callow, census_date, chromatogram_ID) %>%
+  dplyr::select(colony, species, callow, census_date, chromatogram_ID, sang_prop) %>%
   split(list(.$colony, .$census_date), drop=TRUE) %>%
   lapply(function(x){if(sum(x$callow)==0) return(NULL); x}) %>%
   {function(x) x[!unlist((lapply(x, is.null)))]}() %>%
@@ -75,13 +72,67 @@ discr_analysis_callows_res <- splsda(PCA_callow_discr$x,Y=Y,
 plotIndiv(discr_analysis_callows_res,
           legend=TRUE, ellipse=TRUE, comp=1:2)
 ```
+
+# Determining callow markers
 ```{r}
+# quantify predicted species (callow workers closer to one)
+predicted_species <- calculate_SII(peak_prop, discr_analysis_callows_res, PCA_callow_discr, predicted_category=3)
+# build matrix to calculate correlation of `prediction score` and peak relative abundances 
+predicted_species <- matrix(predicted_species$predicted_species[match(rownames(peak_prop), predicted_species$chromatogram_ID)], ncol=1, dimnames = list(rownames(peak_prop), "predicted_species"))
+library(Hmisc) 
+cor_p_val<-rcorr(cbind(peak_prop, predicted_species))
+cor_p_val$P[cor_p_val$r==1]<-0
+# significance threshold = 0.05
+significant_correlations <- cor_p_val$r["predicted_species",][cor_p_val$P["predicted_species",]<0.05]
+peaks_callow_sig <- names(significant_correlations)[significant_correlations>0]
+peaks_callow_sig <- as.numeric((setdiff(peaks_callow_sig,"predicted_species")))
+
+# checking the effect of each peak on the prediction score for each of the
+# three categories (F. fusca, mature F. sanguinea, callow F. sanguinea)
+
+# prepare input data (one peak present per one sample)
 unit_input <- diag(rep(1,ncol(peak_prop)))
 colnames(unit_input) <- rownames(unit_input) <-colnames(peak_prop)
-res <- calculate_SII(unit_input, discr_analysis_callows_res, PCA_callow_discr, predicted_category=3)
-colnames(res)[1] <- "peak ID"
-# normalize scores
-res[,2] <- res[,2] - mean(res[,2])
-res[,2] <- res[,2]/sd(res[,2])
-print(res[order(res$predicted_species),])
+# predict each category for each peak
+peak_prediction <- purrr::reduce(lapply(1:3, function(x) calculate_SII(unit_input, discr_analysis_callows_res, PCA_callow_discr, predicted_category=x)), merge, by="chromatogram_ID")
+colnames(peak_prediction)[1] <- "peak ID"
+peak_prediction[,2:4] <- apply(peak_prediction[,2:4], 2, function(x) {x <- x-mean(x); x/sd(x)})
+colnames(peak_prediction)[2:4] <- c("fusca", "sanguinea", "callow") 
+# choose peaks positively associated with being callow and negatively with two other categories
+peaks_callow_predictors <- peak_prediction[peak_prediction$fusca<0&peak_prediction$sanguinea<0&peak_prediction$callow>0,"peak ID"]
+peaks_callow <- intersect(peaks_callow_sig, peaks_callow_predictors)
+print(peaks_callow)
+
+# peaks negatively related with being a callow worker
+top_negative <- peak_prediction[order(peak_prediction$callow),][1:10,c("peak ID", "callow")]
+top_negative[["sanguinea marker"]] <- top_negative[["peak ID"]] %in% peaks_sang
+top_negative[["fusca marker"]] <- top_negative[["peak ID"]] %in% peaks_fusca
+rownames(top_negative) <- NULL
+print(top_negative)
+```
+
+# Determining mature *F. sanguinea* markers
+```{r}
+# quantify predicted species (mature F. sanguinea closer to one)
+predicted_species <- calculate_SII(peak_prop, discr_analysis_callows_res, PCA_callow_discr, predicted_category=2)
+# build matrix to calculate correlation of `prediction score` and peak relative abundances 
+predicted_species <- matrix(predicted_species$predicted_species[match(rownames(peak_prop), predicted_species$chromatogram_ID)], ncol=1, dimnames = list(rownames(peak_prop), "predicted_species"))
+library(Hmisc) 
+cor_p_val<-rcorr(cbind(peak_prop, predicted_species))
+cor_p_val$P[cor_p_val$r==1]<-0
+# significance threshold = 0.05
+significant_correlations <- cor_p_val$r["predicted_species",][cor_p_val$P["predicted_species",]<0.05]
+peaks_mature_sig <- names(significant_correlations)[significant_correlations>0]
+peaks_mature_sig <- as.numeric((setdiff(peaks_mature_sig, "predicted_species")))
+# choose peaks positively associated with being mature F. sanguinea and negatively with two other categories
+peaks_mature_predictors <- peak_prediction[peak_prediction$fusca<0&peak_prediction$sanguinea>0&peak_prediction$callow<0,"peak ID"]
+peaks_mature <- intersect(peaks_mature_sig, peaks_mature_predictors)
+print(peaks_mature)
+```
+
+```{r eval=params$save_globals, echo=params$save_globals}
+globals <- readRDS(system.file("globals.rds", package="sangchem"))
+globals[["peaks_callow"]] <- peaks_callow
+globals[["peaks_mature"]] <- peaks_mature
+saveRDS(globals, system.file("globals.rds", package="sangchem"))
 ```
