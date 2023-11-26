@@ -70,13 +70,18 @@ sample_averaged<-function(dev_data, MS_data, CHC_amounts){
 #' Calculate proportion of a set of peaks in samples
 #'
 #' @export
-subsample_proportion<-function(peak_IDs, chromatogram_IDs, MS_data){
+subsample_proportion<-function(peak_IDs, chromatogram_IDs, MS_data=NULL){
   if (is.null(peak_IDs)) stop("Peak IDs argument null")
   if (any(is.na(peak_IDs))) stop("A NA value in peak IDs argument")
   if (!all(is.numeric(peak_IDs))) stop("Peak IDs value should be numeric")
   if (is.null(chromatogram_IDs)) stop("Chromatogram IDs argument null")
   if (any(is.na(chromatogram_IDs))) stop("A NA value in Chromatogram IDs argument")
   if (!all(is.numeric(chromatogram_IDs))) warning("Chromatogram IDs are not numeric")
+  if(missing(MS_data)){
+    data("mass_spectra_data", envir=environment())
+    MS_data <- mass_spectra_data
+    rm(mass_spectra_data)
+  }
   if (!all(chromatogram_IDs %in% unique(MS_data$chromatogram_ID)))
     warning("Not all chromatograms represented in the passed dataset")
   res<-c()
@@ -86,4 +91,17 @@ subsample_proportion<-function(peak_IDs, chromatogram_IDs, MS_data){
   }
   names(res)<-as.character(chromatogram_IDs)
   res
+}
+
+#' @export
+colony_weighted_mean <- function(sample_data, var="corrected_mass"){
+  missing(sample_data){
+    data("development_data", envir = environment())
+    sample_data <- development_data
+    rm(development_data)
+  }
+  sample_data %>% split(sample_data, list(sample_data$colony, sample_data$census_date)) %>%
+    lapply(function(x) data.frame(colony = x$colony[1], census_date=x$census_date[1],
+                                  var=mean(x[[var]]))) %>%
+                                  {function(x) {df <- do.call(rbind, x); colnames(df)[3] <- var; df}}()
 }
