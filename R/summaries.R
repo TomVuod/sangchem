@@ -95,13 +95,15 @@ subsample_proportion<-function(peak_IDs, chromatogram_IDs, MS_data=NULL){
 
 #' @export
 colony_weighted_mean <- function(sample_data, var="corrected_mass"){
-  missing(sample_data){
+  if(missing(sample_data)){
     data("development_data", envir = environment())
     sample_data <- development_data
     rm(development_data)
   }
-  sample_data %>% split(sample_data, list(sample_data$colony, sample_data$census_date)) %>%
+  sample_data %>% split(list(.$colony, .$census_date)) %>%
     lapply(function(x) data.frame(colony = x$colony[1], census_date=x$census_date[1],
-                                  var=mean(x[[var]]))) %>%
-                                  {function(x) {df <- do.call(rbind, x); colnames(df)[3] <- var; df}}()
+                                  var=mean(x[[var]], na.rm=TRUE))) %>%
+                                  {function(x) do.call(rbind, x)}() %>%
+    split(.$colony) %>% lapply(function(x) data.frame(colony=x$colony[1], var = mean(x$var, na.rm=TRUE))) %>%
+    {function(x) {df <- do.call(rbind, x); colnames(df)[2] <- var; df}}()
 }
