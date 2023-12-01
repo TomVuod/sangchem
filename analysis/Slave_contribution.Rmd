@@ -1,0 +1,11 @@
+---
+title: "Effect of slaves of the development of CHC profile in F. sanguinea ants"
+author: "Tomasz Włodarczyk"
+date: "1/12/2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
