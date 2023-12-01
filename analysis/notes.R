@@ -23,3 +23,13 @@ separation_experiment_data[separation_experiment_data$chromatogram_ID == 446,"me
 
 # remove sample with poor chromarogram
 separation_experiment_data <- separation_experiment_data[separation_experiment_data$chromatogram_ID!=442,]
+
+mass_spectra_data[mass_spectra_data$peak_ID==7, "identification"] <- "C23"
+mass_spectra_data[mass_spectra_data$peak_ID==14, "identification"] <- "C24"
+mass_spectra_data[mass_spectra_data$peak_ID==24, "identification"] <- "C25"
+mass_spectra_data[mass_spectra_data$peak_ID==35, "identification"] <- "C26"
+mass_spectra_data[mass_spectra_data$peak_ID==47, "identification"] <- "C27"
+mass_spectra_data[mass_spectra_data$peak_ID==56, "identification"] <- "C28"
+mass_spectra_data[mass_spectra_data$peak_ID==68, "identification"] <- "C29"
+mass_spectra_data[mass_spectra_data$peak_ID==81, "identification"] <- "C30"
+mass_spectra_data[mass_spectra_data$peak_ID==90, "identification"] <- "C31"

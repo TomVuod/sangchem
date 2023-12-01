@@ -18,6 +18,7 @@ suppressMessages({
 
 # load data
 data("development_data")
+data("mass_spectra_data")
 development_samples <- filter(development_data, caste=="worker", !remarks %in% c("aggression actor", "aggression target", "queenless colony")) %>% select(species, census_date, colony, corrected_mass,callow, chromatogram_ID)
 load_globals()
 ```
@@ -142,7 +143,7 @@ test_data_sang <- filter(test_data, callow ==  1, species =="F. sanguinea") %>%
 test_data_sang$species <- "F. sanguinea"
 test_data_fusca <- filter(test_data,species == "F. fusca") %>% colony_weighted_mean(var = "fusca_prop")
 test_data_fusca$species <- "F. fusca"
-colonies <- intersect(test_data_mature$colony, test_data_callow$colony)
+colonies <- intersect(test_data_fusca$colony, test_data_sang$colony)
 test_df <- rbind(test_data_sang, test_data_fusca)
 test_df <- test_df[test_df$colony %in% colonies,]
 test_df <- test_df[order(test_df$colony),]
@@ -155,6 +156,56 @@ ggboxplot(test_df, x="species", y="fusca_prop")+
   scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
   stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)
 ```
+
+# Difference in the mass of n-alkanes between callow and mature *F. sanguinea*
+```{r}
+n_alkanes_ID <- unique(mass_spectra_data$peak_ID[grep("^C[0-9]{2}$",mass_spectra_data$identification)])
+test_data <- filter(development_samples, species == "F. sanguinea")
+test_data$n_alkanes_prop <- subsample_proportion(n_alkanes_ID, test_data$chromatogram_ID)
+test_data$n_alkanes_mass <- test_data$n_alkanes_prop * test_data$corrected_mass
+test_data_mature <- filter(test_data, callow ==  0) %>% 
+  colony_weighted_mean(var = "n_alkanes_mass")
+test_data_mature$callow <- 0
+test_data_callow<- filter(test_data, callow == 1) %>% colony_weighted_mean(var = "n_alkanes_mass")
+test_data_callow$callow <- 1
+colonies <- intersect(test_data_mature$colony, test_data_callow$colony)
+test_df <- rbind(test_data_mature, test_data_callow)
+test_df <- test_df[test_df$colony %in% colonies,]
+test_df <- test_df[order(test_df$colony),]
+test_df$callow <- factor(test_df$callow)
+test_stats <- wilcox_test(test_df, n_alkanes_mass~callow, paired=TRUE) %>%
+  add_significance("p") %>%
+  add_xy_position(x="callow", dodge=0.8, fun="max")
+ggboxplot(test_df, x="callow", y="n_alkanes_mass")+
+  ylab(" Difference in the mass of n-alkanes between callow and mature F. sanguinea")+
+  scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
+  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)
+```
+
+# Difference in the proprtion of n-alkanes between callow and mature *F. sanguinea*
+```{r}
+test_data <- filter(development_samples, species == "F. sanguinea")
+test_data$n_alkanes_prop <- subsample_proportion(n_alkanes_ID, test_data$chromatogram_ID)
+test_data_mature <- filter(test_data, callow ==  0) %>% 
+  colony_weighted_mean(var = "n_alkanes_prop")
+test_data_mature$callow <- 0
+test_data_callow<- filter(test_data, callow == 1) %>% colony_weighted_mean(var = "n_alkanes_prop")
+test_data_callow$callow <- 1
+colonies <- intersect(test_data_mature$colony, test_data_callow$colony)
+test_df <- rbind(test_data_mature, test_data_callow)
+test_df <- test_df[test_df$colony %in% colonies,]
+test_df <- test_df[order(test_df$colony),]
+test_df$callow <- factor(test_df$callow)
+test_stats <- wilcox_test(test_df, n_alkanes_prop~callow, paired=TRUE) %>%
+  add_significance("p") %>%
+  add_xy_position(x="callow", dodge=0.8, fun="max")
+ggboxplot(test_df, x="callow", y="n_alkanes_prop")+
+  ylab(" Difference in the proportion of n-alkanes between callow and mature F. sanguinea")+
+  scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
+  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)
+```
+
+
 
 ```{r}
 print(sessionInfo())
