@@ -7,7 +7,8 @@
 calculate_SII(
   normalized_TIC,
   PLS_DA_model = species_prediction_model,
-  PCA_res = PCA_species_discr
+  PCA_res = PCA_species_discr,
+  predicted_category = 2
 )
 }
 \description{

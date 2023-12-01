@@ -2,7 +2,7 @@
 % Please edit documentation in R/summaries.R
 \name{sample_averaged}
 \alias{sample_averaged}
-\title{Average samples by sample}
+\title{Average samples}
 \usage{
 sample_averaged(dev_data, MS_data, CHC_amounts)
 }

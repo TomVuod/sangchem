@@ -17,7 +17,8 @@ Imports:
     lme4,
     lmerTest,
     DHARMa,
-    rlang
+    rlang,
+    vegan
 Suggests:
     stringi,
     Hmisc,

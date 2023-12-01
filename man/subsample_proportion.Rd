@@ -4,7 +4,7 @@
 \alias{subsample_proportion}
 \title{Prportion of peak subset}
 \usage{
-subsample_proportion(peak_IDs, chromatogram_IDs, MS_data)
+subsample_proportion(peak_IDs, chromatogram_IDs, MS_data = NULL)
 }
 \description{
 Calculate proportion of a set of peaks in samples

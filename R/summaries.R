@@ -52,7 +52,7 @@ average_by_sepcies <- function(dev_data, MS_data = MS_data, CHC_amounts = CHC_am
   joined
 }
 
-#' Average samples by sample
+#' Average samples
 #'
 #' Produce averaged samples by species and sampling date
 #'

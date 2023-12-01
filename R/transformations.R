@@ -4,7 +4,7 @@
 #'
 #' @import dplyr
 #' @export
-relative_amounts<-function(chromatogram_data, chrID=NULL, peak_subset=NULL){
+relative_amounts <- function(chromatogram_data, chrID=NULL, peak_subset=NULL){
   if(!is.data.frame(chromatogram_data)) stop("'chromatogram_data' should be a data frame")
   if(nrow(chromatogram_data)==0) {
     warning("Empty data frame passed to 'relative_amounts'")
@@ -59,4 +59,4 @@ clr_transformation <- function(x){
   log_geom_mean <- sum(log(x))/length(x)
   log(x) - log_geom_mean
 }
-  
+
