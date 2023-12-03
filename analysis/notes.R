@@ -33,3 +33,10 @@ mass_spectra_data[mass_spectra_data$peak_ID==56, "identification"] <- "C28"
 mass_spectra_data[mass_spectra_data$peak_ID==68, "identification"] <- "C29"
 mass_spectra_data[mass_spectra_data$peak_ID==81, "identification"] <- "C30"
 mass_spectra_data[mass_spectra_data$peak_ID==90, "identification"] <- "C31"
+
+
+separation_experiment_data$colony[!separation_experiment_data$colony %in% c("17-1", "17-2")] <-
+  paste0("SD",separation_experiment_data$colony[!separation_experiment_data$colony %in% c("17-1", "17-2")])
+
+separation_experiment_data$colony[separation_experiment_data$colony %in% c("17-1", "17-2")] <-
+  paste0("W",separation_experiment_data$colony[separation_experiment_data$colony %in% c("17-1", "17-2")])

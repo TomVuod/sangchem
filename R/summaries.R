@@ -107,3 +107,9 @@ colony_weighted_mean <- function(sample_data, var="corrected_mass"){
     split(.$colony) %>% lapply(function(x) data.frame(colony=x$colony[1], var = mean(x$var, na.rm=TRUE))) %>%
     {function(x) {df <- do.call(rbind, x); colnames(df)[2] <- var; df}}()
 }
+
+colony_mean_distance <- function(distance_data){
+  distance_data %>% split(.$colony) %>%
+    lapply(function(x) data.frame(colony=x$colony[1], dissimilarity=mean(x[["dissimilarity"]], na.rm=TRUE))) %>%
+                                  {function(x) do.call(rbind, x)}()
+}
