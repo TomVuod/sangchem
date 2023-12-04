@@ -48,30 +48,34 @@ distances_to_source_colonies <- function(GCMS_samples, MS_data, colony_to_chrID,
   mean(colony_mean_distance(GCMS_samples)$dissimilarity)
 }
 
-#' @export
-distances_permutation_test <- function(treatment_id, n_iter=1e4){
-  distances_registry <- global_distances_matrix()
-  data("separation_experiment_data", envir=environment())
-  data("mass_spectra_data", envir=environment())
-  data("colony_to_chrID", envir=environment())
-  data("slave_source_colony", envir=environment())
-  separation_data <- separation_experiment_data[separation_experiment_data$treatment_id == treatment_id,]
-  true_distance <- distances_to_source_colonies(separation_data, mass_spectra_data, colony_to_chrID,
-                                                 slave_source_colony, distances_registry = distances_registry)
-  randomized_distances <- unlist(lapply(seq_len(n_iter)), distances_to_source_colonies(separation_data,
-                                                                                       mass_spectra_data,
-                                                                                       colony_to_chrID,
-                                                                                       slave_source_colony,
-                                                                                       randomize = TRUE,
-                                                                                       distances_registry = distances_registry))
-  emprical_p_value(true_distance, randomized_distances)
-}
-
 empirical_p_value<-function(val,distribution){
   if(any(is.na(val))) warning("NA values in the treatment data")
   if(length(val)==0) stop("No treatment data")
   if(length(val)==1)
     sum(na.omit(distribution)<=val)/length(na.omit(distribution))
 }
+
+#' @export
+distances_permutation_test <- function(treatment_id, n_iter=1e5, exclude_naked_pupae=FALSE){
+  distances_registry <- global_distances_matrix()
+  data("separation_experiment_data", envir=environment())
+  data("mass_spectra_data", envir=environment())
+  data("colony_to_chrID", envir=environment())
+  data("slave_source_colony", envir=environment())
+  separation_data <- separation_experiment_data[separation_experiment_data$treatment_id == treatment_id,]
+  if(exclude_naked_pupae) separation_data <- separation_data[apply(separation_data[c("cocoon_1", "cocoon_2")], 1, function(x) sum(as.numeric(x))==2),]
+  true_distance <- distances_to_source_colonies(separation_data, mass_spectra_data, colony_to_chrID,
+                                                 slave_source_colony, distances_registry = distances_registry)
+  randomized_distances <- unlist(lapply(seq_len(n_iter), function(x) distances_to_source_colonies(separation_data,
+                                                                                       mass_spectra_data,
+                                                                                       colony_to_chrID,
+                                                                                       slave_source_colony,
+                                                                                       randomize = TRUE,
+                                                                                       distances_registry = distances_registry)))
+ list(p.val = empirical_p_value(true_distance, randomized_distances),
+      true_distance=true_distance, rand_distances = randomized_distances)
+}
+
+
 
 

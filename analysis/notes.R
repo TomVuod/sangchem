@@ -6,7 +6,7 @@ separation_experiment_data <- separation_experiment_data[,!colnames(separation_e
                                                            c("X", "census_date", "pupae_number", "species")]
 
 separation_experiment_data[separation_experiment_data$chromatogram_ID == 446,"end"] <-
-  as.POSIXct(separation_experiment_data[separation_experiment_data$chromatogram_ID == 446,"end"]) + years(1)
+  as.POSIXct(separation_experiment_data[separation_experiment_data$chromatogram_ID == 446,"end"]) + lubridate::years(1)
 
 separation_experiment_data[separation_experiment_data$chromatogram_ID == 446,"delta_1"] <-
   as.POSIXct(separation_experiment_data[separation_experiment_data$chromatogram_ID == 446,"end"]) -
