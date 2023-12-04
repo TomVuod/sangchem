@@ -32,16 +32,54 @@ boxplot(plot_data$mean_delta~plot_data$treatment, main = "Adult lifespan", xlab 
 # Calculate emprical p-value for the treatment 1
 res_1 <- distances_permutation_test(treatment_id = 1)
 print(res_1$p.val)
+sprintf("Number of colonies: %d", length(unique(separation_data[separation_data$treatment_id==1, "colony"])))
 
 # Calculate emprical p-value for the treatment 2
 res_2 <- distances_permutation_test(treatment_id = 2)
 print(res_2$p.val)
+sprintf("Number of colonies: %d", length(unique(separation_data[separation_data$treatment_id==2, "colony"])))
 
 # Calculate emprical p-value for the treatment 3
 res_3 <- distances_permutation_test(treatment_id = 3)
 print(res_3$p.val)
+sprintf("Number of colonies: %d", length(unique(separation_data[separation_data$treatment_id==3, "colony"])))
 
 # Calculate emprical p-value for the treatment 3
 res_4 <- distances_permutation_test(treatment_id = 4)
 print(res_4$p.val)
+sprintf("Number of colonies: %d", length(unique(separation_data[separation_data$treatment_id==4, "colony"])))
+
+print(data.frame(treatment_id=1:4, chemical_distance_to_slave_relatives=c(res_1[[2]], res_2[[2]],
+                                                                          res_3[[2]], res_4[[2]])))
+```
+
+# Analysis restricted to the individuals hatched from cocoons
+
+Since naked pupae might have acquired CHCs through physical contact with adult ants after pupation, we will subset out data to include only these samples which come from the ants hatched from cocoons. In this case silky envelop during pupa stage ruled out possibility of CHC transfer from the environment. 
+
+```{r}
+separation_data <- separation_data[as.numeric(separation_data$cocoon_1)==1&as.numeric(separation_data$cocoon_2)==1,]
+
+# Calculate emprical p-value for the treatment 1
+res_1 <- distances_permutation_test(treatment_id=1, exclude_naked_pupae=TRUE)
+print(res_1$p.val)
+sprintf("Number of colonies: %d", length(unique(separation_data[separation_data$treatment_id==1, "colony"])))
+
+# Calculate emprical p-value for the treatment 2
+res_2 <- distances_permutation_test(treatment_id=2, exclude_naked_pupae=TRUE)
+print(res_2$p.val)
+sprintf("Number of colonies: %d", length(unique(separation_data[separation_data$treatment_id==2, "colony"])))
+
+# Calculate emprical p-value for the treatment 3
+res_3 <- distances_permutation_test(treatment_id=3, exclude_naked_pupae=TRUE)
+print(res_3$p.val)
+sprintf("Number of colonies: %d", length(unique(separation_data[separation_data$treatment_id==3, "colony"])))
+
+# Calculate emprical p-value for the treatment 3
+res_4 <- distances_permutation_test(treatment_id=4, exclude_naked_pupae=TRUE)
+print(res_4$p.val)
+sprintf("Number of colonies: %d", length(unique(separation_data[separation_data$treatment_id==4, "colony"])))
+
+print(data.frame(treatment_id=1:4, chemical_distance_to_slave_relatives=c(res_1[[2]], res_2[[2]],
+                                                                          res_3[[2]], res_4[[2]])))
 ```

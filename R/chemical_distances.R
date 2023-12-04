@@ -11,9 +11,7 @@ global_distances_matrix <- function(){
   get <- function(sepID, devID) {
     distances_matrix[as.character(sepID), as.character(devID)]
   }
-  clear <- function()
-    distances_matrix[!is.na(distances_matrix)] <<- NA
-  return(list(set=set, get=get, clear=clear))
+  return(list(set=set, get=get))
 }
 
 #' @importFrom vegan vegdist
@@ -56,7 +54,7 @@ empirical_p_value<-function(val,distribution){
 }
 
 #' @export
-distances_permutation_test <- function(treatment_id, n_iter=1e5, exclude_naked_pupae=FALSE){
+distances_permutation_test <- function(treatment_id, n_iter=1e5+1, exclude_naked_pupae=FALSE){
   distances_registry <- global_distances_matrix()
   data("separation_experiment_data", envir=environment())
   data("mass_spectra_data", envir=environment())

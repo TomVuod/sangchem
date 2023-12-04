@@ -4,14 +4,6 @@
 }
 
 #' @import rlang
-# .onLoad <- function(libname, pkgname){
-#   run_on_load()
-# }
-#
-# on_load({
-#   .load_globals(sys.frame(sys.nframe()))
-#   })
-
 .onLoad <- function(libname, pkgname){
   .load_globals(parent.env(sys.frame(sys.nframe())))
 }
