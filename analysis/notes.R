@@ -40,3 +40,4 @@ separation_experiment_data$colony[!separation_experiment_data$colony %in% c("17-
 
 separation_experiment_data$colony[separation_experiment_data$colony %in% c("17-1", "17-2")] <-
   paste0("W",separation_experiment_data$colony[separation_experiment_data$colony %in% c("17-1", "17-2")])
+
