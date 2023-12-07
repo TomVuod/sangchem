@@ -50,7 +50,10 @@ print(res_4$p.val)
 sprintf("Number of colonies: %d", length(unique(separation_data[separation_data$treatment_id==4, "colony"])))
 
 print(data.frame(treatment_id=1:4, chemical_distance_to_slave_relatives=c(res_1[[2]], res_2[[2]],
-                                                                          res_3[[2]], res_4[[2]])))
+                                                                          res_3[[2]], res_4[[2]]),
+                 chemical_distance_to_random_colonies=vapply(list(res_1[[3]], res_2[[3]],
+                                                                  res_3[[3]], res[[4]]), mean,
+                                                             FUN.VALUE=numeric(1))))
 ```
 
 # Analysis restricted to the individuals hatched from cocoons
@@ -81,5 +84,8 @@ print(res_4$p.val)
 sprintf("Number of colonies: %d", length(unique(separation_data[separation_data$treatment_id==4, "colony"])))
 
 print(data.frame(treatment_id=1:4, chemical_distance_to_slave_relatives=c(res_1[[2]], res_2[[2]],
-                                                                          res_3[[2]], res_4[[2]])))
+                                                                          res_3[[2]], res_4[[2]]),
+                 chemical_distance_to_random_colonies=vapply(list(res_1[[3]], res_2[[3]],
+                                                                  res_3[[3]], res[[4]]), mean,
+                                                             FUN.VALUE=numeric(1))))
 ```
