@@ -49,7 +49,7 @@ simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
 plot(simulationOutput)
 ```
 
-# Change in the amount of compunds discriminating callow *F. sanguinea*
+# Change in the amount of compunds associated with callow *F. sanguinea*
 ```{r}
 load_globals()
 separation_data$corrected_mass_part <- separation_data$corrected_mass * subsample_proportion(peaks_callow, separation_data$chromatogram_ID)
@@ -60,9 +60,8 @@ simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
 plot(simulationOutput)
 ```
 
-# Change in the amount of compunds discriminating *F. sanguinea*
+# Change in the amount of compunds associated with *F. sanguinea*
 ```{r}
-load_globals()
 separation_data$corrected_mass_part <- separation_data$corrected_mass * subsample_proportion(peaks_sang, separation_data$chromatogram_ID)
 lm_model <- lmer(I((corrected_mass_part))~I((mean_delta)^(1.5))+(1|colony), data = separation_data[-c(69, 74),])
 print(summary(lm_model))
@@ -72,9 +71,8 @@ simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
 plot(simulationOutput)
 ```
 
-# Change in the amount of compunds discriminating *F. fusca*
+# Change in the amount of compunds associated with *F. fusca*
 ```{r}
-load_globals()
 separation_data$corrected_mass_part <- separation_data$corrected_mass * subsample_proportion(peaks_fusca, separation_data$chromatogram_ID)
 lm_model <- lmer(corrected_mass_part~mean_delta+(1|colony), data = separation_data)
 print(summary(lm_model))
