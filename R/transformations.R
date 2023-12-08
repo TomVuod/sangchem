@@ -60,3 +60,30 @@ clr_transformation <- function(x){
   log(x) - log_geom_mean
 }
 
+#' Proportion of peak subset
+#'
+#' Calculate proportion of a set of peaks in samples
+#'
+#' @export
+subsample_proportion<-function(peak_IDs, chromatogram_IDs, MS_data=NULL){
+  if (is.null(peak_IDs)) stop("Peak IDs argument null")
+  if (any(is.na(peak_IDs))) stop("A NA value in peak IDs argument")
+  if (!all(is.numeric(peak_IDs))) stop("Peak IDs value should be numeric")
+  if (is.null(chromatogram_IDs)) stop("Chromatogram IDs argument null")
+  if (any(is.na(chromatogram_IDs))) stop("A NA value in Chromatogram IDs argument")
+  if (!all(is.numeric(chromatogram_IDs))) warning("Chromatogram IDs are not numeric")
+  if(missing(MS_data)){
+    data("mass_spectra_data", envir=environment())
+    MS_data <- mass_spectra_data
+    rm(mass_spectra_data)
+  }
+  if (!all(chromatogram_IDs %in% unique(MS_data$chromatogram_ID)))
+    warning("Not all chromatograms represented in the passed dataset")
+  res<-c()
+  for(i in 1:length(chromatogram_IDs)){
+    prop_data <- relative_amounts(MS_data, chromatogram_IDs[i])
+    res[i] <- sum(prop_data[prop_data$peak_ID %in% peak_IDs,"relative_abundance"])/sum(prop_data[,"relative_abundance"])
+  }
+  names(res)<-as.character(chromatogram_IDs)
+  res
+}
