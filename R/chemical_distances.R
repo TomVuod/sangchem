@@ -15,31 +15,32 @@ global_distances_matrix <- function(){
 }
 
 #' @importFrom vegan vegdist
-pair_distance <- function(chr_ID_sep, chr_ID_source, MS_data, distances_registry=NULL,
+#' @export
+pair_distance <- function(chr_ID_1, chr_ID_2, MS_data, distances_registry=NULL,
                           ...){
-  if (any(is.na(c(chr_ID_sep, chr_ID_source)))) return(NA)
-  if (!is.null(distances_registry) && !is.na(distances_registry$get(chr_ID_sep, chr_ID_source)))
-    return(distances_registry$get(chr_ID_sep, chr_ID_source))
-  data_table <- full_join(relative_amounts(MS_data[MS_data$chromatogram_ID==chr_ID_sep,]),
-                          relative_amounts(MS_data[MS_data$chromatogram_ID==chr_ID_source,]),
+  if (any(is.na(c(chr_ID_1, chr_ID_2)))) return(NA)
+  if (!is.null(distances_registry) && !is.na(distances_registry$get(chr_ID_1, chr_ID_2)))
+    return(distances_registry$get(chr_ID_1, chr_ID_2))
+  data_table <- full_join(relative_amounts(MS_data[MS_data$chromatogram_ID==chr_ID_1,]),
+                          relative_amounts(MS_data[MS_data$chromatogram_ID==chr_ID_2,]),
                         by="peak_ID")
   data_table<-as.matrix(select(data_table,-peak_ID))
   data_table[is.na(data_table)] <- 0
   dist <- vegdist(t(data_table), method="bray")[[1]]
-  if(!is.null(distances_registry)) distances_registry$set(chr_ID_sep, chr_ID_source, dist)
+  if(!is.null(distances_registry)) distances_registry$set(chr_ID_1, chr_ID_2, dist)
   dist
 }
 
 distances_to_source_colonies <- function(GCMS_samples, MS_data, colony_to_chrID,
                                       slave_source_colony, randomize=FALSE,
                                       distances_registry=NULL){
-  GCMS_samples$chr_ID_sep <- GCMS_samples$chromatogram_ID
+  GCMS_samples$chr_ID_1 <- GCMS_samples$chromatogram_ID
   if(randomize){
     GCMS_samples$colony <- factor(GCMS_samples$colony)
     levels(GCMS_samples$colony) <- sample(levels(GCMS_samples$colony))
     GCMS_samples$colony <- as.character(GCMS_samples$colony)
   }
-  GCMS_samples$chr_ID_source <- colony_to_chrID[slave_source_colony[GCMS_samples$colony]]
+  GCMS_samples$chr_ID_2 <- colony_to_chrID[slave_source_colony[GCMS_samples$colony]]
   GCMS_samples <- GCMS_samples[!is.na(GCMS_samples$chr_ID_source),]
   GCMS_samples$dissimilarity <- purrr::pmap_dbl(GCMS_samples, pair_distance, MS_data=MS_data,
                                                 distances_registry=distances_registry)
