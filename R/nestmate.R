@@ -1,6 +1,6 @@
 #' @import dplyr
 #' @export
-find_sample_nestmate <- function(chr_ID, heterospecifc=TRUE){
+find_sample_nestmate <- function(chr_ID, heterospecific=TRUE){
   if(is.na(chr_ID)) {
     warning("Chromatogram ID is NA")
     return(NA)
@@ -12,7 +12,7 @@ find_sample_nestmate <- function(chr_ID, heterospecifc=TRUE){
   partners <- dplyr::filter(development_data, colony==focal_ant$colony,
                             census_date==focal_ant$census_date, callow==0,
                             caste=="worker")
-  if(heterospecifc)
+  if(heterospecific)
     partners <- dplyr::filter(partners, species!=focal_ant$species)
   else
     partners <- dplyr::filter(partners, species==focal_ant$species)
