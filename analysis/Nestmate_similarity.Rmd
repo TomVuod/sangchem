@@ -1,0 +1,40 @@
+---
+title: "Age-retaled differences among F. sanguinea nestmates"
+author: "Tomasz Włodarczyk"
+date: "9-12-2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(sangchem)
+library(dplyr)
+
+# identify samples in which we have at least one callow  and two mature F. sanguinea 
+data("development_data")
+development_data_clean <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), species=="F. sanguinea") %>%
+  dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date, callow, caste) 
+
+get_age_related_distance <- function(callow_chr_ID, mature_chr_IDs){
+  if(length(mature_chr_IDs)<2) stop("Less than two chromatograms for mature F. sanguinea ants.")
+  res <- list()
+  mature_combinations <- list()
+  for(i in 1:(length(mature_chr_IDs)-1)){
+    for(j in (i+1):length(mature_chr_IDs))
+    mature_combinations[[(mature_combinations)+1]] <- c(i,j)
+  }
+  res$mature_distance <- mean(unlist(lapply(mature_combinations, function(vec) pair_distance(vec[1], vec[2]))))
+  res$callow_mature_distance <- mean(unlist(lapply(mature_chr_IDs, pair_distance, callow_chr_ID)))
+  res
+}
+
+callow_chr_IDs <- filter(development_data_clean, callow==1) %>% pull(chromatogram_ID)
+callow_nestmates <- lapply(callow_chr_IDs, find_sample_nestmate, heterospecific=FALSE)
+dissimilarities <- mapply(function(x,y) )
+
+
+```
