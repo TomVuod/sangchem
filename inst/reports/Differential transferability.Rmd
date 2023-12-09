@@ -11,17 +11,17 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-The compunds wihch make up waxy surface layer in ants might differ in their transferability between individuals.
-This fact might help to check whether the increse in the total CHCs amount in *F. sanguinea* is the effect
-of lower dilution due to the unequal transfer to F. fusca or (additionaly) due to increase in CHCs production.
+The compounds which make up waxy surface layer in ants might differ in their transferability between individuals.
+This fact might help to check whether the increase in the total CHCs amount in *F. sanguinea* is the effect
+of lower dilution due to the unequal transfer to F. fusca or (additionally) due to increase in CHCs production.
 Let us take the following assumptions about CHCs dynamics:
 
-1. The rate of CHC production is stable throughout an indivual's lifespan. 
+1. The rate of CHC production is stable throughout an individual's lifespan. 
 2. The rate of CHC exchange is constant. 
 3. The colony consists of individuals of two types which differ only in the proportions of the produced CHCs.
 4. The rate of CHCs loss is constant.
 
-Then for each type of individuals and each compund we might determine linear relationship between its mass and the proportion of types of individuals. The intercept would correspond to the pure production by the type of individuals opposite to the one which is used as x (explanatory) variable. The slopes for low and high-transferability CHCs should be the same irrespetive of the type of individual since only the transferred part of the CHC blend is determining the slope whereas the self production if represented in the intercept. Now if the individuals of both type differ in the body size then still the quotient of slops should be the same (each slope is corrected by the body size coefficient producing type-specific slopes). On the other hand, if the of the types of individuals increases the CHC production as its proportion grows, it is expected to become enriched in low transferability CHCs during that time. The reason for than can easily be realized if we notice that the extra portion of low transferability CHCs pass to the common pool of circulating CHCs in lesser degree than their high-transferability counterparts.  
+Then for each type of individuals and each compound we might determine linear relationship between its mass and the proportion of types of individuals. The intercept would correspond to the pure production by the type of individuals opposite to the one which is used as x (explanatory) variable. The slopes for low and high-transferability CHCs should be the same irrespective of the type of individual since only the transferred part of the CHC blend is determining the slope whereas the self production if represented in the intercept. Now if the individuals of both type differ in the body size then still the quotient of slops should be the same (each slope is corrected by the body size coefficient producing type-specific slopes). On the other hand, if the of the types of individuals increases the CHC production as its proportion grows, it is expected to become enriched in low transferability CHCs during that time. The reason for than can easily be realized if we notice that the extra portion of low transferability CHCs pass to the common pool of circulating CHCs in lesser degree than their high-transferability counterparts.  
 
 ```{r}
 library(sangchem)
@@ -159,8 +159,8 @@ print(print(summary(quotients[[1]])))
 print(print(summary(quotients[[2]])))
 ```
 
-Now let us check the distribution of results based on the model coefficients from bootstraped data. We can
-compare ratios of slopes calculated from boostraped models evaluated at sanguinea proportion equal to 0 and 1.
+Now let us check the distribution of results based on the model coefficients from bootstrapped data. We can
+compare ratios of slopes calculated from bootsrapped models evaluated at sanguinea proportion equal to 0 and 1.
 ```{r}
 CHC_amount_diff <- bootstrap_estimation(list(lm_res.fusca[[1]], lm_res.sang[[1]], lm_res.fusca2[[1]], lm_res.sang2[[1]]), get_coefficients = TRUE)
 
