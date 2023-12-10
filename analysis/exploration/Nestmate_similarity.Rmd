@@ -57,26 +57,3 @@ wilcox.test(dissimilarities[1,], dissimilarities[2,], paired = TRUE)
 ```
 
 
-# Change in dissimilarity between callow and mature *F. sanguinea* as the proportion of slave-makers in the colony grows
-```{r}
-library(lme4)
-library(lmerTest)
-library(DHARMa)
-data("mass_spectra_data")
-get_distance_to_mature <- function(callow_chr_ID, mature_chr_IDs, MS_data){
-  mean(unlist(lapply(mature_chr_IDs, pair_distance, callow_chr_ID, MS_data)))
-
-}
-callow_data <- filter(development_data_clean, callow==1) 
-mature_chr_IDs <- lapply(callow_data$chromatogram_ID, find_sample_nestmate, heterospecific=FALSE)
-dissimilarities <- mapply(get_distance_to_mature, callow_data$chromatogram_ID, mature_chr_IDs, MoreArgs= list(MS_data=mass_spectra_data))
-model_input <- cbind(data.frame(dissimilarity=dissimilarities), callow_data[,c("colony", "census_date", "sang_prop")])
-lm_model <- lmer(dissimilarity~sang_prop + (1|colony), data=model_input)
-summary(lm_model)
-
-# model diagnostics
-hist(residuals(lm_model))
-shapiro.test(residuals(lm_model))
-simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
-plot(simulationOutput)
-```
