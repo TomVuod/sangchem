@@ -1,15 +1,5 @@
----
-title: "Finding peaks discriminating callow and mature *F. sanguinea* workers"
-author: "Tomasz Włodarczyk"
-date: "26-11-2023"
-output: html_document
-params:
-  save_globals: FALSE
----
+# Finding peaks discriminating callow and mature *F. sanguinea* workers
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 ```{r warning=FALSE}
 suppressMessages({
   library(sangchem)
@@ -73,7 +63,7 @@ plotIndiv(discr_analysis_callows_res,
           legend=TRUE, ellipse=TRUE, comp=1:2)
 ```
 
-# Determining callow markers
+## Determining callow markers
 ```{r}
 # quantify predicted species (callow workers closer to one)
 predicted_species <- calculate_SII(peak_prop, discr_analysis_callows_res, PCA_callow_discr, predicted_category=3)
@@ -111,7 +101,7 @@ rownames(top_negative) <- NULL
 print(top_negative)
 ```
 
-# Determining mature *F. sanguinea* markers
+## Determining mature *F. sanguinea* markers
 ```{r}
 # quantify predicted species (mature F. sanguinea closer to one)
 predicted_species <- calculate_SII(peak_prop, discr_analysis_callows_res, PCA_callow_discr, predicted_category=2)

@@ -1,13 +1,4 @@
----
-title: "Changes of CHCs amount over time"
-author: "Tomasz Włodarczyk"
-date: "7-12-2023"
-output: html_document
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+# Changes of CHCs amount over time
 
 In this report we will check how the all CHCs or their specific subset changes in ants
 of both species as colony develops. 
@@ -28,8 +19,8 @@ dev_samples <- filter(development_data, caste=="worker",!is.na(head_width), !rem
   mutate(corrected_mass=mass/head_width^2*10^6)
 ```
 
-# Change in to total CHCs mass
-## Mature *F. sanguinea*
+## Change in the total CHCs mass
+### Mature *F. sanguinea*
 ```{r}
 model_input <- dev_samples[dev_samples$species=="F. sanguinea",]
 lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop  + (1|colony) +(1 | colony:census_date), data=model_input)
@@ -42,7 +33,7 @@ simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
 plot(simulationOutput)
 ```
 
-## *F. fusca*
+### *F. fusca*
 ```{r}
 model_input <- dev_samples[dev_samples$species=="F. fusca",]
 lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop  + (1|colony), data=model_input)
@@ -55,7 +46,7 @@ simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
 plot(simulationOutput)
 ```
 
-## Callow *F. sanguinea*
+### Callow *F. sanguinea*
 ```{r}
 model_input <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), callow==1) %>%
   dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) %>%
@@ -71,8 +62,8 @@ simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
 plot(simulationOutput)
 ```
 
-# Change of the CHCs associated with *F. sanguinea*
-## *F. sanguinea* ants
+## Change of the CHCs associated with *F. sanguinea*
+### *F. sanguinea* ants
 ```{r}
 model_input <- dev_samples[dev_samples$species=="F. sanguinea",]
 model_input$corrected_mass <- model_input$corrected_mass*subsample_proportion(peaks_sang, model_input$chromatogram_ID)
@@ -86,7 +77,7 @@ simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
 plot(simulationOutput)
 ```
 
-## *F. fusca* ants
+### *F. fusca* ants
 ```{r}
 model_input <- dev_samples[dev_samples$species=="F. fusca",]
 model_input$corrected_mass <- model_input$corrected_mass*subsample_proportion(peaks_sang, model_input$chromatogram_ID)
@@ -100,8 +91,8 @@ simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
 plot(simulationOutput)
 ```
 
-# Change of the CHCs associated with *F. fusca*
-## *F. sanguinea* ants
+## Change of the CHCs associated with *F. fusca*
+### *F. sanguinea* ants
 ```{r}
 model_input <- dev_samples[dev_samples$species=="F. sanguinea",]
 model_input$corrected_mass <- model_input$corrected_mass*subsample_proportion(peaks_fusca, model_input$chromatogram_ID)
@@ -115,7 +106,7 @@ simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
 plot(simulationOutput)
 ```
 
-## *F. fusca* ants
+### *F. fusca* ants
 ```{r}
 model_input <- dev_samples[dev_samples$species=="F. fusca",]
 model_input$corrected_mass <- model_input$corrected_mass*subsample_proportion(peaks_fusca, model_input$chromatogram_ID)

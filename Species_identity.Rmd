@@ -1,19 +1,6 @@
----
-title: "Species discrimination and prediction"
-author: "Tomasz Włodarczyk"
-date: "25-11-2023"
-output: 
-  html_document:
-    toc: true
-params:
-  save_globals: FALSE
----
+# Species discrimination and prediction
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-# Species markers
+## Species markers
 This  report shows how the peaks discriminative for *F. sanguinea* and *F. fusca* were determined. We will use the chemical data collected from the filed colonies in the [earlier study](https://www.sciencedirect.com/science/article/abs/pii/S0022191016301640). In this way our method of marker selection is blind to the dataset to which markers will be applied avoiding potential source of the bias in the analysis results.
 ```{r warning=FALSE}
 suppressMessages({
@@ -116,7 +103,7 @@ globals[["peak_fusca"]] <- peaks_fusca
 saveRDS(globals, system.file("globals.rds", package="sangchem"))
 ```
 
-## Peak position on the species discriminant axis
+### Peak position on the species discriminant axis
 
 We might ask how a given peak compares to other in term of being characteristic more of one or the other species. Correspondingly we will generate the artificial profiles which are composed of only one peak to see how each peak contributes to the species prediction.
 
@@ -131,11 +118,11 @@ res[,2] <- res[,2]/sd(res[,2])
 print(res[order(res$predicted_species),])
 ```
 
-# Species identity score
+## Species identity score
 Ants in mixed colonies mixed CHCs to produce hybrid chemical identity. Here we develop the method to assign each sample a number indicating how much it is characteristic of one or the other species.
 The main idea is to fit a sPLS_DA model to the training set (sampled from field colonies) and use it predict the explanatory variable (species) in the test data (samples from experimental colonies). However the sPLS_DA model run on the raw data will yield the classificator which used only few variables (peaks) due to the well separation of samples of both species. The unused variables might also be informative in the species discrimination task. We want to use as much data as it is possible to make robust predictions and thus we will use principal component analysis output. Thus, the rotation matrix from the principal component analysis will be used to transform input data to the discrimination model. The correspondig code in encapsulated in the `claculate_SII` function.
 
-## Data preparation
+### Data preparation
 ```{r}
 data("development_data")
 dev_samples <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony")) %>%
@@ -145,8 +132,8 @@ species_indices <- calculate_SII(normalized_abundances)
 dev_samples <- left_join(dev_samples, species_indices)
 ```
 
-## Predicted species of different categories of ants as a function of the proportion of *F. sanguinea* ants in a colony
-### Mature *F. sanguinea*
+### Predicted species of different categories of ants as a function of the proportion of *F. sanguinea* ants in a colony
+#### Mature *F. sanguinea*
 ```{r}
 library(lmerTest)
 library(DHARMa)
@@ -161,7 +148,7 @@ simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
 plot(simulationOutput)
 ```
 
-### *F. fusca*
+#### *F. fusca*
 ```{r}
 model_input <- dev_samples[dev_samples$species=="F. fusca",]
 lm_model <- lmer(predicted_species~sang_prop+(1|colony)+(1|colony:census_date), data=model_input)
@@ -174,7 +161,7 @@ simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
 plot(simulationOutput)
 ```
 
-### Callow *F. sanguinea*
+#### Callow *F. sanguinea*
 ```{r}
 model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==1,]
 lm_model <- lmer(predicted_species~sang_prop+(1|colony), data=model_input)
@@ -187,7 +174,7 @@ simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
 plot(simulationOutput)
 ```
 
-## Difference in species prediction between mature *F. sanguinea* ants and their slaves
+### Difference in species prediction between mature *F. sanguinea* ants and their slaves
 ```{r}
 model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==0,]
 model_input$index_diff <- model_input$predicted_species - find_nestmates_SII(model_input$chromatogram_ID, dev_samples)
@@ -201,7 +188,7 @@ simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
 plot(simulationOutput)
 ```
 
-## Difference in species prediction between callow *F. sanguinea* ants and their slaves
+### Difference in species prediction between callow *F. sanguinea* ants and their slaves
 
 Since the linear model does not meet one of diagnostics criterion we will apply Wilcoxon paired test.
 ```{r message=FALSE}
@@ -220,7 +207,7 @@ ggboxplot(df, x="species", y="species_identity_index")+
   stat_pvalue_manual(stat_tests, label="p", tip.length = 0, size=3.5)
 ```
 
-## Difference in species prediction between callow and mature *F. sanguinea* ants.
+### Difference in species prediction between callow and mature *F. sanguinea* ants.
 ```{r}
 model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==1,]
 model_input$index_diff <- model_input$predicted_species - find_nestmates_SII(model_input$chromatogram_ID, dev_samples, heterospecific = FALSE)
@@ -233,6 +220,7 @@ hist(residuals(lm_model))
 print(shapiro.test(residuals(lm_model)))
 ```
 
+## Session info
 ```{r}
 print(sessionInfo())
 ```

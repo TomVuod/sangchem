@@ -1,14 +1,4 @@
----
-title: "Change in dissimilarity between callow and mature *F. sanguinea* as the proportion of slave-makers in the colony grows"
-author: "Tomasz Włodarczyk"
-date: "10-12-2023"
-output: html_document
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
+# Change in dissimilarity between callow and mature *F. sanguinea* as the proportion of slave-makers in the colony grows
 
 ```{r}
 
