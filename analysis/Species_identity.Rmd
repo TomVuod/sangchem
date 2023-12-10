@@ -152,11 +152,11 @@ library(lmerTest)
 library(DHARMa)
 model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==0,]
 lm_model <- lmer(predicted_species~sang_prop+(1|colony)+(1|colony:census_date), data=model_input)
-summary(lm_model)
+print(summary(lm_model))
 
 # model diagnostics
 hist(residuals(lm_model))
-shapiro.test(residuals(lm_model))
+print(shapiro.test(residuals(lm_model)))
 simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
 plot(simulationOutput)
 ```
@@ -165,11 +165,11 @@ plot(simulationOutput)
 ```{r}
 model_input <- dev_samples[dev_samples$species=="F. fusca",]
 lm_model <- lmer(predicted_species~sang_prop+(1|colony)+(1|colony:census_date), data=model_input)
-summary(lm_model)
+print(summary(lm_model))
 
 # model diagnostics
 hist(residuals(lm_model))
-shapiro.test(residuals(lm_model))
+print(shapiro.test(residuals(lm_model)))
 simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
 plot(simulationOutput)
 ```
@@ -178,11 +178,11 @@ plot(simulationOutput)
 ```{r}
 model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==1,]
 lm_model <- lmer(predicted_species~sang_prop+(1|colony), data=model_input)
-summary(lm_model)
+print(summary(lm_model))
 
 # model diagnostics
 hist(residuals(lm_model))
-shapiro.test(residuals(lm_model))
+print(shapiro.test(residuals(lm_model)))
 simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
 plot(simulationOutput)
 ```
@@ -192,11 +192,11 @@ plot(simulationOutput)
 model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==0,]
 model_input$index_diff <- model_input$predicted_species - find_nestmates_SII(model_input$chromatogram_ID, dev_samples)
 lm_model <- lmer(index_diff~sang_prop+(1|colony)+(1|colony:census_date), data=model_input)
-summary(lm_model)
+print(summary(lm_model))
 
 # model diagnostics
 hist(residuals(lm_model))
-shapiro.test(residuals(lm_model))
+print(shapiro.test(residuals(lm_model)))
 simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
 plot(simulationOutput)
 ```
@@ -226,11 +226,11 @@ model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callo
 model_input$index_diff <- model_input$predicted_species - find_nestmates_SII(model_input$chromatogram_ID, dev_samples, heterospecific = FALSE)
 # no random effect since it captures no variance
 lm_model <- lm(index_diff~sang_prop, data=model_input)
-summary(lm_model)
+print(summary(lm_model))
 
 # model diagnostics
 hist(residuals(lm_model))
-shapiro.test(residuals(lm_model))
+print(shapiro.test(residuals(lm_model)))
 ```
 
 ```{r}
