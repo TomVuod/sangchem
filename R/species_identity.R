@@ -20,7 +20,7 @@ calculate_SII <- function(normalized_TIC, PLS_DA_model=species_prediction_model,
 
 #' @export
 find_nestmates_SII <- function(chr_IDs, species_indices, heterospecific=TRUE){
-  lapply(chr_IDs, function(x) find_sample_nestmate(x, heterospecifc=heterospecific)) %>%
+  lapply(chr_IDs, function(x) find_sample_nestmate(x, heterospecific=heterospecific)) %>%
   lapply(function(x) species_indices[species_indices$chromatogram_ID %in% x,"predicted_species"]) %>%
   lapply(function(x) mean(x, na.rm=TRUE)) %>%
   unlist()
