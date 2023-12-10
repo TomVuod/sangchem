@@ -30,6 +30,7 @@ plot_data$treatment <- factor(plot_data$treatment, levels = c("1-3 days", "8-10 
 boxplot(plot_data$mean_delta~plot_data$treatment, main = "Adult lifespan", xlab = "Treatment", ylab = "Separation period after hatching (avegared for a pair of individuals)")
 
 # Calculate emprical p-value for the treatment 1
+set.seed(10101)
 res_1 <- distances_permutation_test(treatment_id = 1)
 print(res_1$p.val)
 sprintf("Number of colonies: %d", length(unique(separation_data[separation_data$treatment_id==1, "colony"])))
@@ -52,7 +53,7 @@ sprintf("Number of colonies: %d", length(unique(separation_data[separation_data$
 print(data.frame(treatment_id=1:4, chemical_distance_to_slave_relatives=c(res_1[[2]], res_2[[2]],
                                                                           res_3[[2]], res_4[[2]]),
                  chemical_distance_to_random_colonies=vapply(list(res_1[[3]], res_2[[3]],
-                                                                  res_3[[3]], res[[4]]), mean,
+                                                                  res_3[[3]], res_4[[3]]), mean,
                                                              FUN.VALUE=numeric(1))))
 ```
 
@@ -62,7 +63,7 @@ Since naked pupae might have acquired CHCs through physical contact with adult a
 
 ```{r}
 separation_data <- separation_data[as.numeric(separation_data$cocoon_1)==1&as.numeric(separation_data$cocoon_2)==1,]
-
+set.seed(10101)
 # Calculate emprical p-value for the treatment 1
 res_1 <- distances_permutation_test(treatment_id=1, exclude_naked_pupae=TRUE)
 print(res_1$p.val)
@@ -86,6 +87,6 @@ sprintf("Number of colonies: %d", length(unique(separation_data[separation_data$
 print(data.frame(treatment_id=1:4, chemical_distance_to_slave_relatives=c(res_1[[2]], res_2[[2]],
                                                                           res_3[[2]], res_4[[2]]),
                  chemical_distance_to_random_colonies=vapply(list(res_1[[3]], res_2[[3]],
-                                                                  res_3[[3]], res[[4]]), mean,
+                                                                  res_3[[3]], res_4[[3]]), mean,
                                                              FUN.VALUE=numeric(1))))
 ```
