@@ -37,7 +37,7 @@ print(summary(lm_model))
 
 # model diagnostics
 hist(residuals(lm_model))
-shapiro.test(residuals(lm_model))
+print(shapiro.test(residuals(lm_model)))
 simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
 plot(simulationOutput)
 ```
@@ -50,7 +50,7 @@ print(summary(lm_model))
 
 # model diagnostics
 hist(residuals(lm_model))
-shapiro.test(residuals(lm_model))
+print(shapiro.test(residuals(lm_model)))
 simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
 plot(simulationOutput)
 ```
@@ -66,7 +66,7 @@ print(summary(lm_model))
 
 # model diagnostics
 hist(residuals(lm_model))
-shapiro.test(residuals(lm_model))
+print(shapiro.test(residuals(lm_model)))
 simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
 plot(simulationOutput)
 ```
@@ -81,7 +81,7 @@ print(summary(lm_model))
 
 # model diagnostics
 hist(residuals(lm_model))
-shapiro.test(residuals(lm_model))
+print(shapiro.test(residuals(lm_model)))
 simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
 plot(simulationOutput)
 ```
@@ -95,7 +95,7 @@ print(summary(lm_model))
 
 # model diagnostics
 hist(residuals(lm_model))
-shapiro.test(residuals(lm_model))
+print(shapiro.test(residuals(lm_model)))
 simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
 plot(simulationOutput)
 ```
@@ -110,7 +110,7 @@ print(summary(lm_model))
 
 # model diagnostics
 hist(residuals(lm_model))
-shapiro.test(residuals(lm_model))
+print(shapiro.test(residuals(lm_model)))
 simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
 plot(simulationOutput)
 ```
@@ -124,7 +124,7 @@ print(summary(lm_model))
 
 # model diagnostics
 hist(residuals(lm_model))
-shapiro.test(residuals(lm_model))
+print(shapiro.test(residuals(lm_model)))
 simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
 plot(simulationOutput)
 ```

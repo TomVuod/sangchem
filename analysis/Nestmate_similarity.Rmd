@@ -14,27 +14,69 @@ knitr::opts_chunk$set(echo = TRUE)
 library(sangchem)
 library(dplyr)
 
-# identify samples in which we have at least one callow  and two mature F. sanguinea 
+# identify sample evetns in which we have at least one callow and two mature F. sanguinea 
 data("development_data")
 development_data_clean <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), species=="F. sanguinea") %>%
   dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date, callow, caste) 
 
 get_age_related_distance <- function(callow_chr_ID, mature_chr_IDs){
+  data("mass_spectra_data", envir = environment())
   if(length(mature_chr_IDs)<2) stop("Less than two chromatograms for mature F. sanguinea ants.")
   res <- list()
   mature_combinations <- list()
   for(i in 1:(length(mature_chr_IDs)-1)){
     for(j in (i+1):length(mature_chr_IDs))
-    mature_combinations[[(mature_combinations)+1]] <- c(i,j)
+    mature_combinations[[length(mature_combinations)+1]] <- mature_chr_IDs[c(i,j)]
   }
-  res$mature_distance <- mean(unlist(lapply(mature_combinations, function(vec) pair_distance(vec[1], vec[2]))))
-  res$callow_mature_distance <- mean(unlist(lapply(mature_chr_IDs, pair_distance, callow_chr_ID)))
+  res$mature_distance <- mean(unlist(lapply(mature_combinations, function(vec, MS_data) pair_distance(vec[1], vec[2], MS_data), mass_spectra_data)))
+  res$callow_mature_distance <- mean(unlist(lapply(mature_chr_IDs, pair_distance, callow_chr_ID, mass_spectra_data)))
   res
 }
 
 callow_chr_IDs <- filter(development_data_clean, callow==1) %>% pull(chromatogram_ID)
-callow_nestmates <- lapply(callow_chr_IDs, find_sample_nestmate, heterospecific=FALSE)
-dissimilarities <- mapply(function(x,y) )
+mature_chr_IDs <- lapply(callow_chr_IDs, find_sample_nestmate, heterospecific=FALSE)
+
+# select sampling events in which there are at least two samples of mature F. sanguinea 
+mature_pair <- unlist(lapply(mature_chr_IDs, function(x) length(x)>1))
+
+# select duplicated callow samples to be merged
+duplictated_callow <- duplicated(mature_chr_IDs) | rev(duplicated(rev(mature_chr_IDs)))
+callow_chr_IDs <- callow_chr_IDs[mature_pair]
+mature_chr_IDs <- mature_chr_IDs[mature_pair]
+duplictated_callow <- duplictated_callow[mature_pair]
+
+dissimilarities <- mapply(get_age_related_distance, callow_chr_IDs, mature_chr_IDs, SIMPLIFY = FALSE) %>%
+  lapply(function(x) unlist(x)) %>% {function(x) do.call(cbind,x)}()
+
+duplicated_callow_res <- dissimilarities[,duplictated_callow]
+dissimilarities <- dissimilarities[,!duplictated_callow]
+dissimilarities <- cbind(dissimilarities, apply(duplicated_callow_res, 1, mean))
+
+# this is not completely correct since multiple sample from the same colony are not accounted for
+wilcox.test(dissimilarities[1,], dissimilarities[2,], paired = TRUE)
+```
 
 
+# Change in dissimilarity between callow and mature *F. sanguinea* as the proportion of slave-makers in the colony grows
+```{r}
+library(lme4)
+library(lmerTest)
+library(DHARMa)
+data("mass_spectra_data")
+get_distance_to_mature <- function(callow_chr_ID, mature_chr_IDs, MS_data){
+  mean(unlist(lapply(mature_chr_IDs, pair_distance, callow_chr_ID, MS_data)))
+
+}
+callow_data <- filter(development_data_clean, callow==1) 
+mature_chr_IDs <- lapply(callow_data$chromatogram_ID, find_sample_nestmate, heterospecific=FALSE)
+dissimilarities <- mapply(get_distance_to_mature, callow_data$chromatogram_ID, mature_chr_IDs, MoreArgs= list(MS_data=mass_spectra_data))
+model_input <- cbind(data.frame(dissimilarity=dissimilarities), callow_data[,c("colony", "census_date", "sang_prop")])
+lm_model <- lmer(dissimilarity~sang_prop + (1|colony), data=model_input)
+summary(lm_model)
+
+# model diagnostics
+hist(residuals(lm_model))
+shapiro.test(residuals(lm_model))
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
+plot(simulationOutput)
 ```

@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Mass of CHCs associated with callow workers increases in callow workers with proportion of *F. sanguinea* ants in the colony and decreases for mature workers. However, this effect might result from a circular reasoning embedded in studying features in the data set that was used to identify these features. This we need additional arguments to say that callow workers produce specific CHC profile. One of them would be a stable difference between callow ants and other colony members in the proportion of CHCs associated with callow ants. Especially, in colonies dominated by *F. sanguinea* such a difference would indicate the distinctiveness of callow CHC profile since it cannot be atteibuted to the effect of *F. fusca* ants.
+Mass of CHCs associated with callow workers increases in callow workers with proportion of *F. sanguinea* ants in the colony and decreases for mature workers. However, this effect might result from a circular reasoning embedded in studying features in the data set that was used to identify these features. This we need additional arguments to say that callow workers produce specific CHC profile. One of them would be a stable difference between callow ants and other colony members in the proportion of CHCs associated with callow ants. Especially, in colonies dominated by *F. sanguinea* such a difference would indicate the distinctiveness of callow CHC profile since it cannot be attributed to the effect of *F. fusca* ants.
 ```{r}
 library(sangchem)
 library(dplyr)
