@@ -120,7 +120,7 @@ peaks_mature <- intersect(peaks_mature_sig, peaks_mature_predictors)
 print(peaks_mature)
 ```
 
-```{r eval=params$save_globals, echo=params$save_globals}
+```{r eval=FALSE}
 globals <- readRDS(system.file("globals.rds", package="sangchem"))
 globals[["peaks_callow"]] <- peaks_callow
 globals[["peaks_mature"]] <- peaks_mature

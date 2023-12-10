@@ -1,16 +1,16 @@
 --- 
-title: "`sangchem` R package: research project dta analysis documentation"
+title: "`sangchem` R package: research project data analysis documentation"
 author: "Tomasz Włodarczyk"
 date: "2023-12-10"
 site: bookdown::bookdown_site
 documentclass: book
-bibliography: [book.bib, packages.bib]
+bibliography: [book.bib]
 description: |
   This is a doucumentation of the data analysis workflows and function used to generate the results included in the manuscript entitled Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development. 
 link-citations: yes
 github-repo: TomVuod/sangchem
 ---
-
+# Introduction {-}
 Here we present how the result shown in the manuscript were obtained starting from the data sets collected during the study. The dedicated [`sangchem`](https://github.com/TomVuod/sangchem) R package  is available on GitHub and can be isstalled via:
 ```{r eval=FALSE}
 if(!require(devtools)) install.packages("devtools")

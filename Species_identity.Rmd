@@ -1,7 +1,7 @@
 # Species discrimination and prediction
 
 ## Species markers
-This  report shows how the peaks discriminative for *F. sanguinea* and *F. fusca* were determined. We will use the chemical data collected from the filed colonies in the [earlier study](https://www.sciencedirect.com/science/article/abs/pii/S0022191016301640). In this way our method of marker selection is blind to the dataset to which markers will be applied avoiding potential source of the bias in the analysis results.
+This  report shows how the peaks discriminative for *F. sanguinea* and *F. fusca* were determined. We will use the chemical data collected from the filed colonies in the earlier study[@WLODARCZYK201798]. In this way our method of marker selection is blind to the dataset to which  markers will be applied avoiding potential source of the bias in the analysis results.
 ```{r warning=FALSE}
 suppressMessages({
   library(sangchem)
@@ -94,7 +94,7 @@ print(peaks_fusca)
 ```
 
 The objects `peaks_sang`, `peaks_fusca`, `species_prediction_model` and `PCA_species_discr` are stored in the package and can be collectively loaded into the global environment along with the other objects by running `load_globals()`.
-```{r eval=params$save_globals, echo=params$save_globals}
+```{r eval=FALSE}
 globals <- readRDS(system.file("globals.rds", package="sangchem"))
 globals[["species_prediction_model"]] <- species_prediction_model
 globals[["PCA_species_discr"]] <- PCA_species_discr
