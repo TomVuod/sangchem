@@ -128,3 +128,8 @@ print(shapiro.test(residuals(lm_model)))
 simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
 plot(simulationOutput)
 ```
+
+# Session information
+```{r}
+print(sessionInfo())
+```
