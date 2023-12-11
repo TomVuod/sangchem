@@ -41,7 +41,7 @@ PCA_callow_discr <- prcomp(peak_transformed, scale. = TRUE)
 ```
 ```{r}
 discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,multilevel=DA_data$group, 
-                                keepX=seq(1:60), ncomp=7, scale = FALSE)
+                                ncomp=7, scale = FALSE)
 plotIndiv(discr_analysis_callow, legend=TRUE,ellipse=TRUE,comp=1:2)
 
 perf.discr_analysis_callow <- perf(discr_analysis_callow, 
