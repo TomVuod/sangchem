@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>sangchem R package: research project data analysis documentation</title>
+  <title>Chapter 4 Change in dissimilarity between callow and mature F. sanguinea as the proportion of slave-makers in the colony grows | sangchem R package: research project data analysis documentation</title>
   <meta name="description" content="This is a doucumentation of the data analysis workflows and function used to generate the results included in the manuscript entitled Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development." />
   <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="sangchem R package: research project data analysis documentation" />
+  <meta property="og:title" content="Chapter 4 Change in dissimilarity between callow and mature F. sanguinea as the proportion of slave-makers in the colony grows | sangchem R package: research project data analysis documentation" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This is a doucumentation of the data analysis workflows and function used to generate the results included in the manuscript entitled Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development." />
   <meta name="github-repo" content="TomVuod/sangchem" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="sangchem R package: research project data analysis documentation" />
+  <meta name="twitter:title" content="Chapter 4 Change in dissimilarity between callow and mature F. sanguinea as the proportion of slave-makers in the colony grows | sangchem R package: research project data analysis documentation" />
   
   <meta name="twitter:description" content="This is a doucumentation of the data analysis workflows and function used to generate the results included in the manuscript entitled Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
+<link rel="prev" href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html"/>
 
-<link rel="next" href="changes-of-chcs-amount-over-time.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -224,25 +224,79 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title"><code>sangchem</code> R package: research project data analysis documentation</h1>
-<p class="author"><em>Tomasz Włodarczyk</em></p>
-<p class="date"><em>2023-12-10</em></p>
-</div>
-<div id="introduction" class="section level1 unnumbered hasAnchor">
-<h1>Introduction<a href="index.html#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Here we present how the result shown in the manuscript were obtained starting from the data sets collected during the study. The dedicated <a href="https://github.com/TomVuod/sangchem"><code>sangchem</code></a> R package is available on GitHub and can be isstalled via:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(devtools)) <span class="fu">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)</span>
-<span id="cb1-2"><a href="index.html#cb1-2" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;TomVuod/sangchem&quot;</span>)</span></code></pre></div>
+<div id="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Change in dissimilarity between callow and mature <em>F. sanguinea</em> as the proportion of slave-makers in the colony grows<a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html#change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html#cb123-1" tabindex="-1"></a><span class="fu">library</span>(sangchem)</span>
+<span id="cb123-2"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html#cb123-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb123-3"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html#cb123-3" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb123-4"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html#cb123-4" tabindex="-1"></a><span class="fu">library</span>(lmerTest)</span>
+<span id="cb123-5"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html#cb123-5" tabindex="-1"></a><span class="fu">library</span>(DHARMa)</span>
+<span id="cb123-6"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html#cb123-6" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;mass_spectra_data&quot;</span>)</span>
+<span id="cb123-7"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html#cb123-7" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;development_data&quot;</span>)</span>
+<span id="cb123-8"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html#cb123-8" tabindex="-1"></a>development_data_clean <span class="ot">&lt;-</span> <span class="fu">filter</span>(development_data, caste<span class="sc">==</span><span class="st">&quot;worker&quot;</span>,<span class="sc">!</span><span class="fu">is.na</span>(head_width), <span class="sc">!</span>remarks <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;aggression actor&quot;</span>, <span class="st">&quot;aggression target&quot;</span>, <span class="st">&quot;queenless colony&quot;</span>), species<span class="sc">==</span><span class="st">&quot;F. sanguinea&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb123-9"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html#cb123-9" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date, callow, caste)</span>
+<span id="cb123-10"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html#cb123-10" tabindex="-1"></a>get_distance_to_mature <span class="ot">&lt;-</span> <span class="cf">function</span>(callow_chr_ID, mature_chr_IDs, MS_data){</span>
+<span id="cb123-11"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html#cb123-11" tabindex="-1"></a>  <span class="fu">mean</span>(<span class="fu">unlist</span>(<span class="fu">lapply</span>(mature_chr_IDs, pair_distance, callow_chr_ID, MS_data)))</span>
+<span id="cb123-12"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html#cb123-12" tabindex="-1"></a></span>
+<span id="cb123-13"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html#cb123-13" tabindex="-1"></a>}</span>
+<span id="cb123-14"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html#cb123-14" tabindex="-1"></a>callow_data <span class="ot">&lt;-</span> <span class="fu">filter</span>(development_data_clean, callow<span class="sc">==</span><span class="dv">1</span>) </span>
+<span id="cb123-15"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html#cb123-15" tabindex="-1"></a>mature_chr_IDs <span class="ot">&lt;-</span> <span class="fu">lapply</span>(callow_data<span class="sc">$</span>chromatogram_ID, find_sample_nestmate, <span class="at">heterospecific=</span><span class="cn">FALSE</span>)</span>
+<span id="cb123-16"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html#cb123-16" tabindex="-1"></a>dissimilarities <span class="ot">&lt;-</span> <span class="fu">mapply</span>(get_distance_to_mature, callow_data<span class="sc">$</span>chromatogram_ID, mature_chr_IDs, <span class="at">MoreArgs=</span> <span class="fu">list</span>(<span class="at">MS_data=</span>mass_spectra_data))</span>
+<span id="cb123-17"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html#cb123-17" tabindex="-1"></a>model_input <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">data.frame</span>(<span class="at">dissimilarity=</span>dissimilarities), callow_data[,<span class="fu">c</span>(<span class="st">&quot;colony&quot;</span>, <span class="st">&quot;census_date&quot;</span>, <span class="st">&quot;sang_prop&quot;</span>)])</span>
+<span id="cb123-18"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html#cb123-18" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(dissimilarity<span class="sc">~</span>sang_prop <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>colony), <span class="at">data=</span>model_input)</span>
+<span id="cb123-19"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html#cb123-19" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
+## Formula: dissimilarity ~ sang_prop + (1 | colony)
+##    Data: model_input
+## 
+## REML criterion at convergence: -21.2
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -2.08508 -0.54825 -0.09639  0.83712  1.48657 
+## 
+## Random effects:
+##  Groups   Name        Variance  Std.Dev.
+##  colony   (Intercept) 0.0004953 0.02226 
+##  Residual             0.0230289 0.15175 
+## Number of obs: 30, groups:  colony, 15
+## 
+## Fixed effects:
+##             Estimate Std. Error       df t value Pr(&gt;|t|)    
+## (Intercept)  0.26792    0.05151 26.16779   5.201 1.94e-05 ***
+## sang_prop    0.26166    0.09382 27.80335   2.789  0.00944 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##           (Intr)
+## sang_prop -0.834</code></pre>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html#cb125-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
+<span id="cb125-2"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html#cb125-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html#cb126-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model)))</span></code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  residuals(lm_model)
+## W = 0.95897, p-value = 0.2916</code></pre>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html#cb128-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb128-2"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html#cb128-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-31-2.png" width="672" /></p>
 
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div class="csl-entry">
+Włodarczyk, Tomasz, and Lech Szczepaniak. 2017. <span>“Facultative Slave-Making Ants Formica Sanguinea Label Their Slaves with Own Recognition Cues Instead of Employing the Strategy of Chemical Mimicry.”</span> <em>Journal of Insect Physiology</em> 96: 98–107. https://doi.org/<a href="https://doi.org/10.1016/j.jinsphys.2016.10.016">https://doi.org/10.1016/j.jinsphys.2016.10.016</a>.
+</div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
+<a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
-<a href="changes-of-chcs-amount-over-time.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -273,7 +327,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/USERNAME/REPO/edit/BRANCH/index.Rmd",
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/Callow-mature_dissimilarity.Rmd",
 "text": "Edit"
 },
 "history": {
