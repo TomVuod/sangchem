@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 Change in the CHC profile in separated callow F. sanguinea ants | sangchem R package: research project data analysis documentation</title>
+  <meta name="description" content="This is a doucumentation of the data analysis workflows and function used to generate the results included in the manuscript entitled Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development." />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 Change in the CHC profile in separated callow F. sanguinea ants | sangchem R package: research project data analysis documentation" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a doucumentation of the data analysis workflows and function used to generate the results included in the manuscript entitled Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development." />
+  <meta name="github-repo" content="TomVuod/sangchem" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 Change in the CHC profile in separated callow F. sanguinea ants | sangchem R package: research project data analysis documentation" />
+  
+  <meta name="twitter:description" content="This is a doucumentation of the data analysis workflows and function used to generate the results included in the manuscript entitled Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development." />
+  
+
+<meta name="author" content="Tomasz Włodarczyk" />
+
+
+<meta name="date" content="2023-12-10" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"/>
+<link rel="next" href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="1" data-path="changes-of-chcs-amount-over-time.html"><a href="changes-of-chcs-amount-over-time.html"><i class="fa fa-check"></i><b>1</b> Changes of CHCs amount over time</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="changes-of-chcs-amount-over-time.html"><a href="changes-of-chcs-amount-over-time.html#change-in-the-total-chcs-mass"><i class="fa fa-check"></i><b>1.1</b> Change in the total CHCs mass</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="changes-of-chcs-amount-over-time.html"><a href="changes-of-chcs-amount-over-time.html#mature-f.-sanguinea"><i class="fa fa-check"></i><b>1.1.1</b> Mature <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="1.1.2" data-path="changes-of-chcs-amount-over-time.html"><a href="changes-of-chcs-amount-over-time.html#f.-fusca"><i class="fa fa-check"></i><b>1.1.2</b> <em>F. fusca</em></a></li>
+<li class="chapter" data-level="1.1.3" data-path="changes-of-chcs-amount-over-time.html"><a href="changes-of-chcs-amount-over-time.html#callow-f.-sanguinea"><i class="fa fa-check"></i><b>1.1.3</b> Callow <em>F. sanguinea</em></a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="changes-of-chcs-amount-over-time.html"><a href="changes-of-chcs-amount-over-time.html#change-of-the-chcs-associated-with-f.-sanguinea"><i class="fa fa-check"></i><b>1.2</b> Change of the CHCs associated with <em>F. sanguinea</em></a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="changes-of-chcs-amount-over-time.html"><a href="changes-of-chcs-amount-over-time.html#f.-sanguinea-ants"><i class="fa fa-check"></i><b>1.2.1</b> <em>F. sanguinea</em> ants</a></li>
+<li class="chapter" data-level="1.2.2" data-path="changes-of-chcs-amount-over-time.html"><a href="changes-of-chcs-amount-over-time.html#f.-fusca-ants"><i class="fa fa-check"></i><b>1.2.2</b> <em>F. fusca</em> ants</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="changes-of-chcs-amount-over-time.html"><a href="changes-of-chcs-amount-over-time.html#change-of-the-chcs-associated-with-f.-fusca"><i class="fa fa-check"></i><b>1.3</b> Change of the CHCs associated with <em>F. fusca</em></a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="changes-of-chcs-amount-over-time.html"><a href="changes-of-chcs-amount-over-time.html#f.-sanguinea-ants-1"><i class="fa fa-check"></i><b>1.3.1</b> <em>F. sanguinea</em> ants</a></li>
+<li class="chapter" data-level="1.3.2" data-path="changes-of-chcs-amount-over-time.html"><a href="changes-of-chcs-amount-over-time.html#f.-fusca-ants-1"><i class="fa fa-check"></i><b>1.3.2</b> <em>F. fusca</em> ants</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="changes-of-chcs-amount-over-time.html"><a href="changes-of-chcs-amount-over-time.html#session-info"><i class="fa fa-check"></i><b>1.4</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="species-discrimination-and-prediction.html"><a href="species-discrimination-and-prediction.html"><i class="fa fa-check"></i><b>2</b> Species discrimination and prediction</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="species-discrimination-and-prediction.html"><a href="species-discrimination-and-prediction.html#species-markers"><i class="fa fa-check"></i><b>2.1</b> Species markers</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="species-discrimination-and-prediction.html"><a href="species-discrimination-and-prediction.html#peak-position-on-the-species-discriminant-axis"><i class="fa fa-check"></i><b>2.1.1</b> Peak position on the species discriminant axis</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="species-discrimination-and-prediction.html"><a href="species-discrimination-and-prediction.html#species-identity-score"><i class="fa fa-check"></i><b>2.2</b> Species identity score</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="species-discrimination-and-prediction.html"><a href="species-discrimination-and-prediction.html#data-preparation"><i class="fa fa-check"></i><b>2.2.1</b> Data preparation</a></li>
+<li class="chapter" data-level="2.2.2" data-path="species-discrimination-and-prediction.html"><a href="species-discrimination-and-prediction.html#predicted-species-of-different-categories-of-ants-as-a-function-of-the-proportion-of-f.-sanguinea-ants-in-a-colony"><i class="fa fa-check"></i><b>2.2.2</b> Predicted species of different categories of ants as a function of the proportion of <em>F. sanguinea</em> ants in a colony</a></li>
+<li class="chapter" data-level="2.2.3" data-path="species-discrimination-and-prediction.html"><a href="species-discrimination-and-prediction.html#difference-in-species-prediction-between-mature-f.-sanguinea-ants-and-their-slaves"><i class="fa fa-check"></i><b>2.2.3</b> Difference in species prediction between mature <em>F. sanguinea</em> ants and their slaves</a></li>
+<li class="chapter" data-level="2.2.4" data-path="species-discrimination-and-prediction.html"><a href="species-discrimination-and-prediction.html#difference-in-species-prediction-between-callow-f.-sanguinea-ants-and-their-slaves"><i class="fa fa-check"></i><b>2.2.4</b> Difference in species prediction between callow <em>F. sanguinea</em> ants and their slaves</a></li>
+<li class="chapter" data-level="2.2.5" data-path="species-discrimination-and-prediction.html"><a href="species-discrimination-and-prediction.html#difference-in-species-prediction-between-callow-and-mature-f.-sanguinea-ants."><i class="fa fa-check"></i><b>2.2.5</b> Difference in species prediction between callow and mature <em>F. sanguinea</em> ants.</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="species-discrimination-and-prediction.html"><a href="species-discrimination-and-prediction.html#session-info-1"><i class="fa fa-check"></i><b>2.3</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html"><i class="fa fa-check"></i><b>3</b> Finding peaks discriminating callow and mature <em>F. sanguinea</em> workers</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#determining-callow-markers"><i class="fa fa-check"></i><b>3.1</b> Determining callow markers</a></li>
+<li class="chapter" data-level="3.2" data-path="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#determining-mature-f.-sanguinea-markers"><i class="fa fa-check"></i><b>3.2</b> Determining mature <em>F. sanguinea</em> markers</a></li>
+<li class="chapter" data-level="3.3" data-path="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#session-info-2"><i class="fa fa-check"></i><b>3.3</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html"><i class="fa fa-check"></i><b>4</b> Change in dissimilarity between callow and mature <em>F. sanguinea</em> as the proportion of slave-makers in the colony grows</a></li>
+<li class="chapter" data-level="5" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><i class="fa fa-check"></i><b>5</b> Comparison of CHC amount and proportions in between different categories of individuals</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-total-chc-amount-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>5.1</b> Difference in the total CHC amount between callow and mature <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.2" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-sanguinea-between-mature-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>5.2</b> Difference in the proportion of CHCs characteristic of <em>F. sanguinea</em> between mature <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
+<li class="chapter" data-level="5.3" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>5.3</b> Difference in the proportion of CHCs characteristic of <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.4" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-mature-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>5.4</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between mature <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
+<li class="chapter" data-level="5.5" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>5.5</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between mature and callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.6" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-callow-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>5.6</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between callow <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
+<li class="chapter" data-level="5.7" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-mass-of-n-alkanes-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>5.7</b> Difference in the mass of n-alkanes between callow and mature <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.8" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proprtion-of-n-alkanes-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>5.8</b> Difference in the proprtion of n-alkanes between callow and mature <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.9" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#session-info-3"><i class="fa fa-check"></i><b>5.9</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><i class="fa fa-check"></i><b>6</b> Change in the CHC profile in separated callow <em>F. sanguinea</em> ants</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-totcal-chc-amount-over-time"><i class="fa fa-check"></i><b>6.1</b> Change in the totcal CHC amount over time</a></li>
+<li class="chapter" data-level="6.2" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-totcal-chc-amount-over-time-1"><i class="fa fa-check"></i><b>6.2</b> Change in the totcal CHC amount over time</a></li>
+<li class="chapter" data-level="6.3" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compunds-associated-with-callow-f.-sanguinea"><i class="fa fa-check"></i><b>6.3</b> Change in the amount of compunds associated with callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="6.4" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compunds-associated-with-f.-sanguinea"><i class="fa fa-check"></i><b>6.4</b> Change in the amount of compunds associated with <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="6.5" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compunds-associated-with-f.-fusca"><i class="fa fa-check"></i><b>6.5</b> Change in the amount of compunds associated with <em>F. fusca</em></a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><i class="fa fa-check"></i><b>7</b> Impact of slave on the development of the <em>F. sanguinea</em> CHC profile</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#analysis-based-on-all-samples"><i class="fa fa-check"></i><b>7.1</b> Analysis based on all samples</a></li>
+<li class="chapter" data-level="7.2" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#analysis-restricted-to-the-individuals-hatched-from-cocoons"><i class="fa fa-check"></i><b>7.2</b> Analysis restricted to the individuals hatched from cocoons</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"><code>sangchem</code> R package: research project data analysis documentation</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">Chapter 6</span> Change in the CHC profile in separated callow <em>F. sanguinea</em> ants<a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb146-1" tabindex="-1"></a><span class="fu">suppressMessages</span>({</span>
+<span id="cb146-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb146-2" tabindex="-1"></a>  <span class="fu">library</span>(sangchem)</span>
+<span id="cb146-3"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb146-3" tabindex="-1"></a>  <span class="fu">library</span>(dplyr)</span>
+<span id="cb146-4"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb146-4" tabindex="-1"></a>  <span class="fu">library</span>(lmerTest)</span>
+<span id="cb146-5"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb146-5" tabindex="-1"></a>})</span>
+<span id="cb146-6"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb146-6" tabindex="-1"></a></span>
+<span id="cb146-7"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb146-7" tabindex="-1"></a><span class="co"># load data</span></span>
+<span id="cb146-8"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb146-8" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;separation_experiment_data&quot;</span>)</span>
+<span id="cb146-9"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb146-9" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;mass_spectra_data&quot;</span>)</span></code></pre></div>
+<div id="change-in-the-totcal-chc-amount-over-time" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Change in the totcal CHC amount over time<a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-totcal-chc-amount-over-time" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb147-1" tabindex="-1"></a>separation_data <span class="ot">&lt;-</span> <span class="fu">filter</span>(separation_experiment_data, treatment_id<span class="sc">&lt;</span><span class="dv">5</span>)</span>
+<span id="cb147-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb147-2" tabindex="-1"></a></span>
+<span id="cb147-3"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb147-3" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">I</span>(<span class="fu">sqrt</span>(corrected_mass))<span class="sc">~</span>mean_delta<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>colony), <span class="at">data =</span> separation_data[<span class="sc">-</span><span class="dv">74</span>,])</span>
+<span id="cb147-4"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb147-4" tabindex="-1"></a></span>
+<span id="cb147-5"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb147-5" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
+## Formula: I(sqrt(corrected_mass)) ~ mean_delta + (1 | colony)
+##    Data: separation_data[-74, ]
+## 
+## REML criterion at convergence: -12.9
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -2.54596 -0.65494 -0.04106  0.63627  2.54062 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  colony   (Intercept) 0.01293  0.1137  
+##  Residual             0.03516  0.1875  
+## Number of obs: 79, groups:  colony, 11
+## 
+## Fixed effects:
+##              Estimate Std. Error        df t value Pr(&gt;|t|)    
+## (Intercept)  1.180332   0.047605 16.450772  24.794 1.83e-14 ***
+## mean_delta   0.002458   0.001669 68.538937   1.473    0.145    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##            (Intr)
+## mean_delta -0.518</code></pre>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb149-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
+<span id="cb149-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb149-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-45-1.png" width="672" /></p>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb150-1" tabindex="-1"></a><span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  residuals(lm_model)
+## W = 0.99204, p-value = 0.9107</code></pre>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb152-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb152-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb152-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-45-2.png" width="672" /></p>
+</div>
+<div id="change-in-the-totcal-chc-amount-over-time-1" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> Change in the totcal CHC amount over time<a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-totcal-chc-amount-over-time-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb153-1" tabindex="-1"></a>separation_data <span class="ot">&lt;-</span> <span class="fu">filter</span>(separation_experiment_data, treatment_id<span class="sc">&lt;</span><span class="dv">5</span>)</span>
+<span id="cb153-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb153-2" tabindex="-1"></a><span class="co"># remove row 74 which is an outlier</span></span>
+<span id="cb153-3"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb153-3" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">I</span>(<span class="fu">sqrt</span>(corrected_mass))<span class="sc">~</span>mean_delta<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>colony), <span class="at">data =</span> separation_data[<span class="sc">-</span><span class="dv">74</span>,])</span>
+<span id="cb153-4"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb153-4" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
+## Formula: I(sqrt(corrected_mass)) ~ mean_delta + (1 | colony)
+##    Data: separation_data[-74, ]
+## 
+## REML criterion at convergence: -12.9
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -2.54596 -0.65494 -0.04106  0.63627  2.54062 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  colony   (Intercept) 0.01293  0.1137  
+##  Residual             0.03516  0.1875  
+## Number of obs: 79, groups:  colony, 11
+## 
+## Fixed effects:
+##              Estimate Std. Error        df t value Pr(&gt;|t|)    
+## (Intercept)  1.180332   0.047605 16.450772  24.794 1.83e-14 ***
+## mean_delta   0.002458   0.001669 68.538937   1.473    0.145    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##            (Intr)
+## mean_delta -0.518</code></pre>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb155-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
+<span id="cb155-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb155-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-46-1.png" width="672" /></p>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb156-1" tabindex="-1"></a><span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  residuals(lm_model)
+## W = 0.99204, p-value = 0.9107</code></pre>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb158-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb158-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb158-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-46-2.png" width="672" /></p>
+</div>
+<div id="change-in-the-amount-of-compunds-associated-with-callow-f.-sanguinea" class="section level2 hasAnchor" number="6.3">
+<h2><span class="header-section-number">6.3</span> Change in the amount of compunds associated with callow <em>F. sanguinea</em><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compunds-associated-with-callow-f.-sanguinea" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb159-1" tabindex="-1"></a><span class="fu">load_globals</span>()</span>
+<span id="cb159-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb159-2" tabindex="-1"></a>separation_data<span class="sc">$</span>corrected_mass_part <span class="ot">&lt;-</span> separation_data<span class="sc">$</span>corrected_mass <span class="sc">*</span> <span class="fu">subsample_proportion</span>(peaks_callow, separation_data<span class="sc">$</span>chromatogram_ID)</span>
+<span id="cb159-3"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb159-3" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(corrected_mass_part<span class="sc">~</span>mean_delta<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>colony)<span class="sc">+</span><span class="fu">I</span>(mean_delta<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> separation_data)</span>
+<span id="cb159-4"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb159-4" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
+## Formula: corrected_mass_part ~ mean_delta + (1 | colony) + I(mean_delta^2)
+##    Data: separation_data
+## 
+## REML criterion at convergence: -66.4
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -1.73399 -0.58595  0.00875  0.48372  3.11530 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  colony   (Intercept) 0.003386 0.05819 
+##  Residual             0.015192 0.12326 
+## Number of obs: 80, groups:  colony, 11
+## 
+## Fixed effects:
+##                   Estimate Std. Error         df t value Pr(&gt;|t|)    
+## (Intercept)      2.983e-01  3.636e-02  4.431e+01   8.202 1.96e-10 ***
+## mean_delta       9.621e-03  4.271e-03  6.813e+01   2.252   0.0275 *  
+## I(mean_delta^2) -2.020e-04  9.951e-05  6.869e+01  -2.030   0.0462 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) mn_dlt
+## mean_delta  -0.735       
+## I(mn_dlt^2)  0.644 -0.968</code></pre>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb161-1" tabindex="-1"></a><span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  residuals(lm_model)
+## W = 0.96998, p-value = 0.05662</code></pre>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb163-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb163-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb163-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
+</div>
+<div id="change-in-the-amount-of-compunds-associated-with-f.-sanguinea" class="section level2 hasAnchor" number="6.4">
+<h2><span class="header-section-number">6.4</span> Change in the amount of compunds associated with <em>F. sanguinea</em><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compunds-associated-with-f.-sanguinea" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb164-1" tabindex="-1"></a>separation_data<span class="sc">$</span>corrected_mass_part <span class="ot">&lt;-</span> separation_data<span class="sc">$</span>corrected_mass <span class="sc">*</span> <span class="fu">subsample_proportion</span>(peaks_sang, separation_data<span class="sc">$</span>chromatogram_ID)</span>
+<span id="cb164-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb164-2" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">I</span>((corrected_mass_part))<span class="sc">~</span><span class="fu">I</span>((mean_delta)<span class="sc">^</span>(<span class="fl">1.5</span>))<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>colony), <span class="at">data =</span> separation_data[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">69</span>, <span class="dv">74</span>),])</span>
+<span id="cb164-3"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb164-3" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
+## Formula: I((corrected_mass_part)) ~ I((mean_delta)^(1.5)) + (1 | colony)
+##    Data: separation_data[-c(69, 74), ]
+## 
+## REML criterion at convergence: 51.6
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -2.46116 -0.72124 -0.03621  0.48469  3.09244 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  colony   (Intercept) 0.00811  0.09006 
+##  Residual             0.08574  0.29282 
+## Number of obs: 78, groups:  colony, 11
+## 
+## Fixed effects:
+##                        Estimate Std. Error        df t value Pr(&gt;|t|)    
+## (Intercept)           5.660e-01  5.193e-02 1.851e+01  10.900 1.72e-09 ***
+## I((mean_delta)^(1.5)) 2.402e-03  3.886e-04 7.098e+01   6.182 3.58e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr)
+## I((_)^(1.5) -0.546</code></pre>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb166-1" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-48-1.png" width="672" /></p>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb167-1" tabindex="-1"></a><span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  residuals(lm_model)
+## W = 0.98322, p-value = 0.3961</code></pre>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb169-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb169-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb169-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-48-2.png" width="672" /></p>
+</div>
+<div id="change-in-the-amount-of-compunds-associated-with-f.-fusca" class="section level2 hasAnchor" number="6.5">
+<h2><span class="header-section-number">6.5</span> Change in the amount of compunds associated with <em>F. fusca</em><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compunds-associated-with-f.-fusca" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb170-1" tabindex="-1"></a>separation_data<span class="sc">$</span>corrected_mass_part <span class="ot">&lt;-</span> separation_data<span class="sc">$</span>corrected_mass <span class="sc">*</span> <span class="fu">subsample_proportion</span>(peaks_fusca, separation_data<span class="sc">$</span>chromatogram_ID)</span>
+<span id="cb170-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb170-2" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(corrected_mass_part<span class="sc">~</span>mean_delta<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>colony), <span class="at">data =</span> separation_data)</span>
+<span id="cb170-3"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb170-3" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
+## Formula: corrected_mass_part ~ mean_delta + (1 | colony)
+##    Data: separation_data
+## 
+## REML criterion at convergence: 31.2
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -1.9259 -0.6234 -0.1471  0.4630  3.2690 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  colony   (Intercept) 0.08393  0.2897  
+##  Residual             0.05325  0.2308  
+## Number of obs: 80, groups:  colony, 11
+## 
+## Fixed effects:
+##              Estimate Std. Error        df t value Pr(&gt;|t|)    
+## (Intercept)  0.780631   0.096324 11.802917   8.104 3.67e-06 ***
+## mean_delta  -0.008418   0.002006 68.175343  -4.197 8.02e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##            (Intr)
+## mean_delta -0.314</code></pre>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb172-1" tabindex="-1"></a><span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  residuals(lm_model)
+## W = 0.96714, p-value = 0.03738</code></pre>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb174-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb174-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb174-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-49-1.png" width="672" /></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/Separation_experiment.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

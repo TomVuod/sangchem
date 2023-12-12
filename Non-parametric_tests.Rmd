@@ -197,8 +197,7 @@ ggboxplot(test_df, x="callow", y="n_alkanes_prop")+
   stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)
 ```
 
-
-
+## Session info
 ```{r}
 print(sessionInfo())
 ```

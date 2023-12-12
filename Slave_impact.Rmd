@@ -2,7 +2,7 @@
 
 Now we are going to analyze the impact of *F. fusca* slaves on the CHC profile of the callow *F. sanguinea* ants. In the experiment, *F. sanguinea* ants were isolated in pairs before hatching and their CHC profile was analysed at one of the four fixed points of adult life. We want to see whether the callow *F. sanguinea* ants are more similar to slave relatives from free-living colony as compared to *F. fusca*  ants unrelated at all.
 
-# Analysis based on all samples
+## Analysis based on all samples
 ```{r message=FALSE,}
 # Load data
 data("separation_experiment_data")
@@ -45,7 +45,7 @@ print(data.frame(treatment_id=1:4, chemical_distance_to_slave_relatives=c(res_1[
                                                              FUN.VALUE=numeric(1))))
 ```
 
-# Analysis restricted to the individuals hatched from cocoons
+## Analysis restricted to the individuals hatched from cocoons
 
 Since naked pupae might have acquired CHCs through physical contact with adult ants after pupation, we will subset out data to include only these samples which come from the ants hatched from cocoons. In this case silky envelop during pupa stage ruled out possibility of CHC transfer from the environment. 
 

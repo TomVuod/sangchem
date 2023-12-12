@@ -3,7 +3,7 @@ rmd_files: ["index.Rmd",
     "Species_identity.Rmd",
     "Callow_markers.Rmd",
     "Callow-mature_dissimilarity.Rmd",
-    "Non-parametirc_tests.Rmd",
+    "Non-parametric_tests.Rmd",
     "Separation_experiment.Rmd",
     "Slave_impact.Rmd"]
 output_dir: "docs"

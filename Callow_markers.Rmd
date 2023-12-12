@@ -126,3 +126,8 @@ globals[["peaks_callow"]] <- peaks_callow
 globals[["peaks_mature"]] <- peaks_mature
 saveRDS(globals, system.file("globals.rds", package="sangchem"))
 ```
+
+## Session info
+```{r}
+print(sessionInfo())
+```

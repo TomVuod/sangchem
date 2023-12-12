@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 Comparison of CHC amount and proportions in between different categories of individuals | sangchem R package: research project data analysis documentation</title>
+  <meta name="description" content="This is a doucumentation of the data analysis workflows and function used to generate the results included in the manuscript entitled Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development." />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 5 Comparison of CHC amount and proportions in between different categories of individuals | sangchem R package: research project data analysis documentation" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a doucumentation of the data analysis workflows and function used to generate the results included in the manuscript entitled Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development." />
+  <meta name="github-repo" content="TomVuod/sangchem" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 Comparison of CHC amount and proportions in between different categories of individuals | sangchem R package: research project data analysis documentation" />
+  
+  <meta name="twitter:description" content="This is a doucumentation of the data analysis workflows and function used to generate the results included in the manuscript entitled Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development." />
+  
+
+<meta name="author" content="Tomasz Włodarczyk" />
+
+
+<meta name="date" content="2023-12-10" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html"/>
+<link rel="next" href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="1" data-path="changes-of-chcs-amount-over-time.html"><a href="changes-of-chcs-amount-over-time.html"><i class="fa fa-check"></i><b>1</b> Changes of CHCs amount over time</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="changes-of-chcs-amount-over-time.html"><a href="changes-of-chcs-amount-over-time.html#change-in-the-total-chcs-mass"><i class="fa fa-check"></i><b>1.1</b> Change in the total CHCs mass</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="changes-of-chcs-amount-over-time.html"><a href="changes-of-chcs-amount-over-time.html#mature-f.-sanguinea"><i class="fa fa-check"></i><b>1.1.1</b> Mature <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="1.1.2" data-path="changes-of-chcs-amount-over-time.html"><a href="changes-of-chcs-amount-over-time.html#f.-fusca"><i class="fa fa-check"></i><b>1.1.2</b> <em>F. fusca</em></a></li>
+<li class="chapter" data-level="1.1.3" data-path="changes-of-chcs-amount-over-time.html"><a href="changes-of-chcs-amount-over-time.html#callow-f.-sanguinea"><i class="fa fa-check"></i><b>1.1.3</b> Callow <em>F. sanguinea</em></a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="changes-of-chcs-amount-over-time.html"><a href="changes-of-chcs-amount-over-time.html#change-of-the-chcs-associated-with-f.-sanguinea"><i class="fa fa-check"></i><b>1.2</b> Change of the CHCs associated with <em>F. sanguinea</em></a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="changes-of-chcs-amount-over-time.html"><a href="changes-of-chcs-amount-over-time.html#f.-sanguinea-ants"><i class="fa fa-check"></i><b>1.2.1</b> <em>F. sanguinea</em> ants</a></li>
+<li class="chapter" data-level="1.2.2" data-path="changes-of-chcs-amount-over-time.html"><a href="changes-of-chcs-amount-over-time.html#f.-fusca-ants"><i class="fa fa-check"></i><b>1.2.2</b> <em>F. fusca</em> ants</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="changes-of-chcs-amount-over-time.html"><a href="changes-of-chcs-amount-over-time.html#change-of-the-chcs-associated-with-f.-fusca"><i class="fa fa-check"></i><b>1.3</b> Change of the CHCs associated with <em>F. fusca</em></a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="changes-of-chcs-amount-over-time.html"><a href="changes-of-chcs-amount-over-time.html#f.-sanguinea-ants-1"><i class="fa fa-check"></i><b>1.3.1</b> <em>F. sanguinea</em> ants</a></li>
+<li class="chapter" data-level="1.3.2" data-path="changes-of-chcs-amount-over-time.html"><a href="changes-of-chcs-amount-over-time.html#f.-fusca-ants-1"><i class="fa fa-check"></i><b>1.3.2</b> <em>F. fusca</em> ants</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="changes-of-chcs-amount-over-time.html"><a href="changes-of-chcs-amount-over-time.html#session-info"><i class="fa fa-check"></i><b>1.4</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="species-discrimination-and-prediction.html"><a href="species-discrimination-and-prediction.html"><i class="fa fa-check"></i><b>2</b> Species discrimination and prediction</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="species-discrimination-and-prediction.html"><a href="species-discrimination-and-prediction.html#species-markers"><i class="fa fa-check"></i><b>2.1</b> Species markers</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="species-discrimination-and-prediction.html"><a href="species-discrimination-and-prediction.html#peak-position-on-the-species-discriminant-axis"><i class="fa fa-check"></i><b>2.1.1</b> Peak position on the species discriminant axis</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="species-discrimination-and-prediction.html"><a href="species-discrimination-and-prediction.html#species-identity-score"><i class="fa fa-check"></i><b>2.2</b> Species identity score</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="species-discrimination-and-prediction.html"><a href="species-discrimination-and-prediction.html#data-preparation"><i class="fa fa-check"></i><b>2.2.1</b> Data preparation</a></li>
+<li class="chapter" data-level="2.2.2" data-path="species-discrimination-and-prediction.html"><a href="species-discrimination-and-prediction.html#predicted-species-of-different-categories-of-ants-as-a-function-of-the-proportion-of-f.-sanguinea-ants-in-a-colony"><i class="fa fa-check"></i><b>2.2.2</b> Predicted species of different categories of ants as a function of the proportion of <em>F. sanguinea</em> ants in a colony</a></li>
+<li class="chapter" data-level="2.2.3" data-path="species-discrimination-and-prediction.html"><a href="species-discrimination-and-prediction.html#difference-in-species-prediction-between-mature-f.-sanguinea-ants-and-their-slaves"><i class="fa fa-check"></i><b>2.2.3</b> Difference in species prediction between mature <em>F. sanguinea</em> ants and their slaves</a></li>
+<li class="chapter" data-level="2.2.4" data-path="species-discrimination-and-prediction.html"><a href="species-discrimination-and-prediction.html#difference-in-species-prediction-between-callow-f.-sanguinea-ants-and-their-slaves"><i class="fa fa-check"></i><b>2.2.4</b> Difference in species prediction between callow <em>F. sanguinea</em> ants and their slaves</a></li>
+<li class="chapter" data-level="2.2.5" data-path="species-discrimination-and-prediction.html"><a href="species-discrimination-and-prediction.html#difference-in-species-prediction-between-callow-and-mature-f.-sanguinea-ants."><i class="fa fa-check"></i><b>2.2.5</b> Difference in species prediction between callow and mature <em>F. sanguinea</em> ants.</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="species-discrimination-and-prediction.html"><a href="species-discrimination-and-prediction.html#session-info-1"><i class="fa fa-check"></i><b>2.3</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html"><i class="fa fa-check"></i><b>3</b> Finding peaks discriminating callow and mature <em>F. sanguinea</em> workers</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#determining-callow-markers"><i class="fa fa-check"></i><b>3.1</b> Determining callow markers</a></li>
+<li class="chapter" data-level="3.2" data-path="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#determining-mature-f.-sanguinea-markers"><i class="fa fa-check"></i><b>3.2</b> Determining mature <em>F. sanguinea</em> markers</a></li>
+<li class="chapter" data-level="3.3" data-path="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#session-info-2"><i class="fa fa-check"></i><b>3.3</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html"><i class="fa fa-check"></i><b>4</b> Change in dissimilarity between callow and mature <em>F. sanguinea</em> as the proportion of slave-makers in the colony grows</a></li>
+<li class="chapter" data-level="5" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><i class="fa fa-check"></i><b>5</b> Comparison of CHC amount and proportions in between different categories of individuals</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-total-chc-amount-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>5.1</b> Difference in the total CHC amount between callow and mature <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.2" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-sanguinea-between-mature-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>5.2</b> Difference in the proportion of CHCs characteristic of <em>F. sanguinea</em> between mature <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
+<li class="chapter" data-level="5.3" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>5.3</b> Difference in the proportion of CHCs characteristic of <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.4" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-mature-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>5.4</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between mature <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
+<li class="chapter" data-level="5.5" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>5.5</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between mature and callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.6" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-callow-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>5.6</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between callow <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
+<li class="chapter" data-level="5.7" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-mass-of-n-alkanes-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>5.7</b> Difference in the mass of n-alkanes between callow and mature <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.8" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proprtion-of-n-alkanes-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>5.8</b> Difference in the proprtion of n-alkanes between callow and mature <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.9" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#session-info-3"><i class="fa fa-check"></i><b>5.9</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><i class="fa fa-check"></i><b>6</b> Change in the CHC profile in separated callow <em>F. sanguinea</em> ants</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-totcal-chc-amount-over-time"><i class="fa fa-check"></i><b>6.1</b> Change in the totcal CHC amount over time</a></li>
+<li class="chapter" data-level="6.2" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-totcal-chc-amount-over-time-1"><i class="fa fa-check"></i><b>6.2</b> Change in the totcal CHC amount over time</a></li>
+<li class="chapter" data-level="6.3" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compunds-associated-with-callow-f.-sanguinea"><i class="fa fa-check"></i><b>6.3</b> Change in the amount of compunds associated with callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="6.4" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compunds-associated-with-f.-sanguinea"><i class="fa fa-check"></i><b>6.4</b> Change in the amount of compunds associated with <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="6.5" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compunds-associated-with-f.-fusca"><i class="fa fa-check"></i><b>6.5</b> Change in the amount of compunds associated with <em>F. fusca</em></a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><i class="fa fa-check"></i><b>7</b> Impact of slave on the development of the <em>F. sanguinea</em> CHC profile</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#analysis-based-on-all-samples"><i class="fa fa-check"></i><b>7.1</b> Analysis based on all samples</a></li>
+<li class="chapter" data-level="7.2" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#analysis-restricted-to-the-individuals-hatched-from-cocoons"><i class="fa fa-check"></i><b>7.2</b> Analysis restricted to the individuals hatched from cocoons</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"><code>sangchem</code> R package: research project data analysis documentation</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Chapter 5</span> Comparison of CHC amount and proportions in between different categories of individuals<a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb133-1" tabindex="-1"></a><span class="fu">suppressMessages</span>({</span>
+<span id="cb133-2"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb133-2" tabindex="-1"></a>  <span class="fu">library</span>(sangchem)</span>
+<span id="cb133-3"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb133-3" tabindex="-1"></a>  <span class="fu">library</span>(dplyr)</span>
+<span id="cb133-4"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb133-4" tabindex="-1"></a>  <span class="fu">library</span>(ggpubr)</span>
+<span id="cb133-5"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb133-5" tabindex="-1"></a>  <span class="fu">library</span>(rstatix)</span>
+<span id="cb133-6"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb133-6" tabindex="-1"></a>})</span>
+<span id="cb133-7"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb133-7" tabindex="-1"></a></span>
+<span id="cb133-8"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb133-8" tabindex="-1"></a><span class="co"># load data</span></span>
+<span id="cb133-9"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb133-9" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;development_data&quot;</span>)</span>
+<span id="cb133-10"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb133-10" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;mass_spectra_data&quot;</span>)</span>
+<span id="cb133-11"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb133-11" tabindex="-1"></a>development_samples <span class="ot">&lt;-</span> <span class="fu">filter</span>(development_data, caste<span class="sc">==</span><span class="st">&quot;worker&quot;</span>, <span class="sc">!</span>remarks <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;aggression actor&quot;</span>, <span class="st">&quot;aggression target&quot;</span>, <span class="st">&quot;queenless colony&quot;</span>)) <span class="sc">%&gt;%</span> <span class="fu">select</span>(species, census_date, colony, corrected_mass,callow, chromatogram_ID)</span>
+<span id="cb133-12"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb133-12" tabindex="-1"></a><span class="fu">load_globals</span>()</span></code></pre></div>
+<div id="difference-in-the-total-chc-amount-between-callow-and-mature-f.-sanguinea" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Difference in the total CHC amount between callow and mature <em>F. sanguinea</em><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-total-chc-amount-between-callow-and-mature-f.-sanguinea" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb134-1" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> <span class="fu">filter</span>(development_samples, species <span class="sc">==</span> <span class="st">&quot;F. sanguinea&quot;</span>) </span>
+<span id="cb134-2"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb134-2" tabindex="-1"></a>test_data_mature <span class="ot">&lt;-</span> <span class="fu">filter</span>(test_data, callow <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="fu">colony_weighted_mean</span>()</span>
+<span id="cb134-3"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb134-3" tabindex="-1"></a>test_data_mature<span class="sc">$</span>callow <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb134-4"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb134-4" tabindex="-1"></a>test_data_callow <span class="ot">&lt;-</span> <span class="fu">filter</span>(test_data, callow <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> <span class="fu">colony_weighted_mean</span>()</span>
+<span id="cb134-5"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb134-5" tabindex="-1"></a>test_data_callow <span class="sc">$</span>callow <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb134-6"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb134-6" tabindex="-1"></a>colonies <span class="ot">&lt;-</span> <span class="fu">intersect</span>(test_data_mature<span class="sc">$</span>colony, test_data_callow<span class="sc">$</span>colony)</span>
+<span id="cb134-7"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb134-7" tabindex="-1"></a>test_df <span class="ot">&lt;-</span> <span class="fu">rbind</span>(test_data_callow, test_data_mature)</span>
+<span id="cb134-8"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb134-8" tabindex="-1"></a>test_df <span class="ot">&lt;-</span> test_df[test_df<span class="sc">$</span>colony <span class="sc">%in%</span> colonies,]</span>
+<span id="cb134-9"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb134-9" tabindex="-1"></a>test_df <span class="ot">&lt;-</span> test_df[<span class="fu">order</span>(test_df<span class="sc">$</span>colony),]</span>
+<span id="cb134-10"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb134-10" tabindex="-1"></a><span class="fu">wilcox_test</span>(test_df, corrected_mass<span class="sc">~</span>callow, <span class="at">paired=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 7
+##   .y.            group1 group2    n1    n2 statistic         p
+## * &lt;chr&gt;          &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1 corrected_mass 0      1         16    16       136 0.0000305</code></pre>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb136-1" tabindex="-1"></a>test_df<span class="sc">$</span>callow <span class="ot">&lt;-</span> <span class="fu">factor</span>(test_df<span class="sc">$</span>callow)</span>
+<span id="cb136-2"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb136-2" tabindex="-1"></a>test_stats <span class="ot">&lt;-</span> <span class="fu">wilcox_test</span>(test_df, corrected_mass<span class="sc">~</span>callow, <span class="at">paired=</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb136-3"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb136-3" tabindex="-1"></a>  <span class="fu">add_significance</span>(<span class="st">&quot;p&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb136-4"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb136-4" tabindex="-1"></a>  <span class="fu">add_xy_position</span>(<span class="at">x=</span><span class="st">&quot;callow&quot;</span>, <span class="at">dodge=</span><span class="fl">0.8</span>, <span class="at">fun=</span><span class="st">&quot;max&quot;</span>)</span>
+<span id="cb136-5"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb136-5" tabindex="-1"></a><span class="fu">ggboxplot</span>(test_df, <span class="at">x=</span><span class="st">&quot;callow&quot;</span>, <span class="at">y=</span><span class="st">&quot;corrected_mass&quot;</span>)<span class="sc">+</span></span>
+<span id="cb136-6"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb136-6" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult=</span><span class="fu">c</span>(<span class="fl">0.02</span>,<span class="fl">0.1</span>)))<span class="sc">+</span></span>
+<span id="cb136-7"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb136-7" tabindex="-1"></a>  <span class="fu">stat_pvalue_manual</span>(test_stats, <span class="at">label=</span><span class="st">&quot;p&quot;</span>, <span class="at">tip.length =</span> <span class="dv">0</span>, <span class="at">size=</span><span class="fl">3.5</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+</div>
+<div id="difference-in-the-proportion-of-chcs-characteristic-of-f.-sanguinea-between-mature-f.-sanguinea-and-f.-fusca" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Difference in the proportion of CHCs characteristic of <em>F. sanguinea</em> between mature <em>F. sanguinea</em> and <em>F. fusca</em><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-sanguinea-between-mature-f.-sanguinea-and-f.-fusca" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb137-1" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> development_samples</span>
+<span id="cb137-2"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb137-2" tabindex="-1"></a>test_data<span class="sc">$</span>sang_prop <span class="ot">&lt;-</span> <span class="fu">subsample_proportion</span>(peaks_sang, test_data<span class="sc">$</span>chromatogram_ID)</span>
+<span id="cb137-3"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb137-3" tabindex="-1"></a>test_data_sang <span class="ot">&lt;-</span> <span class="fu">filter</span>(test_data, species <span class="sc">==</span> <span class="st">&quot;F. sanguinea&quot;</span>, callow <span class="sc">==</span>  <span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="fu">colony_weighted_mean</span>(<span class="at">var =</span> <span class="st">&quot;sang_prop&quot;</span>)</span>
+<span id="cb137-4"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb137-4" tabindex="-1"></a>test_data_sang<span class="sc">$</span>species <span class="ot">&lt;-</span> <span class="st">&quot;F. sanguinea&quot;</span></span>
+<span id="cb137-5"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb137-5" tabindex="-1"></a>test_data_fusca <span class="ot">&lt;-</span> <span class="fu">filter</span>(test_data, species <span class="sc">==</span> <span class="st">&quot;F. fusca&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">colony_weighted_mean</span>(<span class="at">var =</span> <span class="st">&quot;sang_prop&quot;</span>)</span>
+<span id="cb137-6"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb137-6" tabindex="-1"></a>test_data_fusca<span class="sc">$</span>species <span class="ot">&lt;-</span> <span class="st">&quot;F. fusca&quot;</span></span>
+<span id="cb137-7"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb137-7" tabindex="-1"></a>colonies <span class="ot">&lt;-</span> <span class="fu">intersect</span>(test_data_sang<span class="sc">$</span>colony, test_data_fusca<span class="sc">$</span>colony)</span>
+<span id="cb137-8"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb137-8" tabindex="-1"></a>test_df <span class="ot">&lt;-</span> <span class="fu">rbind</span>(test_data_fusca, test_data_sang)</span>
+<span id="cb137-9"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb137-9" tabindex="-1"></a>test_df <span class="ot">&lt;-</span> test_df[test_df<span class="sc">$</span>colony <span class="sc">%in%</span> colonies,]</span>
+<span id="cb137-10"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb137-10" tabindex="-1"></a>test_df <span class="ot">&lt;-</span> test_df[<span class="fu">order</span>(test_df<span class="sc">$</span>colony),]</span>
+<span id="cb137-11"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb137-11" tabindex="-1"></a>test_df<span class="sc">$</span>species <span class="ot">&lt;-</span> <span class="fu">factor</span>(test_df<span class="sc">$</span>species)</span>
+<span id="cb137-12"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb137-12" tabindex="-1"></a>test_stats <span class="ot">&lt;-</span> <span class="fu">wilcox_test</span>(test_df, sang_prop<span class="sc">~</span>species, <span class="at">paired=</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb137-13"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb137-13" tabindex="-1"></a>  <span class="fu">add_significance</span>(<span class="st">&quot;p&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb137-14"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb137-14" tabindex="-1"></a>  <span class="fu">add_xy_position</span>(<span class="at">x=</span><span class="st">&quot;species&quot;</span>, <span class="at">dodge=</span><span class="fl">0.8</span>, <span class="at">fun=</span><span class="st">&quot;max&quot;</span>)</span>
+<span id="cb137-15"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb137-15" tabindex="-1"></a><span class="fu">ggboxplot</span>(test_df, <span class="at">x=</span><span class="st">&quot;species&quot;</span>, <span class="at">y=</span><span class="st">&quot;sang_prop&quot;</span>)<span class="sc">+</span></span>
+<span id="cb137-16"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb137-16" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Proportion of CHCs characteristic of F. sanguinea&quot;</span>)<span class="sc">+</span></span>
+<span id="cb137-17"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb137-17" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult=</span><span class="fu">c</span>(<span class="fl">0.02</span>,<span class="fl">0.1</span>)))<span class="sc">+</span></span>
+<span id="cb137-18"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb137-18" tabindex="-1"></a>  <span class="fu">stat_pvalue_manual</span>(test_stats, <span class="at">label=</span><span class="st">&quot;p&quot;</span>, <span class="at">tip.length =</span> <span class="dv">0</span>, <span class="at">size=</span><span class="fl">3.5</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+</div>
+<div id="difference-in-the-proportion-of-chcs-characteristic-of-f.-sanguinea-between-mature-and-callow-f.-sanguinea" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> Difference in the proportion of CHCs characteristic of <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-sanguinea-between-mature-and-callow-f.-sanguinea" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb138-1" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> <span class="fu">filter</span>(development_samples, species <span class="sc">==</span> <span class="st">&quot;F. sanguinea&quot;</span>)</span>
+<span id="cb138-2"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb138-2" tabindex="-1"></a>test_data<span class="sc">$</span>sang_prop <span class="ot">&lt;-</span> <span class="fu">subsample_proportion</span>(peaks_sang, test_data<span class="sc">$</span>chromatogram_ID)</span>
+<span id="cb138-3"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb138-3" tabindex="-1"></a>test_data_mature <span class="ot">&lt;-</span> <span class="fu">filter</span>(test_data, callow <span class="sc">==</span>  <span class="dv">0</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb138-4"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb138-4" tabindex="-1"></a>  <span class="fu">colony_weighted_mean</span>(<span class="at">var =</span> <span class="st">&quot;sang_prop&quot;</span>)</span>
+<span id="cb138-5"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb138-5" tabindex="-1"></a>test_data_mature<span class="sc">$</span>callow <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb138-6"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb138-6" tabindex="-1"></a>test_data_callow <span class="ot">&lt;-</span> <span class="fu">filter</span>(test_data,callow <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> <span class="fu">colony_weighted_mean</span>(<span class="at">var =</span> <span class="st">&quot;sang_prop&quot;</span>)</span>
+<span id="cb138-7"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb138-7" tabindex="-1"></a>test_data_callow<span class="sc">$</span>callow <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb138-8"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb138-8" tabindex="-1"></a>colonies <span class="ot">&lt;-</span> <span class="fu">intersect</span>(test_data_mature<span class="sc">$</span>colony, test_data_callow<span class="sc">$</span>colony)</span>
+<span id="cb138-9"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb138-9" tabindex="-1"></a>test_df <span class="ot">&lt;-</span> <span class="fu">rbind</span>(test_data_mature, test_data_callow)</span>
+<span id="cb138-10"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb138-10" tabindex="-1"></a>test_df <span class="ot">&lt;-</span> test_df[test_df<span class="sc">$</span>colony <span class="sc">%in%</span> colonies,]</span>
+<span id="cb138-11"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb138-11" tabindex="-1"></a>test_df <span class="ot">&lt;-</span> test_df[<span class="fu">order</span>(test_df<span class="sc">$</span>colony),]</span>
+<span id="cb138-12"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb138-12" tabindex="-1"></a>test_df<span class="sc">$</span>callow <span class="ot">&lt;-</span> <span class="fu">factor</span>(test_df<span class="sc">$</span>callow)</span>
+<span id="cb138-13"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb138-13" tabindex="-1"></a>test_stats <span class="ot">&lt;-</span> <span class="fu">wilcox_test</span>(test_df, sang_prop<span class="sc">~</span>callow, <span class="at">paired=</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb138-14"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb138-14" tabindex="-1"></a>  <span class="fu">add_significance</span>(<span class="st">&quot;p&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb138-15"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb138-15" tabindex="-1"></a>  <span class="fu">add_xy_position</span>(<span class="at">x=</span><span class="st">&quot;callow&quot;</span>, <span class="at">dodge=</span><span class="fl">0.8</span>, <span class="at">fun=</span><span class="st">&quot;max&quot;</span>)</span>
+<span id="cb138-16"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb138-16" tabindex="-1"></a><span class="fu">ggboxplot</span>(test_df, <span class="at">x=</span><span class="st">&quot;callow&quot;</span>, <span class="at">y=</span><span class="st">&quot;sang_prop&quot;</span>)<span class="sc">+</span></span>
+<span id="cb138-17"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb138-17" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Proportion of CHCs characteristic of F. sanguinea between mature and callow F. sanguinea&quot;</span>)<span class="sc">+</span></span>
+<span id="cb138-18"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb138-18" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult=</span><span class="fu">c</span>(<span class="fl">0.02</span>,<span class="fl">0.1</span>)))<span class="sc">+</span></span>
+<span id="cb138-19"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb138-19" tabindex="-1"></a>  <span class="fu">stat_pvalue_manual</span>(test_stats, <span class="at">label=</span><span class="st">&quot;p&quot;</span>, <span class="at">tip.length =</span> <span class="dv">0</span>, <span class="at">size=</span><span class="fl">3.5</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
+</div>
+<div id="difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-mature-f.-sanguinea-and-f.-fusca" class="section level2 hasAnchor" number="5.4">
+<h2><span class="header-section-number">5.4</span> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between mature <em>F. sanguinea</em> and <em>F. fusca</em><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-mature-f.-sanguinea-and-f.-fusca" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb139-1" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> development_samples</span>
+<span id="cb139-2"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb139-2" tabindex="-1"></a>test_data<span class="sc">$</span>fusca_prop <span class="ot">&lt;-</span> <span class="fu">subsample_proportion</span>(peaks_fusca, test_data<span class="sc">$</span>chromatogram_ID)</span>
+<span id="cb139-3"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb139-3" tabindex="-1"></a>test_data_sang <span class="ot">&lt;-</span> <span class="fu">filter</span>(test_data, species <span class="sc">==</span> <span class="st">&quot;F. sanguinea&quot;</span>, callow <span class="sc">==</span>  <span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="fu">colony_weighted_mean</span>(<span class="at">var =</span> <span class="st">&quot;fusca_prop&quot;</span>)</span>
+<span id="cb139-4"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb139-4" tabindex="-1"></a>test_data_sang<span class="sc">$</span>species <span class="ot">&lt;-</span> <span class="st">&quot;F. sanguinea&quot;</span></span>
+<span id="cb139-5"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb139-5" tabindex="-1"></a>test_data_fusca <span class="ot">&lt;-</span> <span class="fu">filter</span>(test_data, species <span class="sc">==</span> <span class="st">&quot;F. fusca&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">colony_weighted_mean</span>(<span class="at">var =</span> <span class="st">&quot;fusca_prop&quot;</span>)</span>
+<span id="cb139-6"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb139-6" tabindex="-1"></a>test_data_fusca<span class="sc">$</span>species <span class="ot">&lt;-</span> <span class="st">&quot;F. fusca&quot;</span></span>
+<span id="cb139-7"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb139-7" tabindex="-1"></a>colonies <span class="ot">&lt;-</span> <span class="fu">intersect</span>(test_data_sang<span class="sc">$</span>colony, test_data_fusca<span class="sc">$</span>colony)</span>
+<span id="cb139-8"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb139-8" tabindex="-1"></a>test_df <span class="ot">&lt;-</span> <span class="fu">rbind</span>(test_data_fusca, test_data_sang)</span>
+<span id="cb139-9"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb139-9" tabindex="-1"></a>test_df <span class="ot">&lt;-</span> test_df[test_df<span class="sc">$</span>colony <span class="sc">%in%</span> colonies,]</span>
+<span id="cb139-10"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb139-10" tabindex="-1"></a>test_df <span class="ot">&lt;-</span> test_df[<span class="fu">order</span>(test_df<span class="sc">$</span>colony),]</span>
+<span id="cb139-11"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb139-11" tabindex="-1"></a>test_df<span class="sc">$</span>species <span class="ot">&lt;-</span> <span class="fu">factor</span>(test_df<span class="sc">$</span>species)</span>
+<span id="cb139-12"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb139-12" tabindex="-1"></a>test_stats <span class="ot">&lt;-</span> <span class="fu">wilcox_test</span>(test_df, fusca_prop<span class="sc">~</span>species, <span class="at">paired=</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb139-13"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb139-13" tabindex="-1"></a>  <span class="fu">add_significance</span>(<span class="st">&quot;p&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb139-14"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb139-14" tabindex="-1"></a>  <span class="fu">add_xy_position</span>(<span class="at">x=</span><span class="st">&quot;species&quot;</span>, <span class="at">dodge=</span><span class="fl">0.8</span>, <span class="at">fun=</span><span class="st">&quot;max&quot;</span>)</span>
+<span id="cb139-15"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb139-15" tabindex="-1"></a><span class="fu">ggboxplot</span>(test_df, <span class="at">x=</span><span class="st">&quot;species&quot;</span>, <span class="at">y=</span><span class="st">&quot;fusca_prop&quot;</span>)<span class="sc">+</span></span>
+<span id="cb139-16"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb139-16" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Proportion of CHCs characteristic of F. fusca&quot;</span>)<span class="sc">+</span></span>
+<span id="cb139-17"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb139-17" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult=</span><span class="fu">c</span>(<span class="fl">0.02</span>,<span class="fl">0.1</span>)))<span class="sc">+</span></span>
+<span id="cb139-18"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb139-18" tabindex="-1"></a>  <span class="fu">stat_pvalue_manual</span>(test_stats, <span class="at">label=</span><span class="st">&quot;p&quot;</span>, <span class="at">tip.length =</span> <span class="dv">0</span>, <span class="at">size=</span><span class="fl">3.5</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+</div>
+<div id="difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-mature-and-callow-f.-sanguinea" class="section level2 hasAnchor" number="5.5">
+<h2><span class="header-section-number">5.5</span> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between mature and callow <em>F. sanguinea</em><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-mature-and-callow-f.-sanguinea" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb140-1" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> <span class="fu">filter</span>(development_samples, species <span class="sc">==</span> <span class="st">&quot;F. sanguinea&quot;</span>)</span>
+<span id="cb140-2"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb140-2" tabindex="-1"></a>test_data<span class="sc">$</span>fusca_prop <span class="ot">&lt;-</span> <span class="fu">subsample_proportion</span>(peaks_fusca, test_data<span class="sc">$</span>chromatogram_ID)</span>
+<span id="cb140-3"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb140-3" tabindex="-1"></a>test_data_mature <span class="ot">&lt;-</span> <span class="fu">filter</span>(test_data, callow <span class="sc">==</span>  <span class="dv">0</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb140-4"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb140-4" tabindex="-1"></a>  <span class="fu">colony_weighted_mean</span>(<span class="at">var =</span> <span class="st">&quot;fusca_prop&quot;</span>)</span>
+<span id="cb140-5"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb140-5" tabindex="-1"></a>test_data_mature<span class="sc">$</span>callow <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb140-6"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb140-6" tabindex="-1"></a>test_data_callow <span class="ot">&lt;-</span> <span class="fu">filter</span>(test_data,callow <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> <span class="fu">colony_weighted_mean</span>(<span class="at">var =</span> <span class="st">&quot;fusca_prop&quot;</span>)</span>
+<span id="cb140-7"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb140-7" tabindex="-1"></a>test_data_callow<span class="sc">$</span>callow <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb140-8"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb140-8" tabindex="-1"></a>colonies <span class="ot">&lt;-</span> <span class="fu">intersect</span>(test_data_mature<span class="sc">$</span>colony, test_data_callow<span class="sc">$</span>colony)</span>
+<span id="cb140-9"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb140-9" tabindex="-1"></a>test_df <span class="ot">&lt;-</span> <span class="fu">rbind</span>(test_data_mature, test_data_callow)</span>
+<span id="cb140-10"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb140-10" tabindex="-1"></a>test_df <span class="ot">&lt;-</span> test_df[test_df<span class="sc">$</span>colony <span class="sc">%in%</span> colonies,]</span>
+<span id="cb140-11"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb140-11" tabindex="-1"></a>test_df <span class="ot">&lt;-</span> test_df[<span class="fu">order</span>(test_df<span class="sc">$</span>colony),]</span>
+<span id="cb140-12"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb140-12" tabindex="-1"></a>test_df<span class="sc">$</span>callow <span class="ot">&lt;-</span> <span class="fu">factor</span>(test_df<span class="sc">$</span>callow)</span>
+<span id="cb140-13"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb140-13" tabindex="-1"></a>test_stats <span class="ot">&lt;-</span> <span class="fu">wilcox_test</span>(test_df, fusca_prop<span class="sc">~</span>callow, <span class="at">paired=</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb140-14"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb140-14" tabindex="-1"></a>  <span class="fu">add_significance</span>(<span class="st">&quot;p&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb140-15"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb140-15" tabindex="-1"></a>  <span class="fu">add_xy_position</span>(<span class="at">x=</span><span class="st">&quot;callow&quot;</span>, <span class="at">dodge=</span><span class="fl">0.8</span>, <span class="at">fun=</span><span class="st">&quot;max&quot;</span>)</span>
+<span id="cb140-16"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb140-16" tabindex="-1"></a><span class="fu">ggboxplot</span>(test_df, <span class="at">x=</span><span class="st">&quot;callow&quot;</span>, <span class="at">y=</span><span class="st">&quot;fusca_prop&quot;</span>)<span class="sc">+</span></span>
+<span id="cb140-17"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb140-17" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Proportion of CHCs characteristic of F. fusca in mature and callow F. sanguinea&quot;</span>)<span class="sc">+</span></span>
+<span id="cb140-18"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb140-18" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult=</span><span class="fu">c</span>(<span class="fl">0.02</span>,<span class="fl">0.1</span>)))<span class="sc">+</span></span>
+<span id="cb140-19"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb140-19" tabindex="-1"></a>  <span class="fu">stat_pvalue_manual</span>(test_stats, <span class="at">label=</span><span class="st">&quot;p&quot;</span>, <span class="at">tip.length =</span> <span class="dv">0</span>, <span class="at">size=</span><span class="fl">3.5</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+</div>
+<div id="difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-callow-f.-sanguinea-and-f.-fusca" class="section level2 hasAnchor" number="5.6">
+<h2><span class="header-section-number">5.6</span> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between callow <em>F. sanguinea</em> and <em>F. fusca</em><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-callow-f.-sanguinea-and-f.-fusca" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb141-1" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> <span class="fu">filter</span>(development_samples)</span>
+<span id="cb141-2"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb141-2" tabindex="-1"></a>test_data<span class="sc">$</span>fusca_prop <span class="ot">&lt;-</span> <span class="fu">subsample_proportion</span>(peaks_fusca, test_data<span class="sc">$</span>chromatogram_ID)</span>
+<span id="cb141-3"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb141-3" tabindex="-1"></a>test_data_sang <span class="ot">&lt;-</span> <span class="fu">filter</span>(test_data, callow <span class="sc">==</span>  <span class="dv">1</span>, species <span class="sc">==</span><span class="st">&quot;F. sanguinea&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb141-4"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb141-4" tabindex="-1"></a>  <span class="fu">colony_weighted_mean</span>(<span class="at">var =</span> <span class="st">&quot;fusca_prop&quot;</span>)</span>
+<span id="cb141-5"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb141-5" tabindex="-1"></a>test_data_sang<span class="sc">$</span>species <span class="ot">&lt;-</span> <span class="st">&quot;F. sanguinea&quot;</span></span>
+<span id="cb141-6"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb141-6" tabindex="-1"></a>test_data_fusca <span class="ot">&lt;-</span> <span class="fu">filter</span>(test_data,species <span class="sc">==</span> <span class="st">&quot;F. fusca&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">colony_weighted_mean</span>(<span class="at">var =</span> <span class="st">&quot;fusca_prop&quot;</span>)</span>
+<span id="cb141-7"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb141-7" tabindex="-1"></a>test_data_fusca<span class="sc">$</span>species <span class="ot">&lt;-</span> <span class="st">&quot;F. fusca&quot;</span></span>
+<span id="cb141-8"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb141-8" tabindex="-1"></a>colonies <span class="ot">&lt;-</span> <span class="fu">intersect</span>(test_data_fusca<span class="sc">$</span>colony, test_data_sang<span class="sc">$</span>colony)</span>
+<span id="cb141-9"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb141-9" tabindex="-1"></a>test_df <span class="ot">&lt;-</span> <span class="fu">rbind</span>(test_data_sang, test_data_fusca)</span>
+<span id="cb141-10"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb141-10" tabindex="-1"></a>test_df <span class="ot">&lt;-</span> test_df[test_df<span class="sc">$</span>colony <span class="sc">%in%</span> colonies,]</span>
+<span id="cb141-11"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb141-11" tabindex="-1"></a>test_df <span class="ot">&lt;-</span> test_df[<span class="fu">order</span>(test_df<span class="sc">$</span>colony),]</span>
+<span id="cb141-12"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb141-12" tabindex="-1"></a>test_df<span class="sc">$</span>species <span class="ot">&lt;-</span> <span class="fu">factor</span>(test_df<span class="sc">$</span>species)</span>
+<span id="cb141-13"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb141-13" tabindex="-1"></a>test_stats <span class="ot">&lt;-</span> <span class="fu">wilcox_test</span>(test_df, fusca_prop<span class="sc">~</span>species, <span class="at">paired=</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb141-14"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb141-14" tabindex="-1"></a>  <span class="fu">add_significance</span>(<span class="st">&quot;p&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb141-15"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb141-15" tabindex="-1"></a>  <span class="fu">add_xy_position</span>(<span class="at">x=</span><span class="st">&quot;species&quot;</span>, <span class="at">dodge=</span><span class="fl">0.8</span>, <span class="at">fun=</span><span class="st">&quot;max&quot;</span>)</span>
+<span id="cb141-16"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb141-16" tabindex="-1"></a><span class="fu">ggboxplot</span>(test_df, <span class="at">x=</span><span class="st">&quot;species&quot;</span>, <span class="at">y=</span><span class="st">&quot;fusca_prop&quot;</span>)<span class="sc">+</span></span>
+<span id="cb141-17"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb141-17" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Proportion of CHCs characteristic of F. fusca in F. fusca callow F. sanguinea&quot;</span>)<span class="sc">+</span></span>
+<span id="cb141-18"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb141-18" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult=</span><span class="fu">c</span>(<span class="fl">0.02</span>,<span class="fl">0.1</span>)))<span class="sc">+</span></span>
+<span id="cb141-19"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb141-19" tabindex="-1"></a>  <span class="fu">stat_pvalue_manual</span>(test_stats, <span class="at">label=</span><span class="st">&quot;p&quot;</span>, <span class="at">tip.length =</span> <span class="dv">0</span>, <span class="at">size=</span><span class="fl">3.5</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+</div>
+<div id="difference-in-the-mass-of-n-alkanes-between-callow-and-mature-f.-sanguinea" class="section level2 hasAnchor" number="5.7">
+<h2><span class="header-section-number">5.7</span> Difference in the mass of n-alkanes between callow and mature <em>F. sanguinea</em><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-mass-of-n-alkanes-between-callow-and-mature-f.-sanguinea" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb142-1" tabindex="-1"></a>n_alkanes_ID <span class="ot">&lt;-</span> <span class="fu">unique</span>(mass_spectra_data<span class="sc">$</span>peak_ID[<span class="fu">grep</span>(<span class="st">&quot;^C[0-9]{2}$&quot;</span>,mass_spectra_data<span class="sc">$</span>identification)])</span>
+<span id="cb142-2"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb142-2" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> <span class="fu">filter</span>(development_samples, species <span class="sc">==</span> <span class="st">&quot;F. sanguinea&quot;</span>)</span>
+<span id="cb142-3"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb142-3" tabindex="-1"></a>test_data<span class="sc">$</span>n_alkanes_prop <span class="ot">&lt;-</span> <span class="fu">subsample_proportion</span>(n_alkanes_ID, test_data<span class="sc">$</span>chromatogram_ID)</span>
+<span id="cb142-4"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb142-4" tabindex="-1"></a>test_data<span class="sc">$</span>n_alkanes_mass <span class="ot">&lt;-</span> test_data<span class="sc">$</span>n_alkanes_prop <span class="sc">*</span> test_data<span class="sc">$</span>corrected_mass</span>
+<span id="cb142-5"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb142-5" tabindex="-1"></a>test_data_mature <span class="ot">&lt;-</span> <span class="fu">filter</span>(test_data, callow <span class="sc">==</span>  <span class="dv">0</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb142-6"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb142-6" tabindex="-1"></a>  <span class="fu">colony_weighted_mean</span>(<span class="at">var =</span> <span class="st">&quot;n_alkanes_mass&quot;</span>)</span>
+<span id="cb142-7"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb142-7" tabindex="-1"></a>test_data_mature<span class="sc">$</span>callow <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb142-8"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb142-8" tabindex="-1"></a>test_data_callow<span class="ot">&lt;-</span> <span class="fu">filter</span>(test_data, callow <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> <span class="fu">colony_weighted_mean</span>(<span class="at">var =</span> <span class="st">&quot;n_alkanes_mass&quot;</span>)</span>
+<span id="cb142-9"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb142-9" tabindex="-1"></a>test_data_callow<span class="sc">$</span>callow <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb142-10"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb142-10" tabindex="-1"></a>colonies <span class="ot">&lt;-</span> <span class="fu">intersect</span>(test_data_mature<span class="sc">$</span>colony, test_data_callow<span class="sc">$</span>colony)</span>
+<span id="cb142-11"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb142-11" tabindex="-1"></a>test_df <span class="ot">&lt;-</span> <span class="fu">rbind</span>(test_data_mature, test_data_callow)</span>
+<span id="cb142-12"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb142-12" tabindex="-1"></a>test_df <span class="ot">&lt;-</span> test_df[test_df<span class="sc">$</span>colony <span class="sc">%in%</span> colonies,]</span>
+<span id="cb142-13"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb142-13" tabindex="-1"></a>test_df <span class="ot">&lt;-</span> test_df[<span class="fu">order</span>(test_df<span class="sc">$</span>colony),]</span>
+<span id="cb142-14"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb142-14" tabindex="-1"></a>test_df<span class="sc">$</span>callow <span class="ot">&lt;-</span> <span class="fu">factor</span>(test_df<span class="sc">$</span>callow)</span>
+<span id="cb142-15"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb142-15" tabindex="-1"></a>test_stats <span class="ot">&lt;-</span> <span class="fu">wilcox_test</span>(test_df, n_alkanes_mass<span class="sc">~</span>callow, <span class="at">paired=</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb142-16"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb142-16" tabindex="-1"></a>  <span class="fu">add_significance</span>(<span class="st">&quot;p&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb142-17"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb142-17" tabindex="-1"></a>  <span class="fu">add_xy_position</span>(<span class="at">x=</span><span class="st">&quot;callow&quot;</span>, <span class="at">dodge=</span><span class="fl">0.8</span>, <span class="at">fun=</span><span class="st">&quot;max&quot;</span>)</span>
+<span id="cb142-18"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb142-18" tabindex="-1"></a><span class="fu">ggboxplot</span>(test_df, <span class="at">x=</span><span class="st">&quot;callow&quot;</span>, <span class="at">y=</span><span class="st">&quot;n_alkanes_mass&quot;</span>)<span class="sc">+</span></span>
+<span id="cb142-19"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb142-19" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot; Difference in the mass of n-alkanes between callow and mature F. sanguinea&quot;</span>)<span class="sc">+</span></span>
+<span id="cb142-20"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb142-20" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult=</span><span class="fu">c</span>(<span class="fl">0.02</span>,<span class="fl">0.1</span>)))<span class="sc">+</span></span>
+<span id="cb142-21"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb142-21" tabindex="-1"></a>  <span class="fu">stat_pvalue_manual</span>(test_stats, <span class="at">label=</span><span class="st">&quot;p&quot;</span>, <span class="at">tip.length =</span> <span class="dv">0</span>, <span class="at">size=</span><span class="fl">3.5</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+</div>
+<div id="difference-in-the-proprtion-of-n-alkanes-between-callow-and-mature-f.-sanguinea" class="section level2 hasAnchor" number="5.8">
+<h2><span class="header-section-number">5.8</span> Difference in the proprtion of n-alkanes between callow and mature <em>F. sanguinea</em><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proprtion-of-n-alkanes-between-callow-and-mature-f.-sanguinea" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb143-1" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> <span class="fu">filter</span>(development_samples, species <span class="sc">==</span> <span class="st">&quot;F. sanguinea&quot;</span>)</span>
+<span id="cb143-2"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb143-2" tabindex="-1"></a>test_data<span class="sc">$</span>n_alkanes_prop <span class="ot">&lt;-</span> <span class="fu">subsample_proportion</span>(n_alkanes_ID, test_data<span class="sc">$</span>chromatogram_ID)</span>
+<span id="cb143-3"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb143-3" tabindex="-1"></a>test_data_mature <span class="ot">&lt;-</span> <span class="fu">filter</span>(test_data, callow <span class="sc">==</span>  <span class="dv">0</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb143-4"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb143-4" tabindex="-1"></a>  <span class="fu">colony_weighted_mean</span>(<span class="at">var =</span> <span class="st">&quot;n_alkanes_prop&quot;</span>)</span>
+<span id="cb143-5"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb143-5" tabindex="-1"></a>test_data_mature<span class="sc">$</span>callow <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb143-6"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb143-6" tabindex="-1"></a>test_data_callow<span class="ot">&lt;-</span> <span class="fu">filter</span>(test_data, callow <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> <span class="fu">colony_weighted_mean</span>(<span class="at">var =</span> <span class="st">&quot;n_alkanes_prop&quot;</span>)</span>
+<span id="cb143-7"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb143-7" tabindex="-1"></a>test_data_callow<span class="sc">$</span>callow <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb143-8"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb143-8" tabindex="-1"></a>colonies <span class="ot">&lt;-</span> <span class="fu">intersect</span>(test_data_mature<span class="sc">$</span>colony, test_data_callow<span class="sc">$</span>colony)</span>
+<span id="cb143-9"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb143-9" tabindex="-1"></a>test_df <span class="ot">&lt;-</span> <span class="fu">rbind</span>(test_data_mature, test_data_callow)</span>
+<span id="cb143-10"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb143-10" tabindex="-1"></a>test_df <span class="ot">&lt;-</span> test_df[test_df<span class="sc">$</span>colony <span class="sc">%in%</span> colonies,]</span>
+<span id="cb143-11"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb143-11" tabindex="-1"></a>test_df <span class="ot">&lt;-</span> test_df[<span class="fu">order</span>(test_df<span class="sc">$</span>colony),]</span>
+<span id="cb143-12"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb143-12" tabindex="-1"></a>test_df<span class="sc">$</span>callow <span class="ot">&lt;-</span> <span class="fu">factor</span>(test_df<span class="sc">$</span>callow)</span>
+<span id="cb143-13"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb143-13" tabindex="-1"></a>test_stats <span class="ot">&lt;-</span> <span class="fu">wilcox_test</span>(test_df, n_alkanes_prop<span class="sc">~</span>callow, <span class="at">paired=</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb143-14"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb143-14" tabindex="-1"></a>  <span class="fu">add_significance</span>(<span class="st">&quot;p&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb143-15"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb143-15" tabindex="-1"></a>  <span class="fu">add_xy_position</span>(<span class="at">x=</span><span class="st">&quot;callow&quot;</span>, <span class="at">dodge=</span><span class="fl">0.8</span>, <span class="at">fun=</span><span class="st">&quot;max&quot;</span>)</span>
+<span id="cb143-16"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb143-16" tabindex="-1"></a><span class="fu">ggboxplot</span>(test_df, <span class="at">x=</span><span class="st">&quot;callow&quot;</span>, <span class="at">y=</span><span class="st">&quot;n_alkanes_prop&quot;</span>)<span class="sc">+</span></span>
+<span id="cb143-17"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb143-17" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot; Difference in the proportion of n-alkanes between callow and mature F. sanguinea&quot;</span>)<span class="sc">+</span></span>
+<span id="cb143-18"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb143-18" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult=</span><span class="fu">c</span>(<span class="fl">0.02</span>,<span class="fl">0.1</span>)))<span class="sc">+</span></span>
+<span id="cb143-19"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb143-19" tabindex="-1"></a>  <span class="fu">stat_pvalue_manual</span>(test_stats, <span class="at">label=</span><span class="st">&quot;p&quot;</span>, <span class="at">tip.length =</span> <span class="dv">0</span>, <span class="at">size=</span><span class="fl">3.5</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+</div>
+<div id="session-info-3" class="section level2 hasAnchor" number="5.9">
+<h2><span class="header-section-number">5.9</span> Session info<a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#session-info-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#cb144-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">sessionInfo</span>())</span></code></pre></div>
+<pre><code>## R version 4.1.3 (2022-03-10)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 22621)
+## 
+## Matrix products: default
+## 
+## locale:
+## [1] LC_COLLATE=English_Bahamas.1252  LC_CTYPE=English_Bahamas.1252    LC_MONETARY=English_Bahamas.1252
+## [4] LC_NUMERIC=C                     LC_TIME=English_Bahamas.1252    
+## system code page: 1250
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] sangchem_0.0.9000 rstatix_0.7.2     ggpubr_0.6.0      Hmisc_4.7-1       Formula_1.2-4    
+##  [6] survival_3.2-13   mixOmics_6.18.1   ggplot2_3.4.4     lattice_0.20-45   MASS_7.3-55      
+## [11] stringi_1.7.6     DHARMa_0.4.6      dplyr_1.1.4       lmerTest_3.1-3    lme4_1.1-29      
+## [16] Matrix_1.5-1     
+## 
+## loaded via a namespace (and not attached):
+##   [1] backports_1.4.1     plyr_1.8.7          igraph_1.3.5        splines_4.1.3      
+##   [5] BiocParallel_1.28.3 usethis_2.1.6       gap.datasets_0.0.5  digest_0.6.29      
+##   [9] foreach_1.5.2       htmltools_0.5.2     rsconnect_0.8.28    fansi_1.0.3        
+##  [13] magrittr_2.0.2      checkmate_2.1.0     memoise_2.0.1       cluster_2.1.2      
+##  [17] doParallel_1.0.17   remotes_2.4.2       matrixStats_0.62.0  rARPACK_0.11-0     
+##  [21] prettyunits_1.1.1   jpeg_0.1-9          colorspace_2.0-3    ggrepel_0.9.4      
+##  [25] xfun_0.41           callr_3.7.3         crayon_1.5.2        jsonlite_1.8.3     
+##  [29] iterators_1.0.14    glue_1.6.2          gtable_0.3.1        car_3.1-2          
+##  [33] pkgbuild_1.3.1      abind_1.4-5         scales_1.2.1        Rcpp_1.0.8.3       
+##  [37] xtable_1.8-4        htmlTable_2.4.1     foreign_0.8-82      htmlwidgets_1.5.4  
+##  [41] RColorBrewer_1.1-3  ellipsis_0.3.2      pkgconfig_2.0.3     farver_2.1.1       
+##  [45] nnet_7.3-17         qgam_1.3.4          sass_0.4.2          deldir_1.0-6       
+##  [49] utf8_1.2.2          tidyselect_1.2.0    labeling_0.4.2      rlang_1.1.2        
+##  [53] reshape2_1.4.4      later_1.3.0         munsell_0.5.0       tools_4.1.3        
+##  [57] cachem_1.0.6        cli_3.6.2           generics_0.1.3      devtools_2.4.3     
+##  [61] broom_1.0.1         evaluate_0.17       stringr_1.5.1       fastmap_1.1.0      
+##  [65] yaml_2.3.5          processx_3.8.0      knitr_1.40          fs_1.5.2           
+##  [69] purrr_1.0.2         nlme_3.1-155        mime_0.12           brio_1.1.3         
+##  [73] gap_1.3-1           compiler_4.1.3      rstudioapi_0.14     png_0.1-7          
+##  [77] testthat_3.1.5      ggsignif_0.6.4      tibble_3.2.1        bslib_0.4.1        
+##  [81] highr_0.9           ps_1.7.2            desc_1.4.2          RSpectra_0.16-1    
+##  [85] nloptr_2.0.2        vegan_2.6-4         permute_0.9-7       vctrs_0.6.5        
+##  [89] pillar_1.9.0        lifecycle_1.0.3     jquerylib_0.1.4     data.table_1.14.4  
+##  [93] corpcor_1.6.10      httpuv_1.6.6        R6_2.5.1            latticeExtra_0.6-30
+##  [97] bookdown_0.37       promises_1.2.0.1    gridExtra_2.3       sessioninfo_1.2.2  
+## [101] codetools_0.2-18    boot_1.3-28         pkgload_1.2.4       rprojroot_2.0.3    
+## [105] withr_2.5.0         mgcv_1.8-39         parallel_4.1.3      grid_4.1.3         
+## [109] rpart_4.1.16        tidyr_1.3.0         minqa_1.2.4         rmarkdown_2.17     
+## [113] carData_3.0-5       numDeriv_2016.8-1.1 shiny_1.7.3         base64enc_0.1-3    
+## [117] ellipse_0.4.3       interp_1.1-3</code></pre>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/Non-parametric_tests.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
