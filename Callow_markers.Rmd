@@ -1,6 +1,7 @@
 # Finding peaks discriminating callow and mature *F. sanguinea* workers
 
 ```{r warning=FALSE}
+# devtools::install_github("mixOmicsTeam/mixOmics", ref = "143d31f9629bc83f1f27272ba6b7a2aaef0ee0e8")
 suppressMessages({
   library(sangchem)
   library(dplyr)
@@ -31,7 +32,7 @@ PCA_callow_discr <- prcomp(peak_transformed, scale. = TRUE)
 ```
 ```{r}
 discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,multilevel=DA_data$group, 
-                                keepX=seq(1:60), ncomp=7, scale = FALSE)
+                                ncomp=7, scale = FALSE)
 plotIndiv(discr_analysis_callow, legend=TRUE,ellipse=TRUE,comp=1:2)
 
 perf.discr_analysis_callow <- perf(discr_analysis_callow, 
