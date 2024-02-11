@@ -1,7 +1,7 @@
 # Species discrimination and prediction
 
 ## Species markers
-This  report shows how the peaks discriminative for *F. sanguinea* and *F. fusca* were determined. We will use the chemical data collected from the filed colonies in the earlier study[@WLODARCZYK201798]. In this way our method of marker selection is blind to the dataset to which  markers will be applied avoiding potential source of the bias in the analysis results.
+This  report shows how the peaks discriminative for *F. sanguinea* and *F. fusca* were determined. We will use the chemical data collected from the filed colonies in the earlier study [@WLODARCZYK201798]. In this way our method of marker selection is blind to the dataset to which  markers will be applied avoiding potential source of the bias in the analysis results.
 ```{r warning=FALSE}
 suppressMessages({
   library(sangchem)
@@ -36,7 +36,7 @@ peak_transformed <- t(apply(peak_prop, 1, clr_transformation))
 PCA_species_discr <- prcomp(peak_transformed, scale. = TRUE)
 ```
 
-We also need to deifne our reponse variable to be explained by discrimination model.
+We also need to define a reponse variable to be explained by discrimination model.
 ```{r}
 #define groups to be compared
 Y <- rownames(PCA_species_discr$x) %in% sanguinea_samples
@@ -93,7 +93,7 @@ print(peaks_sang)
 print(peaks_fusca)
 ```
 
-The objects `peaks_sang`, `peaks_fusca`, `species_prediction_model` and `PCA_species_discr` are stored in the package and can be collectively loaded into the global environment along with the other objects by running `load_globals()`.
+The objects `peaks_sang`, `peaks_fusca`, `species_prediction_model` and `PCA_species_discr` are stored in the package and can be collectively loaded into the global environment along with some other objects by calling `load_globals()`.
 ```{r eval=FALSE}
 globals <- readRDS(system.file("globals.rds", package="sangchem"))
 globals[["species_prediction_model"]] <- species_prediction_model
@@ -105,7 +105,7 @@ saveRDS(globals, system.file("globals.rds", package="sangchem"))
 
 ### Peak position on the species discriminant axis
 
-We might ask how a given peak compares to other in term of being characteristic more of one or the other species. Correspondingly we will generate the artificial profiles which are composed of only one peak to see how each peak contributes to the species prediction.
+We might ask how a given peak compares to other peaks in terms of being characteristic more of one or the other species. Correspondingly, we will generate artificial profiles which are composed of only one peak to see how each peak contributes to the species prediction.
 
 ```{r}
 unit_input <- diag(rep(1, ncol(peak_prop)))
@@ -119,8 +119,8 @@ print(res[order(res$predicted_species),])
 ```
 
 ## Species identity score
-Ants in mixed colonies mixed CHCs to produce hybrid chemical identity. Here we develop the method to assign each sample a number indicating how much it is characteristic of one or the other species.
-The main idea is to fit a sPLS_DA model to the training set (sampled from field colonies) and use it predict the explanatory variable (species) in the test data (samples from experimental colonies). However the sPLS_DA model run on the raw data will yield the classificator which used only few variables (peaks) due to the well separation of samples of both species. The unused variables might also be informative in the species discrimination task. We want to use as much data as it is possible to make robust predictions and thus we will use principal component analysis output. Thus, the rotation matrix from the principal component analysis will be used to transform input data to the discrimination model. The correspondig code in encapsulated in the `claculate_SII` function.
+Ants in mixed colonies exchange their CHCs to produce a hybrid chemical identity. Here we develop the method to assign each sample a number indicating how much it is characteristic of one or the other species.
+The main idea is to fit a sPLS_DA model to the training set (sampled from field colonies) and use it to predict the explanatory variable (species) in the test data (samples from experimental colonies). However, the sPLS_DA model run on the raw data will yield the classificator which used only few variables (peaks) while unused variables can also be informative in the species discrimination task. We want to use as much data as it is possible to make robust predictions, Therefore we will transform input data with principal component analysis. The correspondig code in encapsulated in the `claculate_SII` function.
 
 ### Data preparation
 ```{r}
