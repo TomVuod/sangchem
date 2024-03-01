@@ -1,0 +1,55 @@
+# Data exploration
+
+Thi chapter presents general overview of the data with the calculations whose results are presented in the manuscript as summary statistics.
+
+## Proportion of the marker CHCs in the total CHC signal
+
+```{r}
+suppressMessages({
+  library(sangchem)
+  library(stringi)
+})
+
+# load data from the the earlier study
+data("field_colonies")
+
+# load marker peak IDs
+load_globals()
+
+# select samples from F. sanguinea ants and free-living F. fusca ants encoded in chromatogram_ID
+fusca_samples <- as.character(unique(field_colonies$chromatogram_ID)[stri_detect_regex(unique(field_colonies$chromatogram_ID), "fus[0-9].?-[0-9]\\([1-2]\\)")])
+sanguinea_samples<-as.character(unique(field_colonies$chromatogram_ID)[stri_detect_regex(unique(field_colonies$chromatogram_ID),"sangFs[0-9].?\\([0-9]\\)")])
+
+# remove outliers
+sanguinea_samples <- setdiff(sanguinea_samples,c("sangFs2(1)","sangFs5(2)","sangFs26(1)","sangFs26(2)"))
+fusca_samples <- setdiff(fusca_samples,c("fus9-2(1)", "fus26-3(2)"))
+
+sang_markers_in_fusca <- c()
+fus_markers_in_fusca <- c()
+for(fus_sample in fusca_samples){
+  sample_data <- field_colonies[field_colonies$chromatogram_ID==fus_sample,]
+  total_signal <- sum(sample_data[sample_data$peak_ID > 1, "abundance"])
+  sang_markers_in_fusca <- c(sang_markers_in_fusca, sum(sample_data[sample_data$peak_ID %in% peaks_sang, "abundance"])/total_signal)
+  fus_markers_in_fusca <- c(fus_markers_in_fusca, sum(sample_data[sample_data$peak_ID %in% peaks_fusca, "abundance"])/total_signal)
+}
+cat(sprintf("Mean proportion of fusca markers in fusca workers: %.3f", round(mean(fus_markers_in_fusca), digits = 3)))
+cat(sprintf("Mean proportion of sanguinea markers in fusca workers: %.3f", round(mean(sang_markers_in_fusca), digits = 3)))
+
+sang_markers_in_sanguinea <- c()
+fus_markers_in_sanguinea <- c()
+for(sang_sample in sanguinea_samples){
+  sample_data <- field_colonies[field_colonies$chromatogram_ID==sang_sample,]
+  total_signal <- sum(sample_data[sample_data$peak_ID > 1, "abundance"])
+  sang_markers_in_sanguinea <- c(sang_markers_in_sanguinea, sum(sample_data[sample_data$peak_ID %in% peaks_sang, "abundance"])/total_signal)
+  fus_markers_in_sanguinea <- c(fus_markers_in_sanguinea, sum(sample_data[sample_data$peak_ID %in% peaks_fusca, "abundance"])/total_signal)
+}
+cat(sprintf("Mean proportion of fusca markers in sanguinea workers: %.3f", round(mean(fus_markers_in_sanguinea), digits = 3)))
+cat(sprintf("Mean proportion of sanguinea markers in sanguinea workers: %.3f", round(mean(sang_markers_in_sanguinea), digits = 3)))
+
+```
+
+
+## Session info
+```{r}
+print(sessionInfo())
+```
