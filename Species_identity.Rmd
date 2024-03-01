@@ -90,7 +90,9 @@ peaks_sang <- names(significant_correlations)[significant_correlations>0]
 peaks_sang <- as.numeric((setdiff(peaks_sang,"predicted_species")))
 peaks_fusca <- as.numeric(names(significant_correlations)[significant_correlations<0])
 print(peaks_sang)
+cat(sprintf("Number of sanguinea markers: %d", length(peaks_sang)))
 print(peaks_fusca)
+cat(sprintf("Number of fusca markers: %d", length(peaks_fusca)))
 ```
 
 The objects `peaks_sang`, `peaks_fusca`, `species_prediction_model` and `PCA_species_discr` are stored in the package and can be collectively loaded into the global environment along with some other objects by calling `load_globals()`.
