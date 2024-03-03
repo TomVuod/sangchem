@@ -80,6 +80,54 @@ ggboxplot(test_df, x="callow", y="sang_prop")+
   stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)
 ```
 
+## Difference in the proportion of CHCs characteristic of callow *F. sanguinea* between mature and callow *F. sanguinea* 
+```{r}
+test_data <- filter(development_samples, species == "F. sanguinea")
+test_data$sang_prop <- subsample_proportion(peaks_callow, test_data$chromatogram_ID)
+test_data_mature <- filter(test_data, callow ==  0) %>% 
+  colony_weighted_mean(var = "sang_prop")
+test_data_mature$callow <- 0
+test_data_callow <- filter(test_data,callow == 1) %>% colony_weighted_mean(var = "sang_prop")
+test_data_callow$callow <- 1
+colonies <- intersect(test_data_mature$colony, test_data_callow$colony)
+test_df <- rbind(test_data_mature, test_data_callow)
+test_df <- test_df[test_df$colony %in% colonies,]
+test_df <- test_df[order(test_df$colony),]
+test_df$callow <- factor(test_df$callow)
+test_stats <- wilcox_test(test_df, sang_prop~callow, paired=TRUE) %>%
+  add_significance("p") %>%
+  add_xy_position(x="callow", dodge=0.8, fun="max")
+ggboxplot(test_df, x="callow", y="sang_prop")+
+  ylab("Proportion of CHCs characteristic of callow F. sanguinea\nbetween mature and callow F. sanguinea")+
+  scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
+  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)
+```
+
+
+## Difference in the amount of CHCs characteristic of callow *F. sanguinea* between mature and callow *F. sanguinea* 
+```{r}
+test_data <- filter(development_samples, species == "F. sanguinea")
+test_data$marker_prop <- subsample_proportion(peaks_callow, test_data$chromatogram_ID)
+test_data$marker_mass <- test_data$marker_prop * test_data$corrected_mass
+test_data_mature <- filter(test_data, callow ==  0) %>% 
+  colony_weighted_mean(var = "marker_mass")
+test_data_mature$callow <- 0
+test_data_callow<- filter(test_data, callow == 1) %>% colony_weighted_mean(var = "marker_mass")
+test_data_callow$callow <- 1
+colonies <- intersect(test_data_mature$colony, test_data_callow$colony)
+test_df <- rbind(test_data_mature, test_data_callow)
+test_df <- test_df[test_df$colony %in% colonies,]
+test_df <- test_df[order(test_df$colony),]
+test_df$callow <- factor(test_df$callow)
+test_stats <- wilcox_test(test_df, marker_mass~callow, paired=TRUE) %>%
+  add_significance("p") %>%
+  add_xy_position(x="callow", dodge=0.8, fun="max")
+ggboxplot(test_df, x="callow", y="marker_mass")+
+  ylab(" Difference in the mass of callow markers between callow and mature F. sanguinea")+
+  scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
+  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)
+```
+
 ## Difference in the proportion of CHCs characteristic of *F. fusca* between mature *F. sanguinea* and *F. fusca*
 ```{r}
 test_data <- development_samples
