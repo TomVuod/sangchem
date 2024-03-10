@@ -4,6 +4,8 @@ Now we are going to analyze the impact of *F. fusca* slaves on the CHC profile o
 
 ## Analysis based on all samples
 ```{r message=FALSE,}
+# Load package
+library(sangchem)
 # Load data
 data("separation_experiment_data")
 data("slave_source_colony")
