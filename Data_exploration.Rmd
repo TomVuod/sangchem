@@ -1,0 +1,83 @@
+# Data exploration
+
+Thi chapter presents general overview of the data with the calculations whose results are presented in the manuscript as summary statistics.
+
+## Proportion of the marker CHCs in the total CHC signal
+
+```{r}
+suppressMessages({
+  library(sangchem)
+  library(dplyr)
+  library(stringi)
+})
+
+# load data from the the earlier study
+data("field_colonies")
+data("development_data")
+
+# load marker peak IDs
+load_globals()
+
+# select samples from F. sanguinea ants and free-living F. fusca ants encoded in chromatogram_ID
+fusca_samples <- as.character(unique(field_colonies$chromatogram_ID)[stri_detect_regex(unique(field_colonies$chromatogram_ID), "fus[0-9].?-[0-9]\\([1-2]\\)")])
+sanguinea_samples<-as.character(unique(field_colonies$chromatogram_ID)[stri_detect_regex(unique(field_colonies$chromatogram_ID),"sangFs[0-9].?\\([0-9]\\)")])
+
+# remove outliers
+sanguinea_samples <- setdiff(sanguinea_samples,c("sangFs2(1)","sangFs5(2)","sangFs26(1)","sangFs26(2)"))
+fusca_samples <- setdiff(fusca_samples,c("fus9-2(1)", "fus26-3(2)"))
+
+sang_markers_in_fusca <- c()
+fus_markers_in_fusca <- c()
+for(fus_sample in fusca_samples){
+  sample_data <- field_colonies[field_colonies$chromatogram_ID==fus_sample,]
+  total_signal <- sum(sample_data[sample_data$peak_ID > 1, "abundance"])
+  sang_markers_in_fusca <- c(sang_markers_in_fusca, sum(sample_data[sample_data$peak_ID %in% peaks_sang, "abundance"])/total_signal)
+  fus_markers_in_fusca <- c(fus_markers_in_fusca, sum(sample_data[sample_data$peak_ID %in% peaks_fusca, "abundance"])/total_signal)
+}
+cat(sprintf("Mean proportion of fusca markers in fusca workers: %.3f\n", round(mean(fus_markers_in_fusca), digits = 3)))
+cat(sprintf("Mean proportion of sanguinea markers in fusca workers: %.3f\n", round(mean(sang_markers_in_fusca), digits = 3)))
+
+sang_markers_in_sanguinea <- c()
+fus_markers_in_sanguinea <- c()
+for(sang_sample in sanguinea_samples){
+  sample_data <- field_colonies[field_colonies$chromatogram_ID==sang_sample,]
+  total_signal <- sum(sample_data[sample_data$peak_ID > 1, "abundance"])
+  sang_markers_in_sanguinea <- c(sang_markers_in_sanguinea, sum(sample_data[sample_data$peak_ID %in% peaks_sang, "abundance"])/total_signal)
+  fus_markers_in_sanguinea <- c(fus_markers_in_sanguinea, sum(sample_data[sample_data$peak_ID %in% peaks_fusca, "abundance"])/total_signal)
+}
+cat(sprintf("Mean proportion of fusca markers in sanguinea workers: %.3f\n", round(mean(fus_markers_in_sanguinea), digits = 3)))
+cat(sprintf("Mean proportion of sanguinea markers in sanguinea workers: %.3f\n", round(mean(sang_markers_in_sanguinea), digits = 3)))
+
+```
+
+## CHCs mean absolute amount
+
+The mass is standarized so that it is divided by square of the ratio between true head with and 1.3 mm.
+
+```{r}
+data("development_data")
+sang_samples <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), species=="F. sanguinea") %>%
+  dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date,callow) %>%
+  mutate(corrected_standarized_mass=mass/(head_width^2/(1300^2)))
+
+cat(sprintf("Mean CHC mass for callow workers: %f, standard deviation: %f\n", mean(filter(sang_samples, callow==1)$corrected_standarized_mass), sd(filter(sang_samples, callow==1)$corrected_standarized_mass)))
+cat(sprintf("Mean CHC mass for mature workers: %f, standard deviation: %f\n", mean(filter(sang_samples, callow==0)$corrected_standarized_mass), sd(filter(sang_samples, callow==0)$corrected_standarized_mass)))
+```
+
+
+## Numbers of samples
+```{r}
+dev_samples <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony")) %>%
+  dplyr::select(species, colony, census_date,callow, sang_prop) 
+cat(sprintf("The number of samples representing F. sanguinea mature ants: %d\n", nrow(filter(dev_samples, species == "F. sanguinea", callow == 0))))
+cat(sprintf("The number of samples representing F. sanguinea callow ants: %d\n", nrow(filter(dev_samples, species == "F. sanguinea", callow == 1))))
+cat(sprintf("The number of samples representing F. fusca ants: %d\n", nrow(filter(dev_samples, species == "F. fusca"))))
+cat(sprintf("The range of F. sanguinea proportions: %s\n", paste(as.character(range(dev_samples$sang_prop)), collapse = "-")))
+cat(sprintf("Number of samples from colonies with no slave-maker workers: %d\n", nrow(filter(dev_samples, sang_prop == 0))))
+cat(sprintf("Number of samples from colonies with no slaves: %d\n", nrow(filter(dev_samples, sang_prop == 1))))
+```
+
+## Session info
+```{r}
+print(sessionInfo())
+```

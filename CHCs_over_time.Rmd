@@ -63,7 +63,7 @@ plot(simulationOutput)
 ```
 
 ## Change of the CHCs associated with *F. sanguinea*
-### *F. sanguinea* ants
+### Mature *F. sanguinea* ants
 ```{r}
 model_input <- dev_samples[dev_samples$species=="F. sanguinea",]
 model_input$corrected_mass <- model_input$corrected_mass*subsample_proportion(peaks_sang, model_input$chromatogram_ID)
@@ -91,8 +91,23 @@ simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
 plot(simulationOutput)
 ```
 
+### Callow *F. sanguinea* ants
+```{r}
+model_input <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), callow==1) %>%
+  dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) %>%
+  mutate(corrected_mass=mass/head_width^2*10^6)
+# random term dropped because of the model singularity
+model_input$corrected_mass <- model_input$corrected_mass*subsample_proportion(peaks_sang, model_input$chromatogram_ID)
+lm_model <- lm(I(sqrt(corrected_mass)) ~ sang_prop, data=model_input)
+print(summary(lm_model))
+
+# model diagnostics
+hist(residuals(lm_model))
+print(shapiro.test(residuals(lm_model)))
+```
+
 ## Change of the CHCs associated with *F. fusca*
-### *F. sanguinea* ants
+### Mature *F. sanguinea* ants
 ```{r}
 model_input <- dev_samples[dev_samples$species=="F. sanguinea",]
 model_input$corrected_mass <- model_input$corrected_mass*subsample_proportion(peaks_fusca, model_input$chromatogram_ID)
@@ -119,6 +134,7 @@ print(shapiro.test(residuals(lm_model)))
 simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
 plot(simulationOutput)
 ```
+
 
 ## Session info
 ```{r}
