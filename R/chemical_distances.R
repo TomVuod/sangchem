@@ -19,6 +19,7 @@ global_distances_matrix <- function(){
 pair_distance <- function(chr_ID_1, chr_ID_2, MS_data, distances_registry=NULL,
                           ...){
   if (any(is.na(c(chr_ID_1, chr_ID_2)))) return(NA)
+  stopifnot((length(chr_ID_1)==1) & (length(chr_ID_2)==1))
   if (!is.null(distances_registry) && !is.na(distances_registry$get(chr_ID_1, chr_ID_2)))
     return(distances_registry$get(chr_ID_1, chr_ID_2))
   data_table <- full_join(relative_amounts(MS_data[MS_data$chromatogram_ID==chr_ID_1,]),
