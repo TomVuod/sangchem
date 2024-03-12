@@ -4,13 +4,18 @@
 \alias{test_dummy_ant_effect}
 \title{Dummny ant effect}
 \usage{
-test_dummy_ant_effect(treatment_id, sample_data)
+test_dummy_ant_effect(treatment_id, sample_data, MS_data, donor_mapping)
 }
 \arguments{
-\item{treatment_id}{a numeric indicating treatment ID to be tested on the effect of}
-
-\item{sample_data}{a data frame describing samples used in separation experiment; rerieved with `data("separation_experiment_data")`
+\item{treatment_id}{a numeric indicating treatment ID to be tested on the effect of
 dummy ant.}
+
+\item{sample_data}{a data frame describing samples used in separation experiment; retrieved with `data("separation_experiment_data")`}
+
+\item{MS_data}{a data frame with the results of the chromatogram peaks integration; ; retrieved with `data("mass_spectra_data")`}
+
+\item{donor_mapping}{a data frame providing sample ID mapping between control and treatment samples
+in the dummy ant experiment}
 }
 \description{
 Test of the effect of dummy ant on the CHC profile of separated workers
