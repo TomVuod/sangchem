@@ -55,6 +55,20 @@ calculate_distance_to_donor<-function(treatment_id, sample_data, MS_data, donor_
   sample_data %>% group_by(colony,year,group,treatment_id) %>% summarise(mean_dist=mean(distance))
 }
 
+peak_proportion <- function(peak_ID, chr_ID, MS_data){
+  chromatogram_data <- MS_data[MS_data$chromatogram_ID==chr_ID,]
+  if (!peak_ID %in% chromatogram_data$peak_ID) return(0)
+  chromatogram_data[chromatogram_data$peak_ID==peak_ID,"abundance"]/sum(chromatogram_data[chromatogram_data$peak_ID>0,"abundance"])
+}
+
+calculate_C22_fraction<-function(treatment_id, sample_data, MS_data){
+  sample_data<-recognize_groups(sample_data)
+  sample_data<-select_group_with_control(sample_data,treatment_id)
+  sample_data$C22_prop<-mapply(function(x, y, peak_areas) peak_proportion(y, x, peak_areas),
+                               sample_data$chromatogram_ID, MoreArgs = list(y=1, peak_areas=MS_data))
+  sample_data %>% group_by(colony,year,group,treatment_id) %>% summarise(C22_prop=mean(C22_prop))
+}
+
 #' Dummny ant effect
 #'
 #' Test of the effect of dummy ant on the CHC profile of separated workers
@@ -69,10 +83,18 @@ calculate_distance_to_donor<-function(treatment_id, sample_data, MS_data, donor_
 test_dummy_ant_effect <- function(treatment_id, sample_data, MS_data, donor_mapping){
   distances_to_donor<-calculate_distance_to_donor(treatment_id = treatment_id, sample_data = sample_data,
                                                   donor_mapping=donor_mapping, MS_data=MS_data)
-  splitted<-split(distances_to_donor, distances_to_donor$treatment_id)
-  to_test<-full_join(splitted[[1]], splitted[[2]], by=c("group","colony","year"))
+  split_by_treatment <- split(distances_to_donor, distances_to_donor$treatment_id)
+  to_test<-full_join(split_by_treatment[[1]], split_by_treatment[[2]], by=c("group","colony","year"))
   print(to_test)
   print(wilcox.test(to_test$mean_dist.x,to_test$mean_dist.y,paired = TRUE))
 }
 
 
+#' @export
+test_C22_proportion <- function(treatment_id, sample_data, MS_data){
+  prop_data <- calculate_C22_fraction(treatment_id, sample_data, MS_data)
+  split_by_treatment <- split(prop_data, prop_data$treatment_id)
+  to_test<-full_join(split_by_treatment[[1]], split_by_treatment[[2]], by=c("group","colony","year"))
+  print(to_test)
+  print(wilcox.test(to_test$C22_prop.x,to_test$C22_prop.y,paired = TRUE))
+}
