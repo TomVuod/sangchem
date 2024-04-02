@@ -5,7 +5,8 @@ rmd_files: ["index.Rmd",
     "Callow-mature_dissimilarity.Rmd",
     "Non-parametric_tests.Rmd",
     "Separation_experiment.Rmd",
-    "Slave_impact.Rmd"]
+    "Slave_impact.Rmd",
+    "Dummy_ants.Rmd"]
 output_dir: "docs"
 delete_merged_file: true
 language:
