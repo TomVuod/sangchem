@@ -11,7 +11,9 @@ suppressMessages({
 # load data
 data("development_data")
 data("mass_spectra_data")
-development_samples <- filter(development_data, caste=="worker", !remarks %in% c("aggression actor", "aggression target", "queenless colony")) %>% select(species, census_date, colony, corrected_mass,callow, chromatogram_ID)
+development_samples <- filter(development_data, caste=="worker", !remarks %in% c("aggression actor", "aggression target", "queenless colony")) %>% 
+  mutate(corrected_mass=mass/head_width^2*10^6) %>%
+  select(species, census_date, colony, corrected_mass,callow, chromatogram_ID)
 load_globals()
 ```
 ## Difference in the total CHC amount between callow and mature *F. sanguinea*
