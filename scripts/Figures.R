@@ -57,7 +57,7 @@ ggplot(aes(x=as.numeric(mature), y=mass , group=mature), data=df)+
 df$mass <- df$mass*subsample_proportion(peaks_callow, df$chromatogram_ID)
 
 
-ggplot(aes(x=as.numeric(mature), y=mass , group=mature), data=df2)+
+ggplot(aes(x=as.numeric(mature), y=mass , group=mature), data=df)+
   geom_boxplot(col="#1f4a24",
                fill="#1f4a2466", width=0.6, lwd=1, outlier.shape=NA)+
   geom_point(aes(x=as.numeric(mature)+pos, y=mass, fill=sang_prop),shape=21,cex=3.4,color="black")+
@@ -75,3 +75,5 @@ ggplot(aes(x=as.numeric(mature), y=mass , group=mature), data=df2)+
   theme(panel.background = element_rect(fill="white"),
         axis.line = element_line(size = 0.5, linetype = "solid",
                                  colour = "black"))
+
+
