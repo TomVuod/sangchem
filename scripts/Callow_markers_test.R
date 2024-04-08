@@ -1,3 +1,7 @@
+library(sangchem)
+library(mixOmics)
+library(dplyr)
+
 calculate_AUC <- function(x,y){
   y <- y[order(x)]
   x <- x[order(x)]
@@ -59,44 +63,61 @@ peak_prop[peak_prop==0] <- 10^-16
 peak_transformed <- t(apply(peak_prop, 1, clr_transformation))
 PCA_callow_discr <- prcomp(peak_transformed, scale. = TRUE)
 
-
-set.seed(1924)
-discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,multilevel=DA_data$group,
-                                ncomp=7, scale = FALSE)
-perf.discr_analysis_callow <- perf(discr_analysis_callow,
-                                   validation = "Mfold",
-                                   folds = 4,
-                                   progressBar = FALSE,
-                                   auc = TRUE,
-                                   nrepeat = 10,
-                                   scale = FALSE)
-discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
-                                            Y=Y,
-                                            multilevel=DA_data$group,
-                                            ncomp = perf.discr_analysis_callow$choice.ncomp[1,1],
-                                            test.keepX = seq(1:120),
-                                            validation = 'Mfold',
-                                            folds =5, nrepeat = 100,
-                                            dist = 'max.dist', # use max.dist measure
-                                            measure = "BER",
-                                            progressBar = FALSE,
-                                            scale = FALSE)
-n_comp <- discr_analysis_callows_tuned$choice.ncomp$ncomp
-if(is.null(n_comp)) n_comp <- 1
-discr_analysis_callows_res <- splsda(PCA_callow_discr$x,Y=Y,
-                                     multilevel= DA_data$group,
-                                     keepX=discr_analysis_callows_tuned$choice.keepX,
-                                     ncomp=n_comp,
-                                     scale = FALSE)
-predicted_species <- calculate_SII(peak_prop, discr_analysis_callows_res, PCA_callow_discr, predicted_category=3)$predicted_species
-curve_data <- calculate_accuracy_metrics(predicted_species[Y>0], Y[Y>0]==2)
-true_sample_assignment_AUC <- calculate_AUC(curve_data$FPR, curve_data$TPR)
-usethis::use_data(true_sample_assignment_AUC, internal = TRUE)
-
-set.seed(1924)
-results <- list()
-
+load("R/sysdata.rda")
 for(i in 1:10){
+  if(!"true_sample_assignment_AUC" %in% ls()) {
+    true_sample_assignment_AUC <- list()
+    set.seed(3821)
+  }
+  else .Random.seed <- true_sample_assignment_AUC[[length(true_sample_assignment_AUC)]]$random.seed
+  discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,multilevel=DA_data$group,
+                                  ncomp=7, scale = FALSE)
+  perf.discr_analysis_callow <- perf(discr_analysis_callow,
+                                     validation = "Mfold",
+                                     folds = 4,
+                                     progressBar = FALSE,
+                                     auc = TRUE,
+                                     nrepeat = 10,
+                                     scale = FALSE)
+  discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
+                                              Y=Y,
+                                              multilevel=DA_data$group,
+                                              ncomp = perf.discr_analysis_callow$choice.ncomp[1,1],
+                                              test.keepX = seq(1:120),
+                                              validation = 'Mfold',
+                                              folds = 5, nrepeat = 15,
+                                              dist = 'max.dist', # use max.dist measure
+                                              measure = "BER",
+                                              progressBar = FALSE,
+                                              scale = FALSE)
+  n_comp <- discr_analysis_callows_tuned$choice.ncomp$ncomp
+  if(is.null(n_comp)) n_comp <- 1
+  discr_analysis_callows_res <- splsda(PCA_callow_discr$x,Y=Y,
+                                       multilevel= DA_data$group,
+                                       keepX=discr_analysis_callows_tuned$choice.keepX,
+                                       ncomp=n_comp,
+                                       scale = FALSE)
+  predicted_species <- calculate_SII(peak_prop, discr_analysis_callows_res, PCA_callow_discr, predicted_category=3)$predicted_species
+  curve_data <- calculate_accuracy_metrics(predicted_species[Y>0], Y[Y>0]==2)
+  AUC <- calculate_AUC(curve_data$FPR, curve_data$TPR)
+  print(AUC)
+  true_sample_assignment_AUC[[length(true_sample_assignment_AUC)+1]] <- list()
+  true_sample_assignment_AUC[[length(true_sample_assignment_AUC)]]$AUC <- AUC
+  true_sample_assignment_AUC[[length(true_sample_assignment_AUC)]]$random.seed <- .Random.seed
+  usethis::use_data(true_sample_assignment_AUC, internal = TRUE, overwrite = TRUE)
+  
+}
+
+
+
+
+
+for(i in 1:30){
+  if(!"discriminant_analysis_randomization" %in% ls()) {
+    discriminant_analysis_randomization <- list()
+    set.seed(1924)
+  }
+  else .Random.seed <- discriminant_analysis_randomization[[length(discriminant_analysis_randomization)]]$random.seed
   Y %>% split(.,DA_data$group) %>% lapply(function(x) {x[x>0]<-sample(x[x>0], length(x[x>0]));x}) %>% unlist() ->Y
   discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,multilevel=DA_data$group,
                                   ncomp=7, scale = FALSE)
@@ -113,7 +134,7 @@ for(i in 1:10){
                                               ncomp = perf.discr_analysis_callow$choice.ncomp[1,1],
                                               test.keepX = seq(1:120),
                                               validation = 'Mfold',
-                                              folds = 5, nrepeat = 10,
+                                              folds = 5, nrepeat = 15,
                                               dist = 'max.dist', # use max.dist measure
                                               measure = "BER",
                                               progressBar = FALSE,
@@ -128,13 +149,14 @@ for(i in 1:10){
   predicted_species <- calculate_SII(peak_prop, discr_analysis_callows_res, PCA_callow_discr, predicted_category=3)$predicted_species
   curve_data <- calculate_accuracy_metrics(predicted_species[Y>0], Y[Y>0]==2)
   AUC <- calculate_AUC(curve_data$FPR, curve_data$TPR)
+  print(i)
   print(AUC)
-  results[[length(results)+1]] <- list()
-  results[[length(results)]]$AUC <- AUC
-  results[[length(results)]]$radom.seed <- .Random.seed
+  discriminant_analysis_randomization[[length(discriminant_analysis_randomization)+1]] <- list()
+  discriminant_analysis_randomization[[length(discriminant_analysis_randomization)]]$AUC <- AUC
+  discriminant_analysis_randomization[[length(discriminant_analysis_randomization)]]$random.seed <- .Random.seed
+  usethis::use_data(discriminant_analysis_randomization, internal = TRUE, overwrite = TRUE)
 
 }
-discriminant_analysis_randomization <- results
-usethis::use_data(discriminant_analysis_randomization, internal = TRUE)
+
 
 
