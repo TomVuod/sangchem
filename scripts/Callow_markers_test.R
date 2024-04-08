@@ -67,9 +67,10 @@ load("R/sysdata.rda")
 for(i in 1:10){
   if(!"true_sample_assignment_AUC" %in% ls()) {
     true_sample_assignment_AUC <- list()
+    true_sample_assignment_AUC$AUC <- c()
     set.seed(3821)
   }
-  else .Random.seed <- true_sample_assignment_AUC[[length(true_sample_assignment_AUC)]]$random.seed
+  else .Random.seed <- true_sample_assignment_AUC$random.seed
   discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,multilevel=DA_data$group,
                                   ncomp=7, scale = FALSE)
   perf.discr_analysis_callow <- perf(discr_analysis_callow,
@@ -100,24 +101,26 @@ for(i in 1:10){
   predicted_species <- calculate_SII(peak_prop, discr_analysis_callows_res, PCA_callow_discr, predicted_category=3)$predicted_species
   curve_data <- calculate_accuracy_metrics(predicted_species[Y>0], Y[Y>0]==2)
   AUC <- calculate_AUC(curve_data$FPR, curve_data$TPR)
+  print(i)
   print(AUC)
-  true_sample_assignment_AUC[[length(true_sample_assignment_AUC)+1]] <- list()
-  true_sample_assignment_AUC[[length(true_sample_assignment_AUC)]]$AUC <- AUC
-  true_sample_assignment_AUC[[length(true_sample_assignment_AUC)]]$random.seed <- .Random.seed
+  true_sample_assignment_AUC$AUC <- c(true_sample_assignment_AUC$AUC, AUC)
+  true_sample_assignment_AUC$random.seed <- .Random.seed
   usethis::use_data(true_sample_assignment_AUC, internal = TRUE, overwrite = TRUE)
-  
+
 }
 
 
 
 
 
-for(i in 1:30){
+for(i in 1:10){
   if(!"discriminant_analysis_randomization" %in% ls()) {
-    discriminant_analysis_randomization <- list()
+    discriminant_analysis_randomization <- list
+    discriminant_analysis_randomization$AUC <- c()
     set.seed(1924)
+    print("Initialization")
   }
-  else .Random.seed <- discriminant_analysis_randomization[[length(discriminant_analysis_randomization)]]$random.seed
+  else .Random.seed <- discriminant_analysis_randomization$random.seed
   Y %>% split(.,DA_data$group) %>% lapply(function(x) {x[x>0]<-sample(x[x>0], length(x[x>0]));x}) %>% unlist() ->Y
   discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,multilevel=DA_data$group,
                                   ncomp=7, scale = FALSE)
@@ -151,9 +154,8 @@ for(i in 1:30){
   AUC <- calculate_AUC(curve_data$FPR, curve_data$TPR)
   print(i)
   print(AUC)
-  discriminant_analysis_randomization[[length(discriminant_analysis_randomization)+1]] <- list()
-  discriminant_analysis_randomization[[length(discriminant_analysis_randomization)]]$AUC <- AUC
-  discriminant_analysis_randomization[[length(discriminant_analysis_randomization)]]$random.seed <- .Random.seed
+  discriminant_analysis_randomization$AUC <- c(discriminant_analysis_randomization$AUC, AUC)
+  discriminant_analysis_randomization$random.seed <- .Random.seed
   usethis::use_data(discriminant_analysis_randomization, internal = TRUE, overwrite = TRUE)
 
 }
