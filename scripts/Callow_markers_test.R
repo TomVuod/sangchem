@@ -64,7 +64,7 @@ peak_transformed <- t(apply(peak_prop, 1, clr_transformation))
 PCA_callow_discr <- prcomp(peak_transformed, scale. = TRUE)
 
 load("R/sysdata.rda")
-for(i in 1:10){
+for(i in 1:20){
   if(!"true_sample_assignment_AUC" %in% ls()) {
     true_sample_assignment_AUC <- list()
     true_sample_assignment_AUC$AUC <- c()
@@ -79,7 +79,8 @@ for(i in 1:10){
                                      progressBar = FALSE,
                                      auc = TRUE,
                                      nrepeat = 10,
-                                     scale = FALSE)
+                                     scale = FALSE,
+                                     cpus=6)
   discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
                                               Y=Y,
                                               multilevel=DA_data$group,
@@ -90,7 +91,8 @@ for(i in 1:10){
                                               dist = 'max.dist', # use max.dist measure
                                               measure = "BER",
                                               progressBar = FALSE,
-                                              scale = FALSE)
+                                              scale = FALSE,
+                                              cpus=6)
   n_comp <- discr_analysis_callows_tuned$choice.ncomp$ncomp
   if(is.null(n_comp)) n_comp <- 1
   discr_analysis_callows_res <- splsda(PCA_callow_discr$x,Y=Y,
@@ -105,7 +107,7 @@ for(i in 1:10){
   print(AUC)
   true_sample_assignment_AUC$AUC <- c(true_sample_assignment_AUC$AUC, AUC)
   true_sample_assignment_AUC$random.seed <- .Random.seed
-  usethis::use_data(true_sample_assignment_AUC, internal = TRUE, overwrite = TRUE)
+  usethis::use_data(discriminant_analysis_randomization, true_sample_assignment_AUC, internal = TRUE, overwrite = TRUE)
 
 }
 
@@ -113,14 +115,16 @@ for(i in 1:10){
 
 
 
-for(i in 1:10){
+for(i in 1:20){
   if(!"discriminant_analysis_randomization" %in% ls()) {
-    discriminant_analysis_randomization <- list
-    discriminant_analysis_randomization$AUC <- c()
+    discriminant_analysis_randomization <- list()
+    discriminant_analysis_randomization$AUC <- c
+    discriminant_analysis_randomization$Y <- Y
     set.seed(1924)
     print("Initialization")
   }
   else .Random.seed <- discriminant_analysis_randomization$random.seed
+  Y <- discriminant_analysis_randomization$Y
   Y %>% split(.,DA_data$group) %>% lapply(function(x) {x[x>0]<-sample(x[x>0], length(x[x>0]));x}) %>% unlist() ->Y
   discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,multilevel=DA_data$group,
                                   ncomp=7, scale = FALSE)
@@ -130,7 +134,8 @@ for(i in 1:10){
                                      progressBar = FALSE,
                                      auc = TRUE,
                                      nrepeat = 10,
-                                     scale = FALSE)
+                                     scale = FALSE,
+                                     cpus=6)
   discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
                                               Y=Y,
                                               multilevel=DA_data$group,
@@ -141,7 +146,8 @@ for(i in 1:10){
                                               dist = 'max.dist', # use max.dist measure
                                               measure = "BER",
                                               progressBar = FALSE,
-                                              scale = FALSE)
+                                              scale = FALSE,
+                                              cpus=6)
   n_comp <- discr_analysis_callows_tuned$choice.ncomp$ncomp
   if(is.null(n_comp)) n_comp <- 1
   discr_analysis_callows_res <- splsda(PCA_callow_discr$x,Y=Y,
@@ -156,9 +162,11 @@ for(i in 1:10){
   print(AUC)
   discriminant_analysis_randomization$AUC <- c(discriminant_analysis_randomization$AUC, AUC)
   discriminant_analysis_randomization$random.seed <- .Random.seed
-  usethis::use_data(discriminant_analysis_randomization, internal = TRUE, overwrite = TRUE)
+  discriminant_analysis_randomization$Y <- Y
+  usethis::use_data(discriminant_analysis_randomization, true_sample_assignment_AUC, internal = TRUE, overwrite = TRUE)
 
 }
+
 
 
 
