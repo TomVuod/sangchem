@@ -1,9 +1,8 @@
-library(sangchem)
+setwd("/home/t.wlodarczyk/chemical_ecology/sangchem")
+devtools::load_all(".")
+args = commandArgs(trailingOnly=TRUE)
 library(mixOmics)
 library(dplyr)
-
-args = commandArgs(trailingOnly=TRUE)
-
 calculate_AUC <- function(x,y){
   y <- y[order(x)]
   x <- x[order(x)]
@@ -65,14 +64,15 @@ peak_prop[peak_prop==0] <- 10^-16
 peak_transformed <- t(apply(peak_prop, 1, clr_transformation))
 PCA_callow_discr <- prcomp(peak_transformed, scale. = TRUE)
 
-load("../R/sysdata.rda")
-for(i in 1:80){
-  if(!"true_sample_assignment_AUC" %in% ls()) {
-    true_sample_assignment_AUC <- list()
-    true_sample_assignment_AUC$AUC <- c()
-    set.seed(3821)
-  }
-  else .Random.seed <- true_sample_assignment_AUC$random.seed
+
+while(TRUE){
+#  if(!"true_sample_assignment_AUC" %in% ls()) {
+#    true_sample_assignment_AUC <- list()
+#    true_sample_assignment_AUC$AUC <- c()
+#    set.seed(3821)
+#  }
+#  else 
+  .Random.seed <- true_sample_assignment_AUC$random.seed
   discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,multilevel=DA_data$group,
                                   ncomp=7, scale = FALSE)
   perf.discr_analysis_callow <- perf(discr_analysis_callow,
@@ -94,7 +94,7 @@ for(i in 1:80){
                                               measure = "BER",
                                               progressBar = FALSE,
                                               scale = FALSE,
-                                              cpus=18)
+                                              cpus=1)
   n_comp <- discr_analysis_callows_tuned$choice.ncomp$ncomp
   if(is.null(n_comp)) n_comp <- 1
   discr_analysis_callows_res <- splsda(PCA_callow_discr$x,Y=Y,
@@ -105,24 +105,23 @@ for(i in 1:80){
   predicted_species <- calculate_SII(peak_prop, discr_analysis_callows_res, PCA_callow_discr, predicted_category=3)$predicted_species
   curve_data <- calculate_accuracy_metrics(predicted_species[Y>0], Y[Y>0]==2)
   AUC <- calculate_AUC(curve_data$FPR, curve_data$TPR)
-  print(i)
-  print(AUC)
   true_sample_assignment_AUC$AUC <- c(true_sample_assignment_AUC$AUC, AUC)
   true_sample_assignment_AUC$random.seed <- .Random.seed
   usethis::use_data(discriminant_analysis_randomization, true_sample_assignment_AUC, internal = TRUE, overwrite = TRUE)
-  
+  if(length(true_sample_assignment_AUC$AUC)>=100) break
 }
 
 
 while(TRUE){
-  if(!"discriminant_analysis_randomization" %in% ls()) {
-    discriminant_analysis_randomization <- list()
-    discriminant_analysis_randomization$AUC <- c
-    discriminant_analysis_randomization$Y <- Y
-    set.seed(1924)
-    print("Initialization")
-  }
-  else .Random.seed <- discriminant_analysis_randomization$random.seed
+#  if(!"discriminant_analysis_randomization" %in% ls()) {
+#    discriminant_analysis_randomization <- list()
+#    discriminant_analysis_randomization$AUC <- c()
+#    discriminant_analysis_randomization$Y <- Y
+#    set.seed(1924)
+#    print("Initialization")
+#  }
+#  else 
+.Random.seed <- discriminant_analysis_randomization$random.seed
   Y <- discriminant_analysis_randomization$Y
   Y %>% split(.,DA_data$group) %>% lapply(function(x) {x[x>0]<-sample(x[x>0], length(x[x>0]));x}) %>% unlist() ->Y
   discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,multilevel=DA_data$group,
@@ -146,7 +145,7 @@ while(TRUE){
                                               measure = "BER",
                                               progressBar = FALSE,
                                               scale = FALSE,
-                                              cpus=18)
+                                              cpus=1)
   n_comp <- discr_analysis_callows_tuned$choice.ncomp$ncomp
   if(is.null(n_comp)) n_comp <- 1
   discr_analysis_callows_res <- splsda(PCA_callow_discr$x,Y=Y,
@@ -163,6 +162,6 @@ while(TRUE){
   discriminant_analysis_randomization$random.seed <- .Random.seed
   discriminant_analysis_randomization$Y <- Y
   usethis::use_data(discriminant_analysis_randomization, true_sample_assignment_AUC, internal = TRUE, overwrite = TRUE)
-  if(length(discriminant_analysis_randomization$AUC)>=args[1]) break
+  if(length(discriminant_analysis_randomization$AUC)>=as.numeric(args[1])) break
 }
 
