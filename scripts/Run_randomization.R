@@ -94,7 +94,7 @@ while(TRUE){
                                               measure = "BER",
                                               progressBar = FALSE,
                                               scale = FALSE,
-                                              cpus=1)
+                                              cpus=4)
   n_comp <- discr_analysis_callows_tuned$choice.ncomp$ncomp
   if(is.null(n_comp)) n_comp <- 1
   discr_analysis_callows_res <- splsda(PCA_callow_discr$x,Y=Y,
@@ -145,7 +145,7 @@ while(TRUE){
                                               measure = "BER",
                                               progressBar = FALSE,
                                               scale = FALSE,
-                                              cpus=1)
+                                              cpus=4)
   n_comp <- discr_analysis_callows_tuned$choice.ncomp$ncomp
   if(is.null(n_comp)) n_comp <- 1
   discr_analysis_callows_res <- splsda(PCA_callow_discr$x,Y=Y,
