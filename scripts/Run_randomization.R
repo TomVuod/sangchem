@@ -82,7 +82,7 @@ while(TRUE){
                                      auc = TRUE,
                                      nrepeat = 10,
                                      scale = FALSE,
-                                     cpus=18)
+                                     cpus=8)
   discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
                                               Y=Y,
                                               multilevel=DA_data$group,
