@@ -64,6 +64,7 @@ peak_prop[peak_prop==0] <- 10^-16
 # apply central log ratio transformation
 peak_transformed <- t(apply(peak_prop, 1, clr_transformation))
 PCA_callow_discr <- prcomp(peak_transformed, scale. = TRUE)
+PCA_callow_discr$x <- withinVariation(PCA_callow_discr$x, data.frame(DA_data$group))
 results <- {if(file.exists("true_labels_2_groups.rds")) readRDS("true_labels_2_groups.rds")
   else {
     results <- list()
@@ -76,7 +77,7 @@ results <- {if(file.exists("true_labels_2_groups.rds")) readRDS("true_labels_2_g
 
 while(TRUE){
   .Random.seed <- results$random.seed
-  discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,multilevel=DA_data$group,
+  discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,
                                   ncomp=7, scale = FALSE)
   perf.discr_analysis_callow <- perf(discr_analysis_callow,
                                      validation = "Mfold",
@@ -88,7 +89,6 @@ while(TRUE){
                                      cpus=18)
   tryCatch(discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
                                                         Y=Y,
-                                                        multilevel=DA_data$group,
                                                         ncomp = perf.discr_analysis_callow$choice.ncomp[1,1],
                                                         test.keepX = seq(1:120),
                                                         validation = 'Mfold',
@@ -102,11 +102,11 @@ while(TRUE){
   n_comp <- discr_analysis_callows_tuned$choice.ncomp$ncomp
   if(is.null(n_comp)) n_comp <- 1
   discr_analysis_callows_res <- splsda(PCA_callow_discr$x,Y=Y,
-                                       multilevel= DA_data$group,
                                        keepX=discr_analysis_callows_tuned$choice.keepX,
                                        ncomp=n_comp,
                                        scale = FALSE)
-  predicted_species <- calculate_SII(peak_prop, discr_analysis_callows_res, PCA_callow_discr, predicted_category=1)$predicted_species
+  predicted_species <- calculate_SII(peak_prop, discr_analysis_callows_res, PCA_callow_discr, predicted_category=1,
+                                     multilevel=DA_data$group)$predicted_species
   curve_data <- calculate_accuracy_metrics(predicted_species, Y==0)
   AUC <- calculate_AUC(curve_data$FPR, curve_data$TPR)
   results$AUC <- c(results$AUC, AUC)
