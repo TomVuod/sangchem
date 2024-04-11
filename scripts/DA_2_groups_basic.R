@@ -73,8 +73,10 @@ results <- {if(file.exists("true_labels_2_groups.rds")) readRDS("true_labels_2_g
     results
   }
 }
-
+counter=0
 while(TRUE){
+  counter <- counter+1
+  message(counter)
   .Random.seed <- results$random.seed
   discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,multilevel=DA_data$group,
                                   ncomp=7, scale = FALSE)
@@ -97,7 +99,7 @@ while(TRUE){
                                                         measure = "BER",
                                                         progressBar = FALSE,
                                                         scale = FALSE,
-                                                        cpus=18), error=function(cond) 0)
+                                                        cpus=18), error=function(cond) next)
 
   n_comp <- discr_analysis_callows_tuned$choice.ncomp$ncomp
   if(is.null(n_comp)) n_comp <- 1
