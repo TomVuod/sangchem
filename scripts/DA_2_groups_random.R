@@ -47,7 +47,7 @@ data("development_data")
 data("mass_spectra_data")
 
 DA_data <- dplyr::filter(development_data, caste=="worker", !remarks %in% c("aggression actor", "aggression target", "queenless colony"),
-                         species =="F. sanguinea") %>%
+                         species == "F. sanguinea") %>%
   dplyr::select(colony, species, callow, census_date, chromatogram_ID, sang_prop) %>%
   split(list(.$colony, .$census_date), drop=TRUE) %>%
   lapply(function(x){if(length(unique(x$callow))==1) return(NULL); x}) %>%
@@ -64,24 +64,25 @@ peak_prop[peak_prop==0] <- 10^-16
 # apply central log ratio transformation
 peak_transformed <- t(apply(peak_prop, 1, clr_transformation))
 PCA_callow_discr <- prcomp(peak_transformed, scale. = TRUE)
-#PCA_callow_discr$x <- withinVariation(PCA_callow_discr$x, data.frame(DA_data$group))
+PCA_callow_discr$x <- withinVariation(PCA_callow_discr$x, data.frame(DA_data$group))
 results <- {if(file.exists("random_labels_2_groups.rds")) readRDS("random_labels_2_groups.rds")
   else {
     results <- list()
-    results$AUC <- c()
     set.seed(1342)
     results$random.seed <- .Random.seed
-    results$Y <- split(Y,DA_data$group) %>% lapply(function(x) {x<-sample(x, length(x));x}) %>% unlist() 
+    results$Y <- list()
+    results$predictions <- list()
     results
   }
 }
-counter <- 0
+counter=0
 while(TRUE){
   counter <- counter+1
   message(counter)
+  Y <- results$Y[[length(results$Y)]]
   .Random.seed <- results$random.seed
-  Y <- results$Y
-  discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y,
+  Y <- split(Y, DA_data$group) %>% lapply(function(x) {x[x>0]<-sample(x[x>0], length(x[x>0]));x}) %>% unlist()
+  discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,
                                   ncomp=7, scale = FALSE)
   perf.discr_analysis_callow <- perf(discr_analysis_callow,
                                      validation = "Mfold",
@@ -91,7 +92,7 @@ while(TRUE){
                                      nrepeat = 10,
                                      scale = FALSE,
                                      cpus=18)
-  tryCatch(discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
+  tryCatch({discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
                                                         Y=Y,
                                                         ncomp = perf.discr_analysis_callow$choice.ncomp[1,1],
                                                         test.keepX = seq(1:120),
@@ -101,7 +102,7 @@ while(TRUE){
                                                         measure = "BER",
                                                         progressBar = FALSE,
                                                         scale = FALSE,
-                                                        cpus=18), error=function(cond) 0)
+                                                        cpus=18)
 
   n_comp <- discr_analysis_callows_tuned$choice.ncomp$ncomp
   if(is.null(n_comp)) n_comp <- 1
@@ -109,15 +110,15 @@ while(TRUE){
                                        keepX=discr_analysis_callows_tuned$choice.keepX,
                                        ncomp=n_comp,
                                        scale = FALSE)
-  predicted_species <- calculate_SII(peak_prop, discr_analysis_callows_res, PCA_callow_discr, predicted_category=1,
-                                     #multilevel=DA_data$group
-                                     )$predicted_species
-  curve_data <- calculate_accuracy_metrics(predicted_species, Y==0)
-  AUC <- calculate_AUC(curve_data$FPR, curve_data$TPR)
-  results$AUC <- c(results$AUC, AUC)
+  predicted_species <- calculate_SII(peak_prop, discr_analysis_callows_res, PCA_callow_discr, predicted_category=2,
+                                     multilevel=DA_data$group)$predicted_species
+  #curve_data <- calculate_accuracy_metrics(predicted_species[Y>0], Y[Y>0]==2)
+  #AUC <- calculate_AUC(curve_data$FPR, curve_data$TPR)
+  #results$AUC <- c(results$AUC, AUC)
   results$random.seed <- .Random.seed
-  results$Y <- split(Y,DA_data$group) %>% lapply(function(x) {x<-sample(x, length(x));x}) %>% unlist() 
-  saveRDS(results, "random_labels_2_groups.rds")
-  if(length(results$AUC)>=as.numeric(args[1])) break
+  results$Y <- c(results$Y, list(Y))
+  results$predictions <- c(results$predictions, list(predicted_species))
+  saveRDS(results, "random_labels_2_groups.rds")}, error=function(cond) 0)
+  if(length(results$predictions)>=as.numeric(args[1])) break
 }
 
