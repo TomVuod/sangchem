@@ -67,7 +67,8 @@ PCA_callow_discr$x <- withinVariation(PCA_callow_discr$x, data.frame(DA_data$gro
 results <- {if(file.exists("true_labels_3_groups.rds")) readRDS("true_labels_3_groups.rds")
   else {
     results <- list()
-    results$AUC <- c()
+    results$Y <- list(Y)
+    results$predictions <- list()
     set.seed(1342)
     results$random.seed <- .Random.seed
     results
@@ -88,7 +89,7 @@ while(TRUE){
                                      nrepeat = 10,
                                      scale = FALSE,
                                      cpus=18)
-  tryCatch(discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
+  tryCatch({discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
                                                         Y=Y,
                                                         ncomp = perf.discr_analysis_callow$choice.ncomp[1,1],
                                                         test.keepX = seq(1:120),
@@ -98,7 +99,7 @@ while(TRUE){
                                                         measure = "BER",
                                                         progressBar = FALSE,
                                                         scale = FALSE,
-                                                        cpus=18), error=function(cond) next)
+                                                        cpus=18)
 
   n_comp <- discr_analysis_callows_tuned$choice.ncomp$ncomp
   if(is.null(n_comp)) n_comp <- 1
@@ -108,11 +109,12 @@ while(TRUE){
                                        scale = FALSE)
   predicted_species <- calculate_SII(peak_prop, discr_analysis_callows_res, PCA_callow_discr, predicted_category=3,
                                      multilevel=DA_data$group)$predicted_species
-  curve_data <- calculate_accuracy_metrics(predicted_species[Y>0], Y[Y>0]==2)
-  AUC <- calculate_AUC(curve_data$FPR, curve_data$TPR)
-  results$AUC <- c(results$AUC, AUC)
+  #curve_data <- calculate_accuracy_metrics(predicted_species[Y>0], Y[Y>0]==2)
+  #AUC <- calculate_AUC(curve_data$FPR, curve_data$TPR)
+  #results$AUC <- c(results$AUC, AUC)
   results$random.seed <- .Random.seed
-  saveRDS(results, "true_labels_3_groups.rds")
+  results$predictions <- c(results$predictions, list(predicted_species))
+  saveRDS(results, "true_labels_3_groups.rds")}, error=function(cond) 0)
   if(length(results$AUC)>=as.numeric(args[1])) break
 }
 
