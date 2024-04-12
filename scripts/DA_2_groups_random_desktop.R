@@ -1,6 +1,6 @@
-setwd("/home/t.wlodarczyk/chemical_ecology/sangchem")
+#setwd("/home/t.wlodarczyk/chemical_ecology/sangchem")
 devtools::load_all(".")
-args = commandArgs(trailingOnly=TRUE)
+args = 50
 library(mixOmics)
 library(dplyr)
 calculate_AUC <- function(x,y){
@@ -64,7 +64,7 @@ peak_prop[peak_prop==0] <- 10^-16
 # apply central log ratio transformation
 peak_transformed <- t(apply(peak_prop, 1, clr_transformation))
 PCA_callow_discr <- prcomp(peak_transformed, scale. = TRUE)
-#PCA_callow_discr$x <- withinVariation(PCA_callow_discr$x, data.frame(DA_data$group))
+PCA_callow_discr$x <- withinVariation(PCA_callow_discr$x, data.frame(DA_data$group))
 results <- {if(file.exists("random_labels_2_groups.rds")) readRDS("random_labels_2_groups.rds")
   else {
     results <- list()
@@ -90,7 +90,7 @@ while(TRUE){
                                      auc = TRUE,
                                      nrepeat = 10,
                                      scale = FALSE,
-                                     cpus=18)
+                                     cpus=2)
   tryCatch(discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
                                                         Y=Y,
                                                         ncomp = perf.discr_analysis_callow$choice.ncomp[1,1],
@@ -101,7 +101,7 @@ while(TRUE){
                                                         measure = "BER",
                                                         progressBar = FALSE,
                                                         scale = FALSE,
-                                                        cpus=18), error=function(cond) 0)
+                                                        cpus=2), error=function(cond) 0)
 
   n_comp <- discr_analysis_callows_tuned$choice.ncomp$ncomp
   if(is.null(n_comp)) n_comp <- 1
@@ -110,11 +110,11 @@ while(TRUE){
                                        ncomp=n_comp,
                                        scale = FALSE)
   predicted_species <- calculate_SII(peak_prop, discr_analysis_callows_res, PCA_callow_discr, predicted_category=1,
-                                     #multilevel=DA_data$group
-                                     )$predicted_species
+                                     multilevel=DA_data$group)$predicted_species
   curve_data <- calculate_accuracy_metrics(predicted_species, Y==0)
   AUC <- calculate_AUC(curve_data$FPR, curve_data$TPR)
   results$AUC <- c(results$AUC, AUC)
+  print(AUC)
   results$random.seed <- .Random.seed
   results$Y <- split(Y,DA_data$group) %>% lapply(function(x) {x<-sample(x, length(x));x}) %>% unlist() 
   saveRDS(results, "random_labels_2_groups.rds")

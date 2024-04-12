@@ -1,6 +1,6 @@
-setwd("/home/t.wlodarczyk/chemical_ecology/sangchem")
+#setwd("/home/t.wlodarczyk/chemical_ecology/sangchem")
 devtools::load_all(".")
-args = commandArgs(trailingOnly=TRUE)
+args = 10
 library(mixOmics)
 library(dplyr)
 calculate_AUC <- function(x,y){
@@ -46,8 +46,7 @@ calculate_accuracy_metrics <- function(values, labels){
 data("development_data")
 data("mass_spectra_data")
 
-DA_data <- dplyr::filter(development_data, caste=="worker", !remarks %in% c("aggression actor", "aggression target", "queenless colony"),
-                         species =="F. sanguinea") %>%
+DA_data <- dplyr::filter(development_data, caste=="worker", !remarks %in% c("aggression actor", "aggression target", "queenless colony")) %>%
   dplyr::select(colony, species, callow, census_date, chromatogram_ID, sang_prop) %>%
   split(list(.$colony, .$census_date), drop=TRUE) %>%
   lapply(function(x){if(length(unique(x$callow))==1) return(NULL); x}) %>%
@@ -55,7 +54,7 @@ DA_data <- dplyr::filter(development_data, caste=="worker", !remarks %in% c("agg
   purrr::map2(seq_along(.), function(x,y){x$group <- y; x}) %>%
   {function(x) do.call(rbind, x)}()
 
-Y <- as.numeric(DA_data$callow)
+Y <- as.numeric(DA_data$callow)+as.numeric(DA_data$species=="F. sanguinea")
 
 peak_prop <- peak_proportions_table(mass_spectra_data[mass_spectra_data$chromatogram_ID %in% DA_data$chromatogram_ID,])
 peak_prop <- peak_prop[match(DA_data$chromatogram_ID, rownames(peak_prop)),]
@@ -64,14 +63,14 @@ peak_prop[peak_prop==0] <- 10^-16
 # apply central log ratio transformation
 peak_transformed <- t(apply(peak_prop, 1, clr_transformation))
 PCA_callow_discr <- prcomp(peak_transformed, scale. = TRUE)
-#PCA_callow_discr$x <- withinVariation(PCA_callow_discr$x, data.frame(DA_data$group))
-results <- {if(file.exists("random_labels_2_groups.rds")) readRDS("random_labels_2_groups.rds")
+PCA_callow_discr$x <- withinVariation(PCA_callow_discr$x, data.frame(DA_data$group))
+results <- {if(file.exists("random_labels_3_groups.rds")) readRDS("random_labels_3_groups.rds")
   else {
     results <- list()
     results$AUC <- c()
     set.seed(1342)
     results$random.seed <- .Random.seed
-    results$Y <- split(Y,DA_data$group) %>% lapply(function(x) {x<-sample(x, length(x));x}) %>% unlist() 
+    results$Y <- split(Y,DA_data$group) %>% lapply(function(x) {x[x>0]<-sample(x[x>0], length(x[x>0]));x}) %>% unlist() 
     results
   }
 }
@@ -90,7 +89,7 @@ while(TRUE){
                                      auc = TRUE,
                                      nrepeat = 10,
                                      scale = FALSE,
-                                     cpus=18)
+                                     cpus=2)
   tryCatch(discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
                                                         Y=Y,
                                                         ncomp = perf.discr_analysis_callow$choice.ncomp[1,1],
@@ -101,7 +100,7 @@ while(TRUE){
                                                         measure = "BER",
                                                         progressBar = FALSE,
                                                         scale = FALSE,
-                                                        cpus=18), error=function(cond) 0)
+                                                        cpus=2), error=function(cond) 0)
 
   n_comp <- discr_analysis_callows_tuned$choice.ncomp$ncomp
   if(is.null(n_comp)) n_comp <- 1
@@ -109,15 +108,15 @@ while(TRUE){
                                        keepX=discr_analysis_callows_tuned$choice.keepX,
                                        ncomp=n_comp,
                                        scale = FALSE)
-  predicted_species <- calculate_SII(peak_prop, discr_analysis_callows_res, PCA_callow_discr, predicted_category=1,
-                                     #multilevel=DA_data$group
-                                     )$predicted_species
-  curve_data <- calculate_accuracy_metrics(predicted_species, Y==0)
+  predicted_species <- calculate_SII(peak_prop, discr_analysis_callows_res, PCA_callow_discr, predicted_category=3,
+                                     multilevel=DA_data$group)$predicted_species
+  curve_data <- calculate_accuracy_metrics(predicted_species, Y==2)
   AUC <- calculate_AUC(curve_data$FPR, curve_data$TPR)
   results$AUC <- c(results$AUC, AUC)
+  print(AUC)
   results$random.seed <- .Random.seed
-  results$Y <- split(Y,DA_data$group) %>% lapply(function(x) {x<-sample(x, length(x));x}) %>% unlist() 
-  saveRDS(results, "random_labels_2_groups.rds")
+  results$Y <- split(Y,DA_data$group) %>% lapply(function(x) {x[x>0]<-sample(x[x>0], length(x[x>0]));x}) %>% unlist() 
+  saveRDS(results, "random_labels_3_groups.rds")
   if(length(results$AUC)>=as.numeric(args[1])) break
 }
 
