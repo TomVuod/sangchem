@@ -79,7 +79,7 @@ counter=0
 while(TRUE){
   counter <- counter+1
   message(counter)
-  Y <- results$Y[[length(results$Y)]]
+if(length(results$Y)>0) Y <- results$Y[[length(results$Y)]]
   .Random.seed <- results$random.seed
   Y <- split(Y, DA_data$group) %>% lapply(function(x) {x[x>0]<-sample(x[x>0], length(x[x>0]));x}) %>% unlist()
   discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,
