@@ -45,7 +45,7 @@ if(length(results$Y)>0) Y <- results$Y[[length(results$Y)]]
   Y <- split(Y, DA_data$group) %>% lapply(function(x) {x<-sample(x, length(x));x}) %>% unlist()
   discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,
                                   ncomp=7, scale = FALSE)
-  perf.discr_analysis_callow <- perf(discr_analysis_callow,
+  tryCatch({perf.discr_analysis_callow <- perf(discr_analysis_callow,
                                      validation = "Mfold",
                                      folds = 4,
                                      progressBar = FALSE,
@@ -53,7 +53,7 @@ if(length(results$Y)>0) Y <- results$Y[[length(results$Y)]]
                                      nrepeat = 10,
                                      scale = FALSE,
                                      cpus=18)
-  tryCatch({discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
+  discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
                                                         Y=Y,
                                                         ncomp = perf.discr_analysis_callow$choice.ncomp[1,1],
                                                         test.keepX = seq(1:120),
@@ -76,7 +76,7 @@ if(length(results$Y)>0) Y <- results$Y[[length(results$Y)]]
                                      validation = "Mfold",
                                      folds = 4,
                                      progressBar = FALSE,
-                                     nrepeat = 10,
+                                     nrepeat = 100,
                                      scale = FALSE,
                                      cpus=18)
 
@@ -85,7 +85,7 @@ if(length(results$Y)>0) Y <- results$Y[[length(results$Y)]]
   #results$AUC <- c(results$AUC, AUC)
   results$random.seed <- .Random.seed
   results$Y <- c(results$Y, list(Y))
-  results$predictions <- c(results$predictions, perf.discr_analysis_callows_res$predict)
+  results$predictions <- c(results$predictions, perf.discr_analysis_callows_res$predict[length(perf.discr_analysis_callows_res$predict)])
   saveRDS(results, "random_labels_2_groups.rds")}, error=function(cond) print(cond))
   if(length(results$predictions)>=as.numeric(args[1])) break
 }
