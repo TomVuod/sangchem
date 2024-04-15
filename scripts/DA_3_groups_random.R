@@ -15,7 +15,7 @@ DA_data <- dplyr::filter(development_data, caste=="worker", !remarks %in% c("agg
   purrr::map2(seq_along(.), function(x,y){x$group <- y; x}) %>%
   {function(x) do.call(rbind, x)}()
 
-Y <- as.numeric(DA_data$callow)+as.numeric(DA_data$species=="F. sanguinea")
+Y <- as.numeric(DA_data$callow)
 
 peak_prop <- peak_proportions_table(mass_spectra_data[mass_spectra_data$chromatogram_ID %in% DA_data$chromatogram_ID,])
 peak_prop <- peak_prop[match(DA_data$chromatogram_ID, rownames(peak_prop)),]
@@ -30,7 +30,7 @@ results <- {if(file.exists("random_labels_3_groups.rds")) readRDS("random_labels
     results <- list()
     set.seed(1342)
     results$random.seed <- .Random.seed
-    results$Y <- list()
+    results$Y <- Y
     results$predictions <- list()
     results
   }
@@ -39,7 +39,7 @@ counter=0
 while(TRUE){
   counter <- counter+1
   message(counter)
-if(length(results$Y)>0) Y <- results$Y[[length(results$Y)]]
+  Y <- results$Y
   .Random.seed <- results$random.seed
   Y <- split(Y, DA_data$group) %>% lapply(function(x) {x[x>0]<-sample(x[x>0], length(x[x>0]));x}) %>% unlist()
   discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,
@@ -49,7 +49,7 @@ if(length(results$Y)>0) Y <- results$Y[[length(results$Y)]]
                                      folds = 4,
                                      progressBar = FALSE,
                                      auc = TRUE,
-                                     nrepeat = 10,
+                                     nrepeat = 30,
                                      scale = FALSE,
                                      cpus=18)
   discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
@@ -57,7 +57,7 @@ if(length(results$Y)>0) Y <- results$Y[[length(results$Y)]]
                                                         ncomp = perf.discr_analysis_callow$choice.ncomp[1,1],
                                                         test.keepX = seq(1:120),
                                                         validation = 'Mfold',
-                                                        folds = 5, nrepeat = 15,
+                                                        folds = 4, nrepeat = 30,
                                                         dist = 'max.dist', # use max.dist measure
                                                         measure = "BER",
                                                         progressBar = FALSE,
@@ -75,17 +75,16 @@ if(length(results$Y)>0) Y <- results$Y[[length(results$Y)]]
                                      validation = "Mfold",
                                      folds = 4,
                                      progressBar = FALSE,
-                                     nrepeat = 100,
+                                     nrepeat = 1,
                                      scale = FALSE,
                                      cpus=18)
 
-  #curve_data <- calculate_accuracy_metrics(predicted_species[Y>0], Y[Y>0]==2)
-  #AUC <- calculate_AUC(curve_data$FPR, curve_data$TPR)
-  #results$AUC <- c(results$AUC, AUC)
+  curve_data <- calculate_accuracy_metrics(perf.discr_analysis_callows_res$predict[[length(perf.discr_analysis_callows_res$predict)]][,3,1][Y>0], Y[Y>0]==2)
+  AUC <- calculate_AUC(curve_data$FPR, curve_data$TPR)
+  results$AUC <- c(results$AUC, AUC)
   results$random.seed <- .Random.seed
-  results$Y <- c(results$Y, list(Y))
-  results$predictions <- c(results$predictions, perf.discr_analysis_callows_res$predict[length(perf.discr_analysis_callows_res$predict)])
+  results$Y <- Y
   saveRDS(results, "random_labels_3_groups.rds")}, error=function(cond) print(cond))
-  if(length(results$predictions)>=as.numeric(args[1])) break
+  if(length(results$AUC)>=as.numeric(args[1])) break
 }
 

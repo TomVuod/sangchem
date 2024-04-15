@@ -31,7 +31,7 @@ results <- {if(file.exists("random_labels_2_groups.rds")) readRDS("random_labels
     results <- list()
     set.seed(1342)
     results$random.seed <- .Random.seed
-    results$Y <- list()
+    results$Y <- Y
     results$predictions <- list()
     results
   }
@@ -40,7 +40,7 @@ counter=0
 while(TRUE){
   counter <- counter+1
   message(counter)
-if(length(results$Y)>0) Y <- results$Y[[length(results$Y)]]
+  Y <- results$Y
   .Random.seed <- results$random.seed
   Y <- split(Y, DA_data$group) %>% lapply(function(x) {x<-sample(x, length(x));x}) %>% unlist()
   discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,
@@ -50,7 +50,7 @@ if(length(results$Y)>0) Y <- results$Y[[length(results$Y)]]
                                      folds = 4,
                                      progressBar = FALSE,
                                      auc = TRUE,
-                                     nrepeat = 10,
+                                     nrepeat = 30,
                                      scale = FALSE,
                                      cpus=18)
   discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
@@ -58,7 +58,7 @@ if(length(results$Y)>0) Y <- results$Y[[length(results$Y)]]
                                                         ncomp = perf.discr_analysis_callow$choice.ncomp[1,1],
                                                         test.keepX = seq(1:120),
                                                         validation = 'Mfold',
-                                                        folds = 5, nrepeat = 15,
+                                                        folds = 4, nrepeat = 30,
                                                         dist = 'max.dist', # use max.dist measure
                                                         measure = "BER",
                                                         progressBar = FALSE,
@@ -76,17 +76,16 @@ if(length(results$Y)>0) Y <- results$Y[[length(results$Y)]]
                                      validation = "Mfold",
                                      folds = 4,
                                      progressBar = FALSE,
-                                     nrepeat = 100,
+                                     nrepeat = 1,
                                      scale = FALSE,
                                      cpus=18)
 
-  #curve_data <- calculate_accuracy_metrics(predicted_species[Y>0], Y[Y>0]==2)
-  #AUC <- calculate_AUC(curve_data$FPR, curve_data$TPR)
-  #results$AUC <- c(results$AUC, AUC)
+  curve_data <- calculate_accuracy_metrics(perf.discr_analysis_callows_res$predict[[length(perf.discr_analysis_callows_res$predict)]][,2,1], Y==1)
+  AUC <- calculate_AUC(curve_data$FPR, curve_data$TPR)
+  results$AUC <- c(results$AUC, AUC)
   results$random.seed <- .Random.seed
-  results$Y <- c(results$Y, list(Y))
-  results$predictions <- c(results$predictions, perf.discr_analysis_callows_res$predict[length(perf.discr_analysis_callows_res$predict)])
+  results$Y <- Y
   saveRDS(results, "random_labels_2_groups.rds")}, error=function(cond) print(cond))
-  if(length(results$predictions)>=as.numeric(args[1])) break
+  if(length(results$AUC)>=as.numeric(args[1])) break
 }
 

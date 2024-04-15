@@ -3,6 +3,7 @@ devtools::load_all(".")
 args = commandArgs(trailingOnly=TRUE)
 library(mixOmics)
 library(dplyr)
+
 calculate_AUC <- function(x,y){
   y <- y[order(x)]
   x <- x[order(x)]
@@ -42,6 +43,7 @@ calculate_accuracy_metrics <- function(values, labels){
   FPR <- res$FP/(res$FP + res$TN)
   list(TPR = TPR, FPR = FPR, cutoff = res$cutoff, confusion_matrix_data = res)
 }
+
 # load data
 data("development_data")
 data("mass_spectra_data")
@@ -54,7 +56,7 @@ DA_data <- dplyr::filter(development_data, caste=="worker", !remarks %in% c("agg
   purrr::map2(seq_along(.), function(x,y){x$group <- y; x}) %>%
   {function(x) do.call(rbind, x)}()
 
-Y <- as.numeric(DA_data$callow)+as.numeric(DA_data$species=="F. sanguinea")
+Y <- as.numeric(DA_data$callow)
 
 peak_prop <- peak_proportions_table(mass_spectra_data[mass_spectra_data$chromatogram_ID %in% DA_data$chromatogram_ID,])
 peak_prop <- peak_prop[match(DA_data$chromatogram_ID, rownames(peak_prop)),]
@@ -67,10 +69,10 @@ PCA_callow_discr$x <- withinVariation(PCA_callow_discr$x, data.frame(DA_data$gro
 results <- {if(file.exists("true_labels_3_groups.rds")) readRDS("true_labels_3_groups.rds")
   else {
     results <- list()
-    results$Y <- list(Y)
-    results$predictions <- list()
     set.seed(1342)
     results$random.seed <- .Random.seed
+    results$AUC <- c()
+    results$Y <- Y
     results
   }
 }
@@ -81,20 +83,20 @@ while(TRUE){
   .Random.seed <- results$random.seed
   discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,
                                   ncomp=7, scale = FALSE)
-  perf.discr_analysis_callow <- perf(discr_analysis_callow,
+  tryCatch({perf.discr_analysis_callow <- perf(discr_analysis_callow,
                                      validation = "Mfold",
                                      folds = 4,
                                      progressBar = FALSE,
                                      auc = TRUE,
-                                     nrepeat = 10,
+                                     nrepeat = 30,
                                      scale = FALSE,
                                      cpus=18)
-  tryCatch({discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
+  discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
                                                         Y=Y,
                                                         ncomp = perf.discr_analysis_callow$choice.ncomp[1,1],
                                                         test.keepX = seq(1:120),
                                                         validation = 'Mfold',
-                                                        folds = 5, nrepeat = 15,
+                                                        folds = 4, nrepeat = 30,
                                                         dist = 'max.dist', # use max.dist measure
                                                         measure = "BER",
                                                         progressBar = FALSE,
@@ -107,14 +109,20 @@ while(TRUE){
                                        keepX=discr_analysis_callows_tuned$choice.keepX,
                                        ncomp=n_comp,
                                        scale = FALSE)
-  predicted_species <- calculate_SII(peak_prop, discr_analysis_callows_res, PCA_callow_discr, predicted_category=3,
-                                     multilevel=DA_data$group)$predicted_species
-  #curve_data <- calculate_accuracy_metrics(predicted_species[Y>0], Y[Y>0]==2)
-  #AUC <- calculate_AUC(curve_data$FPR, curve_data$TPR)
-  #results$AUC <- c(results$AUC, AUC)
+
+  perf.discr_analysis_callows_res <- perf(discr_analysis_callows_res,
+                                     validation = "Mfold",
+                                     folds = 4,
+                                     progressBar = FALSE,
+                                     nrepeat = 1,
+                                     scale = FALSE,
+                                     cpus=18)
+
+  curve_data <- calculate_accuracy_metrics(perf.discr_analysis_callows_res$predict[[length(perf.discr_analysis_callows_res$predict)]][,3,1][Y>0], Y[Y>0]==2)
+  AUC <- calculate_AUC(curve_data$FPR, curve_data$TPR)
+  results$AUC <- c(results$AUC, AUC)
   results$random.seed <- .Random.seed
-  results$predictions <- c(results$predictions, list(predicted_species))
-  saveRDS(results, "true_labels_3_groups.rds")}, error=function(cond) 0)
+  saveRDS(results, "true_labels_3_groups.rds")}, error=function(cond) print(cond))
   if(length(results$AUC)>=as.numeric(args[1])) break
 }
 
