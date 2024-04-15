@@ -77,6 +77,23 @@ cat(sprintf("Number of samples from colonies with no slave-maker workers: %d\n",
 cat(sprintf("Number of samples from colonies with no slaves: %d\n", nrow(filter(dev_samples, sang_prop == 1))))
 ```
 
+
+## Proportion of docosane
+```{r}
+data("separation_experiment_data")
+data("mass_spectra_data")
+control_treatment <- separation_experiment_data[separation_experiment_data$treatment_id==9, "chromatogram_ID"]
+cat("Proportion of C22 of intrinsic origin")
+summary(unlist(lapply(control_treatment, function(x) peak_proportion(1, x, mass_spectra_data))))
+control_treatment <- separation_experiment_data[separation_experiment_data$treatment_id==5, "chromatogram_ID"]
+cat("Proportion of C22 in ants affected by the glass beads with F. fusca CHCs")
+summary(unlist(lapply(control_treatment, function(x) peak_proportion(1, x, mass_spectra_data))))
+control_treatment <- separation_experiment_data[separation_experiment_data$treatment_id==7, "chromatogram_ID"]
+cat("Proportion of C22 in ants affected by the glass beads with F. sanguinea CHCs")
+summary(unlist(lapply(control_treatment, function(x) peak_proportion(1, x, mass_spectra_data))))
+```
+
+
 ## Session info
 ```{r}
 print(sessionInfo())
