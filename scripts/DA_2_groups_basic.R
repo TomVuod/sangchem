@@ -88,7 +88,7 @@ while(TRUE){
                                      folds = 4,
                                      progressBar = FALSE,
                                      auc = TRUE,
-                                     nrepeat = 10,
+                                     nrepeat = 30,
                                      scale = FALSE,
                                      cpus=18)
   discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
@@ -96,7 +96,7 @@ while(TRUE){
                                                         ncomp = perf.discr_analysis_callow$choice.ncomp[1,1],
                                                         test.keepX = seq(1:120),
                                                         validation = 'Mfold',
-                                                        folds = 5, nrepeat = 15,
+                                                        folds = 4, nrepeat = 30,
                                                         dist = 'max.dist', # use max.dist measure
                                                         measure = "BER",
                                                         progressBar = FALSE,
