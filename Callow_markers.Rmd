@@ -29,6 +29,7 @@ peak_prop[peak_prop==0] <- 10^-16
 # apply central log ratio transformation
 peak_transformed <- t(apply(peak_prop, 1, clr_transformation))
 PCA_callow_discr <- prcomp(peak_transformed, scale. = TRUE)
+PCA_callow_discr$x <- withinVariation(PCA_callow_discr$x, data.frame(DA_data$group))
 ```
 ```{r}
 discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,multilevel=DA_data$group, 
@@ -40,17 +41,19 @@ perf.discr_analysis_callow <- perf(discr_analysis_callow,
                                 folds = 4, 
                            progressBar = FALSE, 
                            auc = TRUE, 
-                           nrepeat = 10,
+                           nrepeat = 30,
                            scale = FALSE)
 plot(perf.discr_analysis_callow, col = color.mixo(1:3), sd = TRUE, legend.position = "horizontal")
 selected_n <- 5
 discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
                                    Y=Y,
-                                   multilevel=DA_data$group,
-                                   ncomp = selected_n,
+                                   nrepeat = 30,
+                                   folds = 4,
+                                   ncomp = perf.discr_analysis_callow$choice.ncomp[1,1],
                                    test.keepX = seq(1:120), 
-                                   dist = 'mahalanobis.dist',
-                                   validation = 'loo',
+                                   dist = 'max.dist',
+                                   validation = 'Mfold',
+                                   measure = "BER",
                                    progressBar = FALSE,
                                    scale = FALSE) 
 
@@ -67,9 +70,10 @@ plotIndiv(discr_analysis_callows_res,
 ## Determining callow markers
 ```{r}
 # quantify predicted species (callow workers closer to one)
-predicted_species <- calculate_SII(peak_prop, discr_analysis_callows_res, PCA_callow_discr, predicted_category=3)
+predicted_species <- calculate_SII(peak_prop, discr_analysis_callows_res, PCA_callow_discr, predicted_category=3,
+                                   multilevel = DA_data$group)
 # build matrix to calculate correlation of `prediction score` and peak relative abundances 
-predicted_species <- matrix(predicted_species$predicted_species[match(rownames(peak_prop), predicted_species$chromatogram_ID)], ncol=1, dimnames = list(rownames(peak_prop), "predicted_species"))
+predicted_species <- matrix(predicted_species$predicted_species[match(predicted_species$chromatogram_ID), rownames(peak_prop)], ncol=1, dimnames = list(rownames(peak_prop), "predicted_species"))
 library(Hmisc) 
 cor_p_val<-rcorr(cbind(peak_prop, predicted_species))
 cor_p_val$P[cor_p_val$r==1]<-0
