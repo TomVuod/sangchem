@@ -54,7 +54,7 @@ DA_data <- dplyr::filter(development_data, caste=="worker", !remarks %in% c("agg
   purrr::map2(seq_along(.), function(x,y){x$group <- y; x}) %>%
   {function(x) do.call(rbind, x)}()
 
-Y <- as.numeric(DA_data$callow)
+Y <- as.numeric(DA_data$callow) + as.numeric(DA_data$species == "F. sanguinea")
 
 peak_prop <- peak_proportions_table(mass_spectra_data[mass_spectra_data$chromatogram_ID %in% DA_data$chromatogram_ID,])
 peak_prop <- peak_prop[match(DA_data$chromatogram_ID, rownames(peak_prop)),]
@@ -90,7 +90,7 @@ while(TRUE){
                                      auc = TRUE,
                                      nrepeat = 30,
                                      scale = FALSE,
-                                     cpus=18)
+                                     cpus=16)
   discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
                                                         Y=Y,
                                                         ncomp = perf.discr_analysis_callow$choice.ncomp[1,1],
@@ -101,7 +101,7 @@ while(TRUE){
                                                         measure = "BER",
                                                         progressBar = FALSE,
                                                         scale = FALSE,
-                                                        cpus=18)
+                                                        cpus=16)
 
   n_comp <- discr_analysis_callows_tuned$choice.ncomp$ncomp
   if(is.null(n_comp)) n_comp <- 1
@@ -116,7 +116,7 @@ while(TRUE){
                                      progressBar = FALSE,
                                      nrepeat = 1,
                                      scale = FALSE,
-                                     cpus=18)
+                                     cpus=16)
 
   curve_data <- calculate_accuracy_metrics(perf.discr_analysis_callows_res$predict[[length(perf.discr_analysis_callows_res$predict)]][,2,1][Y>0], Y[Y>0]==2)
   AUC <- calculate_AUC(curve_data$FPR, curve_data$TPR)

@@ -132,7 +132,7 @@ while(TRUE){
                                      auc = TRUE,
                                      nrepeat = 30,
                                      scale = FALSE,
-                                     cpus=18)
+                                     cpus=16)
   discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
                                                         Y=Y,
                                                         ncomp = perf.discr_analysis_callow$choice.ncomp[1,1],
@@ -143,7 +143,7 @@ while(TRUE){
                                                         measure = "BER",
                                                         progressBar = FALSE,
                                                         scale = FALSE,
-                                                        cpus=18)
+                                                        cpus=16)
 
   n_comp <- discr_analysis_callows_tuned$choice.ncomp$ncomp
   if(is.null(n_comp)) n_comp <- 1
@@ -158,14 +158,14 @@ while(TRUE){
                                      progressBar = FALSE,
                                      nrepeat = 1,
                                      scale = FALSE,
-                                     cpus=18)
+                                     cpus=16)
 
   curve_data <- calculate_accuracy_metrics(perf.discr_analysis_callows_res$predict[[length(perf.discr_analysis_callows_res$predict)]][,2,1], Y==1)
   AUC <- calculate_AUC(curve_data$FPR, curve_data$TPR)
   results$AUC <- c(results$AUC, AUC)
   results$random.seed <- .Random.seed
   results$Y <- Y
-  saveRDS(results, "random_labels_2_groups.rds")}, error=function(cond) print(cond))
+  saveRDS(results, "random_labels_2_groups.rds")}, error=function(cond) message(cond))
   if(length(results$AUC)>=as.numeric(args[1])) break
 }
 
