@@ -118,11 +118,11 @@ while(TRUE){
                                      scale = FALSE,
                                      cpus=18)
 
-  curve_data <- calculate_accuracy_metrics(perf.discr_analysis_callows_res$predict[[length(perf.discr_analysis_callows_res$predict)]][,3,1][Y>0], Y[Y>0]==2)
+  curve_data <- calculate_accuracy_metrics(perf.discr_analysis_callows_res$predict[[length(perf.discr_analysis_callows_res$predict)]][,2,1][Y>0], Y[Y>0]==2)
   AUC <- calculate_AUC(curve_data$FPR, curve_data$TPR)
   results$AUC <- c(results$AUC, AUC)
   results$random.seed <- .Random.seed
-  saveRDS(results, "true_labels_3_groups.rds")}, error=function(cond) print(cond))
+  saveRDS(results, "true_labels_3_groups.rds")}, error=function(cond) meassage(cond))
   if(length(results$AUC)>=as.numeric(args[1])) break
 }
 
