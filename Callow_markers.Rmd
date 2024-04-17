@@ -32,6 +32,7 @@ PCA_callow_discr <- prcomp(peak_transformed, scale. = TRUE)
 PCA_callow_discr$x <- withinVariation(PCA_callow_discr$x, data.frame(DA_data$group))
 ```
 ```{r}
+set.seed(1342)
 discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,multilevel=DA_data$group, 
                                 ncomp=7, scale = FALSE)
 plotIndiv(discr_analysis_callow, legend=TRUE,ellipse=TRUE,comp=1:2)
@@ -72,7 +73,7 @@ plotIndiv(discr_analysis_callows_res,
 # quantify predicted species (callow workers closer to one)
 predicted_species <- calculate_SII(peak_prop, discr_analysis_callows_res, PCA_callow_discr, predicted_category=3,multilevel = DA_data$group)
 # build matrix to calculate correlation of `prediction score` and peak relative abundances 
-predicted_species <- matrix(predicted_species$predicted_species[match(rownames(peak_prop), predicted_species$chromatogram_ID), ], ncol=1, dimnames = list(rownames(peak_prop), "predicted_species"))
+predicted_species <- matrix(predicted_species$predicted_species[match(rownames(peak_prop), predicted_species$chromatogram_ID)], ncol=1, dimnames = list(rownames(peak_prop), "predicted_species"))
 library(Hmisc) 
 cor_p_val<-rcorr(cbind(peak_prop, predicted_species))
 cor_p_val$P[cor_p_val$r==1]<-0

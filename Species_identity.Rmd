@@ -44,6 +44,7 @@ Y <- rownames(PCA_species_discr$x) %in% sanguinea_samples
 
 Now that we have prepared the input data we can run the model. The following workflow is based on the tutorial available at the official [`mixOmics` package web site](https://mixomics.org/mixmc/hmp-bodysites-case-study/).
 ```{r}
+set.seed(9230)
 # run the main model
 species_discrimination_PC.plsda <- plsda(PCA_species_discr$x, Y, ncomp=10, scale=FALSE)
 plotIndiv(species_discrimination_PC.plsda,group=Y,
