@@ -70,10 +70,9 @@ plotIndiv(discr_analysis_callows_res,
 ## Determining callow markers
 ```{r}
 # quantify predicted species (callow workers closer to one)
-predicted_species <- calculate_SII(peak_prop, discr_analysis_callows_res, PCA_callow_discr, predicted_category=3,
-                                   multilevel = DA_data$group)
+predicted_species <- calculate_SII(peak_prop, discr_analysis_callows_res, PCA_callow_discr, predicted_category=3,multilevel = DA_data$group)
 # build matrix to calculate correlation of `prediction score` and peak relative abundances 
-predicted_species <- matrix(predicted_species$predicted_species[match(predicted_species$chromatogram_ID), rownames(peak_prop)], ncol=1, dimnames = list(rownames(peak_prop), "predicted_species"))
+predicted_species <- matrix(predicted_species$predicted_species[match(rownames(peak_prop), predicted_species$chromatogram_ID), ], ncol=1, dimnames = list(rownames(peak_prop), "predicted_species"))
 library(Hmisc) 
 cor_p_val<-rcorr(cbind(peak_prop, predicted_species))
 cor_p_val$P[cor_p_val$r==1]<-0
