@@ -11,9 +11,8 @@ relative_amounts <- function(chromatogram_data, chrID=NULL, peak_subset=NULL){
     return(NULL)
   }
   if (!missing(chrID) && !(is.numeric(chrID))) stop("Chromatogram ID should be numeric")
-  if (!missing(chrID) && length(chrID)!=1) stop("One chromatogram ID should be passed in")
-  if (!missing(chrID) && !(chrID %in% chromatogram_data$chromatogram_ID)) {
-    warning(sprintf("Chromatogram ID not found: %s", as.character(chrID)))
+  if (!missing(chrID) && any(!(chrID %in% chromatogram_data$chromatogram_ID))) {
+    warning(sprintf("Chromatogram ID not found: %s", as.character(chrID)[!chrID %in% chromatogram_data$chromatogram_ID]))
     return(NULL)
   }
   if(missing(chrID)) {
@@ -24,12 +23,15 @@ relative_amounts <- function(chromatogram_data, chrID=NULL, peak_subset=NULL){
     dplyr::select(chromatogram_ID,peak_ID,abundance) -> filtered_data
   if (!is.null(peak_subset)) filtered_data <- dplyr::filter(filtered_data,peak_ID %in% peak_subset)
   if(nrow(filtered_data)==0) return(NULL)
-  filtered_data <- aggregate(filtered_data$abundance,
-                             list(peak_ID=filtered_data$peak_ID),sum)
-  filtered_data <- rename(filtered_data,abundance=x)
-  filtered_data <- filtered_data[,c("peak_ID", "abundance")]
-  filtered_data$abundance<-filtered_data$abundance/sum(filtered_data$abundance)
-  rename(filtered_data, relative_abundance=abundance)
+  filtered_data <- aggregate(list(abundance=filtered_data$abundance),
+                             list(chromatogram_ID = filtered_data$chromatogram_ID, peak_ID=filtered_data$peak_ID), sum, drop=FALSE)
+  filtered_data$abundance[is.na(filtered_data$abundance)] <- 0
+  filtered_data <- split(filtered_data, filtered_data$chromatogram_ID) %>%
+    lapply(function(x) {x$abundance <- x$abundance/sum(x$abundance); x}) %>%
+    {function(x) purrr::reduce(x, merge, by = "peak_ID")}()
+  filtered_data <- filtered_data[,!duplicated(colnames(filtered_data))] # remove extra peak ID columns
+  filtered_data$relative_abundance <- apply(filtered_data, 1, function(x) mean(x[grep("abundance", colnames(filtered_data))]))
+  select(filtered_data, peak_ID, relative_abundance)
 }
 
 #' Relative abundances table
