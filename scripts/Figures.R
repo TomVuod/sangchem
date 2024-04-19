@@ -278,29 +278,43 @@ ggarrange(p1, p2, p3, p4, p5, ncol=5, labels=c("A", "B", "C", "D", "E"), widths 
 
 
 
-mean_abundances_age <- function(df){
+mean_abundances_diff <- function(df){
   chr_IDs_mature <- filter(df, species =="F. sanguinea", callow==0) %>%
     pull(chromatogram_ID)
   chr_IDs_callow <- filter(df, species =="F. sanguinea", callow==1) %>%
     pull(chromatogram_ID)
+  if(length(chr_IDs_mature)==0 | length(chr_IDs_callow)==0) return(NULL)
   mean_peaks_mature <- relative_amounts(mass_spectra_data, chr_IDs_mature)
   mean_peaks_callow <- relative_amounts(mass_spectra_data, chr_IDs_callow)
   mean_peaks_merged <- merge(mean_peaks_callow, mean_peaks_mature, by = "peak_ID")
-  mean_peaks_merged$relative_abudnance.x[is.na(mean_peaks_merged$relative_abudnance.x)] <- 0
-  mean_peaks_merged$relative_abudnance.y[is.na(mean_peaks_merged$relative_abudnance.y)] <- 0
+  mean_peaks_merged$relative_abundance.x[is.na(mean_peaks_merged$relative_abundance.x)] <- 0
+  mean_peaks_merged$relative_abundance.y[is.na(mean_peaks_merged$relative_abundance.y)] <- 0
   mean_peaks_merged$relative_abundance <- mean_peaks_merged$relative_abundance.x - mean_peaks_merged$relative_abundance.y
   mean_peaks_merged[,c("peak_ID", "relative_abundance")]
 }
 
-callow_df <- filter(development_data, callow==1)
-callow_ID <- split(callow_df$chromatogram_ID, list(callow_df$census_date, callow_df$colony), drop=TRUE) %>%
-  lapply(function(x) x[1]) %>%
-  unlist()
+df <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor",
+                                                                                   "aggression target",
+                                                                                   "queenless colony")) %>%
+  select(colony, census_date, chromatogram_ID,
+         callow, mass, head_width, species, sang_prop)
+callow_mature_diff <- split(df, list(df$census_date, df$colony), drop=TRUE) %>%
+  lapply(mean_abundances_diff) 
 
+callow_mature_diff <- callow_mature_diff[!unlist(lapply(callow_mature_diff, is.null))]
+callow_mature_diff <- purrr::reduce(callow_mature_diff, merge, by ="peak_ID", all=TRUE)
+for(col_ind in grep("relative_abundance", colnames(callow_mature_diff))){
+  callow_mature_diff[,col_ind][is.na(callow_mature_diff[,col_ind])] <- 0
+}
+
+plot_data <- data.frame(peak_ID = callow_mature_diff$peak_ID, 
+                        relative_abundance_diff = apply(callow_mature_diff[,grep("relative_abundance", colnames(callow_mature_diff))], 1, mean),
+                        sd = apply(callow_mature_diff[,grep("relative_abundance", colnames(callow_mature_diff))], 1, sd))
 
 # line
-ggplot(data) +
-  geom_bar( aes(x=peak_ID, y=value), stat="identity", fill="skyblue", alpha=0.5) +
-  geom_linerange( aes(x=name, ymin=value-sd, ymax=value+sd), colour="orange", alpha=0.9, size=1.3)
+ggplot(plot_data, aes(x=peak_ID, y=relative_abundance_diff))+
+  geom_bar(stat="identity", fill="grey") +
+  geom_text(aes(label = peak_ID))
+  #geom_linerange( aes(x=peak_ID, ymin=relative_abundance_diff-sd, ymax=relative_abundance_diff+sd), colour="orange", size=1.3)
 
 
