@@ -299,7 +299,7 @@ df <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in%
   select(colony, census_date, chromatogram_ID,
          callow, mass, head_width, species, sang_prop)
 callow_mature_diff <- split(df, list(df$census_date, df$colony), drop=TRUE) %>%
-  lapply(mean_abundances_diff) 
+  lapply(mean_abundances_diff)
 
 callow_mature_diff <- callow_mature_diff[!unlist(lapply(callow_mature_diff, is.null))]
 callow_mature_diff <- purrr::reduce(callow_mature_diff, merge, by ="peak_ID", all=TRUE)
@@ -307,7 +307,7 @@ for(col_ind in grep("relative_abundance", colnames(callow_mature_diff))){
   callow_mature_diff[,col_ind][is.na(callow_mature_diff[,col_ind])] <- 0
 }
 
-plot_data <- data.frame(peak_ID = callow_mature_diff$peak_ID, 
+plot_data <- data.frame(peak_ID = callow_mature_diff$peak_ID,
                         relative_abundance_diff = apply(callow_mature_diff[,grep("relative_abundance", colnames(callow_mature_diff))], 1, mean),
                         sd = apply(callow_mature_diff[,grep("relative_abundance", colnames(callow_mature_diff))], 1, sd))
 
@@ -317,4 +317,29 @@ ggplot(plot_data, aes(x=peak_ID, y=relative_abundance_diff))+
   geom_text(aes(label = peak_ID))
   #geom_linerange( aes(x=peak_ID, ymin=relative_abundance_diff-sd, ymax=relative_abundance_diff+sd), colour="orange", size=1.3)
 
+
+
+data("distances_to_free_living_fusca")
+
+#' @importFrom HDInterval hdi
+plot_data <- data.frame()
+for(i in 1:length(distances_to_free_living_fusca$all)){
+  plot_data_part <- data.frame(distance = distances_to_free_living_fusca$all[[i]]$rand_distance)
+  interval <- hdi(plot_data_part$distance)
+  plot_data_part$treatment <- names(distances_to_free_living_fusca$all)[i]
+  plot_data_part$HDI_mask <- FALSE
+  plot_data_part$HDI_mask[plot_data_part$distance>interval[1] & plot_data_part$distance<interval[2]] <- TRUE
+  plot_data <- rbind(plot_data, plot_data_part)
+}
+
+ggplot(plot_data, aes(x=distance))+
+  facet_wrap(~treatment)+
+  geom_density()+
+  geom_ribbon(
+    stat = "density",
+    aes(
+      ymin = 0,
+      ymax = {x <- after_stat(density); x[!plot_data[["HDI_mask"]]] <- 0; x}
+    )
+  )
 

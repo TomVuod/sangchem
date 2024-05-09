@@ -18,7 +18,8 @@ Imports:
     lmerTest,
     DHARMa,
     rlang,
-    vegan
+    vegan,
+    HDInterval
 Suggests:
     stringi,
     Hmisc,
