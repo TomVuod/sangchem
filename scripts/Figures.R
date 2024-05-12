@@ -6,6 +6,7 @@ library(forcats)
 library(ggpubr)
 library(rstatix)
 library(stringr)
+library(HDInterval)
 
 
 
@@ -324,22 +325,26 @@ data("distances_to_free_living_fusca")
 #' @importFrom HDInterval hdi
 plot_data <- data.frame()
 for(i in 1:length(distances_to_free_living_fusca$all)){
-  plot_data_part <- data.frame(distance = distances_to_free_living_fusca$all[[i]]$rand_distance)
-  interval <- hdi(plot_data_part$distance)
+  distances <- distances_to_free_living_fusca$all[[i]]$rand_distance
+  dist_density <- density(distances, n=10^3)
+  plot_data_part <- data.frame(x = dist_density$x, y = dist_density$y)
+  interval <- hdi(distances)
   plot_data_part$treatment <- names(distances_to_free_living_fusca$all)[i]
   plot_data_part$HDI_mask <- FALSE
-  plot_data_part$HDI_mask[plot_data_part$distance>interval[1] & plot_data_part$distance<interval[2]] <- TRUE
+  plot_data_part$true_distance <- distances_to_free_living_fusca$all[[i]]$true_distance
+  plot_data_part$max_y <- max(plot_data_part$y)
+  plot_data_part$HDI_mask[plot_data_part$x>interval[1] & plot_data_part$x<interval[2]] <- TRUE
   plot_data <- rbind(plot_data, plot_data_part)
 }
 
-ggplot(plot_data, aes(x=distance))+
-  facet_wrap(~treatment)+
-  geom_density()+
-  geom_ribbon(
-    stat = "density",
-    aes(
-      ymin = 0,
-      ymax = {x <- after_stat(density); x[!plot_data[["HDI_mask"]]] <- 0; x}
-    )
-  )
+ggplot(plot_data, aes(x=x, y=y))+
+  facet_wrap(~treatment, labeller = labeller(treatment=c(treatment_1 = "1-3 days", treatment_2 = "7-10 days",
+                                             treatment_3 = "17-20 days", treatment_4 = "35-40 days")),
+             ncol=1)+
+  geom_segment(aes(x = true_distance, y = 0, xend = true_distance, yend = max_y), lwd=1, lty=2, color="#cc0033")+
+  geom_area(aes(x = x, y = y),
+            data = subset(plot_data, HDI_mask), alpha = 0.5, fill = "#11bb22")+
+  geom_line()+
+  ylab("Density")+
+  xlab("Chemical distance")
 
