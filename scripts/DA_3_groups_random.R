@@ -64,10 +64,13 @@ peak_prop[peak_prop==0] <- 10^-16
 peak_transformed <- t(apply(peak_prop, 1, clr_transformation))
 PCA_callow_discr <- prcomp(peak_transformed, scale. = TRUE)
 PCA_callow_discr$x <- withinVariation(PCA_callow_discr$x, data.frame(DA_data$group))
-results <- {if(file.exists("random_labels_3_groups.rds")) readRDS("random_labels_3_groups.rds")
+file_name <- paste0("random_labels_3_groups_",as.character(args[1]),".rds")
+results <- {if(file.exists(file_name)) readRDS(file_name)
   else {
     results <- list()
     set.seed(1342)
+    rseed <- round(runif(10)*1000)[as.numeric(args[1])]
+    set.seed(rseed)
     results$random.seed <- .Random.seed
     results$Y <- Y
     results$predictions <- list()
@@ -123,7 +126,7 @@ while(TRUE){
   results$AUC <- c(results$AUC, AUC)
   results$random.seed <- .Random.seed
   results$Y <- Y
-  saveRDS(results, "random_labels_3_groups.rds")}, error=function(cond) message(cond))
-  if(length(results$AUC)>=as.numeric(args[1])) break
+  saveRDS(results, file_name)}, error=function(cond) message(cond))
+  if(length(results$AUC)>=as.numeric(100)) break
 }
 

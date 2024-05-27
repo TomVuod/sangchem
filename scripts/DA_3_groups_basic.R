@@ -1,9 +1,7 @@
-setwd("/home/t.wlodarczyk/chemical_ecology/sangchem")
-devtools::load_all(".")
-args = commandArgs(trailingOnly=TRUE)
+devtools::load_all("/home/t.wlodarczyk/chemical_ecology/sangchem")
 library(mixOmics)
 library(dplyr)
-
+args = commandArgs(trailingOnly=TRUE)
 calculate_AUC <- function(x,y){
   y <- y[order(x)]
   x <- x[order(x)]
@@ -15,7 +13,6 @@ calculate_AUC <- function(x,y){
   pair_mean_y <- (y[1:(length(y)-1)] + y[2:length(y)])/2
   sum(x_intervals*pair_mean_y)
 }
-
 
 calculate_accuracy_metrics <- function(values, labels){
   labels <- labels[order(values)]
@@ -66,63 +63,66 @@ peak_prop[peak_prop==0] <- 10^-16
 peak_transformed <- t(apply(peak_prop, 1, clr_transformation))
 PCA_callow_discr <- prcomp(peak_transformed, scale. = TRUE)
 PCA_callow_discr$x <- withinVariation(PCA_callow_discr$x, data.frame(DA_data$group))
-results <- {if(file.exists("true_labels_3_groups.rds")) readRDS("true_labels_3_groups.rds")
+
+file_name <- paste0("true_labels_3_groups_",as.character(args[1]),".rds")
+results <- {if(file.exists(file_name)) readRDS(file_name)
   else {
     results <- list()
     set.seed(1342)
+    rseed <- round(runif(10)*1000)[as.numeric(args[1])]
+    set.seed(rseed)
     results$random.seed <- .Random.seed
-    results$AUC <- c()
     results$Y <- Y
+    results$predictions <- list()
     results
   }
 }
-counter=0
-while(TRUE){
-  counter <- counter+1
+counter=1
+while(length(results$AUC)<100){
   message(counter)
   .Random.seed <- results$random.seed
   discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,
                                   ncomp=7, scale = FALSE)
   tryCatch({perf.discr_analysis_callow <- perf(discr_analysis_callow,
-                                     validation = "Mfold",
-                                     folds = 4,
-                                     progressBar = FALSE,
-                                     auc = TRUE,
-                                     nrepeat = 30,
-                                     scale = FALSE,
-                                     cpus=16)
+                                               validation = "Mfold",
+                                               folds = 4,
+                                               progressBar = FALSE,
+                                               auc = TRUE,
+                                               nrepeat = 30,
+                                               scale = FALSE,
+                                               cpus=16)
   discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
-                                                        Y=Y,
-                                                        ncomp = perf.discr_analysis_callow$choice.ncomp[1,1],
-                                                        test.keepX = seq(1:120),
-                                                        validation = 'Mfold',
-                                                        folds = 4, nrepeat = 30,
-                                                        dist = 'max.dist', # use max.dist measure
-                                                        measure = "BER",
-                                                        progressBar = FALSE,
-                                                        scale = FALSE,
-                                                        cpus=16)
-
+                                              Y=Y,
+                                              ncomp = perf.discr_analysis_callow$choice.ncomp[1,1],
+                                              test.keepX = seq(1:120),
+                                              validation = 'Mfold',
+                                              folds = 4, nrepeat = 30,
+                                              dist = 'max.dist', # use max.dist measure
+                                              measure = "BER",
+                                              progressBar = FALSE,
+                                              scale = FALSE,
+                                              cpus=16)
+  
   n_comp <- discr_analysis_callows_tuned$choice.ncomp$ncomp
   if(is.null(n_comp)) n_comp <- 1
   discr_analysis_callows_res <- splsda(PCA_callow_discr$x,Y=Y,
                                        keepX=discr_analysis_callows_tuned$choice.keepX,
                                        ncomp=n_comp,
                                        scale = FALSE)
-
+  
   perf.discr_analysis_callows_res <- perf(discr_analysis_callows_res,
-                                     validation = "Mfold",
-                                     folds = 4,
-                                     progressBar = FALSE,
-                                     nrepeat = 1,
-                                     scale = FALSE,
-                                     cpus=16)
-
+                                          validation = "Mfold",
+                                          folds = 4,
+                                          progressBar = FALSE,
+                                          nrepeat = 1,
+                                          scale = FALSE,
+                                          cpus=16)
+  
   curve_data <- calculate_accuracy_metrics(perf.discr_analysis_callows_res$predict[[length(perf.discr_analysis_callows_res$predict)]][,3,1][Y>0], Y[Y>0]==2)
   AUC <- calculate_AUC(curve_data$FPR, curve_data$TPR)
   results$AUC <- c(results$AUC, AUC)
   results$random.seed <- .Random.seed
-  saveRDS(results, "true_labels_3_groups.rds")}, error=function(cond) message(cond))
-  if(length(results$AUC)>=as.numeric(args[1])) break
+  counter <- counter+1
+  saveRDS(results, file_name)}, error=function(cond) message(cond))
 }
 
