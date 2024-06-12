@@ -301,10 +301,11 @@ div.csl-indent {
 <div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="species-discrimination-and-prediction.html#cb54-1" tabindex="-1"></a><span class="co">#define groups to be compared</span></span>
 <span id="cb54-2"><a href="species-discrimination-and-prediction.html#cb54-2" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">rownames</span>(PCA_species_discr<span class="sc">$</span>x) <span class="sc">%in%</span> sanguinea_samples</span></code></pre></div>
 <p>Now that we have prepared the input data we can run the model. The following workflow is based on the tutorial available at the official <a href="https://mixomics.org/mixmc/hmp-bodysites-case-study/"><code>mixOmics</code> package web site</a>.</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="species-discrimination-and-prediction.html#cb55-1" tabindex="-1"></a><span class="co"># run the main model</span></span>
-<span id="cb55-2"><a href="species-discrimination-and-prediction.html#cb55-2" tabindex="-1"></a>species_discrimination_PC.plsda <span class="ot">&lt;-</span> <span class="fu">plsda</span>(PCA_species_discr<span class="sc">$</span>x, Y, <span class="at">ncomp=</span><span class="dv">10</span>, <span class="at">scale=</span><span class="cn">FALSE</span>)</span>
-<span id="cb55-3"><a href="species-discrimination-and-prediction.html#cb55-3" tabindex="-1"></a><span class="fu">plotIndiv</span>(species_discrimination_PC.plsda,<span class="at">group=</span>Y,</span>
-<span id="cb55-4"><a href="species-discrimination-and-prediction.html#cb55-4" tabindex="-1"></a>          <span class="at">legend=</span><span class="cn">TRUE</span>,<span class="at">ellipse=</span><span class="cn">TRUE</span>,<span class="at">comp=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="species-discrimination-and-prediction.html#cb55-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">9230</span>)</span>
+<span id="cb55-2"><a href="species-discrimination-and-prediction.html#cb55-2" tabindex="-1"></a><span class="co"># run the main model</span></span>
+<span id="cb55-3"><a href="species-discrimination-and-prediction.html#cb55-3" tabindex="-1"></a>species_discrimination_PC.plsda <span class="ot">&lt;-</span> <span class="fu">plsda</span>(PCA_species_discr<span class="sc">$</span>x, Y, <span class="at">ncomp=</span><span class="dv">10</span>, <span class="at">scale=</span><span class="cn">FALSE</span>)</span>
+<span id="cb55-4"><a href="species-discrimination-and-prediction.html#cb55-4" tabindex="-1"></a><span class="fu">plotIndiv</span>(species_discrimination_PC.plsda,<span class="at">group=</span>Y,</span>
+<span id="cb55-5"><a href="species-discrimination-and-prediction.html#cb55-5" tabindex="-1"></a>          <span class="at">legend=</span><span class="cn">TRUE</span>,<span class="at">ellipse=</span><span class="cn">TRUE</span>,<span class="at">comp=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="species-discrimination-and-prediction.html#cb56-1" tabindex="-1"></a><span class="co"># determine the optimal number of components used in the model</span></span>
 <span id="cb56-2"><a href="species-discrimination-and-prediction.html#cb56-2" tabindex="-1"></a>spec_discr_PC.plsda.perf<span class="ot">&lt;-</span><span class="fu">perf</span>(species_discrimination_PC.plsda, <span class="at">nrepeat =</span> <span class="dv">10</span>,<span class="at">folds=</span><span class="dv">5</span>,</span>
@@ -342,8 +343,8 @@ div.csl-indent {
 <span id="cb58-10"><a href="species-discrimination-and-prediction.html#cb58-10" tabindex="-1"></a>peaks_sang <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>((<span class="fu">setdiff</span>(peaks_sang,<span class="st">&quot;predicted_species&quot;</span>)))</span>
 <span id="cb58-11"><a href="species-discrimination-and-prediction.html#cb58-11" tabindex="-1"></a>peaks_fusca <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">names</span>(significant_correlations)[significant_correlations<span class="sc">&lt;</span><span class="dv">0</span>])</span>
 <span id="cb58-12"><a href="species-discrimination-and-prediction.html#cb58-12" tabindex="-1"></a><span class="fu">print</span>(peaks_sang)</span></code></pre></div>
-<pre><code>##  [1]  22  24  30  35  42  43  47  49  51  56  57  58  59  60  61  62  63  68  71  75  76  77  78  79  81
-## [26]  83  85  92  93  94  95  97  99 102 109 110 111 113 124 125 126</code></pre>
+<pre><code>##  [1]  22  24  30  35  42  43  47  49  51  56  57  58  59  61  63  68  71  75  76  77  78  79  81  83  85  92  93  94  95  97  99
+## [32] 102 109 110 111 113 124 125 126</code></pre>
 <div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="species-discrimination-and-prediction.html#cb60-1" tabindex="-1"></a><span class="fu">print</span>(peaks_fusca)</span></code></pre></div>
 <pre><code>##  [1]  7  8  9 11 12 14 15 16 18 19 23 27 29 31 32 33 36 37 38 41 45 46 55</code></pre>
 <p>The objects <code>peaks_sang</code>, <code>peaks_fusca</code>, <code>species_prediction_model</code> and <code>PCA_species_discr</code> are stored in the package and can be collectively loaded into the global environment along with the other objects by running <code>load_globals()</code>.</p>
@@ -734,60 +735,30 @@ The main idea is to fit a sPLS_DA model to the training set (sampled from field 
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-##  [1] rstatix_0.7.2     ggpubr_0.6.0      Hmisc_4.7-1       Formula_1.2-4     survival_3.2-13  
-##  [6] mixOmics_6.18.1   ggplot2_3.4.4     lattice_0.20-45   MASS_7.3-55       stringi_1.8.3    
-## [11] DHARMa_0.4.6      lmerTest_3.1-3    lme4_1.1-29       Matrix_1.5-1      dplyr_1.1.4      
-## [16] sangchem_0.0.9000
+##  [1] sangchem_0.0.9000 rstatix_0.7.2     ggpubr_0.6.0      Hmisc_4.7-1       Formula_1.2-4     survival_3.2-13   mixOmics_6.18.1  
+##  [8] ggplot2_3.4.4     lattice_0.20-45   MASS_7.3-55       stringi_1.8.3     DHARMa_0.4.6      lmerTest_3.1-3    lme4_1.1-29      
+## [15] Matrix_1.5-1      dplyr_1.1.4      
 ## 
 ## loaded via a namespace (and not attached):
-##   [1] backports_1.4.1             plyr_1.8.9                  igraph_1.3.5               
-##   [4] splines_4.1.3               BiocParallel_1.28.3         usethis_2.1.6              
-##   [7] GenomeInfoDb_1.30.1         gap.datasets_0.0.5          scater_1.22.0              
-##  [10] digest_0.6.29               foreach_1.5.2               htmltools_0.5.2            
-##  [13] viridis_0.6.4               fansi_1.0.3                 checkmate_2.3.1            
-##  [16] magrittr_2.0.2              memoise_2.0.1               ScaledMatrix_1.2.0         
-##  [19] cluster_2.1.2               doParallel_1.0.17           remotes_2.4.2              
-##  [22] matrixStats_1.2.0           rARPACK_0.11-0              jpeg_0.1-9                 
-##  [25] colorspace_2.1-0            ggrepel_0.9.4               xfun_0.41                  
-##  [28] callr_3.7.3                 RCurl_1.98-1.9              jsonlite_1.8.8             
-##  [31] iterators_1.0.14            glue_1.6.2                  gtable_0.3.4               
-##  [34] zlibbioc_1.40.0             XVector_0.34.0              DelayedArray_0.20.0        
-##  [37] car_3.1-2                   pkgbuild_1.4.3              BiocSingular_1.10.0        
-##  [40] SingleCellExperiment_1.16.0 BiocGenerics_0.40.0         abind_1.4-5                
-##  [43] scales_1.3.0                Rcpp_1.0.11                 htmlTable_2.4.1            
-##  [46] viridisLite_0.4.2           xtable_1.8-4                foreign_0.8-82             
-##  [49] rsvd_1.0.5                  stats4_4.1.3                htmlwidgets_1.5.4          
-##  [52] RColorBrewer_1.1-3          ellipsis_0.3.2              pkgconfig_2.0.3            
-##  [55] farver_2.1.1                scuttle_1.4.0               nnet_7.3-17                
-##  [58] deldir_1.0-6                qgam_1.3.4                  sass_0.4.8                 
-##  [61] utf8_1.2.2                  tidyselect_1.2.0            labeling_0.4.3             
-##  [64] rlang_1.1.2                 reshape2_1.4.4              later_1.3.2                
-##  [67] munsell_0.5.0               tools_4.1.3                 cachem_1.0.6               
-##  [70] cli_3.6.2                   generics_0.1.3              broom_1.0.1                
-##  [73] devtools_2.4.3              evaluate_0.23               stringr_1.5.1              
-##  [76] fastmap_1.1.0               yaml_2.3.5                  processx_3.8.0             
-##  [79] knitr_1.45                  fs_1.6.3                    purrr_1.0.2                
-##  [82] nlme_3.1-155                sparseMatrixStats_1.6.0     mime_0.12                  
-##  [85] gap_1.3-1                   compiler_4.1.3              rstudioapi_0.14            
-##  [88] png_0.1-8                   beeswarm_0.4.0              ggsignif_0.6.4             
-##  [91] tibble_3.2.1                bslib_0.4.1                 highr_0.10                 
-##  [94] ps_1.7.2                    desc_1.4.3                  RSpectra_0.16-1            
-##  [97] nloptr_2.0.2                vegan_2.6-4                 permute_0.9-7              
-## [100] vctrs_0.6.5                 pillar_1.9.0                lifecycle_1.0.4            
-## [103] jquerylib_0.1.4             BiocNeighbors_1.12.0        data.table_1.14.10         
-## [106] bitops_1.0-7                irlba_2.3.5.1               corpcor_1.6.10             
-## [109] httpuv_1.6.13               GenomicRanges_1.46.1        latticeExtra_0.6-30        
-## [112] R6_2.5.1                    bookdown_0.37               promises_1.2.1             
-## [115] gridExtra_2.3               vipor_0.4.7                 IRanges_2.28.0             
-## [118] sessioninfo_1.2.2           codetools_0.2-18            boot_1.3-28                
-## [121] pkgload_1.3.3               SummarizedExperiment_1.24.0 withr_2.5.2                
-## [124] S4Vectors_0.32.4            GenomeInfoDbData_1.2.7      mgcv_1.8-39                
-## [127] parallel_4.1.3              rpart_4.1.16                grid_4.1.3                 
-## [130] beachmat_2.10.0             tidyr_1.3.0                 minqa_1.2.4                
-## [133] rmarkdown_2.25              DelayedMatrixStats_1.16.0   carData_3.0-5              
-## [136] MatrixGenerics_1.6.0        numDeriv_2016.8-1.1         Biobase_2.54.0             
-## [139] shiny_1.7.3                 lubridate_1.8.0             base64enc_0.1-3            
-## [142] ellipse_0.4.3               ggbeeswarm_0.7.2            interp_1.1-3</code></pre>
+##   [1] minqa_1.2.4         colorspace_2.1-0    ggsignif_0.6.4      deldir_1.0-6        ellipsis_0.3.2      rprojroot_2.0.4    
+##   [7] htmlTable_2.4.1     corpcor_1.6.10      base64enc_0.1-3     fs_1.6.3            rstudioapi_0.14     farver_2.1.1       
+##  [13] remotes_2.4.2       ggrepel_0.9.4       RSpectra_0.16-1     fansi_1.0.3         lubridate_1.8.0     codetools_0.2-18   
+##  [19] splines_4.1.3       doParallel_1.0.17   cachem_1.0.6        knitr_1.45          pkgload_1.3.3       jsonlite_1.8.8     
+##  [25] nloptr_2.0.2        broom_1.0.1         cluster_2.1.2       png_0.1-8           shiny_1.7.3         compiler_4.1.3     
+##  [31] backports_1.4.1     fastmap_1.1.0       cli_3.6.2           later_1.3.2         htmltools_0.5.2     tools_4.1.3        
+##  [37] igraph_1.3.5        gtable_0.3.4        glue_1.6.2          reshape2_1.4.4      Rcpp_1.0.11         carData_3.0-5      
+##  [43] jquerylib_0.1.4     vctrs_0.6.5         nlme_3.1-155        iterators_1.0.14    xfun_0.41           stringr_1.5.1      
+##  [49] ps_1.7.2            mime_0.12           lifecycle_1.0.4     gap.datasets_0.0.5  devtools_2.4.3      scales_1.3.0       
+##  [55] promises_1.2.1      parallel_4.1.3      RColorBrewer_1.1-3  yaml_2.3.5          memoise_2.0.1       gridExtra_2.3      
+##  [61] sass_0.4.8          rpart_4.1.16        latticeExtra_0.6-30 highr_0.10          desc_1.4.3          gap_1.3-1          
+##  [67] foreach_1.5.2       checkmate_2.3.1     permute_0.9-7       boot_1.3-28         pkgbuild_1.4.3      BiocParallel_1.28.3
+##  [73] qgam_1.3.4          rlang_1.1.2         pkgconfig_2.0.3     matrixStats_1.2.0   evaluate_0.23       purrr_1.0.2        
+##  [79] htmlwidgets_1.5.4   labeling_0.4.3      processx_3.8.0      tidyselect_1.2.0    plyr_1.8.9          magrittr_2.0.2     
+##  [85] bookdown_0.37       R6_2.5.1            generics_0.1.3      pillar_1.9.0        foreign_0.8-82      withr_2.5.2        
+##  [91] mgcv_1.8-39         abind_1.4-5         nnet_7.3-17         tibble_3.2.1        car_3.1-2           rARPACK_0.11-0     
+##  [97] interp_1.1-3        utf8_1.2.2          ellipse_0.4.3       rmarkdown_2.25      jpeg_0.1-9          usethis_2.1.6      
+## [103] grid_4.1.3          data.table_1.14.10  callr_3.7.3         vegan_2.6-4         digest_0.6.29       xtable_1.8-4       
+## [109] tidyr_1.3.0         httpuv_1.6.13       numDeriv_2016.8-1.1 munsell_0.5.0       bslib_0.4.1         sessioninfo_1.2.2</code></pre>
 
 </div>
 </div>
