@@ -26,19 +26,20 @@ model_input <- dev_samples[dev_samples$species=="F. sanguinea",]
 lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop  + (1|colony) +(1 | colony:census_date), data=model_input)
 
 
-simulation_number=10^6
+simulation_number=10^4
+
 seeds <- (1:1000)*17
 predict_values <- function(n, model, sang_prop, seeds){
   set.seed(seeds[n])
-  list(t=exp(bootMer(model,function(x) predict(x,data.frame(sang_prop=sang_prop),re.form=NA),nsim=10^4)$t),
+  list(t=exp(bootMer(model,function(x) predict(x,data.frame(sang_prop=sang_prop),re.form=NA),nsim=simulation_number)$t),
        rseed = .Random.seed)
 }
 pred_values_sang <- bplapply(1:1000, predict_values, model = lm_model, sang_prop = 1, seeds = seeds, BPPARAM = MulticoreParam())
 res_sang <- c()
 seeds_sang <- list()
 for(i in seq_along(pred_values_sang)){
-  res_sang <- c(res_sang, pred_values_sang$t)
-  seeds_sang <- c(seeds_sang, pred_values_sang[2])
+  res_sang <- c(res_sang, pred_values_sang[[i]]$t)
+  seeds_sang <- c(seeds_sang, pred_values_sang[[i]][2])
 }
 
 model_input <- dev_samples[dev_samples$species=="F. fusca",]
@@ -47,8 +48,8 @@ pred_values_fusca <- bplapply(1:1000, predict_values, model = lm_model, sang_pro
 res_fusca <- c()
 seeds_fusca <- list()
 for(i in seq_along(pred_values_fusca)){
-  res_sang <- c(res_sang, pred_values_fusca$t)
-  seeds_sang <- c(seeds_sang, pred_values_fusca[2])
+  res_fusca <- c(res_fusca, pred_values_fusca[[i]]$t)
+  seeds_fusca <- c(seeds_fusca, pred_values_fusca[[i]][2])
 }
 
 saveRDS(list(pred_values_sang=res_sang, pred_values_fusca=res_fusca, seeds_sang = seeds_sang, seeds_fusca = seeds_fusca), "/home/t.wlodarczyk/chemical_ecology/sangchem/predicted_values.rds")
