@@ -23,7 +23,10 @@ if(file.exists("/home/t.wlodarczyk/chemical_ecology/sangchem/predicted_values.rd
   seeds_sang <- seeds_sang
   seeds_fusca <- seeds_fusca
 }
+
 model_input <- dev_samples[dev_samples$species=="F. sanguinea",]
+# remove outlier
+model_input <- model_input[-which.max(model_input$corrected_mass),]
 lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop  + (1|colony) +(1 | colony:census_date), data=model_input)
 
 
