@@ -93,6 +93,7 @@ plot_3<-ggplot(temp,aes(y = stand_mass,x=callow)) +
 # ggsave(file="callow_mature_CHCs_mass.pdf", plot=plot_3, width=7, height=5.8)
 
 data("distances_to_free_living_fusca")
+data("separation_experiment_data")
 
 treatments <- unique(separation_experiment_data$treatment)[1:4]
 
@@ -102,18 +103,28 @@ for(i in 1:4){
 }
 
 
+plot_data_2 <- data.frame()
+for(i in 1:4){
+  plot_data_2 <- rbind(plot_data_2, data.frame(distance=distances_to_free_living_fusca[[1]][[i]]$true_distance, treatment=treatments[i]))
+}
+
 
 plot_data$treatment <- factor(plot_data$treatment, levels = treatments)
+
+
 ggplot(plot_data, aes(y=distance, x=treatment))+
   ggdist::stat_halfeye(justification = -0.2, fill = "#cca22c")+
   geom_boxplot(width=0.3, color = "#cca22c", lwd=0.9)+
   xlab("Adult workers age")+
   ylab("Chemical distance to the free-living F. fusca")+
+  scale_y_continuous(limits = c(0.28,0.82), breaks = seq(0.3,0.7, 0.1))+
   theme(axis.title=element_text(size = 14),
         axis.text = element_text(size=11),
         panel.background = element_blank(),
           panel.grid.major.y =  element_line(linewidth = 0.5, linetype = 'solid',
-                                          colour = "grey"))
+                                          colour = "grey"))+
+  geom_boxplot(aes(y=distance, x=treatment), data = plot_data_2, color = "red", fill="red")
+
 
 
 
