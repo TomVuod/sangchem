@@ -10,7 +10,6 @@ relative_amounts <- function(chromatogram_data, chrID=NULL, peak_subset=NULL){
     warning("Empty data frame passed to 'relative_amounts'")
     return(NULL)
   }
-  if (!missing(chrID) && !(is.numeric(chrID))) stop("Chromatogram ID should be numeric")
   if (!missing(chrID) && any(!(chrID %in% chromatogram_data$chromatogram_ID))) {
     warning(sprintf("Chromatogram ID not found: %s", as.character(chrID)[!chrID %in% chromatogram_data$chromatogram_ID]))
     return(NULL)
@@ -23,6 +22,7 @@ relative_amounts <- function(chromatogram_data, chrID=NULL, peak_subset=NULL){
     dplyr::select(chromatogram_ID,peak_ID,abundance) -> filtered_data
   if (!is.null(peak_subset)) filtered_data <- dplyr::filter(filtered_data,peak_ID %in% peak_subset)
   if(nrow(filtered_data)==0) return(NULL)
+  if(is.factor(filtered_data$chromatogram_ID)) filtered_data$chromatogram_ID <- droplevels(filtered_data$chromatogram_ID)
   filtered_data <- aggregate(list(abundance=filtered_data$abundance),
                              list(chromatogram_ID = filtered_data$chromatogram_ID, peak_ID=filtered_data$peak_ID), sum, drop=FALSE)
   filtered_data$abundance[is.na(filtered_data$abundance)] <- 0
