@@ -285,3 +285,106 @@ spec_discr_PC.plsda.perf<-perf(species_discrimination_PC.plsda, nrepeat = 10,fol
                                auc=TRUE, scale=FALSE)
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+suppressMessages({
+  library(sangchem)
+  library(dplyr)
+  library(mixOmics)
+})
+
+# load data
+data("development_data")
+data("mass_spectra_data")
+
+DA_data <- dplyr::filter(development_data, caste=="worker", !remarks %in% c("aggression actor", "aggression target", "queenless colony")) %>%
+  dplyr::select(colony, species, callow, census_date, chromatogram_ID, sang_prop) %>%
+  split(list(.$colony, .$census_date), drop=TRUE) %>%
+  lapply(function(x){if(sum(x$callow)==0) return(NULL); x}) %>%
+  {function(x) x[!unlist((lapply(x, is.null)))]}() %>%
+  purrr::map2(seq_along(.), function(x,y){x$group <- y; x}) %>%
+  {function(x) do.call(rbind, x)}()
+
+Y <- (DA_data$callow==1) + (DA_data$species=="F. sanguinea")
+
+peak_prop <- peak_proportions_table(mass_spectra_data[mass_spectra_data$chromatogram_ID %in% DA_data$chromatogram_ID,])
+peak_prop <- peak_prop[match(DA_data$chromatogram_ID, rownames(peak_prop)),]
+# replace zeros with a small number before transformation
+peak_prop[peak_prop==0] <- 10^-16
+# apply central log ratio transformation
+peak_transformed <- t(apply(peak_prop, 1, clr_transformation))
+PCA_callow_discr <- prcomp(peak_transformed, scale. = TRUE)
+PCA_callow_discr$x <- withinVariation(PCA_callow_discr$x, data.frame(DA_data$group))
+
+set.seed(1342)
+discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,multilevel=DA_data$group, 
+                                ncomp=7, scale = FALSE)
+perf.discr_analysis_callow <- perf(discr_analysis_callow, 
+                                   validation = "Mfold", 
+                                   folds = 4, 
+                                   progressBar = FALSE, 
+                                   auc = TRUE, 
+                                   nrepeat = 30,
+                                   scale = FALSE)
+plot(perf.discr_analysis_callow, col = color.mixo(1:3), sd = TRUE, legend.position = "horizontal")
+selected_n <- 5
+discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
+                                            Y=Y,
+                                            nrepeat = 30,
+                                            folds = 4,
+                                            ncomp = perf.discr_analysis_callow$choice.ncomp[1,1],
+                                            test.keepX = seq(1:120), 
+                                            dist = 'max.dist',
+                                            validation = 'Mfold',
+                                            measure = "BER",
+                                            progressBar = FALSE,
+                                            scale = FALSE) 
+
+discr_analysis_callows_res <- splsda(PCA_callow_discr$x,Y=Y,
+                                     multilevel= DA_data$group,
+                                     keepX=discr_analysis_callows_tuned$choice.keepX,
+                                     ncomp=selected_n,
+                                     scale = FALSE)
+plotIndiv(discr_analysis_callows_res,
+          legend=TRUE, ellipse=TRUE, comp=1:2, col = c("black", "red", "orange"), title = "Discriminant analysis")
+
+
+
+data("discrimination_model_validation")
+
+
+df <- data.frame(AUC = discrimination_model_validation$AUC_observed, 
+                 model = "true sample labels")
+
+df <- rbind(df, data.frame(AUC = discrimination_model_validation$AUC_null, 
+                 model = "permuted sample labels"))
+ggplot(df, aes(y = AUC, x = model))+
+  geom_boxplot(fill="#ffb800", alpha = 0.2)+
+  ylab("Area under curve (AUC) of receiver operating characteristic (ROC)")+
+  xlab("Model")+  
+  theme(axis.title=element_text(size = 14),
+                       axis.text = element_text(size=11),
+                       panel.background = element_blank(),
+                       panel.grid.major.y =  element_line(linewidth = 1, linetype = 'solid',
+                                                          colour = "grey"))
+  
+
+
