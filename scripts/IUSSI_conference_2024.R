@@ -172,23 +172,23 @@ ggplot(plot_data, aes(y=distance, x=treatment))+
 
 
 
-peak_color<-function(peak_ID){
+peak_color<-function(peak_ID, species_correlations){
   if (is.na(match(peak_ID,as.numeric(names(species_correlations)))))
     return(rgb(1,1,1))
   corr<-species_correlations[as.character(peak_ID)]
   if (corr>0){
-    
+
     return(rgb(0.5*corr+0.5,-0.5*corr+0.5,-0.5*corr+0.5))
   }
   rgb(0.5*corr+0.5,-0.5*corr+0.5,0.5*corr+0.5)
 }
 
 
-plot_bars<-function(data,descr="",czynnik="density_peak",peak_set=1:110,data2=NULL,proportions=FALSE){
+plot_bars<-function(data,descr="",czynnik="peak_ID",peak_set=1:120,data2=NULL,proportions=FALSE, species_correlations){
   if (nrow(data)==0) stop ("Empty dataset 1 passed")
   if (!is.null(data2)){
     if(nrow(data2)==0) {
-      data2<-NULL 
+      data2<-NULL
       warning("Empty dataset 2 passed")
     }
   }
@@ -222,9 +222,9 @@ plot_bars<-function(data,descr="",czynnik="density_peak",peak_set=1:110,data2=NU
       #fill_col=list(rgb(0.7,0.7,0.7),"green","red")[[as.numeric(data[data[,czynnik]==i,"characteristic"])+1]]
       #if (length(fill_col)==0) fill_col=rgb(0.7,0.7,0.7)
       #if (is.na(fill_col)) fill_col=rgb(0.7,0.7,0.7)
-      fill_col=publication$peak_color(i)
-      rect(i-0.3,0,i+0.3,15*data[data[,czynnik]==i,"proportion"],col=fill_col)
-      text(i,15*data[data[,czynnik]==i,"proportion"]+0.2+(i%%3)*0.2,as.character(i),cex=0.6,srt=90)
+      fill_col=peak_color(i, species_correlations)
+      rect(i-0.3,0,i+0.3,15*data[data[,czynnik]==i,"relative_abundance"],col=fill_col)
+      text(i,15*data[data[,czynnik]==i,"relative_abundance"]+0.2+(i%%3)*0.2,as.character(i),cex=0.6,srt=90)
     }
   }
   if (!is.null(data2)){
@@ -234,9 +234,9 @@ plot_bars<-function(data,descr="",czynnik="density_peak",peak_set=1:110,data2=NU
         #fill_col=list(rgb(0.7,0.7,0.7),"green","red")[[as.numeric(data[data[,czynnik]==i,"characteristic"])+1]]
         #if (length(fill_col)==0) fill_col=rgb(0.7,0.7,0.7)
         #if (is.na(fill_col)) fill_col=rgb(0.7,0.7,0.7)
-        fill_col=publication$peak_color(i)
-        rect(i-0.3,0,i+0.3,-15*data2[data2[,czynnik]==i,"proportion"],col=fill_col)
-        text(i,-15*data2[data2[,czynnik]==i,"proportion"]-0.2-(i%%3)*0.2,as.character(i),cex=0.6,srt=90)
+        fill_col=peak_color(i, species_correlations)
+        rect(i-0.3,0,i+0.3,-15*data2[data2[,czynnik]==i,"relative_abundance"],col=fill_col)
+        text(i,-15*data2[data2[,czynnik]==i,"relative_abundance"]-0.2-(i%%3)*0.2,as.character(i),cex=0.6,srt=90)
       }
     }
   }
@@ -261,7 +261,7 @@ sanguinea_samples<-as.character(unique(field_colonies$chromatogram_ID)[stri_dete
 # remove outliers
 sanguinea_samples <- setdiff(sanguinea_samples,c("sangFs2(1)","sangFs5(2)","sangFs26(1)","sangFs26(2)"))
 fusca_samples <- setdiff(fusca_samples,c("fus9-2(1)", "fus26-3(2)"))
-discrimination_data <- filter(field_colonies,chromatogram_ID %in% c(fusca_samples,sanguinea_samples)) 
+discrimination_data <- filter(field_colonies,chromatogram_ID %in% c(fusca_samples,sanguinea_samples))
 peak_prop_unfiltered <- peak_proportions_table(discrimination_data)
 # feature selection
 peak_prop <- freq_abun_QC(peak_prop_unfiltered)
@@ -286,17 +286,47 @@ spec_discr_PC.plsda.perf<-perf(species_discrimination_PC.plsda, nrepeat = 10,fol
 
 
 
+selected_n <- 2
+
+# dtermine the number of the original variables to be kept in each component (actually
+# here we have only one component)
+spec_discr_PC.splsda <- tune.splsda(PCA_species_discr$x,Y,test.keepX = c(1:60),ncomp = selected_n,
+                                    validation="Mfold", progressBar=FALSE, dist="max.dist",
+                                    nrepeat=5, cpus=2, folds=5, measure="BER", scale=FALSE)
+
+# final model
+species_prediction_model <- splsda(PCA_species_discr$x, Y, ncomp=selected_n,
+                                   keepX =spec_discr_PC.splsda$choice.keepX, scale=FALSE)
+
+
+# quantify predicted species (F. sanguinea closer to one and F. fusca closer to 0)
+predicted_species <- predict(species_prediction_model, PCA_species_discr$x)$predict[,2,species_prediction_model$ncomp]
+
+library(Hmisc)
+correlations<-rcorr(cbind(peak_prop, predicted_species))$r
+
+species_correlations <- correlations["predicted_species",]
+species_correlations <- species_correlations[names(species_correlations)!="predicted_species"]
+
+
+data("CHC_amounts")
 
 
 
 
+chr_IDs_mature <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), callow==0, species == "F. sanguinea") %>%
+  pull(chromatogram_ID)
 
 
+averaged_profile_mature <- averaged_profile(chr_IDs_mature, mass_spectra_data, CHC_amounts, proportions=TRUE)
 
+chr_IDs_callow <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), callow==1, species == "F. sanguinea") %>%
+  pull(chromatogram_ID)
 
+averaged_profile_callow <- averaged_profile(chr_IDs_callow, mass_spectra_data, CHC_amounts, proportions=TRUE)
 
-
-
+plot_bars(averaged_profile_callow, descr=c("callow", "mature"), proportions = TRUE, data2=averaged_profile_mature,
+          species_correlations=species_correlations)
 
 
 
@@ -335,13 +365,13 @@ PCA_callow_discr <- prcomp(peak_transformed, scale. = TRUE)
 PCA_callow_discr$x <- withinVariation(PCA_callow_discr$x, data.frame(DA_data$group))
 
 set.seed(1342)
-discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,multilevel=DA_data$group, 
+discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,multilevel=DA_data$group,
                                 ncomp=7, scale = FALSE)
-perf.discr_analysis_callow <- perf(discr_analysis_callow, 
-                                   validation = "Mfold", 
-                                   folds = 4, 
-                                   progressBar = FALSE, 
-                                   auc = TRUE, 
+perf.discr_analysis_callow <- perf(discr_analysis_callow,
+                                   validation = "Mfold",
+                                   folds = 4,
+                                   progressBar = FALSE,
+                                   auc = TRUE,
                                    nrepeat = 30,
                                    scale = FALSE)
 plot(perf.discr_analysis_callow, col = color.mixo(1:3), sd = TRUE, legend.position = "horizontal")
@@ -351,12 +381,12 @@ discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
                                             nrepeat = 30,
                                             folds = 4,
                                             ncomp = perf.discr_analysis_callow$choice.ncomp[1,1],
-                                            test.keepX = seq(1:120), 
+                                            test.keepX = seq(1:120),
                                             dist = 'max.dist',
                                             validation = 'Mfold',
                                             measure = "BER",
                                             progressBar = FALSE,
-                                            scale = FALSE) 
+                                            scale = FALSE)
 
 discr_analysis_callows_res <- splsda(PCA_callow_discr$x,Y=Y,
                                      multilevel= DA_data$group,
@@ -371,20 +401,20 @@ plotIndiv(discr_analysis_callows_res,
 data("discrimination_model_validation")
 
 
-df <- data.frame(AUC = discrimination_model_validation$AUC_observed, 
+df <- data.frame(AUC = discrimination_model_validation$AUC_observed,
                  model = "true sample labels")
 
-df <- rbind(df, data.frame(AUC = discrimination_model_validation$AUC_null, 
+df <- rbind(df, data.frame(AUC = discrimination_model_validation$AUC_null,
                  model = "permuted sample labels"))
 ggplot(df, aes(y = AUC, x = model))+
   geom_boxplot(fill="#ffb800", alpha = 0.2)+
   ylab("Area under curve (AUC) of receiver operating characteristic (ROC)")+
-  xlab("Model")+  
+  xlab("Model")+
   theme(axis.title=element_text(size = 14),
                        axis.text = element_text(size=11),
                        panel.background = element_blank(),
                        panel.grid.major.y =  element_line(linewidth = 1, linetype = 'solid',
                                                           colour = "grey"))
-  
+
 
 
