@@ -30,7 +30,7 @@ relative_amounts <- function(chromatogram_data, chrID=NULL, peak_subset=NULL){
     lapply(function(x) {x$abundance <- x$abundance/sum(x$abundance); x}) %>%
     {function(x) purrr::reduce(x, merge, by = "peak_ID")}()
   filtered_data <- filtered_data[,!duplicated(colnames(filtered_data))] # remove extra peak ID columns
-  filtered_data$relative_abundance <- apply(filtered_data, 1, function(x) mean(x[grep("abundance", colnames(filtered_data))]))
+  filtered_data$relative_abundance <- apply(filtered_data[grep("abundance", colnames(filtered_data))], 1, function(x) mean(x))
   select(filtered_data, peak_ID, relative_abundance)
 }
 
