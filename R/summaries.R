@@ -4,7 +4,7 @@
 #'
 #' @export
 averaged_profile<-function(chr_IDs,MS_data,
-                           CHC_amount_data, proportions=TRUE){
+                           CHC_amount_data=NULL, proportions=TRUE){
   if(length(chr_IDs)==0) stop("No chromatogram ID values in averaged_profile function")
   if(any(is.na(chr_IDs))) warning("NA chromatogram ID values in averaged_profile function")
   #if (length(chr_IDs)!=2) stop("Two chromatogram ID values should be passed in")
@@ -21,12 +21,17 @@ averaged_profile<-function(chr_IDs,MS_data,
     output<-rbind(output,new_data)
   }
   if (nrow(output)==0) return(NULL)
-  output<-aggregate(output$relative_abundance, list(output$peak_ID,
-                                                    output$chromatogram_ID), sum, drop=FALSE)
-  output$x[is.na(output$x)]<-0
-  output<-rename(output,relative_abundance=x,peak_ID=Group.1,chromatogram_ID=Group.2)
-  output<-aggregate(output$relative_abundance, list(output$peak_ID), mean)
-  output=rename(output, relative_abundance=x, peak_ID=Group.1)
+  combine_profiles(output)
+}
+
+
+combine_profiles <- function(TIC_data, proportions=TRUE, TIC_column = "relative_abundance"){
+  output <- aggregate(TIC_data[,relative_abundance], list(TIC_data[,peak_ID],
+                                                        TIC_data[,chromatogram_ID]), sum, drop=FALSE)
+  output$x[is.na(output$x)] <- 0
+  output <- rename(output,relative_abundance=x,peak_ID=Group.1,chromatogram_ID=Group.2)
+  output <- aggregate(output$relative_abundance, list(output$peak_ID), mean)
+  output = rename(output, relative_abundance=x, peak_ID=Group.1)
   if (!proportions){
     output=rename(output, abundance=relative_abundance)
   }

@@ -44,8 +44,27 @@ for(i in 1:nrow(DA_data)) df <- rbind(df, data.frame(peak_ID = DA_data[i,"peak_I
 boxplot(DA_data$peak_number~DA_data$callow)
 
 
+age_profiles <- dplyr::filter(development_data, caste=="worker", !remarks %in% c("aggression actor", "aggression target", "queenless colony"), species=="F. sanguinea") %>%
+  dplyr::select(colony, species, callow, census_date, chromatogram_ID, sang_prop) %>%
+  split(list(.$colony, .$census_date), drop=TRUE) %>%
+  lapply(function(x){if(sum(x$callow)==0) return(NULL); x}) %>%
+  {function(x) x[!unlist((lapply(x, is.null)))]}() %>%
+  lapply(age_profile_sample) %>%
+  {function(x) x[!unlist((lapply(x, is.null)))]}() %>%
+  split(.$callow, drop=TRUE) %>%
+  lapply(combine_profile)
 
 
+age_profile_sample <- function(x){
+  callow_IDs <- x[x$callow==1, "chromatogram_ID"]
+  mature_IDs <- x[x$callow==0, "chromatogram_ID"]
+  if(length(callow_IDs)==0 | length(mature_IDs)==0) return(NULL)
+  average_profile_callow <- averaged_profile(callow_IDs, mass_spectra_data)
+  average_profile_mature <- averaged_profile(mature_IDs, mass_spectra_data)
+  average_profile_callow$callow <- 1
+  average_profile_mature$callow <- 0
+  rbind(average_profile_callow,  average_profile_mature)
+}
 
 
 
