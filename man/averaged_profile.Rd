@@ -4,7 +4,7 @@
 \alias{averaged_profile}
 \title{Averaged CHC profile}
 \usage{
-averaged_profile(chr_IDs, MS_data, CHC_amount_data, proportions = TRUE)
+averaged_profile(chr_IDs, MS_data, CHC_amount_data = NULL, proportions = TRUE)
 }
 \description{
 Construct CHC profile by averaging the input profiles

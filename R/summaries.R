@@ -4,7 +4,7 @@
 #'
 #' @export
 averaged_profile<-function(chr_IDs,MS_data,
-                           CHC_amount_data, proportions=TRUE){
+                           CHC_amount_data=NULL, proportions=TRUE){
   if(length(chr_IDs)==0) stop("No chromatogram ID values in averaged_profile function")
   if(any(is.na(chr_IDs))) warning("NA chromatogram ID values in averaged_profile function")
   #if (length(chr_IDs)!=2) stop("Two chromatogram ID values should be passed in")
@@ -21,12 +21,17 @@ averaged_profile<-function(chr_IDs,MS_data,
     output<-rbind(output,new_data)
   }
   if (nrow(output)==0) return(NULL)
-  output<-aggregate(output$relative_abundance, list(output$peak_ID,
-                                                    output$chromatogram_ID), sum, drop=FALSE)
-  output$x[is.na(output$x)]<-0
-  output<-rename(output,relative_abundance=x,peak_ID=Group.1,chromatogram_ID=Group.2)
-  output<-aggregate(output$relative_abundance, list(output$peak_ID), mean)
-  output=rename(output, relative_abundance=x, peak_ID=Group.1)
+  output <- aggregate(output$relative_abundance, list(output$peak_ID,
+                                                      output$chromatogram_ID), sum, drop=FALSE)
+  output$x[is.na(output$x)] <- 0
+  output <- rename(output,relative_abundance=x,peak_ID=Group.1,chromatogram_ID=Group.2)
+  mean_profile(output)
+}
+
+#' @export
+mean_profile <- function(TIC_data, proportions=TRUE){
+  output <- aggregate(TIC_data$relative_abundance, list(TIC_data$peak_ID), mean)
+  output = rename(output, relative_abundance=x, peak_ID=Group.1)
   if (!proportions){
     output=rename(output, abundance=relative_abundance)
   }
@@ -58,7 +63,7 @@ average_by_sepcies <- function(dev_data, MS_data = MS_data, CHC_amounts = CHC_am
 #'
 #' @export
 sample_averaged<-function(dev_data, MS_data, CHC_amounts){
-    dev_data %>%
+  dev_data %>%
     filter(callow==0,caste=="worker", chromatogram_ID %in% MS_data$chromatogram_ID) %>%
     group_by(colony, census_date) %>%
     group_map(~average_by_sepcies(.x, MS_data = mass_spectra_data, CHC_amounts = CHC_amounts)) %>%
@@ -75,7 +80,7 @@ colony_weighted_mean <- function(sample_data, var="corrected_mass"){
   sample_data %>% split(list(.$colony, .$census_date)) %>%
     lapply(function(x) data.frame(colony = x$colony[1], census_date=x$census_date[1],
                                   var=mean(x[[var]], na.rm=TRUE))) %>%
-                                  {function(x) do.call(rbind, x)}() %>%
+    {function(x) do.call(rbind, x)}() %>%
     split(.$colony) %>% lapply(function(x) data.frame(colony=x$colony[1], var = mean(x$var, na.rm=TRUE))) %>%
     {function(x) {df <- do.call(rbind, x); colnames(df)[2] <- var; df}}()
 }
@@ -83,5 +88,5 @@ colony_weighted_mean <- function(sample_data, var="corrected_mass"){
 colony_mean_distance <- function(distance_data){
   distance_data %>% split(.$colony) %>%
     lapply(function(x) data.frame(colony=x$colony[1], dissimilarity=mean(x[["dissimilarity"]], na.rm=TRUE))) %>%
-                                  {function(x) do.call(rbind, x)}()
+    {function(x) do.call(rbind, x)}()
 }
