@@ -1,4 +1,4 @@
-library(sangchem)
+devtools::load_all()
 data("development_data")
 data("separation_experiment_data")
 res_table <- read.csv(system.file("Data-raw/surface_area.csv",package="sangchem"))
@@ -11,7 +11,7 @@ for(i in 1:nrow(res_table)){
     head_widths[i] <- as.numeric(development_data[development_data$chromatogram_ID==chr_ID,"head_width"])
     species[i] <- development_data[development_data$chromatogram_ID==chr_ID,"species"]
     callow[i] <- development_data[development_data$chromatogram_ID==chr_ID,"callow"]
-    } 
+    }
   else {
     head_widths[i] <- as.numeric(separation_experiment_data[separation_experiment_data$chromatogram_ID==chr_ID,"head_width"])
     species[i] <- "F. sanguinea"
@@ -33,4 +33,7 @@ library(ggplot2)
 ggplot(res_table, aes(y=normalized_area, x=view, fill=species))+
   geom_boxplot()
 res_table |> split(list(res_table$species, res_table$view)) |> lapply(nrow)
-
+mean_areas <- res_table |> split(list(res_table$species, res_table$view)) |> lapply(function(x) mean(x$normalized_area))
+mean_areas[[1]]/mean_areas[[2]]
+mean_areas[[3]]/mean_areas[[4]]
+mean_areas[[5]]/mean_areas[[6]]

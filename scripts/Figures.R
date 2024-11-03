@@ -215,8 +215,10 @@ p7 <- ggplot(aes(x=as.numeric(callow), y=proportion , group=mature), data=df)+
     annotation = 0.000153, tip_length = 0.02)
 
 
+dev.new()
+pdf("Fig1.pdf", width = 19, height = 7.5)
 ggarrange(p1, p2, p3, p6, p7, ncol=5, labels=c("A", "B", "C", "D", "E"), widths = c(4.5, 4.5, 4, 4,4))
-
+dev.off()
 
 
 mean_abundances_diff <- function(df){
@@ -237,7 +239,7 @@ mean_abundances_diff <- function(df){
 df <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor",
                                                                                    "aggression target",
                                                                                    "queenless colony")) %>%
-  select(colony, census_date, chromatogram_ID,
+  dplyr::select(colony, census_date, chromatogram_ID,
          callow, mass, head_width, species, sang_prop)
 callow_mature_diff <- split(df, list(df$census_date, df$colony), drop=TRUE) %>%
   lapply(mean_abundances_diff)
@@ -277,6 +279,9 @@ for(i in 1:length(distances_to_free_living_fusca$all)){
   plot_data <- rbind(plot_data, plot_data_part)
 }
 
+
+dev.new()
+pdf("Fig3.pdf", width = 5, height = 7)
 ggplot(plot_data, aes(x=x, y=y))+
   facet_wrap(~treatment, labeller = labeller(treatment=c(treatment_1 = "1-3 days", treatment_2 = "7-10 days",
                                              treatment_3 = "17-20 days", treatment_4 = "35-40 days")),
@@ -286,7 +291,10 @@ ggplot(plot_data, aes(x=x, y=y))+
             data = subset(plot_data, HDI_mask), alpha = 0.5, fill = "#11bb22")+
   geom_line()+
   ylab("Density")+
-  xlab("Chemical distance")
+  xlab("Chemical distance")+
+  theme(panel.border = element_rect(color = "black", fill=NA),
+        panel.background = element_rect(color="black", fill = "white"))
+dev.off()
 
 
 
@@ -369,6 +377,9 @@ age_profiles[[2]]$age = "callow"
 
 library(ggplot2)
 
+
+dev.new()
+pdf("Fig2.pdf", width = 12, height = 6)
 ggplot(NULL, aes(x=peak_ID, y=relative_abundance, fill = age, color=age))+
   geom_bar(data = age_profiles[[1]], stat = "identity",linewidth=0.2,
            position = position_dodge(1), width = 0.6)+
@@ -380,8 +391,10 @@ ggplot(NULL, aes(x=peak_ID, y=relative_abundance, fill = age, color=age))+
             hjust=-0.8, color="black", angle = 90, vjust = 0.3)+
   geom_point(data = diff_data, aes(x=peak_ID, y=relative_abundance), color = "black", fill="black", size = 0.1)+
   theme(panel.border = element_rect(color = "black", fill=NA),
-        panel.background = element_rect(color="white", fill = "white"))
+        panel.background = element_rect(color="white", fill = "white"))+
+  ylab("Relative abundance")+
+  xlab("Peak ID")
 
-
+dev.off()
 
 
