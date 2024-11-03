@@ -70,6 +70,8 @@ sample_averaged<-function(dev_data, MS_data, CHC_amounts){
     do.call(rbind, .)
 }
 
+#' Calculate mean value for a selected variable per colony
+#'
 #' @export
 colony_weighted_mean <- function(sample_data, var="corrected_mass"){
   if(missing(sample_data)){
@@ -85,8 +87,17 @@ colony_weighted_mean <- function(sample_data, var="corrected_mass"){
     {function(x) {df <- do.call(rbind, x); colnames(df)[2] <- var; df}}()
 }
 
-colony_mean_distance <- function(distance_data){
-  distance_data %>% split(.$colony) %>%
-    lapply(function(x) data.frame(colony=x$colony[1], dissimilarity=mean(x[["dissimilarity"]], na.rm=TRUE))) %>%
-    {function(x) do.call(rbind, x)}()
+#' Calculate differential profile between callow and mature ants
+#'
+#' @export
+differential_profile <- function(x){
+  callow_IDs <- x[x$callow==1, "chromatogram_ID"]
+  mature_IDs <- x[x$callow==0, "chromatogram_ID"]
+  if(length(callow_IDs)==0 | length(mature_IDs)==0) return(NULL)
+  average_profile_callow <- averaged_profile(callow_IDs, mass_spectra_data)
+  average_profile_mature <- averaged_profile(mature_IDs, mass_spectra_data)
+  diff_averaged_profile <- merge(average_profile_callow, average_profile_mature, all=TRUE, by="peak_ID")
+  diff_averaged_profile[,"relative_abundance.x"][is.na(diff_averaged_profile[,"relative_abundance.x"])] <- 0
+  diff_averaged_profile[,"relative_abundance.y"][is.na(diff_averaged_profile[,"relative_abundance.y"])] <- 0
+  data.frame(peak_ID = diff_averaged_profile[,"peak_ID"], relative_abundance = diff_averaged_profile[,"relative_abundance.x"] - diff_averaged_profile[,"relative_abundance.y"])
 }
