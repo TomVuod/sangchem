@@ -26,6 +26,8 @@ peak_prop_unfiltered <- peak_proportions_table(discrimination_data)
 peak_prop <- freq_abun_QC(peak_prop_unfiltered)
 # re-normalize rows to 1
 peak_prop <- peak_prop/rowSums(peak_prop)
+# remove absent peaks
+peak_prop <- peak_prop[,apply(peak_prop,2,function(x) sum(x)>0)]
 # replace zeros with a small number before transformation
 peak_prop[peak_prop==0] <- 10^-16
 # apply central log ratio transformation
