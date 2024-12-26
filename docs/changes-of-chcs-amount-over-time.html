@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 1 Changes of CHCs amount over time | sangchem R package: research project data analysis documentation</title>
   <meta name="description" content="This is a doucumentation of the data analysis workflows and function used to generate the results included in the manuscript entitled Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development." />
-  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 1 Changes of CHCs amount over time | sangchem R package: research project data analysis documentation" />
   <meta property="og:type" content="book" />
@@ -432,22 +432,22 @@ of both species as colony develops.</p>
 ## Formula: I(log(corrected_mass)) ~ sang_prop + (1 | colony:census_date)
 ##    Data: model_input
 ## 
-## REML criterion at convergence: 123.8
+## REML criterion at convergence: 126.7
 ## 
 ## Scaled residuals: 
 ##      Min       1Q   Median       3Q      Max 
-## -1.82812 -0.39919  0.07608  0.37947  1.45414 
+## -2.00551 -0.33121  0.07254  0.43467  1.64545 
 ## 
 ## Random effects:
 ##  Groups             Name        Variance Std.Dev.
-##  colony:census_date (Intercept) 0.3515   0.5929  
-##  Residual                       0.1212   0.3481  
+##  colony:census_date (Intercept) 0.3805   0.6168  
+##  Residual                       0.1222   0.3496  
 ## Number of obs: 68, groups:  colony:census_date, 44
 ## 
 ## Fixed effects:
 ##             Estimate Std. Error      df t value Pr(&gt;|t|)    
-## (Intercept)  -0.4159     0.1747 41.0258  -2.380    0.022 *  
-## sang_prop     2.0596     0.3399 40.6611   6.059 3.67e-07 ***
+## (Intercept)  -0.3146     0.1805 41.0561  -1.743   0.0888 .  
+## sang_prop     1.9971     0.3512 40.7112   5.687 1.23e-06 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
@@ -462,7 +462,7 @@ of both species as colony develops.</p>
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  residuals(lm_model)
-## W = 0.98199, p-value = 0.4312</code></pre>
+## W = 0.97837, p-value = 0.2843</code></pre>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="changes-of-chcs-amount-over-time.html#cb26-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb26-2"><a href="changes-of-chcs-amount-over-time.html#cb26-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-6-2.png" width="672" /></p>
@@ -477,29 +477,29 @@ of both species as colony develops.</p>
 ## Formula: corrected_mass ~ sang_prop + (1 | colony:census_date) + (1 |      colony)
 ##    Data: model_input
 ## 
-## REML criterion at convergence: 109.3
+## REML criterion at convergence: 110.8
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -1.9337 -0.5243 -0.1293  0.5584  2.1441 
+## -2.0032 -0.4877 -0.1658  0.4916  2.2149 
 ## 
 ## Random effects:
 ##  Groups             Name        Variance Std.Dev.
-##  colony:census_date (Intercept) 0.05131  0.2265  
-##  colony             (Intercept) 0.08755  0.2959  
-##  Residual                       0.12827  0.3582  
+##  colony:census_date (Intercept) 0.06709  0.2590  
+##  colony             (Intercept) 0.07769  0.2787  
+##  Residual                       0.12419  0.3524  
 ## Number of obs: 80, groups:  colony:census_date, 57; colony, 20
 ## 
 ## Fixed effects:
 ##             Estimate Std. Error      df t value Pr(&gt;|t|)    
-## (Intercept)   0.6822     0.1006 34.2711   6.784 8.09e-08 ***
-## sang_prop     0.9703     0.1883 38.9917   5.153 7.72e-06 ***
+## (Intercept)   0.7166     0.1005 35.5327   7.129 2.40e-08 ***
+## sang_prop     0.9842     0.1955 38.6946   5.035 1.14e-05 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Correlation of Fixed Effects:
 ##           (Intr)
-## sang_prop -0.529</code></pre>
+## sang_prop -0.552</code></pre>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="changes-of-chcs-amount-over-time.html#cb29-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
 <span id="cb29-2"><a href="changes-of-chcs-amount-over-time.html#cb29-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
@@ -508,7 +508,7 @@ of both species as colony develops.</p>
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  residuals(lm_model)
-## W = 0.97337, p-value = 0.09316</code></pre>
+## W = 0.96929, p-value = 0.05111</code></pre>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="changes-of-chcs-amount-over-time.html#cb32-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb32-2"><a href="changes-of-chcs-amount-over-time.html#cb32-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
@@ -528,18 +528,18 @@ of both species as colony develops.</p>
 ## 
 ## Residuals:
 ##      Min       1Q   Median       3Q      Max 
-## -0.52959 -0.12316  0.00301  0.13180  0.62946 
+## -0.53291 -0.15293  0.01577  0.14349  0.61687 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  0.31666    0.06748   4.693 5.54e-05 ***
-## sang_prop    0.92230    0.12685   7.271 4.28e-08 ***
+## (Intercept)  0.35034    0.06939   5.049 2.03e-05 ***
+## sang_prop    0.87664    0.13044   6.721 1.90e-07 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 0.2144 on 30 degrees of freedom
-## Multiple R-squared:  0.638,  Adjusted R-squared:  0.6259 
-## F-statistic: 52.86 on 1 and 30 DF,  p-value: 4.278e-08</code></pre>
+## Residual standard error: 0.2204 on 30 degrees of freedom
+## Multiple R-squared:  0.6009, Adjusted R-squared:  0.5876 
+## F-statistic: 45.17 on 1 and 30 DF,  p-value: 1.897e-07</code></pre>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="changes-of-chcs-amount-over-time.html#cb35-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
 <span id="cb35-2"><a href="changes-of-chcs-amount-over-time.html#cb35-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
@@ -548,7 +548,7 @@ of both species as colony develops.</p>
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  residuals(lm_model)
-## W = 0.94413, p-value = 0.09813</code></pre>
+## W = 0.9602, p-value = 0.2781</code></pre>
 </div>
 </div>
 <div id="change-of-the-chcs-associated-with-f.-fusca" class="section level2 hasAnchor" number="1.3">
@@ -563,23 +563,23 @@ of both species as colony develops.</p>
 ## Formula: I(log(corrected_mass)) ~ sang_prop + (1 | colony:census_date) +      (1 | colony)
 ##    Data: model_input
 ## 
-## REML criterion at convergence: 114.7
+## REML criterion at convergence: 112.4
 ## 
 ## Scaled residuals: 
 ##      Min       1Q   Median       3Q      Max 
-## -1.70744 -0.44087  0.01765  0.47150  2.08833 
+## -1.76014 -0.51824  0.01265  0.46694  2.04364 
 ## 
 ## Random effects:
 ##  Groups             Name        Variance Std.Dev.
-##  colony:census_date (Intercept) 0.07982  0.2825  
-##  colony             (Intercept) 0.13841  0.3720  
-##  Residual                       0.17149  0.4141  
+##  colony:census_date (Intercept) 0.1053   0.3244  
+##  colony             (Intercept) 0.1434   0.3786  
+##  Residual                       0.1460   0.3821  
 ## Number of obs: 68, groups:  colony:census_date, 44; colony, 16
 ## 
 ## Fixed effects:
 ##             Estimate Std. Error      df t value Pr(&gt;|t|)    
-## (Intercept)   0.7005     0.1588 34.4082   4.410 9.65e-05 ***
-## sang_prop    -1.7633     0.2499 33.9971  -7.055 3.81e-08 ***
+## (Intercept)   0.7693     0.1620 34.3229   4.749 3.56e-05 ***
+## sang_prop    -1.9032     0.2551 34.2938  -7.459 1.12e-08 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
@@ -594,99 +594,123 @@ of both species as colony develops.</p>
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  residuals(lm_model)
-## W = 0.98925, p-value = 0.8283</code></pre>
+## W = 0.99323, p-value = 0.9746</code></pre>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="changes-of-chcs-amount-over-time.html#cb43-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb43-2"><a href="changes-of-chcs-amount-over-time.html#cb43-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
+<pre><code>## qu = 0.75, log(sigma) = -2.98986 : outer Newton did not converge fully.</code></pre>
 <p><img src="_main_files/figure-html/unnamed-chunk-9-2.png" width="672" /></p>
 </div>
 <div id="f.-fusca-ants-1" class="section level3 hasAnchor" number="1.3.2">
 <h3><span class="header-section-number">1.3.2</span> <em>F. fusca</em> ants<a href="changes-of-chcs-amount-over-time.html#f.-fusca-ants-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="changes-of-chcs-amount-over-time.html#cb44-1" tabindex="-1"></a>model_input <span class="ot">&lt;-</span> dev_samples[dev_samples<span class="sc">$</span>species<span class="sc">==</span><span class="st">&quot;F. fusca&quot;</span>,]</span>
-<span id="cb44-2"><a href="changes-of-chcs-amount-over-time.html#cb44-2" tabindex="-1"></a>model_input<span class="sc">$</span>corrected_mass <span class="ot">&lt;-</span> model_input<span class="sc">$</span>corrected_mass<span class="sc">*</span><span class="fu">subsample_proportion</span>(peaks_fusca, model_input<span class="sc">$</span>chromatogram_ID)</span>
-<span id="cb44-3"><a href="changes-of-chcs-amount-over-time.html#cb44-3" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">I</span>(<span class="fu">log</span>(corrected_mass)) <span class="sc">~</span> sang_prop <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> colony), <span class="at">data=</span>model_input)</span>
-<span id="cb44-4"><a href="changes-of-chcs-amount-over-time.html#cb44-4" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="changes-of-chcs-amount-over-time.html#cb45-1" tabindex="-1"></a>model_input <span class="ot">&lt;-</span> dev_samples[dev_samples<span class="sc">$</span>species<span class="sc">==</span><span class="st">&quot;F. fusca&quot;</span>,]</span>
+<span id="cb45-2"><a href="changes-of-chcs-amount-over-time.html#cb45-2" tabindex="-1"></a>model_input<span class="sc">$</span>corrected_mass <span class="ot">&lt;-</span> model_input<span class="sc">$</span>corrected_mass<span class="sc">*</span><span class="fu">subsample_proportion</span>(peaks_fusca, model_input<span class="sc">$</span>chromatogram_ID)</span>
+<span id="cb45-3"><a href="changes-of-chcs-amount-over-time.html#cb45-3" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">I</span>(<span class="fu">log</span>(corrected_mass)) <span class="sc">~</span> sang_prop <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> colony), <span class="at">data=</span>model_input)</span>
+<span id="cb45-4"><a href="changes-of-chcs-amount-over-time.html#cb45-4" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
 ## Formula: I(log(corrected_mass)) ~ sang_prop + (1 | colony)
 ##    Data: model_input
 ## 
-## REML criterion at convergence: 156.7
+## REML criterion at convergence: 157.5
 ## 
 ## Scaled residuals: 
 ##      Min       1Q   Median       3Q      Max 
-## -2.52491 -0.58755 -0.03972  0.56316  2.51104 
+## -2.45971 -0.58164 -0.05281  0.52491  2.35985 
 ## 
 ## Random effects:
 ##  Groups   Name        Variance Std.Dev.
-##  colony   (Intercept) 0.1147   0.3387  
-##  Residual             0.3284   0.5731  
+##  colony   (Intercept) 0.1295   0.3599  
+##  Residual             0.3260   0.5709  
 ## Number of obs: 80, groups:  colony, 20
 ## 
 ## Fixed effects:
 ##             Estimate Std. Error       df t value Pr(&gt;|t|)    
-## (Intercept)  0.09637    0.12249 31.58063   0.787    0.437    
-## sang_prop   -1.60982    0.23732 71.06693  -6.783 2.91e-09 ***
+## (Intercept)  0.09946    0.12532 30.91942   0.794    0.433    
+## sang_prop   -1.60307    0.23746 70.51304  -6.751 3.44e-09 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Correlation of Fixed Effects:
 ##           (Intr)
-## sang_prop -0.560</code></pre>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="changes-of-chcs-amount-over-time.html#cb46-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
-<span id="cb46-2"><a href="changes-of-chcs-amount-over-time.html#cb46-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
+## sang_prop -0.545</code></pre>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="changes-of-chcs-amount-over-time.html#cb47-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
+<span id="cb47-2"><a href="changes-of-chcs-amount-over-time.html#cb47-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="changes-of-chcs-amount-over-time.html#cb47-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model)))</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="changes-of-chcs-amount-over-time.html#cb48-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model)))</span></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  residuals(lm_model)
-## W = 0.99505, p-value = 0.991</code></pre>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="changes-of-chcs-amount-over-time.html#cb49-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb49-2"><a href="changes-of-chcs-amount-over-time.html#cb49-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
+## W = 0.99462, p-value = 0.9854</code></pre>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="changes-of-chcs-amount-over-time.html#cb50-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb50-2"><a href="changes-of-chcs-amount-over-time.html#cb50-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
 </div>
 </div>
 <div id="session-info" class="section level2 hasAnchor" number="1.4">
 <h2><span class="header-section-number">1.4</span> Session info<a href="changes-of-chcs-amount-over-time.html#session-info" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="changes-of-chcs-amount-over-time.html#cb50-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">sessionInfo</span>())</span></code></pre></div>
-<pre><code>## R version 4.1.3 (2022-03-10)
-## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows 10 x64 (build 22631)
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="changes-of-chcs-amount-over-time.html#cb51-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">sessionInfo</span>())</span></code></pre></div>
+<pre><code>## R version 4.4.2 (2024-10-31 ucrt)
+## Platform: x86_64-w64-mingw32/x64
+## Running under: Windows 11 x64 (build 22631)
 ## 
 ## Matrix products: default
 ## 
+## 
 ## locale:
-## [1] LC_COLLATE=English_Bahamas.1252  LC_CTYPE=English_Bahamas.1252    LC_MONETARY=English_Bahamas.1252
-## [4] LC_NUMERIC=C                     LC_TIME=English_Bahamas.1252    
-## system code page: 1250
+## [1] LC_COLLATE=English_Bahamas.utf8  LC_CTYPE=English_Bahamas.utf8   
+## [3] LC_MONETARY=English_Bahamas.utf8 LC_NUMERIC=C                    
+## [5] LC_TIME=English_Bahamas.utf8    
+## 
+## time zone: Europe/Warsaw
+## tzcode source: internal
 ## 
 ## attached base packages:
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-##  [1] sangchem_0.0.9000 rstatix_0.7.2     ggpubr_0.6.0      Hmisc_4.7-1       Formula_1.2-4     survival_3.2-13   mixOmics_6.18.1  
-##  [8] ggplot2_3.4.4     lattice_0.20-45   MASS_7.3-55       stringi_1.8.3     DHARMa_0.4.6      lmerTest_3.1-3    lme4_1.1-29      
-## [15] Matrix_1.5-1      dplyr_1.1.4      
+##  [1] rstatix_0.7.2          ggpubr_0.6.0           Hmisc_5.2-0           
+##  [4] mixOmics_6.30.0        ggplot2_3.5.1          lattice_0.22-6        
+##  [7] MASS_7.3-61            stringi_1.8.4          DHARMa_0.4.7          
+## [10] sangchem_0.0.9000      spatstat_3.3-0         spatstat.linnet_3.2-3 
+## [13] spatstat.model_3.3-3   rpart_4.1.23           spatstat.explore_3.3-3
+## [16] nlme_3.1-166           spatstat.random_3.3-2  spatstat.geom_3.3-4   
+## [19] spatstat.univar_3.1-1  spatstat.data_3.1-4    dplyr_1.1.4           
+## [22] lmerTest_3.1-3         lme4_1.1-35.5          Matrix_1.7-1          
 ## 
 ## loaded via a namespace (and not attached):
-##   [1] minqa_1.2.4         colorspace_2.1-0    ggsignif_0.6.4      deldir_1.0-6        ellipsis_0.3.2      rprojroot_2.0.4    
-##   [7] htmlTable_2.4.1     corpcor_1.6.10      base64enc_0.1-3     fs_1.6.3            rstudioapi_0.14     farver_2.1.1       
-##  [13] remotes_2.4.2       ggrepel_0.9.4       RSpectra_0.16-1     fansi_1.0.3         lubridate_1.8.0     codetools_0.2-18   
-##  [19] splines_4.1.3       doParallel_1.0.17   cachem_1.0.6        knitr_1.45          pkgload_1.3.3       jsonlite_1.8.8     
-##  [25] nloptr_2.0.2        broom_1.0.1         cluster_2.1.2       png_0.1-8           shiny_1.7.3         compiler_4.1.3     
-##  [31] backports_1.4.1     fastmap_1.1.0       cli_3.6.2           later_1.3.2         htmltools_0.5.2     tools_4.1.3        
-##  [37] igraph_1.3.5        gtable_0.3.4        glue_1.6.2          reshape2_1.4.4      Rcpp_1.0.11         carData_3.0-5      
-##  [43] jquerylib_0.1.4     vctrs_0.6.5         nlme_3.1-155        iterators_1.0.14    xfun_0.41           stringr_1.5.1      
-##  [49] ps_1.7.2            mime_0.12           lifecycle_1.0.4     gap.datasets_0.0.5  devtools_2.4.3      scales_1.3.0       
-##  [55] promises_1.2.1      parallel_4.1.3      RColorBrewer_1.1-3  yaml_2.3.5          memoise_2.0.1       gridExtra_2.3      
-##  [61] sass_0.4.8          rpart_4.1.16        latticeExtra_0.6-30 highr_0.10          desc_1.4.3          gap_1.3-1          
-##  [67] foreach_1.5.2       checkmate_2.3.1     permute_0.9-7       boot_1.3-28         pkgbuild_1.4.3      BiocParallel_1.28.3
-##  [73] qgam_1.3.4          rlang_1.1.2         pkgconfig_2.0.3     matrixStats_1.2.0   evaluate_0.23       purrr_1.0.2        
-##  [79] htmlwidgets_1.5.4   labeling_0.4.3      processx_3.8.0      tidyselect_1.2.0    plyr_1.8.9          magrittr_2.0.2     
-##  [85] bookdown_0.37       R6_2.5.1            generics_0.1.3      pillar_1.9.0        foreign_0.8-82      withr_2.5.2        
-##  [91] mgcv_1.8-39         abind_1.4-5         nnet_7.3-17         tibble_3.2.1        car_3.1-2           rARPACK_0.11-0     
-##  [97] interp_1.1-3        utf8_1.2.2          ellipse_0.4.3       rmarkdown_2.25      jpeg_0.1-9          usethis_2.1.6      
-## [103] grid_4.1.3          data.table_1.14.10  callr_3.7.3         vegan_2.6-4         digest_0.6.29       xtable_1.8-4       
-## [109] tidyr_1.3.0         httpuv_1.6.13       numDeriv_2016.8-1.1 munsell_0.5.0       bslib_0.4.1         sessioninfo_1.2.2</code></pre>
+##   [1] chromConverter_0.7.2  splines_4.4.2         later_1.4.0           bitops_1.0-9         
+##   [5] tibble_3.2.1          cellranger_1.1.0      polyclip_1.10-7       lifecycle_1.0.4      
+##   [9] Rdpack_2.6.2          doParallel_1.0.17     rprojroot_2.0.4       processx_3.8.4       
+##  [13] backports_1.5.0       magrittr_2.0.3        sass_0.4.9            rmarkdown_2.29       
+##  [17] jquerylib_0.1.4       yaml_2.3.10           remotes_2.5.0         httpuv_1.6.15        
+##  [21] gap_1.6               sessioninfo_1.2.2     pkgbuild_1.4.5        spatstat.sparse_3.1-0
+##  [25] reticulate_1.40.0     minqa_1.2.8           RColorBrewer_1.1-3    abind_1.4-8          
+##  [29] pkgload_1.4.0         purrr_1.0.2           nnet_7.3-19           ggrepel_0.9.6        
+##  [33] spatstat.utils_3.1-1  ellipse_0.5.0         testthat_3.2.1.1      vegan_2.6-8          
+##  [37] goftest_1.2-3         RSpectra_0.16-2       permute_0.9-7         codetools_0.2-20     
+##  [41] xml2_1.3.6            tidyselect_1.2.1      farver_2.1.2          matrixStats_1.4.1    
+##  [45] base64enc_0.1-3       jsonlite_1.8.9        ellipsis_0.3.2        Formula_1.2-5        
+##  [49] iterators_1.0.14      foreach_1.5.2         tools_4.4.2           Rcpp_1.0.13-1        
+##  [53] glue_1.8.0            rARPACK_0.11-0        gridExtra_2.3         xfun_0.49            
+##  [57] here_1.0.1            mgcv_1.9-1            usethis_3.1.0         withr_3.0.2          
+##  [61] numDeriv_2016.8-1.1   fastmap_1.2.0         boot_1.3-31           callr_3.7.6          
+##  [65] digest_0.6.37         R6_2.5.1              mime_0.12             colorspace_2.1-1     
+##  [69] tensor_1.5            utf8_1.2.4            tidyr_1.3.1           generics_0.1.3       
+##  [73] data.table_1.16.4     corpcor_1.6.10        htmlwidgets_1.6.4     RaMS_1.4.3           
+##  [77] pkgconfig_2.0.3       gtable_0.3.6          brio_1.1.5            htmltools_0.5.8.1    
+##  [81] carData_3.0-5         profvis_0.4.0         bookdown_0.41         scales_1.3.0         
+##  [85] png_0.1-8             knitr_1.49            rstudioapi_0.17.1     reshape2_1.4.4       
+##  [89] checkmate_2.3.2       nloptr_2.1.1          cachem_1.1.0          stringr_1.5.1        
+##  [93] parallel_4.4.2        miniUI_0.1.1.1        foreign_0.8-87        desc_1.4.3           
+##  [97] pillar_1.10.0         grid_4.4.2            vctrs_0.6.5           urlchecker_1.0.1     
+## [101] promises_1.3.1        car_3.1-3             xtable_1.8-4          cluster_2.1.6        
+## [105] htmlTable_2.4.3       evaluate_1.0.1        cli_3.6.3             compiler_4.4.2       
+## [109] rlang_1.1.4           ggsignif_0.6.4        labeling_0.4.3        ps_1.8.1             
+## [113] plyr_1.8.9            fs_1.6.5              gap.datasets_0.0.6    deldir_2.0-4         
+## [117] BiocParallel_1.40.0   HDInterval_0.2.4      munsell_0.5.1         devtools_2.4.5       
+## [121] bit64_4.5.2           qgam_1.3.4            shiny_1.10.0          rbibutils_2.3        
+## [125] broom_1.0.7           igraph_2.1.1          memoise_2.0.1         bslib_0.8.0          
+## [129] bit_4.5.0.1           readxl_1.4.3</code></pre>
 
 </div>
 </div>

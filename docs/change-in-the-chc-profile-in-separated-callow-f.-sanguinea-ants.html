@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 6 Change in the CHC profile in separated callow F. sanguinea ants | sangchem R package: research project data analysis documentation</title>
   <meta name="description" content="This is a doucumentation of the data analysis workflows and function used to generate the results included in the manuscript entitled Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development." />
-  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 6 Change in the CHC profile in separated callow F. sanguinea ants | sangchem R package: research project data analysis documentation" />
   <meta property="og:type" content="book" />
@@ -266,21 +266,21 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants" class="section level1 hasAnchor" number="6">
 <h1><span class="header-section-number">Chapter 6</span> Change in the CHC profile in separated callow <em>F. sanguinea</em> ants<a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb153-1" tabindex="-1"></a><span class="fu">suppressMessages</span>({</span>
-<span id="cb153-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb153-2" tabindex="-1"></a>  <span class="fu">library</span>(sangchem)</span>
-<span id="cb153-3"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb153-3" tabindex="-1"></a>  <span class="fu">library</span>(dplyr)</span>
-<span id="cb153-4"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb153-4" tabindex="-1"></a>  <span class="fu">library</span>(lmerTest)</span>
-<span id="cb153-5"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb153-5" tabindex="-1"></a>})</span>
-<span id="cb153-6"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb153-6" tabindex="-1"></a></span>
-<span id="cb153-7"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb153-7" tabindex="-1"></a><span class="co"># load data</span></span>
-<span id="cb153-8"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb153-8" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;separation_experiment_data&quot;</span>)</span>
-<span id="cb153-9"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb153-9" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;mass_spectra_data&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb152-1" tabindex="-1"></a><span class="fu">suppressMessages</span>({</span>
+<span id="cb152-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb152-2" tabindex="-1"></a>  <span class="fu">library</span>(sangchem)</span>
+<span id="cb152-3"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb152-3" tabindex="-1"></a>  <span class="fu">library</span>(dplyr)</span>
+<span id="cb152-4"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb152-4" tabindex="-1"></a>  <span class="fu">library</span>(lmerTest)</span>
+<span id="cb152-5"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb152-5" tabindex="-1"></a>})</span>
+<span id="cb152-6"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb152-6" tabindex="-1"></a></span>
+<span id="cb152-7"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb152-7" tabindex="-1"></a><span class="co"># load data</span></span>
+<span id="cb152-8"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb152-8" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;separation_experiment_data&quot;</span>)</span>
+<span id="cb152-9"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb152-9" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;mass_spectra_data&quot;</span>)</span></code></pre></div>
 <div id="change-in-the-total-chc-amount-over-time" class="section level2 hasAnchor" number="6.1">
 <h2><span class="header-section-number">6.1</span> Change in the total CHC amount over time<a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-total-chc-amount-over-time" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb154-1" tabindex="-1"></a>separation_data <span class="ot">&lt;-</span> <span class="fu">filter</span>(separation_experiment_data, treatment_id<span class="sc">&lt;</span><span class="dv">5</span>)</span>
-<span id="cb154-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb154-2" tabindex="-1"></a><span class="co"># remove row 74 which is an outlier</span></span>
-<span id="cb154-3"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb154-3" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">I</span>(<span class="fu">sqrt</span>(corrected_mass))<span class="sc">~</span>mean_delta<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>colony), <span class="at">data =</span> separation_data[<span class="sc">-</span><span class="dv">74</span>,])</span>
-<span id="cb154-4"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb154-4" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb153-1" tabindex="-1"></a>separation_data <span class="ot">&lt;-</span> <span class="fu">filter</span>(separation_experiment_data, treatment_id<span class="sc">&lt;</span><span class="dv">5</span>)</span>
+<span id="cb153-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb153-2" tabindex="-1"></a><span class="co"># remove row 74 which is an outlier</span></span>
+<span id="cb153-3"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb153-3" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">I</span>(<span class="fu">sqrt</span>(corrected_mass))<span class="sc">~</span>mean_delta<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>colony), <span class="at">data =</span> separation_data[<span class="sc">-</span><span class="dv">74</span>,])</span>
+<span id="cb153-4"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb153-4" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
 ## Formula: I(sqrt(corrected_mass)) ~ mean_delta + (1 | colony)
 ##    Data: separation_data[-74, ]
@@ -307,145 +307,145 @@ div.csl-indent {
 ## Correlation of Fixed Effects:
 ##            (Intr)
 ## mean_delta -0.518</code></pre>
-<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb156-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
-<span id="cb156-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb156-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb155-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
+<span id="cb155-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb155-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-48-1.png" width="672" /></p>
-<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb157-1" tabindex="-1"></a><span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb156-1" tabindex="-1"></a><span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  residuals(lm_model)
 ## W = 0.99204, p-value = 0.9107</code></pre>
-<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb159-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb159-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb159-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb158-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb158-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb158-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-48-2.png" width="672" /></p>
 </div>
 <div id="change-in-the-amount-of-compounds-associated-with-callow-f.-sanguinea" class="section level2 hasAnchor" number="6.2">
 <h2><span class="header-section-number">6.2</span> Change in the amount of compounds associated with callow <em>F. sanguinea</em><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-callow-f.-sanguinea" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb160-1" tabindex="-1"></a><span class="fu">load_globals</span>()</span>
-<span id="cb160-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb160-2" tabindex="-1"></a>separation_data<span class="sc">$</span>corrected_mass_part <span class="ot">&lt;-</span> separation_data<span class="sc">$</span>corrected_mass <span class="sc">*</span> <span class="fu">subsample_proportion</span>(peaks_callow, separation_data<span class="sc">$</span>chromatogram_ID)</span>
-<span id="cb160-3"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb160-3" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(corrected_mass_part<span class="sc">~</span>mean_delta<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>colony)<span class="sc">+</span><span class="fu">I</span>(mean_delta<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> separation_data)</span>
-<span id="cb160-4"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb160-4" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb159-1" tabindex="-1"></a><span class="fu">load_globals</span>()</span>
+<span id="cb159-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb159-2" tabindex="-1"></a>separation_data<span class="sc">$</span>corrected_mass_part <span class="ot">&lt;-</span> separation_data<span class="sc">$</span>corrected_mass <span class="sc">*</span> <span class="fu">subsample_proportion</span>(peaks_callow, separation_data<span class="sc">$</span>chromatogram_ID)</span>
+<span id="cb159-3"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb159-3" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(corrected_mass_part<span class="sc">~</span>mean_delta<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>colony)<span class="sc">+</span><span class="fu">I</span>(mean_delta<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> separation_data)</span>
+<span id="cb159-4"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb159-4" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
 ## Formula: corrected_mass_part ~ mean_delta + (1 | colony) + I(mean_delta^2)
 ##    Data: separation_data
 ## 
-## REML criterion at convergence: -66.6
+## REML criterion at convergence: -69.5
 ## 
 ## Scaled residuals: 
 ##      Min       1Q   Median       3Q      Max 
-## -1.78057 -0.57349  0.00927  0.47755  3.09866 
+## -1.69391 -0.55249  0.05828  0.50761  3.10708 
 ## 
 ## Random effects:
 ##  Groups   Name        Variance Std.Dev.
-##  colony   (Intercept) 0.003895 0.06241 
-##  Residual             0.014968 0.12234 
+##  colony   (Intercept) 0.00293  0.05413 
+##  Residual             0.01471  0.12130 
 ## Number of obs: 80, groups:  colony, 11
 ## 
 ## Fixed effects:
 ##                   Estimate Std. Error         df t value Pr(&gt;|t|)    
-## (Intercept)      2.933e-01  3.681e-02  4.163e+01   7.969 6.57e-10 ***
-## mean_delta       9.825e-03  4.243e-03  6.805e+01   2.316   0.0236 *  
-## I(mean_delta^2) -2.049e-04  9.886e-05  6.856e+01  -2.072   0.0420 *  
+## (Intercept)      2.749e-01  3.532e-02  4.645e+01   7.784 5.79e-10 ***
+## mean_delta       1.058e-02  4.201e-03  6.829e+01   2.518   0.0142 *  
+## I(mean_delta^2) -2.000e-04  9.786e-05  6.889e+01  -2.043   0.0448 *  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Correlation of Fixed Effects:
 ##             (Intr) mn_dlt
-## mean_delta  -0.721       
-## I(mn_dlt^2)  0.632 -0.968</code></pre>
-<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb162-1" tabindex="-1"></a><span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
+## mean_delta  -0.744       
+## I(mn_dlt^2)  0.652 -0.969</code></pre>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb161-1" tabindex="-1"></a><span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  residuals(lm_model)
-## W = 0.97067, p-value = 0.06261</code></pre>
-<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb164-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb164-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb164-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
+## W = 0.96398, p-value = 0.02365</code></pre>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb163-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb163-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb163-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-49-1.png" width="672" /></p>
 </div>
 <div id="change-in-the-amount-of-compounds-associated-with-f.-sanguinea" class="section level2 hasAnchor" number="6.3">
 <h2><span class="header-section-number">6.3</span> Change in the amount of compounds associated with <em>F. sanguinea</em><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-f.-sanguinea" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb165-1" tabindex="-1"></a>separation_data<span class="sc">$</span>corrected_mass_part <span class="ot">&lt;-</span> separation_data<span class="sc">$</span>corrected_mass <span class="sc">*</span> <span class="fu">subsample_proportion</span>(peaks_sang, separation_data<span class="sc">$</span>chromatogram_ID)</span>
-<span id="cb165-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb165-2" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">I</span>((corrected_mass_part))<span class="sc">~</span><span class="fu">I</span>((mean_delta)<span class="sc">^</span>(<span class="fl">1.5</span>))<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>colony), <span class="at">data =</span> separation_data[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">69</span>, <span class="dv">74</span>),])</span>
-<span id="cb165-3"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb165-3" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb164-1" tabindex="-1"></a>separation_data<span class="sc">$</span>corrected_mass_part <span class="ot">&lt;-</span> separation_data<span class="sc">$</span>corrected_mass <span class="sc">*</span> <span class="fu">subsample_proportion</span>(peaks_sang, separation_data<span class="sc">$</span>chromatogram_ID)</span>
+<span id="cb164-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb164-2" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">I</span>((corrected_mass_part))<span class="sc">~</span><span class="fu">I</span>((mean_delta)<span class="sc">^</span>(<span class="fl">1.5</span>))<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>colony), <span class="at">data =</span> separation_data[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">69</span>, <span class="dv">74</span>),])</span>
+<span id="cb164-3"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb164-3" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
 ## Formula: I((corrected_mass_part)) ~ I((mean_delta)^(1.5)) + (1 | colony)
 ##    Data: separation_data[-c(69, 74), ]
 ## 
-## REML criterion at convergence: 51.4
+## REML criterion at convergence: 50
 ## 
 ## Scaled residuals: 
 ##      Min       1Q   Median       3Q      Max 
-## -2.46288 -0.71608 -0.03766  0.49433  3.08854 
+## -2.44463 -0.76470 -0.03006  0.54190  2.93626 
 ## 
 ## Random effects:
 ##  Groups   Name        Variance Std.Dev.
-##  colony   (Intercept) 0.00810  0.0900  
-##  Residual             0.08552  0.2924  
+##  colony   (Intercept) 0.006968 0.08347 
+##  Residual             0.084536 0.29075 
 ## Number of obs: 78, groups:  colony, 11
 ## 
 ## Fixed effects:
 ##                        Estimate Std. Error        df t value Pr(&gt;|t|)    
-## (Intercept)           5.676e-01  5.187e-02 1.858e+01  10.941 1.55e-09 ***
-## I((mean_delta)^(1.5)) 2.396e-03  3.881e-04 7.101e+01   6.174 3.70e-08 ***
+## (Intercept)           5.784e-01  5.063e-02 1.876e+01  11.425 6.85e-10 ***
+## I((mean_delta)^(1.5)) 2.311e-03  3.855e-04 7.112e+01   5.994 7.67e-08 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Correlation of Fixed Effects:
 ##             (Intr)
-## I((_)^(1.5) -0.546</code></pre>
-<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb167-1" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
+## I((_)^(1.5) -0.557</code></pre>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb166-1" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-50-1.png" width="672" /></p>
-<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb168-1" tabindex="-1"></a><span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb167-1" tabindex="-1"></a><span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  residuals(lm_model)
-## W = 0.98344, p-value = 0.407</code></pre>
-<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb170-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb170-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb170-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
+## W = 0.98667, p-value = 0.5945</code></pre>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb169-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb169-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb169-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-50-2.png" width="672" /></p>
 </div>
 <div id="change-in-the-amount-of-compounds-associated-with-f.-fusca" class="section level2 hasAnchor" number="6.4">
 <h2><span class="header-section-number">6.4</span> Change in the amount of compounds associated with <em>F. fusca</em><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-f.-fusca" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb171-1" tabindex="-1"></a>separation_data<span class="sc">$</span>corrected_mass_part <span class="ot">&lt;-</span> separation_data<span class="sc">$</span>corrected_mass <span class="sc">*</span> <span class="fu">subsample_proportion</span>(peaks_fusca, separation_data<span class="sc">$</span>chromatogram_ID)</span>
-<span id="cb171-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb171-2" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(corrected_mass_part<span class="sc">~</span>mean_delta<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>colony), <span class="at">data =</span> separation_data)</span>
-<span id="cb171-3"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb171-3" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb170-1" tabindex="-1"></a>separation_data<span class="sc">$</span>corrected_mass_part <span class="ot">&lt;-</span> separation_data<span class="sc">$</span>corrected_mass <span class="sc">*</span> <span class="fu">subsample_proportion</span>(peaks_fusca, separation_data<span class="sc">$</span>chromatogram_ID)</span>
+<span id="cb170-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb170-2" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(corrected_mass_part<span class="sc">~</span>mean_delta<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>colony), <span class="at">data =</span> separation_data)</span>
+<span id="cb170-3"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb170-3" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
 ## Formula: corrected_mass_part ~ mean_delta + (1 | colony)
 ##    Data: separation_data
 ## 
-## REML criterion at convergence: 31.9
+## REML criterion at convergence: 40
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -1.9160 -0.6351 -0.1462  0.4625  3.2514 
+## -1.8577 -0.5846 -0.1261  0.5198  3.0887 
 ## 
 ## Random effects:
 ##  Groups   Name        Variance Std.Dev.
-##  colony   (Intercept) 0.08466  0.2910  
-##  Residual             0.05377  0.2319  
+##  colony   (Intercept) 0.09638  0.3104  
+##  Residual             0.05943  0.2438  
 ## Number of obs: 80, groups:  colony, 11
 ## 
 ## Fixed effects:
 ##              Estimate Std. Error        df t value Pr(&gt;|t|)    
-## (Intercept)  0.784109   0.096749 11.807066   8.105 3.66e-06 ***
-## mean_delta  -0.008513   0.002016 68.177494  -4.224 7.30e-05 ***
+## (Intercept)  0.777995   0.102962 11.785720   7.556 7.47e-06 ***
+## mean_delta  -0.006852   0.002119 68.196411  -3.233  0.00189 ** 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Correlation of Fixed Effects:
 ##            (Intr)
-## mean_delta -0.314</code></pre>
-<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb173-1" tabindex="-1"></a><span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
+## mean_delta -0.311</code></pre>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb172-1" tabindex="-1"></a><span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  residuals(lm_model)
-## W = 0.96746, p-value = 0.03914</code></pre>
-<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb175-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb175-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb175-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
+## W = 0.96349, p-value = 0.02205</code></pre>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb174-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb174-2"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#cb174-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
 
 </div>
