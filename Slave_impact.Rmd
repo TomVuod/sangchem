@@ -66,6 +66,8 @@ print(data.frame(treatment_id=1:4, chemical_distance_to_slave_relatives=c(res_1[
                  chemical_distance_to_random_colonies=vapply(list(res_1[[3]], res_2[[3]],
                                                                   res_3[[3]], res_4[[3]]), mean,
                                                              FUN.VALUE=numeric(1))))
+```
+```{r eval=FALSE}
 
 distances_to_free_living_fusca <- list()
 distances_to_free_living_fusca$all <- list(treatment_1 = res_1,
@@ -126,13 +128,13 @@ print(data.frame(treatment_id=1:4, chemical_distance_to_slave_relatives=c(res_1[
                  chemical_distance_to_random_colonies=vapply(list(res_1[[3]], res_2[[3]],
                                                                   res_3[[3]], res_4[[3]]), mean,
                                                              FUN.VALUE=numeric(1))))
-
+```
+```{r eval=FALSE}
 
 distances_to_free_living_fusca$cocoons <- list(treatment_1 = res_1,
                                            treatment_2 = res_2,
                                            treatment_3 = res_3,
                                            treatment_4 = res_4)
-```
-```{r eval= FALSE}
+
 usethis::use_data(distances_to_free_living_fusca, overwrite = TRUE)
 ```
