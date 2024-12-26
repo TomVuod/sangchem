@@ -5,6 +5,7 @@
 #' @export
 averaged_profile<-function(chr_IDs,MS_data,
                            CHC_amount_data=NULL, proportions=TRUE){
+  stopifnot(is.data.frame(MS_data))
   if(length(chr_IDs)==0) stop("No chromatogram ID values in averaged_profile function")
   if(any(is.na(chr_IDs))) warning("NA chromatogram ID values in averaged_profile function")
   #if (length(chr_IDs)!=2) stop("Two chromatogram ID values should be passed in")
