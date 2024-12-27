@@ -82,13 +82,14 @@ m <- m/rowSums(m)
 log_m <- apply(m,2,log)
 colnames(m)  <- colnames(peak_prop)
 colnames(log_m) <- paste0("peak_", colnames(m))
-f = formula(paste0("y~", paste(colnames(log_m), collapse = "+")))
+f = formula(paste0("y~0+", paste(colnames(log_m), collapse = "+")))
 df <- as.data.frame(log_m)
 df$y <- calculate_SII(m,  discr_analysis_callows_res, PCA_callow_discr, predicted_category=3)[,2]
 res <- lm(f, data =df)
+hist(residuals(res))
+shapiro.test(sample(residuals(res),3000))
 sort(res$coefficients, decreasing = TRUE)
 ```
-
 ## Determining mature *F. sanguinea* markers
 ```{r}
 df$y <- calculate_SII(m,  discr_analysis_callows_res, PCA_callow_discr, predicted_category=2)[,2]

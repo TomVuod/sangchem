@@ -80,19 +80,24 @@ plotIndiv(species_prediction_model, group=Y, legend=TRUE, ellipse=TRUE, comp=1:2
 
 Now we want to correlate relative abundances of CHCs with the species predicted by the model for each sample.
 ```{r message=FALSE}
-# quantify predicted species (F. sanguinea closer to one and F. fusca closer to 0)
-predicted_species <- predict(species_prediction_model, PCA_species_discr$x)$predict[,2,species_prediction_model$ncomp]
-
-library(Hmisc) 
-cor_p_val<-rcorr(cbind(peak_prop, predicted_species))
-cor_p_val$P[cor_p_val$r==1]<-0
-#significance threshold = 0.05
-significant_correlations <- cor_p_val$r["predicted_species",][cor_p_val$P["predicted_species",]<0.05]
-peaks_sang <- names(significant_correlations)[significant_correlations>0]
-peaks_sang <- as.numeric((setdiff(peaks_sang,"predicted_species")))
-peaks_fusca <- as.numeric(names(significant_correlations)[significant_correlations<0])
-print(peaks_sang)
-print(peaks_fusca)
+set.seed(2341)
+n_obs <- 10^5
+n_var <- dim(peak_prop)[2]
+x <- exp(5*runif(n_obs * n_var))
+#x <- runif(n_obs * n_var)
+m = matrix(x, nrow = n_obs, ncol=n_var)
+m <- m/rowSums(m)
+transformed_m <- t(apply(m, 1, clr_transformation))
+# log_m <- apply(m,2,log)
+colnames(m)  <- colnames(peak_prop)
+colnames(transformed_m) <- paste0("peak_", colnames(m))
+f = formula(paste0("y~1+", paste(colnames(transformed_m), collapse = "+")))
+df <- as.data.frame(transformed_m)
+df$y <- calculate_SII(m,  species_prediction_model, PCA_species_discr, predicted_category=2)[,2]
+res <- lm(f, data=df)
+hist(residuals(res))
+shapiro.test(sample(residuals(res),3000))
+sort(res$coefficients, decreasing = TRUE)
 ```
 
 The objects `peaks_sang`, `peaks_fusca`, `species_prediction_model` and `PCA_species_discr` are stored in the package and can be collectively loaded into the global environment along with the other objects by running `load_globals()`.
