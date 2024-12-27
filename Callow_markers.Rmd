@@ -26,6 +26,7 @@ peak_prop <- peak_proportions_table(mass_spectra_data[mass_spectra_data$chromato
 peak_prop <- peak_prop[match(DA_data$chromatogram_ID, rownames(peak_prop)),]
 # remove absent peaks
 peak_prop <- peak_prop[,apply(peak_prop,2,function(x) sum(x)>0)]
+peak_prop <- freq_abun_QC(peak_prop, freq_cutoff = 0.3, abundance_cutoff = 0.005)
 # replace zeros with a small number before transformation
 peak_prop[peak_prop==0] <- 10^-16
 # apply central log ratio transformation
@@ -75,20 +76,35 @@ plotIndiv(discr_analysis_callows_res,
 set.seed(2341)
 n_obs <- 10^5
 n_var <- dim(peak_prop)[2]
-x <- runif(n_obs * n_var)
-
+x <- exp(5*runif(n_obs * n_var))
 m = matrix(x, nrow = n_obs, ncol=n_var)
 m <- m/rowSums(m)
-log_m <- apply(m,2,log)
+transformed_m <- t(apply(m, 1, clr_transformation))
 colnames(m)  <- colnames(peak_prop)
-colnames(log_m) <- paste0("peak_", colnames(m))
-f = formula(paste0("y~0+", paste(colnames(log_m), collapse = "+")))
-df <- as.data.frame(log_m)
-df$y <- calculate_SII(m,  discr_analysis_callows_res, PCA_callow_discr, predicted_category=3)[,2]
-res <- lm(f, data =df)
-hist(residuals(res))
-shapiro.test(sample(residuals(res),3000))
-sort(res$coefficients, decreasing = TRUE)
+colnames(transformed_m) <- paste0("peak_", colnames(m))
+df <- as.data.frame(transformed_m)
+df$y <- calculate_SII(m, discr_analysis_callows_res, PCA_callow_discr, predicted_category=3)[,2]
+```
+```{r}
+set.seed(4563)
+p_val = c()
+peak_coefficients <- c()
+for(peak in colnames(transformed_m)){
+  model <- lm(formula(paste0("y~1 + ", peak)), data =df)
+  peak_coefficients <- c(peak_coefficients, model$coefficients[2])
+  p_val <- c(p_val, shapiro.test(sample(residuals(model), 3000))$p.value)
+}
+```
+```{r}
+
+```
+```{r}
+compounds <- c()
+for (peak in colnames(peak_prop)){
+  compounds <- c(compounds, mass_spectra_data[mass_spectra_data$peak_ID==peak,"identification"][1])
+names(peak_coefficients) <- names(p_val) <- colnames(transformed_m)
+sort(peak_coefficients)
+}
 ```
 ## Determining mature *F. sanguinea* markers
 ```{r}

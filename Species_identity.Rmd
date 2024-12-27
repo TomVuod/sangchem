@@ -91,15 +91,24 @@ transformed_m <- t(apply(m, 1, clr_transformation))
 # log_m <- apply(m,2,log)
 colnames(m)  <- colnames(peak_prop)
 colnames(transformed_m) <- paste0("peak_", colnames(m))
-f = formula(paste0("y~1+", paste(colnames(transformed_m), collapse = "+")))
 df <- as.data.frame(transformed_m)
 df$y <- calculate_SII(m,  species_prediction_model, PCA_species_discr, predicted_category=2)[,2]
-res <- lm(f, data=df)
-hist(residuals(res))
-shapiro.test(sample(residuals(res),3000))
-sort(res$coefficients, decreasing = TRUE)
 ```
-
+```{r}
+set.seed(4563)
+p_val = c()
+peak_coefficients <- c()
+for(peak in colnames(transformed_m)){
+  model <- lm(formula(paste0("y~1 + ", peak)), data =df)
+  peak_coefficients <- c(peak_coefficients, model$coefficients[2])
+  p_val <- c(p_val, shapiro.test(sample(residuals(model), 3000))$p.value)
+}
+sort(peak_coefficients)
+```
+```{r}
+peak_fusca <- as.numeric(gsub("peak_", "", names(peak_coefficients)[peak_coefficients<(-10^-3)]))
+peak_sang <- as.numeric(gsub("peak_", "", names(peak_coefficients)[peak_coefficients>(10^-3)]))
+``` 
 The objects `peaks_sang`, `peaks_fusca`, `species_prediction_model` and `PCA_species_discr` are stored in the package and can be collectively loaded into the global environment along with the other objects by running `load_globals()`.
 ```{r eval=FALSE}
 globals <- readRDS(system.file("globals.rds", package="sangchem"))
@@ -108,21 +117,6 @@ globals[["PCA_species_discr"]] <- PCA_species_discr
 globals[["peak_sang"]] <- peaks_sang
 globals[["peak_fusca"]] <- peaks_fusca
 saveRDS(globals, system.file("globals.rds", package="sangchem"))
-```
-
-### Peak position on the species discriminant axis
-
-We might ask how a given peak compares to other in term of being characteristic more of one or the other species. Correspondingly we will generate the artificial profiles which are composed of only one peak to see how each peak contributes to the species prediction.
-
-```{r}
-unit_input <- diag(rep(1, ncol(peak_prop)))
-colnames(unit_input) <- rownames(unit_input) <-colnames(peak_prop)
-res <- calculate_SII(unit_input)
-colnames(res)[1] <- "peak ID"
-# normalize scores
-res[,2] <- res[,2] - mean(res[,2])
-res[,2] <- res[,2]/sd(res[,2])
-print(res[order(res$predicted_species),])
 ```
 
 ## Species identity score
