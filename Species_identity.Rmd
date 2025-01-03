@@ -1,7 +1,7 @@
 # Species discrimination and prediction
 
 ## Species markers
-This  report shows how the peaks discriminative for *F. sanguinea* and *F. fusca* were determined. We will use the chemical data collected from the filed colonies in the earlier study [@WLODARCZYK201798]. In this way our method of markers selection is blind to the dataset to which  markers will be applied avoiding potential source of the bias in the analysis results.
+This  report shows how the peaks discriminative for *F. sanguinea* and *F. fusca* were determined. We will use the chemical data collected from the filed colonies in the earlier study [@WLODARCZYK201798]. In this way our method of markers selection is blind to the data set to which  markers will be applied avoiding potential source of the bias in the analysis results.
 ```{r warning=FALSE}
 suppressMessages({
   library(sangchem)
@@ -60,7 +60,8 @@ spec_discr_PC.plsda.perf<-perf(species_discrimination_PC.plsda, nrepeat = 10,fol
 plot(spec_discr_PC.plsda.perf, sd = TRUE, overlay = 'measure')
 ```
 
-The diagnstic plots suggests that we should keep 2 components for the final model.
+We use the performance test result to determine the optimal number of components to be used in 
+discriminant analysis.
 ```{r}
 selected_n <- spec_discr_PC.plsda.perf$choice.ncom["overall", "max.dist"]
 
@@ -78,7 +79,7 @@ plotIndiv(species_prediction_model, group=Y, legend=TRUE, ellipse=TRUE, comp=1:2
 
 ```
 
-Now we want to correlate relative abundances of CHCs with the species predicted by the model for each sample.
+Now we want assess the importance of each peak in the discrimination between the species. For that we generate 10^5 mock profiles which are transformed in the same manner as the training data. For each profile we calculate the prediction score. Values closer to one or greater indicate the CHC profile being characteristic of *F. sanguinea*. Then, for each peak, we use its value after transformation as a regressor of inferred species (prediction score). This approach is justified by the linearity of the relation between both variables. 
 ```{r message=FALSE}
 set.seed(2341)
 n_obs <- 10^5
@@ -99,12 +100,24 @@ set.seed(4563)
 p_val = c()
 peak_coefficients <- c()
 for(peak in colnames(transformed_m)){
+  print("peak")
   model <- lm(formula(paste0("y~1 + ", peak)), data =df)
+  print(summary(model))
   peak_coefficients <- c(peak_coefficients, model$coefficients[2])
-  p_val <- c(p_val, shapiro.test(sample(residuals(model), 3000))$p.value)
+  plot(model)
+  print(summary(shapiro.test(sample(residuals(model), 3000))))
 }
-sort(peak_coefficients)
 ```
+```{r}
+compounds <- c()
+for (peak in colnames(peak_prop)){
+  compounds <- c(compounds, mass_spectra_data[mass_spectra_data$peak_ID==peak,"identification"][1])
+}
+df_importance <- data.frame(peak_ID=colnames(peak_prop), coefficient = peak_coefficients, identification=compounds) 
+print(df_importance[order(df_importance$coefficient),])
+```
+
+
 ```{r}
 peak_fusca <- as.numeric(gsub("peak_", "", names(peak_coefficients)[peak_coefficients<(-10^-3)]))
 peak_sang <- as.numeric(gsub("peak_", "", names(peak_coefficients)[peak_coefficients>(10^-3)]))
