@@ -21,6 +21,7 @@ sanguinea_samples<-as.character(unique(field_colonies$chromatogram_ID)[stri_dete
 sanguinea_samples <- setdiff(sanguinea_samples,c("sangFs2(1)","sangFs5(2)","sangFs26(1)","sangFs26(2)"))
 fusca_samples <- setdiff(fusca_samples,c("fus9-2(1)", "fus26-3(2)"))
 discrimination_data <- filter(field_colonies,chromatogram_ID %in% c(fusca_samples,sanguinea_samples)) 
+discrimination_data <- filter(discrimination_data, peak_ID<110)
 peak_prop_unfiltered <- peak_proportions_table(discrimination_data)
 # feature selection
 peak_prop <- freq_abun_QC(peak_prop_unfiltered)
@@ -100,7 +101,7 @@ set.seed(4563)
 p_val = c()
 peak_coefficients <- c()
 for(peak in colnames(transformed_m)){
-  print("peak")
+  print(peak)
   model <- lm(formula(paste0("y~1 + ", peak)), data =df)
   print(summary(model))
   peak_coefficients <- c(peak_coefficients, model$coefficients[2])

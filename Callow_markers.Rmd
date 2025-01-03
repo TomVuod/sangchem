@@ -90,21 +90,24 @@ set.seed(4563)
 p_val = c()
 peak_coefficients <- c()
 for(peak in colnames(transformed_m)){
+  print("peak")
   model <- lm(formula(paste0("y~1 + ", peak)), data =df)
+  print(summary(model))
   peak_coefficients <- c(peak_coefficients, model$coefficients[2])
-  p_val <- c(p_val, shapiro.test(sample(residuals(model), 3000))$p.value)
+  print(summary(shapiro.test(sample(residuals(model), 3000))))
 }
-sort(peak_coefficients)
 ```
 
 ```{r}
 compounds <- c()
 for (peak in colnames(peak_prop)){
   compounds <- c(compounds, mass_spectra_data[mass_spectra_data$peak_ID==peak,"identification"][1])
-names(peak_coefficients) <- names(p_val) <- colnames(transformed_m)
-sort(peak_coefficients)
 }
+df_importance <- data.frame(peak_ID=colnames(peak_prop), coefficient = peak_coefficients, identification=compounds) 
+peaks_callow <- colnames(peak_prop)[df_importance$coefficient>=0.004]
+print(df_importance[order(df_importance$coefficient),])
 ```
+
 ## Determining mature *F. sanguinea* markers
 ```{r}
 df$y <- calculate_SII(m, discr_analysis_callows_res, PCA_callow_discr, predicted_category=2)[,2]
@@ -112,11 +115,19 @@ set.seed(4563)
 p_val = c()
 peak_coefficients <- c()
 for(peak in colnames(transformed_m)){
+  print(peak)
   model <- lm(formula(paste0("y~1 + ", peak)), data =df)
+  print(summary(model))
   peak_coefficients <- c(peak_coefficients, model$coefficients[2])
-  p_val <- c(p_val, shapiro.test(sample(residuals(model), 3000))$p.value)
+  print(summary(shapiro.test(sample(residuals(model), 3000))))
 }
-sort(peak_coefficients)
+compounds <- c()
+for (peak in colnames(peak_prop)){
+  compounds <- c(compounds, mass_spectra_data[mass_spectra_data$peak_ID==peak,"identification"][1])
+}
+df_importance <- data.frame(peak_ID=colnames(peak_prop), coefficient = peak_coefficients, identification=compounds) 
+peaks_mature <- colnames(peak_prop)[df_importance$coefficient>=0.004]
+print(df_importance[order(df_importance$coefficient),])
 ```
 
 ```{r eval=FALSE}
