@@ -11,7 +11,7 @@ link-citations: yes
 github-repo: TomVuod/sangchem
 ---
 # Introduction {-}
-Here we present how the result shown in the manuscript were obtained starting from the data sets collected during the study. The dedicated [`sangchem`](https://github.com/TomVuod/sangchem) R package  is available on GitHub and can be isstalled via:
+Here we present how the results shown in the manuscript were obtained starting from the raw data collected during the study. The dedicated [`sangchem`](https://github.com/TomVuod/sangchem) R package is available on GitHub and can be isstalled via:
 ```{r eval=FALSE}
 if(!require(devtools)) install.packages("devtools")
 devtools::install_github("TomVuod/sangchem")
