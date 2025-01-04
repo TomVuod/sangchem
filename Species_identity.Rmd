@@ -237,8 +237,3 @@ print(summary(lm_model))
 hist(residuals(lm_model))
 print(shapiro.test(residuals(lm_model)))
 ```
-
-## Session info
-```{r}
-print(sessionInfo())
-```

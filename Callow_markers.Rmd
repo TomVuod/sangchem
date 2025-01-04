@@ -139,8 +139,3 @@ globals[["peaks_callow"]] <- as.numeric(peaks_callow)
 globals[["peaks_mature"]] <- as.numeric(peaks_mature)
 saveRDS(globals, system.file("globals.rds", package="sangchem"))
 ```
-
-## Session info
-```{r}
-print(sessionInfo())
-```
