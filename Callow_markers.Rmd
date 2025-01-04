@@ -89,12 +89,14 @@ df$y <- calculate_SII(m, discr_analysis_callows_res, PCA_callow_discr, predicted
 set.seed(4563)
 p_val = c()
 peak_coefficients <- c()
+selected_residuals <- round(seq(1,n_obs,length.out=3000))
 for(peak in colnames(transformed_m)){
   print("peak")
   model <- lm(formula(paste0("y~1 + ", peak)), data =df)
   print(summary(model))
+  hist(residuals(model), breaks = 50, main = paste0("residuals ", peak))
+  print(shapiro.test(residuals(model)[selected_residuals]))
   peak_coefficients <- c(peak_coefficients, model$coefficients[2])
-  print(summary(shapiro.test(sample(residuals(model), 3000))))
 }
 ```
 
@@ -115,11 +117,12 @@ set.seed(4563)
 p_val = c()
 peak_coefficients <- c()
 for(peak in colnames(transformed_m)){
-  print(peak)
+  print("peak")
   model <- lm(formula(paste0("y~1 + ", peak)), data =df)
   print(summary(model))
+  hist(residuals(model), breaks = 50, main = paste0("residuals ", peak))
+  print(shapiro.test(residuals(model)[selected_residuals]))
   peak_coefficients <- c(peak_coefficients, model$coefficients[2])
-  print(summary(shapiro.test(sample(residuals(model), 3000))))
 }
 compounds <- c()
 for (peak in colnames(peak_prop)){
