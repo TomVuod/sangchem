@@ -107,7 +107,7 @@ for (peak in colnames(peak_prop)){
 }
 df_importance <- data.frame(peak_ID=colnames(peak_prop), coefficient = peak_coefficients, identification=compounds) 
 peaks_callow <- colnames(peak_prop)[df_importance$coefficient>=0.004]
-print(df_importance[order(df_importance$coefficient),])
+print(df_importance[order(df_importance$coefficient, decreasing=TRUE),])
 ```
 
 ## Determining mature *F. sanguinea* markers
@@ -130,7 +130,7 @@ for (peak in colnames(peak_prop)){
 }
 df_importance <- data.frame(peak_ID=colnames(peak_prop), coefficient = peak_coefficients, identification=compounds) 
 peaks_mature <- colnames(peak_prop)[df_importance$coefficient>=0.004]
-print(df_importance[order(df_importance$coefficient),])
+print(df_importance[order(df_importance$coefficient, decreasing=TRUE),])
 ```
 
 ```{r eval=FALSE}
