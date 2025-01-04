@@ -116,8 +116,8 @@ p2 <- ggplot(aes(x=species, y=proportion , group=species), data=df)+
 
 
 df <- paired_observations(list(species = "F. sanguinea", callow = 0),
-                            group_2=list(species = "F. sanguinea", callow = 1),
-                            values_column="mass", group_var="callow")
+                          group_2=list(species = "F. sanguinea", callow = 1),
+                          values_column="mass", group_var="callow")
 df$callow <- as.numeric(df$callow)
 
 p3 <- ggplot(aes(x=callow, y=mass, group=callow), data=df)+
@@ -258,7 +258,7 @@ plot_data <- data.frame(peak_ID = callow_mature_diff$peak_ID,
 ggplot(plot_data, aes(x=peak_ID, y=relative_abundance_diff))+
   geom_bar(stat="identity", fill="grey") +
   geom_text(aes(label = peak_ID))
-  #geom_linerange( aes(x=peak_ID, ymin=relative_abundance_diff-sd, ymax=relative_abundance_diff+sd), colour="orange", size=1.3)
+#geom_linerange( aes(x=peak_ID, ymin=relative_abundance_diff-sd, ymax=relative_abundance_diff+sd), colour="orange", size=1.3)
 
 
 
@@ -284,7 +284,7 @@ dev.new()
 pdf("Fig3.pdf", width = 5, height = 7)
 ggplot(plot_data, aes(x=x, y=y))+
   facet_wrap(~treatment, labeller = labeller(treatment=c(treatment_1 = "1-3 days", treatment_2 = "7-10 days",
-                                             treatment_3 = "17-20 days", treatment_4 = "35-40 days")),
+                                                         treatment_3 = "17-20 days", treatment_4 = "35-40 days")),
              ncol=1)+
   geom_segment(aes(x = true_distance, y = 0, xend = true_distance, yend = max_y), lwd=1, lty=2, color="#cc0033")+
   geom_area(aes(x = x, y = y),
@@ -398,5 +398,3 @@ ggplot(NULL, aes(x=peak_ID, y=relative_abundance, fill = age, color=age))+
   xlab("Peak ID")
 
 dev.off()
-
-
