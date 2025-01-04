@@ -39,8 +39,3 @@ test_C22_proportion(5, separation_experiment_data, mass_spectra_data)
 ```{r}
 test_C22_proportion(7, separation_experiment_data, mass_spectra_data)
 ```
-
-## Session info
-```{r}
-print(sessionInfo())
-```
