@@ -135,8 +135,8 @@ print(df_importance[order(df_importance$coefficient),])
 
 ```{r eval=FALSE}
 globals <- readRDS(system.file("globals.rds", package="sangchem"))
-globals[["peaks_callow"]] <- peaks_callow
-globals[["peaks_mature"]] <- peaks_mature
+globals[["peaks_callow"]] <- as.numeric(peaks_callow)
+globals[["peaks_mature"]] <- as.numeric(peaks_mature)
 saveRDS(globals, system.file("globals.rds", package="sangchem"))
 ```
 
