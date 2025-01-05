@@ -30,7 +30,7 @@ model_input <- model_input[-which.max(model_input$corrected_mass),]
 lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop  + (1|colony) +(1 | colony:census_date), data=model_input)
 
 
-simulation_number=10^4
+simulation_number=10^3
 
 seeds <- (1:1000)*17
 predict_values <- function(n, model, sang_prop, seeds){
