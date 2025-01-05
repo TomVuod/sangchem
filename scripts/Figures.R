@@ -370,15 +370,22 @@ age_profiles <- dplyr::filter(development_data, caste=="worker", !remarks %in% c
 
 all_peaks <- unique(c(age_profiles[[1]]$peak_ID, age_profiles[[2]]$peak_ID))
 missing_peaks <- setdiff(all_peaks, age_profiles[[1]]$peak_ID)
+if(length(missing_peaks)>0)
 age_profiles[[1]] <- rbind(age_profiles[[1]], data.frame(peak_ID = missing_peaks, relative_abundance = 0))
 age_profiles[[1]]$age = "mature"
 missing_peaks <- setdiff(all_peaks, age_profiles[[2]]$peak_ID)
+if(length(missing_peaks)>0)
 age_profiles[[2]] <- rbind(age_profiles[[2]], data.frame(peak_ID = missing_peaks, relative_abundance = 0))
 age_profiles[[2]]$age = "callow"
 #plot_data <- rbind(age_profiles[[1]], age_profiles[[2]])
 
-library(ggplot2)
+source(system.file("/scripts/peak_ID_publication.R", package="sangchem"))
+age_profiles[[1]]$peak_ID <- match(age_profiles[[1]]$peak_ID,peaks_ordered)
+age_profiles[[2]]$peak_ID <- match(age_profiles[[2]]$peak_ID,peaks_ordered)
+diff_data$peak_ID <- match(diff_data$peak_ID, peaks_ordered)
 
+
+library(ggplot2)
 
 dev.new()
 pdf("Fig2.pdf", width = 12, height = 6)
