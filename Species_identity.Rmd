@@ -123,16 +123,16 @@ print(df_importance[order(df_importance$coefficient),])
 
 
 ```{r}
-peak_fusca <- as.numeric(gsub("peak_", "", names(peak_coefficients)[peak_coefficients<(-10^-3)]))
-peak_sang <- as.numeric(gsub("peak_", "", names(peak_coefficients)[peak_coefficients>(10^-3)]))
+peaks_fusca <- as.numeric(gsub("peak_", "", names(peak_coefficients)[peak_coefficients<(-10^-3)]))
+peaks_sang <- as.numeric(gsub("peak_", "", names(peak_coefficients)[peak_coefficients>(10^-3)]))
 ``` 
 The objects `peaks_sang`, `peaks_fusca`, `species_prediction_model` and `PCA_species_discr` are stored in the package and can be collectively loaded into the global environment along with the other objects by running `load_globals()`.
 ```{r eval=FALSE}
 globals <- readRDS(system.file("globals.rds", package="sangchem"))
 globals[["species_prediction_model"]] <- species_prediction_model
 globals[["PCA_species_discr"]] <- PCA_species_discr
-globals[["peak_sang"]] <- peaks_sang
-globals[["peak_fusca"]] <- peaks_fusca
+globals[["peaks_sang"]] <- peaks_sang
+globals[["peaks_fusca"]] <- peaks_fusca
 saveRDS(globals, system.file("globals.rds", package="sangchem"))
 ```
 

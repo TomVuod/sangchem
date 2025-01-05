@@ -81,7 +81,7 @@ plot(simulationOutput)
 ```{r}
 model_input <- dev_samples[dev_samples$species=="F. fusca",]
 model_input$corrected_mass <- model_input$corrected_mass*subsample_proportion(peaks_sang, model_input$chromatogram_ID)
-lm_model <- lmer(I(log(corrected_mass+1)) ~ sang_prop +(1|colony:census_date), data=model_input)
+lm_model <- lmer(I(sqrt(corrected_mass)) ~ sang_prop +(1|colony:census_date), data=model_input)
 print(summary(lm_model))
 
 # model diagnostics
@@ -98,7 +98,7 @@ model_input <- filter(development_data, caste=="worker",!is.na(head_width), !rem
   mutate(corrected_mass=mass/head_width^2*10^6)
 # random term dropped because of the model singularity
 model_input$corrected_mass <- model_input$corrected_mass*subsample_proportion(peaks_sang, model_input$chromatogram_ID)
-lm_model <- lm(I(sqrt(corrected_mass)) ~ sang_prop, data=model_input)
+lm_model <- lm(I((corrected_mass)^(1/3)) ~ sang_prop, data=model_input)
 print(summary(lm_model))
 
 # model diagnostics
@@ -111,7 +111,7 @@ print(shapiro.test(residuals(lm_model)))
 ```{r}
 model_input <- dev_samples[dev_samples$species=="F. sanguinea",]
 model_input$corrected_mass <- model_input$corrected_mass*subsample_proportion(peaks_fusca, model_input$chromatogram_ID)
-lm_model <- lmer(I(log(corrected_mass+1)) ~ sang_prop +(1 | colony:census_date) + (1 | colony), data=model_input)
+lm_model <- lmer(I(log(corrected_mass+0.01)) ~ sang_prop +(1 | colony:census_date) + (1 | colony), data=model_input)
 print(summary(lm_model))
 
 # model diagnostics
