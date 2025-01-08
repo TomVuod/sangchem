@@ -54,7 +54,7 @@ dev_samples <- left_join(dev_samples, species_indices)
 model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==1,]
 model_input$SII_difference <- model_input$predicted_species - find_nestmates_SII(model_input$chromatogram_ID, dev_samples, heterospecific = FALSE)
 # no random effect since it captures no variance
-lm_model <- lm(index_diff~sang_prop, data=model_input)
+lm_model <- lm(SII_difference~sang_prop, data=model_input)
 x <- seq(0,1,by=0.001)
 model_prediction <- data.frame(sang_prop = x, SII_difference=predict(lm_model, data.frame(sang_prop=x), re.form=NA))
 ggplot(model_input, aes(x=sang_prop, y=SII_difference))+
