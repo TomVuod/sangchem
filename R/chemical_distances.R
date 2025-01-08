@@ -55,6 +55,12 @@ empirical_p_value<-function(val,distribution){
     sum(na.omit(distribution)<=val)/length(na.omit(distribution))
 }
 
+colony_mean_distance <- function(distance_data){
+  distance_data %>% split(.$colony) %>%
+    lapply(function(x) data.frame(colony=x$colony[1], dissimilarity=mean(x[["dissimilarity"]], na.rm=TRUE))) %>%
+    {function(x) do.call(rbind, x)}()
+}
+
 #' @export
 distances_permutation_test <- function(treatment_id, n_iter=1e5+1, exclude_naked_pupae=FALSE){
   distances_registry <- global_distances_matrix()
