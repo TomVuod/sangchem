@@ -73,64 +73,30 @@ plotIndiv(discr_analysis_callows_res,
 
 ## Determining callow markers
 ```{r}
-set.seed(2341)
-n_obs <- 10^5
-n_var <- dim(peak_prop)[2]
-x <- exp(5*runif(n_obs * n_var))
-m = matrix(x, nrow = n_obs, ncol=n_var)
-m <- m/rowSums(m)
-transformed_m <- t(apply(m, 1, clr_transformation))
-colnames(m)  <- colnames(peak_prop)
-colnames(transformed_m) <- paste0("peak_", colnames(m))
-df <- as.data.frame(transformed_m)
-df$y <- calculate_SII(m, discr_analysis_callows_res, PCA_callow_discr, predicted_category=3)[,2]
+ones_matrix <- matrix(1, nrow = ncol(peak_prop),ncol= ncol(peak_prop))
+colnames(ones_matrix) <- rownames(ones_matrix) <- colnames(peak_prop)
+unit_input <- diag(rep(1, ncol(peak_prop)))
+incremented_matrix <- ones_matrix + unit_input
+ones_matrix <- ones_matrix[1,,drop=FALSE]
+ones_matrix <- ones_matrix/ncol(ones_matrix)
+incremented_matrix <- apply(incremented_matrix, 2, function(x) x/sum(x))
+res1 <- calculate_SII(incremented_matrix, discr_analysis_callows_res, PCA_callow_discr, predicted_category=3)
+res2 <- calculate_SII(ones_matrix, discr_analysis_callows_res, PCA_callow_discr, predicted_category=3)
+res <- res1
+res$predicted_species = res1$predicted_species - res2$predicted_species
+res <- res[order(res$predicted_species),]
+print(res)
+peaks_callow <- res$chromatogram_ID[res$predicted_species<=quantile(res$predicted_species, 0.2)]
 ```
-```{r}
-set.seed(4563)
-p_val = c()
-peak_coefficients <- c()
-selected_residuals <- round(seq(1,n_obs,length.out=3000))
-for(peak in colnames(transformed_m)){
-  print("peak")
-  model <- lm(formula(paste0("y~1 + ", peak)), data =df)
-  print(summary(model))
-  hist(residuals(model), breaks = 50, main = paste0("residuals ", peak))
-  print(shapiro.test(residuals(model)[selected_residuals]))
-  peak_coefficients <- c(peak_coefficients, model$coefficients[2])
-}
-```
-
-```{r}
-compounds <- c()
-for (peak in colnames(peak_prop)){
-  compounds <- c(compounds, mass_spectra_data[mass_spectra_data$peak_ID==peak,"identification"][1])
-}
-df_importance <- data.frame(peak_ID=colnames(peak_prop), coefficient = peak_coefficients, identification=compounds) 
-peaks_callow <- colnames(peak_prop)[df_importance$coefficient>=0.004]
-print(df_importance[order(df_importance$coefficient, decreasing=TRUE),])
-```
-
 ## Determining mature *F. sanguinea* markers
 ```{r}
-df$y <- calculate_SII(m, discr_analysis_callows_res, PCA_callow_discr, predicted_category=2)[,2]
-set.seed(4563)
-p_val = c()
-peak_coefficients <- c()
-for(peak in colnames(transformed_m)){
-  print("peak")
-  model <- lm(formula(paste0("y~1 + ", peak)), data =df)
-  print(summary(model))
-  hist(residuals(model), breaks = 50, main = paste0("residuals ", peak))
-  print(shapiro.test(residuals(model)[selected_residuals]))
-  peak_coefficients <- c(peak_coefficients, model$coefficients[2])
-}
-compounds <- c()
-for (peak in colnames(peak_prop)){
-  compounds <- c(compounds, mass_spectra_data[mass_spectra_data$peak_ID==peak,"identification"][1])
-}
-df_importance <- data.frame(peak_ID=colnames(peak_prop), coefficient = peak_coefficients, identification=compounds) 
-peaks_mature <- colnames(peak_prop)[df_importance$coefficient>=0.004]
-print(df_importance[order(df_importance$coefficient, decreasing=TRUE),])
+res1 <- calculate_SII(incremented_matrix, discr_analysis_callows_res, PCA_callow_discr, predicted_category=2)
+res2 <- calculate_SII(ones_matrix, discr_analysis_callows_res, PCA_callow_discr, predicted_category=3)
+res <- res1
+res$predicted_species = res1$predicted_species - res2$predicted_species
+res <- res[order(res$predicted_species),]
+print(res)
+peaks_mature <- res$chromatogram_ID[res$predicted_species<=quantile(res$predicted_species, 0.2)]
 ```
 
 ```{r eval=FALSE}

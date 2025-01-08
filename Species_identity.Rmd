@@ -80,51 +80,26 @@ plotIndiv(species_prediction_model, group=Y, legend=TRUE, ellipse=TRUE, comp=1:2
 
 ```
 
-Now we want assess the importance of each peak in the discrimination between the species. For that we generate 10^5 mock profiles which are transformed in the same manner as the training data. For each profile we calculate the prediction score. Values closer to one or greater indicate the CHC profile being characteristic of *F. sanguinea*. Then, for each peak, we use its value after transformation as a regressor of inferred species (prediction score). This approach is justified by the linearity of the relation between both variables. 
+Now we want to correlate relative abundances of CHCs with the species predicted by the model for each sample.
 ```{r message=FALSE}
-set.seed(2341)
-n_obs <- 10^5
-n_var <- dim(peak_prop)[2]
-x <- exp(5*runif(n_obs * n_var))
-#x <- runif(n_obs * n_var)
-m = matrix(x, nrow = n_obs, ncol=n_var)
-m <- m/rowSums(m)
-transformed_m <- t(apply(m, 1, clr_transformation))
-# log_m <- apply(m,2,log)
-colnames(m)  <- colnames(peak_prop)
-colnames(transformed_m) <- paste0("peak_", colnames(m))
-df <- as.data.frame(transformed_m)
-df$y <- calculate_SII(m,  species_prediction_model, PCA_species_discr, predicted_category=2)[,2]
-```
-```{r}
-set.seed(4563)
-p_val = c()
-peak_coefficients <- c()
-selected_residuals <- round(seq(1,n_obs,length.out=3000))
-for(peak in colnames(transformed_m)){
-  print(peak)
-  model <- lm(formula(paste0("y~1 + ", peak)), data =df)
-  print(summary(model))
-  hist(residuals(model), breaks = 50, main = paste0("residuals ", peak))
-  print(shapiro.test(sort(residuals(model))[selected_residuals]))
-  peak_coefficients <- c(peak_coefficients, model$coefficients[2])
-  plot(model)
-
-}
-```
-```{r}
-compounds <- c()
-for (peak in colnames(peak_prop)){
-  compounds <- c(compounds, mass_spectra_data[mass_spectra_data$peak_ID==peak,"identification"][1])
-}
-df_importance <- data.frame(peak_ID=colnames(peak_prop), coefficient = peak_coefficients, identification=compounds) 
-print(df_importance[order(df_importance$coefficient),])
+ones_matrix <- matrix(1, nrow = ncol(peak_prop),ncol= ncol(peak_prop))
+colnames(ones_matrix) <- rownames(ones_matrix) <- colnames(peak_prop)
+unit_input <- diag(rep(1, ncol(peak_prop)))
+incremented_matrix <- ones_matrix + unit_input
+ones_matrix <- ones_matrix[1,,drop=FALSE]
+ones_matrix <- ones_matrix/ncol(ones_matrix)
+incremented_matrix <- apply(incremented_matrix, 2, function(x) x/sum(x))
+res1 <- calculate_SII(incremented_matrix)
+res2 <- calculate_SII(ones_matrix)
+res <- res1
+res$predicted_species = res1$predicted_species - res2$predicted_species
+res <- res[order(res$predicted_species),]
+print(res)
 ```
 
-
 ```{r}
-peaks_fusca <- as.numeric(gsub("peak_", "", names(peak_coefficients)[peak_coefficients<(-10^-3)]))
-peaks_sang <- as.numeric(gsub("peak_", "", names(peak_coefficients)[peak_coefficients>(10^-3)]))
+peaks_fusca <- res$chromatogram_ID[res$predicted_species<=quantile(res$predicted_species, 0.2)]
+peaks_sang <- res$chromatogram_ID[res$predicted_species>=quantile(res$predicted_species, 0.8)]
 ``` 
 The objects `peaks_sang`, `peaks_fusca`, `species_prediction_model` and `PCA_species_discr` are stored in the package and can be collectively loaded into the global environment along with the other objects by running `load_globals()`.
 ```{r eval=FALSE}
