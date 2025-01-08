@@ -23,17 +23,14 @@ paired_observations <- function(group_1, group_2, values_column, group_var="call
   else
     df$proportion <- subsample_proportion(peak_subset, df$chromatogram_ID)
 
-
   df1 <- filter(df, species==!!group_1$species, callow==group_1$callow) %>%
     select(colony, census_date, chromatogram_ID, callow, !!group_var, sang_prop, !!values_column)
-
 
   # duplicated samples should converge, thus they should have the same position on x axis
   # each level of the factor correspond to the same colony/sampling date combination
   df1$point_x_pos <- fct_cross(df1$colony, as.character(df1$census_date))
   levels(df1$point_x_pos) <- sample(seq(-0.15,0.15,length.out = length(levels(df1$point_x_pos))))
   df1$point_x_pos <- as.numeric(as.character(df1$point_x_pos))
-
 
   filter(df, species==!!group_2$species, callow==group_2$callow) %>%
     select(colony, census_date, chromatogram_ID, callow, !!group_var, sang_prop, !!values_column) -> df2
@@ -403,5 +400,59 @@ ggplot(NULL, aes(x=peak_ID, y=relative_abundance, fill = age, color=age))+
         panel.background = element_rect(color="white", fill = "white"))+
   ylab("Relative abundance")+
   xlab("Peak ID")
+
+dev.off()
+
+# Figure 3
+
+dev_samples <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), callow==0) %>%
+  dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) %>%
+  mutate(corrected_mass=mass/head_width^2*10^6)
+model_input <- dev_samples[dev_samples$species=="F. sanguinea",]
+# remove outlier
+model_input <- model_input[-which.max(model_input$corrected_mass),]
+lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop  + (1|colony) +(1 | colony:census_date), data=model_input)
+x <- seq(0,1,by=0.001)
+model_prediction <- data.frame(sang_prop = x, predicted_mass=exp(predict(lm_model, data.frame(sang_prop=x), re.form=NA)),
+                               species = "F. sanguinea")
+
+
+plot_data <- dev_samples
+# remove outlier
+plot_data <- plot_data[-which.max(plot_data$corrected_mass),]
+
+
+model_input <- dev_samples[dev_samples$species=="F. fusca",]
+
+lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop  + (1|colony), data=model_input)
+model_prediction <- rbind(model_prediction, data.frame(sang_prop = x, predicted_mass=exp(predict(lm_model, data.frame(sang_prop=x), re.form=NA)),
+                                                       species = "F. fusca"))
+
+data("CHC_mass_prediction")
+
+plot_data_2 <- data.frame(corrected_mass = CHC_mass_prediction$pred_values_sang, species = "F. sanguinea",
+                          sang_prop = 1)
+plot_data_2 <- rbind(plot_data_2, data.frame(corrected_mass = CHC_mass_prediction$pred_values_fusca, species = "F. fusca",
+                                             sang_prop = 0))
+
+
+
+dev.new()
+pdf("Fig5.pdf", width = 9, height = 5)
+ggplot(plot_data, aes(x=sang_prop, y=corrected_mass, color=species, fill=species))+
+  scale_color_manual(values=c("black", "red"))+
+  geom_point()+
+  xlab("Proportion of the F. sanguinea ants in a colony")+
+  ylab("Corrected CHC maass")+
+  geom_line(aes(y= predicted_mass),data = model_prediction, lwd=.9)+
+  geom_boxplot(data=plot_data_2, aes(x=sang_prop), width = 0.1, fill="#00000000")+
+  scale_x_continuous(limits = c(-0.1, 1.1), breaks = seq(0,1,0.1))+
+  scale_y_continuous(limits = c(0, 11.5))+
+  theme(axis.title=element_text(size = 16),
+        axis.text = element_text(size=13),
+        panel.background = element_blank(),
+        panel.grid.major =  element_line(linewidth = 0.5, linetype = 'solid',
+                                         colour = "grey"),
+        legend.text=element_text(size=14))
 
 dev.off()
