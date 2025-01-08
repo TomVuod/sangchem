@@ -68,7 +68,7 @@ plot(simulationOutput)
 ```{r}
 model_input <- dev_samples[dev_samples$species=="F. sanguinea",]
 model_input$corrected_mass <- model_input$corrected_mass*subsample_proportion(peaks_sang, model_input$chromatogram_ID)
-lm_model <- lmer(I(log(corrected_mass+1)) ~ sang_prop +(1 | colony:census_date) + (1|colony), data=model_input)
+lm_model <- lmer(I(log(corrected_mass+0.01)) ~ sang_prop +(1 | colony:census_date) + (1|colony), data=model_input)
 print(summary(lm_model))
 # model diagnostics
 hist(residuals(lm_model))
