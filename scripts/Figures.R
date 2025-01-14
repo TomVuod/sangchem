@@ -218,7 +218,69 @@ ggarrange(p1, p2, p3, p6, p7, ncol=5, labels=c("A", "B", "C", "D", "E"), widths 
 dev.off()
 
 
+
+
+
+
+
+
+
 # Figure 2
+
+dev_samples <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), callow==0) %>%
+  dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) %>%
+  mutate(corrected_mass=mass/head_width^2*10^6)
+model_input <- dev_samples[dev_samples$species=="F. sanguinea",]
+# remove outlier
+model_input <- model_input[-which.max(model_input$corrected_mass),]
+lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop  + (1|colony) +(1 | colony:census_date), data=model_input)
+x <- seq(0,1,by=0.001)
+model_prediction <- data.frame(sang_prop = x, predicted_mass=exp(predict(lm_model, data.frame(sang_prop=x), re.form=NA)),
+                               species = "F. sanguinea")
+
+
+plot_data <- dev_samples
+# remove outlier
+plot_data <- plot_data[-which.max(plot_data$corrected_mass),]
+
+model_input <- dev_samples[dev_samples$species=="F. fusca",]
+
+lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop  + (1|colony), data=model_input)
+model_prediction <- rbind(model_prediction, data.frame(sang_prop = x, predicted_mass=exp(predict(lm_model, data.frame(sang_prop=x), re.form=NA)),
+                                                       species = "F. fusca"))
+
+data("CHC_mass_prediction")
+
+plot_data_2 <- data.frame(corrected_mass = CHC_mass_prediction$pred_values_sang, species = "F. sanguinea",
+                          sang_prop = 1)
+plot_data_2 <- rbind(plot_data_2, data.frame(corrected_mass = CHC_mass_prediction$pred_values_fusca, species = "F. fusca",
+                                             sang_prop = 0))
+
+
+
+dev.new()
+pdf("Fig2.pdf", width = 9, height = 5)
+ggplot(plot_data, aes(x=sang_prop, y=corrected_mass, color=species, fill=species))+
+  scale_color_manual(values=c("black", "red"))+
+  geom_point()+
+  xlab("Proportion of the F. sanguinea ants in a colony")+
+  ylab("Corrected CHC maass")+
+  geom_line(aes(y= predicted_mass),data = model_prediction, lwd=.9)+
+  geom_boxplot(data=plot_data_2, aes(x=sang_prop), width = 0.1, fill="#00000000")+
+  scale_x_continuous(limits = c(-0.1, 1.1), breaks = seq(0,1,0.1))+
+  scale_y_continuous(limits = c(0, 11.5))+
+  theme(axis.title=element_text(size = 16),
+        axis.text = element_text(size=13),
+        panel.background = element_blank(),
+        panel.grid.major =  element_line(linewidth = 0.5, linetype = 'solid',
+                                         colour = "grey"),
+        legend.text=element_text(size=14))
+
+dev.off()
+
+
+
+# Figure 3
 
 compare_age_groups <- function(x){
   x$peak_number <- unlist(lapply(x$chromatogram_ID, function(x) nrow(mass_spectra_data[mass_spectra_data$chromatogram_ID==x & mass_spectra_data$peak_ID > 1,])))
@@ -311,7 +373,7 @@ diff_data$peak_ID <- match(diff_data$peak_ID, peaks_ordered)
 library(ggplot2)
 
 dev.new()
-pdf("Fig2.pdf", width = 12, height = 6)
+pdf("Fig3.pdf", width = 12, height = 6)
 ggplot(NULL, aes(x=peak_ID, y=relative_abundance, fill = age, color=age))+
   geom_bar(data = age_profiles[[1]], stat = "identity",linewidth=0.2,
            position = position_dodge(1), width = 0.6)+
@@ -329,7 +391,42 @@ ggplot(NULL, aes(x=peak_ID, y=relative_abundance, fill = age, color=age))+
 
 dev.off()
 
-# Figure 3
+
+# Figure 4
+
+data("development_data")
+dev_samples <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony")) %>%
+  dplyr::select(chromatogram_ID, species, colony, sang_prop, callow, census_date)
+normalized_abundances <- peak_proportions_table(mass_spectra_data[mass_spectra_data$chromatogram_ID %in% dev_samples$chromatogram_ID,])
+species_indices <- calculate_SII(normalized_abundances)
+dev_samples <- left_join(dev_samples, species_indices)
+model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==1,]
+model_input$SII_difference <- model_input$predicted_species - find_nestmates_SII(model_input$chromatogram_ID, dev_samples, heterospecific = FALSE)
+# no random effect since it captures no variance
+lm_model <- lm(SII_difference~sang_prop, data=model_input)
+x <- seq(0,1,by=0.001)
+model_prediction <- data.frame(sang_prop = x, SII_difference=predict(lm_model, data.frame(sang_prop=x), re.form=NA))
+
+dev.new()
+pdf("Fig4.pdf", width = 7, height = 4)
+ggplot(model_input, aes(x=sang_prop, y=SII_difference))+
+  geom_point(size = 2)+
+  xlab("Proportion of the F. sanguinea ants in a colony")+
+  ylab("Difference between Species Identity Indices")+
+  geom_line(data = model_prediction, lwd=1)+
+  scale_color_manual(values = c("black", "red"))+
+  scale_y_continuous(limits = c(-0.44, 0.25))+
+  theme(axis.title=element_text(size = 16),
+        axis.text = element_text(size=13),
+        panel.background = element_blank(),
+        panel.grid.major =  element_line(linewidth = 0.5, linetype = 'solid',
+                                         colour = "grey"),
+        legend.text=element_text(size=14))+
+  geom_hline(aes(yintercept = 0), lwd=1.1, linetype = "dashed", color = "#e15a00")
+dev.off()
+
+
+# Figure 5
 
 data("distances_to_free_living_fusca")
 
@@ -350,7 +447,7 @@ for(i in 1:length(distances_to_free_living_fusca$all)){
 
 
 dev.new()
-pdf("Fig3.pdf", width = 5, height = 7)
+pdf("Fig5.pdf", width = 5, height = 7)
 ggplot(plot_data, aes(x=x, y=y))+
   facet_wrap(~treatment, labeller = labeller(treatment=c(treatment_1 = "1-3 days", treatment_2 = "7-10 days",
                                                          treatment_3 = "17-20 days", treatment_4 = "35-40 days")),
@@ -363,94 +460,4 @@ ggplot(plot_data, aes(x=x, y=y))+
   xlab("Chemical distance")+
   theme(panel.border = element_rect(color = "black", fill=NA),
         panel.background = element_rect(color="black", fill = "white"))
-dev.off()
-
-
-
-
-# Figure 4
-
-dev_samples <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), callow==0) %>%
-  dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) %>%
-  mutate(corrected_mass=mass/head_width^2*10^6)
-model_input <- dev_samples[dev_samples$species=="F. sanguinea",]
-# remove outlier
-model_input <- model_input[-which.max(model_input$corrected_mass),]
-lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop  + (1|colony) +(1 | colony:census_date), data=model_input)
-x <- seq(0,1,by=0.001)
-model_prediction <- data.frame(sang_prop = x, predicted_mass=exp(predict(lm_model, data.frame(sang_prop=x), re.form=NA)),
-                               species = "F. sanguinea")
-
-
-plot_data <- dev_samples
-# remove outlier
-plot_data <- plot_data[-which.max(plot_data$corrected_mass),]
-
-model_input <- dev_samples[dev_samples$species=="F. fusca",]
-
-lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop  + (1|colony), data=model_input)
-model_prediction <- rbind(model_prediction, data.frame(sang_prop = x, predicted_mass=exp(predict(lm_model, data.frame(sang_prop=x), re.form=NA)),
-                                                       species = "F. fusca"))
-
-data("CHC_mass_prediction")
-
-plot_data_2 <- data.frame(corrected_mass = CHC_mass_prediction$pred_values_sang, species = "F. sanguinea",
-                          sang_prop = 1)
-plot_data_2 <- rbind(plot_data_2, data.frame(corrected_mass = CHC_mass_prediction$pred_values_fusca, species = "F. fusca",
-                                             sang_prop = 0))
-
-
-
-dev.new()
-pdf("Fig4.pdf", width = 9, height = 5)
-ggplot(plot_data, aes(x=sang_prop, y=corrected_mass, color=species, fill=species))+
-  scale_color_manual(values=c("black", "red"))+
-  geom_point()+
-  xlab("Proportion of the F. sanguinea ants in a colony")+
-  ylab("Corrected CHC maass")+
-  geom_line(aes(y= predicted_mass),data = model_prediction, lwd=.9)+
-  geom_boxplot(data=plot_data_2, aes(x=sang_prop), width = 0.1, fill="#00000000")+
-  scale_x_continuous(limits = c(-0.1, 1.1), breaks = seq(0,1,0.1))+
-  scale_y_continuous(limits = c(0, 11.5))+
-  theme(axis.title=element_text(size = 16),
-        axis.text = element_text(size=13),
-        panel.background = element_blank(),
-        panel.grid.major =  element_line(linewidth = 0.5, linetype = 'solid',
-                                         colour = "grey"),
-        legend.text=element_text(size=14))
-
-dev.off()
-
-
-# Figure 5
-
-data("development_data")
-dev_samples <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony")) %>%
-  dplyr::select(chromatogram_ID, species, colony, sang_prop, callow, census_date)
-normalized_abundances <- peak_proportions_table(mass_spectra_data[mass_spectra_data$chromatogram_ID %in% dev_samples$chromatogram_ID,])
-species_indices <- calculate_SII(normalized_abundances)
-dev_samples <- left_join(dev_samples, species_indices)
-model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==1,]
-model_input$SII_difference <- model_input$predicted_species - find_nestmates_SII(model_input$chromatogram_ID, dev_samples, heterospecific = FALSE)
-# no random effect since it captures no variance
-lm_model <- lm(SII_difference~sang_prop, data=model_input)
-x <- seq(0,1,by=0.001)
-model_prediction <- data.frame(sang_prop = x, SII_difference=predict(lm_model, data.frame(sang_prop=x), re.form=NA))
-
-dev.new()
-pdf("Fig5.pdf", width = 7, height = 4)
-ggplot(model_input, aes(x=sang_prop, y=SII_difference))+
-  geom_point(size = 2)+
-  xlab("Proportion of the F. sanguinea ants in a colony")+
-  ylab("Difference between Species Identity Indices")+
-  geom_line(data = model_prediction, lwd=1)+
-  scale_color_manual(values = c("black", "red"))+
-  scale_y_continuous(limits = c(-0.44, 0.25))+
-  theme(axis.title=element_text(size = 16),
-        axis.text = element_text(size=13),
-        panel.background = element_blank(),
-        panel.grid.major =  element_line(linewidth = 0.5, linetype = 'solid',
-                                         colour = "grey"),
-        legend.text=element_text(size=14))+
-  geom_hline(aes(yintercept = 0), lwd=1.1, linetype = "dashed", color = "#e15a00")
 dev.off()
