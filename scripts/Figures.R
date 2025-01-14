@@ -218,83 +218,7 @@ ggarrange(p1, p2, p3, p6, p7, ncol=5, labels=c("A", "B", "C", "D", "E"), widths 
 dev.off()
 
 
-mean_abundances_diff <- function(df){
-  chr_IDs_mature <- filter(df, species =="F. sanguinea", callow==0) %>%
-    pull(chromatogram_ID)
-  chr_IDs_callow <- filter(df, species =="F. sanguinea", callow==1) %>%
-    pull(chromatogram_ID)
-  if(length(chr_IDs_mature)==0 | length(chr_IDs_callow)==0) return(NULL)
-  mean_peaks_mature <- relative_amounts(mass_spectra_data, chr_IDs_mature)
-  mean_peaks_callow <- relative_amounts(mass_spectra_data, chr_IDs_callow)
-  mean_peaks_merged <- merge(mean_peaks_callow, mean_peaks_mature, by = "peak_ID")
-  mean_peaks_merged$relative_abundance.x[is.na(mean_peaks_merged$relative_abundance.x)] <- 0
-  mean_peaks_merged$relative_abundance.y[is.na(mean_peaks_merged$relative_abundance.y)] <- 0
-  mean_peaks_merged$relative_abundance <- mean_peaks_merged$relative_abundance.x - mean_peaks_merged$relative_abundance.y
-  mean_peaks_merged[,c("peak_ID", "relative_abundance")]
-}
-
-df <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor",
-                                                                                   "aggression target",
-                                                                                   "queenless colony")) %>%
-  dplyr::select(colony, census_date, chromatogram_ID,
-         callow, mass, head_width, species, sang_prop)
-callow_mature_diff <- split(df, list(df$census_date, df$colony), drop=TRUE) %>%
-  lapply(mean_abundances_diff)
-
-callow_mature_diff <- callow_mature_diff[!unlist(lapply(callow_mature_diff, is.null))]
-callow_mature_diff <- purrr::reduce(callow_mature_diff, merge, by ="peak_ID", all=TRUE)
-for(col_ind in grep("relative_abundance", colnames(callow_mature_diff))){
-  callow_mature_diff[,col_ind][is.na(callow_mature_diff[,col_ind])] <- 0
-}
-
-plot_data <- data.frame(peak_ID = callow_mature_diff$peak_ID,
-                        relative_abundance_diff = apply(callow_mature_diff[,grep("relative_abundance", colnames(callow_mature_diff))], 1, mean),
-                        sd = apply(callow_mature_diff[,grep("relative_abundance", colnames(callow_mature_diff))], 1, sd))
-
-# line
-ggplot(plot_data, aes(x=peak_ID, y=relative_abundance_diff))+
-  geom_bar(stat="identity", fill="grey") +
-  geom_text(aes(label = peak_ID))
-#geom_linerange( aes(x=peak_ID, ymin=relative_abundance_diff-sd, ymax=relative_abundance_diff+sd), colour="orange", size=1.3)
-
-
-
-data("distances_to_free_living_fusca")
-
-#' @importFrom HDInterval hdi
-plot_data <- data.frame()
-for(i in 1:length(distances_to_free_living_fusca$all)){
-  distances <- distances_to_free_living_fusca$all[[i]]$rand_distance
-  dist_density <- density(distances, n=10^3)
-  plot_data_part <- data.frame(x = dist_density$x, y = dist_density$y)
-  interval <- hdi(distances)
-  plot_data_part$treatment <- names(distances_to_free_living_fusca$all)[i]
-  plot_data_part$HDI_mask <- FALSE
-  plot_data_part$true_distance <- distances_to_free_living_fusca$all[[i]]$true_distance
-  plot_data_part$max_y <- max(plot_data_part$y)
-  plot_data_part$HDI_mask[plot_data_part$x>interval[1] & plot_data_part$x<interval[2]] <- TRUE
-  plot_data <- rbind(plot_data, plot_data_part)
-}
-
-
-dev.new()
-pdf("Fig3.pdf", width = 5, height = 7)
-ggplot(plot_data, aes(x=x, y=y))+
-  facet_wrap(~treatment, labeller = labeller(treatment=c(treatment_1 = "1-3 days", treatment_2 = "7-10 days",
-                                                         treatment_3 = "17-20 days", treatment_4 = "35-40 days")),
-             ncol=1)+
-  geom_segment(aes(x = true_distance, y = 0, xend = true_distance, yend = max_y), lwd=1, lty=2, color="#cc0033")+
-  geom_area(aes(x = x, y = y),
-            data = subset(plot_data, HDI_mask), alpha = 0.5, fill = "#11bb22")+
-  geom_line()+
-  ylab("Density")+
-  xlab("Chemical distance")+
-  theme(panel.border = element_rect(color = "black", fill=NA),
-        panel.background = element_rect(color="black", fill = "white"))
-dev.off()
-
-
-
+# Figure 2
 
 compare_age_groups <- function(x){
   x$peak_number <- unlist(lapply(x$chromatogram_ID, function(x) nrow(mass_spectra_data[mass_spectra_data$chromatogram_ID==x & mass_spectra_data$peak_ID > 1,])))
@@ -368,14 +292,16 @@ age_profiles <- dplyr::filter(development_data, caste=="worker", !remarks %in% c
 all_peaks <- unique(c(age_profiles[[1]]$peak_ID, age_profiles[[2]]$peak_ID))
 missing_peaks <- setdiff(all_peaks, age_profiles[[1]]$peak_ID)
 if(length(missing_peaks)>0)
-age_profiles[[1]] <- rbind(age_profiles[[1]], data.frame(peak_ID = missing_peaks, relative_abundance = 0))
+  age_profiles[[1]] <- rbind(age_profiles[[1]], data.frame(peak_ID = missing_peaks, relative_abundance = 0))
 age_profiles[[1]]$age = "mature"
 missing_peaks <- setdiff(all_peaks, age_profiles[[2]]$peak_ID)
 if(length(missing_peaks)>0)
-age_profiles[[2]] <- rbind(age_profiles[[2]], data.frame(peak_ID = missing_peaks, relative_abundance = 0))
+  age_profiles[[2]] <- rbind(age_profiles[[2]], data.frame(peak_ID = missing_peaks, relative_abundance = 0))
 age_profiles[[2]]$age = "callow"
 #plot_data <- rbind(age_profiles[[1]], age_profiles[[2]])
 
+
+devtools::load_all()
 source(system.file("/scripts/peak_ID_publication.R", package="sangchem"))
 age_profiles[[1]]$peak_ID <- match(age_profiles[[1]]$peak_ID,peaks_ordered)
 age_profiles[[2]]$peak_ID <- match(age_profiles[[2]]$peak_ID,peaks_ordered)
@@ -405,6 +331,45 @@ dev.off()
 
 # Figure 3
 
+data("distances_to_free_living_fusca")
+
+#' @importFrom HDInterval hdi
+plot_data <- data.frame()
+for(i in 1:length(distances_to_free_living_fusca$all)){
+  distances <- distances_to_free_living_fusca$all[[i]]$rand_distance
+  dist_density <- density(distances, n=10^3)
+  plot_data_part <- data.frame(x = dist_density$x, y = dist_density$y)
+  interval <- hdi(distances)
+  plot_data_part$treatment <- names(distances_to_free_living_fusca$all)[i]
+  plot_data_part$HDI_mask <- FALSE
+  plot_data_part$true_distance <- distances_to_free_living_fusca$all[[i]]$true_distance
+  plot_data_part$max_y <- max(plot_data_part$y)
+  plot_data_part$HDI_mask[plot_data_part$x>interval[1] & plot_data_part$x<interval[2]] <- TRUE
+  plot_data <- rbind(plot_data, plot_data_part)
+}
+
+
+dev.new()
+pdf("Fig3.pdf", width = 5, height = 7)
+ggplot(plot_data, aes(x=x, y=y))+
+  facet_wrap(~treatment, labeller = labeller(treatment=c(treatment_1 = "1-3 days", treatment_2 = "7-10 days",
+                                                         treatment_3 = "17-20 days", treatment_4 = "35-40 days")),
+             ncol=1)+
+  geom_segment(aes(x = true_distance, y = 0, xend = true_distance, yend = max_y), lwd=1, lty=2, color="#cc0033")+
+  geom_area(aes(x = x, y = y),
+            data = subset(plot_data, HDI_mask), alpha = 0.5, fill = "#11bb22")+
+  geom_line()+
+  ylab("Density")+
+  xlab("Chemical distance")+
+  theme(panel.border = element_rect(color = "black", fill=NA),
+        panel.background = element_rect(color="black", fill = "white"))
+dev.off()
+
+
+
+
+# Figure 4
+
 dev_samples <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), callow==0) %>%
   dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) %>%
   mutate(corrected_mass=mass/head_width^2*10^6)
@@ -420,7 +385,6 @@ model_prediction <- data.frame(sang_prop = x, predicted_mass=exp(predict(lm_mode
 plot_data <- dev_samples
 # remove outlier
 plot_data <- plot_data[-which.max(plot_data$corrected_mass),]
-
 
 model_input <- dev_samples[dev_samples$species=="F. fusca",]
 
@@ -438,7 +402,7 @@ plot_data_2 <- rbind(plot_data_2, data.frame(corrected_mass = CHC_mass_predictio
 
 
 dev.new()
-pdf("Fig5.pdf", width = 9, height = 5)
+pdf("Fig4.pdf", width = 9, height = 5)
 ggplot(plot_data, aes(x=sang_prop, y=corrected_mass, color=species, fill=species))+
   scale_color_manual(values=c("black", "red"))+
   geom_point()+
@@ -455,4 +419,38 @@ ggplot(plot_data, aes(x=sang_prop, y=corrected_mass, color=species, fill=species
                                          colour = "grey"),
         legend.text=element_text(size=14))
 
+dev.off()
+
+
+# Figure 5
+
+data("development_data")
+dev_samples <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony")) %>%
+  dplyr::select(chromatogram_ID, species, colony, sang_prop, callow, census_date)
+normalized_abundances <- peak_proportions_table(mass_spectra_data[mass_spectra_data$chromatogram_ID %in% dev_samples$chromatogram_ID,])
+species_indices <- calculate_SII(normalized_abundances)
+dev_samples <- left_join(dev_samples, species_indices)
+model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==1,]
+model_input$SII_difference <- model_input$predicted_species - find_nestmates_SII(model_input$chromatogram_ID, dev_samples, heterospecific = FALSE)
+# no random effect since it captures no variance
+lm_model <- lm(SII_difference~sang_prop, data=model_input)
+x <- seq(0,1,by=0.001)
+model_prediction <- data.frame(sang_prop = x, SII_difference=predict(lm_model, data.frame(sang_prop=x), re.form=NA))
+
+dev.new()
+pdf("Fig5.pdf", width = 7, height = 4)
+ggplot(model_input, aes(x=sang_prop, y=SII_difference))+
+  geom_point(size = 2)+
+  xlab("Proportion of the F. sanguinea ants in a colony")+
+  ylab("Difference between Species Identity Indices")+
+  geom_line(data = model_prediction, lwd=1)+
+  scale_color_manual(values = c("black", "red"))+
+  scale_y_continuous(limits = c(-0.44, 0.25))+
+  theme(axis.title=element_text(size = 16),
+        axis.text = element_text(size=13),
+        panel.background = element_blank(),
+        panel.grid.major =  element_line(linewidth = 0.5, linetype = 'solid',
+                                         colour = "grey"),
+        legend.text=element_text(size=14))+
+  geom_hline(aes(yintercept = 0), lwd=1.1, linetype = "dashed", color = "#e15a00")
 dev.off()
