@@ -87,6 +87,7 @@ recognize_peaks <- function(data, referencje, tolerance=0.03, fixed_peaks_ = c()
   if (!is.data.frame(referencje)) stop("Argument is not a data frame obejct")
   if (nrow(data)==0) return(rbind(data, protected_data))
   if (nrow(data)==0 & nrow(protected_data)==0) stop("Numeracja pików: brak danych")
+  referencje <- referencje[referencje$peak_ID!=0,]
   mean_rts <- calculate_mean_rt(referencje, add_peaks=TRUE)
   if (nrow(mean_rts)==0) return(rbind(data, protected_data))
   mean_rts <- mean_rts[!mean_rts$peak_ID %in% fixed_peaks_,]
