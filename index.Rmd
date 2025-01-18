@@ -9,6 +9,8 @@ description: |
   This is a doucumentation of the data analysis workflows and function used to generate the results included in the manuscript entitled Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development. 
 link-citations: yes
 github-repo: TomVuod/sangchem
+params:
+  save_globals: TRUE
 ---
 # Introduction {-}
 Here we present how the results shown in the manuscript were obtained starting from the raw data collected during the study. The dedicated [`sangchem`](https://github.com/TomVuod/sangchem) R package is available on GitHub and can be isstalled via:

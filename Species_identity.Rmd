@@ -102,7 +102,7 @@ peaks_fusca <- res$chromatogram_ID[res$predicted_species<=quantile(res$predicted
 peaks_sang <- res$chromatogram_ID[res$predicted_species>=quantile(res$predicted_species, 0.8)]
 ``` 
 The objects `peaks_sang`, `peaks_fusca`, `species_prediction_model` and `PCA_species_discr` are stored in the package and can be collectively loaded into the global environment along with the other objects by running `load_globals()`.
-```{r eval=FALSE}
+```{r eval=params$save_globals}
 globals <- readRDS(system.file("globals.rds", package="sangchem"))
 globals[["species_prediction_model"]] <- species_prediction_model
 globals[["PCA_species_discr"]] <- PCA_species_discr
