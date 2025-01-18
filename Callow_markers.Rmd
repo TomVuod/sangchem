@@ -53,7 +53,7 @@ discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
                                    Y=Y,
                                    nrepeat = 30,
                                    folds = 4,
-                                   ncomp = perf.discr_analysis_callow$choice.ncomp[1,1],
+                                   ncomp = selected_n,
                                    test.keepX = seq(1:dim(PCA_callow_discr$x)[2]), 
                                    dist = 'max.dist',
                                    validation = 'Mfold',
@@ -61,6 +61,7 @@ discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
                                    progressBar = FALSE,
                                    scale = FALSE) 
 
+selected_n <- discr_analysis_callows_tuned$choice.ncomp$ncomp
 discr_analysis_callows_res <- splsda(PCA_callow_discr$x,Y=Y,
                       multilevel= DA_data$group,
                       keepX=discr_analysis_callows_tuned$choice.keepX,
@@ -70,6 +71,8 @@ discr_analysis_callows_res <- splsda(PCA_callow_discr$x,Y=Y,
 plotIndiv(discr_analysis_callows_res,
           legend=TRUE, ellipse=TRUE, comp=1:2)
 ```
+
+Now we are ready to determine the marker peaks. To do so, we will calculate the effect of each peak on the final classification. We generate input matrix populated with all ones and then we increment input for one peak at a time. 
 
 ## Determining callow markers
 ```{r}
@@ -88,6 +91,7 @@ res <- res[order(res$predicted_species),]
 print(res)
 peaks_callow <- res$chromatogram_ID[res$predicted_species<=quantile(res$predicted_species, 0.2)]
 ```
+
 ## Determining mature *F. sanguinea* markers
 ```{r}
 res1 <- calculate_SII(incremented_matrix, discr_analysis_callows_res, PCA_callow_discr, predicted_category=2)
@@ -99,9 +103,131 @@ print(res)
 peaks_mature <- res$chromatogram_ID[res$predicted_species<=quantile(res$predicted_species, 0.2)]
 ```
 
-```{r eval=FALSE}
+```{r eval=params$save_globals}
 globals <- readRDS(system.file("globals.rds", package="sangchem"))
 globals[["peaks_callow"]] <- as.numeric(peaks_callow)
 globals[["peaks_mature"]] <- as.numeric(peaks_mature)
 saveRDS(globals, system.file("globals.rds", package="sangchem"))
 ```
+
+# Verifying the performace of the discrimination model
+
+We will verify the performance the above model against the null ones for which the age status of *F. sanguinea* ants is shuffled. 
+
+```{r eval = FALSE}
+# running basic model 
+set.seed(1342)
+results_basic <- c()
+while(length(results_basic)<1000){
+  message(counter)
+  .Random.seed <- results$random.seed
+  discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,
+                                  ncomp=7, scale = FALSE)
+  tryCatch({perf.discr_analysis_callow <- perf(discr_analysis_callow,
+                                               validation = "Mfold",
+                                               folds = 4,
+                                               progressBar = FALSE,
+                                               auc = TRUE,
+                                               nrepeat = 30,
+                                               scale = FALSE,
+                                               cpus=16)
+  
+  selected_n <- perf.discr_analysis_callow$choice.ncom["overall", "max.dist"]
+  discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
+                                              Y=Y,
+                                              ncomp = selected_n,
+                                              test.keepX = seq(1:120),
+                                              validation = 'Mfold',
+                                              folds = 4, 
+                                              nrepeat = 30,
+                                              dist = 'max.dist', # use max.dist measure
+                                              measure = "BER",
+                                              progressBar = FALSE,
+                                              scale = FALSE,
+                                              cpus=16)
+  
+  n_comp <- discr_analysis_callows_tuned$choice.ncomp$ncomp
+  if(is.null(n_comp)) n_comp <- 1
+  discr_analysis_callows_res <- splsda(PCA_callow_discr$x,Y=Y,
+                                       keepX=discr_analysis_callows_tuned$choice.keepX,
+                                       ncomp=n_comp,
+                                       scale = FALSE)
+  
+  perf.discr_analysis_callows_res <- perf(discr_analysis_callows_res,
+                                          validation = "Mfold",
+                                          folds = 4,
+                                          progressBar = FALSE,
+                                          nrepeat = 1,
+                                          scale = FALSE,
+                                          cpus=16)
+  
+  curve_data <- calculate_accuracy_metrics(perf.discr_analysis_callows_res$predict[[length(perf.discr_analysis_callows_res$predict)]][,3,1][Y>0], Y[Y>0]==2)
+  AUC <- calculate_AUC(curve_data$FPR, curve_data$TPR)
+  results_basic <- c(results_basic, AUC)}, 
+  error=function(cond) message(cond))
+}
+
+
+# running null models
+set.seed(1342)
+results_null <- c()
+while(length(results_null)<1000){
+  # shuffle categories 1 (mature F. sanguinea) and 2 (callow F. sanguinea)
+  Y <- split(Y, DA_data$group) %>% lapply(function(x) {x[x>0]<-sample(x[x>0], length(x[x>0]));x}) %>% unlist()
+  discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,
+                                  ncomp=7, scale = FALSE)
+  tryCatch({perf.discr_analysis_callow <- perf(discr_analysis_callow,
+                                               validation = "Mfold",
+                                               folds = 4,
+                                               progressBar = FALSE,
+                                               auc = TRUE,
+                                               nrepeat = 30,
+                                               scale = FALSE,
+                                               cpus=16)
+  
+  selected_n <- perf.discr_analysis_callow$choice.ncom["overall", "max.dist"]
+  discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
+                                              Y=Y,
+                                              ncomp = selected_n,
+                                              test.keepX = seq(1:120),
+                                              validation = 'Mfold',
+                                              folds = 4, 
+                                              nrepeat = 30,
+                                              dist = 'max.dist', # use max.dist measure
+                                              measure = "BER",
+                                              progressBar = FALSE,
+                                              scale = FALSE,
+                                              cpus=16)
+  
+  n_comp <- discr_analysis_callows_tuned$choice.ncomp$ncomp
+  if(is.null(n_comp)) n_comp <- 1
+  discr_analysis_callows_res <- splsda(PCA_callow_discr$x,Y=Y,
+                                       keepX=discr_analysis_callows_tuned$choice.keepX,
+                                       ncomp=n_comp,
+                                       scale = FALSE)
+  
+  perf.discr_analysis_callows_res <- perf(discr_analysis_callows_res,
+                                          validation = "Mfold",
+                                          folds = 4,
+                                          progressBar = FALSE,
+                                          nrepeat = 1,
+                                          scale = FALSE,
+                                          cpus=16)
+  
+  curve_data <- calculate_accuracy_metrics(perf.discr_analysis_callows_res$predict[[length(perf.discr_analysis_callows_res$predict)]][,3,1][Y>0], Y[Y>0]==2)
+  AUC <- calculate_AUC(curve_data$FPR, curve_data$TPR)
+  results_null <- c(results_null, AUC)}, 
+  error=function(cond) message(cond))
+}
+```
+
+The p-value is calculated as proportion of differences with value equal to or less than zero.
+
+```{r eval=FALSE}
+summary(results_basic-results_null)
+```
+```{r echo=FALSE}
+data("discrimination_model_validation")
+summary(summary(discrimination_model_validation[[1]] - discrimination_model_validation[[2]]))
+```
+All differences are positive, so the p-value is less than 0.001 since we have 1000 values.
