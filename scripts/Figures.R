@@ -240,7 +240,7 @@ pdf("Fig2.pdf", width = 7, height = 4)
 ggplot(model_input, aes(x=sang_prop, y=SII_difference))+
   geom_point(size = 2)+
   xlab("Proportion of the F. sanguinea ants in a colony")+
-  ylab("Difference between Species Identity Indices")+
+  ylab("Difference between\nSpecies Identity Indices")+
   geom_line(data = model_prediction, lwd=1)+
   scale_color_manual(values = c("black", "red"))+
   scale_y_continuous(limits = c(-0.44, 0.25))+
