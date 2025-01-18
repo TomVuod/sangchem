@@ -7,6 +7,7 @@ library(ggpubr)
 library(rstatix)
 library(stringr)
 library(HDInterval)
+library(mixOmics)
 
 
 
@@ -266,13 +267,11 @@ differential_profile <- function(x){
   callow_IDs <- x[x$callow==1, "chromatogram_ID"]
   mature_IDs <- x[x$callow==0, "chromatogram_ID"]
   if(length(callow_IDs)==0 | length(mature_IDs)==0) return(NULL)
-  print(head(mass_spectra_data))
   average_profile_callow <- averaged_profile(callow_IDs, mass_spectra_data)
   average_profile_mature <- averaged_profile(mature_IDs, mass_spectra_data)
   diff_averaged_profile <- merge(average_profile_callow, average_profile_mature, all=TRUE, by="peak_ID")
   diff_averaged_profile[,"relative_abundance.x"][is.na(diff_averaged_profile[,"relative_abundance.x"])] <- 0
   diff_averaged_profile[,"relative_abundance.y"][is.na(diff_averaged_profile[,"relative_abundance.y"])] <- 0
-  print("end")
   data.frame(peak_ID = diff_averaged_profile[,"peak_ID"], relative_abundance = diff_averaged_profile[,"relative_abundance.x"] - diff_averaged_profile[,"relative_abundance.y"])
 }
 
