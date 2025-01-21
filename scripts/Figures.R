@@ -1,6 +1,5 @@
 library(ggrepel)
 library(ggplot2)
-library(dplyr)
 library(sangchem)
 library(forcats)
 library(ggpubr)
@@ -8,6 +7,7 @@ library(rstatix)
 library(stringr)
 library(HDInterval)
 library(mixOmics)
+library(dplyr)
 
 
 
@@ -459,3 +459,39 @@ ggplot(plot_data, aes(x=x, y=y))+
   theme(panel.border = element_rect(color = "black", fill=NA),
         panel.background = element_rect(color="black", fill = "white"))
 dev.off()
+
+
+
+# Figure 3A
+
+df <- paired_observations(list(species = "F. sanguinea", callow = 0),
+                          group_2=list(species = "F. fusca", callow = 0),
+                          values_column="mass", group_var="species"
+)
+
+df$species <- factor(df$species, levels = c(TRUE, FALSE))
+levels(df$species) <- c("F. sanguinea", "F. fusca")
+
+ggplot(aes(x=species, y=mass , group=species), data=df)+
+  geom_boxplot(col="#1f4a24",
+               fill="#1f4a2466", width=0.6, lwd=1, outlier.shape=NA)+
+  geom_point(aes(fill=sang_prop), shape=21,cex=3.4,color="black", position = position_jitter(width=0.1))+
+  #geom_line(aes(x=callow+point_x_pos, y=proportion, group=ID), col="#444444")+
+  #scale_y_continuous(trans="log2", breaks=2^(0:4))+
+  scale_fill_gradient("Proportion of\nF. sanguinea ants", low="#555C58", high="#BBEA5E")+
+  xlab("Species")+
+  ylab("Proportion of the F. sanguinea markers\nin the total CHC mass")+
+  scale_y_continuous(trans="log2", breaks=2^(0:5))+
+  theme(axis.text.x = element_text(size = 15))+
+  theme(axis.text.y = element_text(size = 15))+
+  theme(axis.title=element_text(size=18)) +
+  theme(axis.title.y=element_text(vjust = 0.5))+
+  theme(legend.title=element_text(size=14),
+        legend.text=element_text(size=13),
+        legend.position = "none")+
+  theme(panel.background = element_rect(fill="white"),
+        axis.line = element_line(size = 0.5, linetype = "solid",
+                                 colour = "black"))+
+  geom_signif(
+    y_position = 5, xmin = 1, xmax = 2,
+    annotation = "NS", tip_length = 0.02)
