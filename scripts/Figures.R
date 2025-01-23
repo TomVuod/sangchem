@@ -71,7 +71,8 @@ p1 <- ggplot(aes(x=species, y=proportion , group=species), data=df)+
   theme(axis.title.y=element_text(vjust = 0.5))+
   theme(legend.title=element_text(size=14),
         legend.text=element_text(size=13),
-        legend.position = "none")+
+        legend.position = c(0.29, 0.8),
+        legend.background = element_rect(fill = NA))+
   theme(panel.background = element_rect(fill="white"),
         axis.line = element_line(size = 0.5, linetype = "solid",
                                  colour = "black"))+
@@ -114,11 +115,47 @@ p2 <- ggplot(aes(x=species, y=proportion , group=species), data=df)+
 
 
 df <- paired_observations(list(species = "F. sanguinea", callow = 0),
+                          group_2=list(species = "F. fusca", callow = 0),
+                          values_column="mass", group_var="species"
+)
+
+df$species <- factor(df$species, levels = c(TRUE, FALSE))
+levels(df$species) <- c("F. sanguinea", "F. fusca")
+
+p3 <- ggplot(aes(x=species, y=mass , group=species), data=df)+
+  geom_boxplot(col="#1f4a24",
+               fill="#1f4a2466", width=0.6, lwd=1, outlier.shape=NA)+
+  geom_point(aes(fill=sang_prop), shape=21,cex=3.4,color="black", position = position_jitter(width=0.1))+
+  #geom_line(aes(x=callow+point_x_pos, y=proportion, group=ID), col="#444444")+
+  #scale_y_continuous(trans="log2", breaks=2^(0:4))+
+  scale_fill_gradient("Proportion of\nF. sanguinea ants", low="#555C58", high="#BBEA5E")+
+  xlab("Species")+
+  ylab(expression(paste("Mass per individual [",mu,"g]")))+
+  scale_y_continuous(trans="log2", breaks=2^(0:5))+
+  theme(axis.text.x = element_text(size = 15))+
+  theme(axis.text.y = element_text(size = 15))+
+  theme(axis.title=element_text(size=18)) +
+  theme(axis.title.y=element_text(vjust = 0.5))+
+  theme(legend.title=element_text(size=14),
+        legend.text=element_text(size=13),
+        legend.position = "none")+
+  theme(panel.background = element_rect(fill="white"),
+        axis.line = element_line(size = 0.5, linetype = "solid",
+                                 colour = "black"))+
+  geom_signif(
+    y_position = 5, xmin = 1, xmax = 2,
+    annotation = "0.00214", tip_length = 0.02)
+
+
+
+
+
+df <- paired_observations(list(species = "F. sanguinea", callow = 0),
                           group_2=list(species = "F. sanguinea", callow = 1),
                           values_column="mass", group_var="callow")
 df$callow <- as.numeric(df$callow)
 
-p3 <- ggplot(aes(x=callow, y=mass, group=callow), data=df)+
+p4 <- ggplot(aes(x=callow, y=mass, group=callow), data=df)+
   geom_boxplot(col="#1f4a24",
                fill="#1f4a2466", width=0.6, lwd=1, outlier.shape=NA)+
   geom_point(aes(x=callow+point_x_pos, y=mass, fill=sang_prop), shape=21, cex=3.4, color="black")+
@@ -151,7 +188,7 @@ n_alkanes_ID <- unique(mass_spectra_data$peak_ID[grep("^C[0-9]{2}$",mass_spectra
 
 df <- paired_observations(list(species = "F. sanguinea", callow = 0),
                           group_2=list(species = "F. sanguinea", callow = 1),
-                          peak_subset = peaks_sang,
+                          peak_subset = n_alkanes_ID,
                           values_column="proportion", group_var="callow"
 )
 
@@ -181,41 +218,12 @@ p6 <- ggplot(aes(x=as.numeric(callow), y=proportion , group=mature), data=df)+
     annotation = 0.000153, tip_length = 0.02)
 
 
-df <- paired_observations(list(species = "F. sanguinea", callow = 0),
-                          group_2=list(species = "F. sanguinea", callow = 1),
-                          peak_subset = n_alkanes_ID,
-                          values_column="proportion", group_var="callow"
-)
-
-df$mature<- as.numeric(df$callow)
-p7 <- ggplot(aes(x=as.numeric(callow), y=proportion , group=mature), data=df)+
-  geom_boxplot(col="#1f4a24",
-               fill="#1f4a2466", width=0.6, lwd=1, outlier.shape=NA)+
-  geom_point(aes(x=as.numeric(callow)+point_x_pos, y=proportion, fill=sang_prop),shape=21,cex=3.4,color="black")+
-  #geom_line(aes(x=callow+point_x_pos, y=proportion, group=ID), col="#444444")+
-  #scale_y_continuous(trans="log2", breaks=2^(0:4))+
-  scale_x_continuous(breaks = c(0,1), labels = c("callow", "mature"))+
-  scale_fill_gradient("Proportion of\nF. sanguinea ants", low="#555C58", high="#BBEA5E")+
-  xlab("F. sanguinea - age")+
-  ylab("Proprotion of F. sanguinea markers in the total CHC mass")+
-  theme(axis.text.x = element_text(size = 15))+
-  theme(axis.text.y = element_text(size = 15))+
-  theme(axis.title=element_text(size=18)) +
-  theme(axis.title.y=element_text(vjust = 0.5))+
-  theme(legend.title=element_text(size=14),
-        legend.text=element_text(size=13),
-        legend.position = c(0.3, 0.7))+
-  theme(panel.background = element_rect(fill="white"),
-        axis.line = element_line(size = 0.5, linetype = "solid",
-                                 colour = "black"))+
-  geom_signif(
-    y_position = max(df[["proportion"]])*1.1, xmin = 0, xmax = 1,
-    annotation = 0.000153, tip_length = 0.02)
 
 
-dev.new()
+
 pdf("Fig1.pdf", width = 19, height = 7.5)
-ggarrange(p1, p2, p3, p6, p7, ncol=5, labels=c("A", "B", "C", "D", "E"), widths = c(4.5, 4.5, 4, 4,4))
+#dev.new()
+ggarrange(p1, p2, p4, p3, p6, ncol=5, labels=LETTERS[1:5], widths = c(4.5, 4.5, 4, 4, 4))
 dev.off()
 
 
@@ -462,36 +470,3 @@ dev.off()
 
 
 
-# Figure 3A
-
-df <- paired_observations(list(species = "F. sanguinea", callow = 0),
-                          group_2=list(species = "F. fusca", callow = 0),
-                          values_column="mass", group_var="species"
-)
-
-df$species <- factor(df$species, levels = c(TRUE, FALSE))
-levels(df$species) <- c("F. sanguinea", "F. fusca")
-
-ggplot(aes(x=species, y=mass , group=species), data=df)+
-  geom_boxplot(col="#1f4a24",
-               fill="#1f4a2466", width=0.6, lwd=1, outlier.shape=NA)+
-  geom_point(aes(fill=sang_prop), shape=21,cex=3.4,color="black", position = position_jitter(width=0.1))+
-  #geom_line(aes(x=callow+point_x_pos, y=proportion, group=ID), col="#444444")+
-  #scale_y_continuous(trans="log2", breaks=2^(0:4))+
-  scale_fill_gradient("Proportion of\nF. sanguinea ants", low="#555C58", high="#BBEA5E")+
-  xlab("Species")+
-  ylab("Proportion of the F. sanguinea markers\nin the total CHC mass")+
-  scale_y_continuous(trans="log2", breaks=2^(0:5))+
-  theme(axis.text.x = element_text(size = 15))+
-  theme(axis.text.y = element_text(size = 15))+
-  theme(axis.title=element_text(size=18)) +
-  theme(axis.title.y=element_text(vjust = 0.5))+
-  theme(legend.title=element_text(size=14),
-        legend.text=element_text(size=13),
-        legend.position = "none")+
-  theme(panel.background = element_rect(fill="white"),
-        axis.line = element_line(size = 0.5, linetype = "solid",
-                                 colour = "black"))+
-  geom_signif(
-    y_position = 5, xmin = 1, xmax = 2,
-    annotation = "NS", tip_length = 0.02)
