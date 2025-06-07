@@ -13,7 +13,7 @@ params:
   save_globals: TRUE
 ---
 # Introduction {-}
-This document presents all the way from the raw data to the final results reported in the manuscript. The dedicated function and data set were compiled into [`sangchem`](https://github.com/TomVuod/sangchem) [`R package`](https://www.r-project.org/) which is available on GitHub and can be installed using the following command:
+This book presents analytical workflows taking the raw data and processing them up to the final results reported in the manuscript. The dedicated functions and data sets were compiled into [`sangchem`](https://github.com/TomVuod/sangchem) [`R package`](https://www.r-project.org/) which is available on GitHub and can be installed using the following command:
 ```{r eval=FALSE}
 if(!require(devtools)) install.packages("devtools")
 devtools::install_github("TomVuod/sangchem")

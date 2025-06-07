@@ -1,7 +1,8 @@
 # Species discrimination and prediction
 
 ## Species markers
-This  report shows how the peaks discriminative for *F. sanguinea* and *F. fusca* were determined. We will use the chemical data collected from the filed colonies in the earlier study [@WLODARCZYK201798]. In this way our method of markers selection is blind to the data set to which  markers will be applied avoiding potential source of the bias in the analysis results.
+This chapter shows the way how the peaks associated with *F. sanguinea* and *F. fusca* (species markers) were determined. We use the chemical data collected from the filed colonies in the earlier study [@WLODARCZYK201798] to train the discrimination model.
+
 ```{r warning=FALSE}
 suppressMessages({
   library(sangchem)
@@ -39,7 +40,7 @@ peak_transformed <- t(apply(peak_prop, 1, clr_transformation))
 PCA_species_discr <- prcomp(peak_transformed, scale. = TRUE)
 ```
 
-We also need to define our response variable to be explained by discrimination model.
+We also need to define our response variable which the discrimination model will learn to predict.
 ```{r}
 #define groups to be compared
 Y <- rownames(PCA_species_discr$x) %in% sanguinea_samples
@@ -61,7 +62,7 @@ spec_discr_PC.plsda.perf<-perf(species_discrimination_PC.plsda, nrepeat = 10,fol
 plot(spec_discr_PC.plsda.perf, sd = TRUE, overlay = 'measure')
 ```
 
-We use the performance test result to determine the optimal number of components to be used in 
+We use the performance test result to determine the optimal number of components to be used in the
 discriminant analysis.
 ```{r}
 selected_n <- spec_discr_PC.plsda.perf$choice.ncom["overall", "max.dist"]
@@ -80,7 +81,7 @@ plotIndiv(species_prediction_model, group=Y, legend=TRUE, ellipse=TRUE, comp=1:2
 
 ```
 
-Now we want to correlate relative abundances of CHCs with the species predicted by the model for each sample.
+
 ```{r message=FALSE}
 ones_matrix <- matrix(1, nrow = ncol(peak_prop),ncol= ncol(peak_prop))
 colnames(ones_matrix) <- rownames(ones_matrix) <- colnames(peak_prop)

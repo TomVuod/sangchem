@@ -1,7 +1,7 @@
 # Changes of CHCs amount over time
 
-In this report we will check how the all CHCs or their specific subset changes in ants
-of both species as colony develops. 
+In this chapter we will check how all CHCs or their specific subsets change
+in both studied species over the colony development. 
 
 ```{r}
 suppressMessages({
