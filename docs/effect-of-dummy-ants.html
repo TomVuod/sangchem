@@ -259,61 +259,61 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="effect-of-dummy-ants" class="section level1 hasAnchor" number="9">
 <h1><span class="header-section-number">Chapter 9</span> Effect of dummy ants<a href="effect-of-dummy-ants.html#effect-of-dummy-ants" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="effect-of-dummy-ants.html#cb218-1" tabindex="-1"></a><span class="fu">suppressMessages</span>({</span>
-<span id="cb218-2"><a href="effect-of-dummy-ants.html#cb218-2" tabindex="-1"></a>  <span class="fu">library</span>(sangchem)</span>
-<span id="cb218-3"><a href="effect-of-dummy-ants.html#cb218-3" tabindex="-1"></a>  <span class="fu">library</span>(dplyr)</span>
-<span id="cb218-4"><a href="effect-of-dummy-ants.html#cb218-4" tabindex="-1"></a>})</span>
-<span id="cb218-5"><a href="effect-of-dummy-ants.html#cb218-5" tabindex="-1"></a></span>
-<span id="cb218-6"><a href="effect-of-dummy-ants.html#cb218-6" tabindex="-1"></a><span class="co"># load data</span></span>
-<span id="cb218-7"><a href="effect-of-dummy-ants.html#cb218-7" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;separation_experiment_data&quot;</span>)</span>
-<span id="cb218-8"><a href="effect-of-dummy-ants.html#cb218-8" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;mass_spectra_data&quot;</span>)</span>
-<span id="cb218-9"><a href="effect-of-dummy-ants.html#cb218-9" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;subject_to_donor_mapping&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="effect-of-dummy-ants.html#cb215-1" tabindex="-1"></a><span class="fu">suppressMessages</span>({</span>
+<span id="cb215-2"><a href="effect-of-dummy-ants.html#cb215-2" tabindex="-1"></a>  <span class="fu">library</span>(sangchem)</span>
+<span id="cb215-3"><a href="effect-of-dummy-ants.html#cb215-3" tabindex="-1"></a>  <span class="fu">library</span>(dplyr)</span>
+<span id="cb215-4"><a href="effect-of-dummy-ants.html#cb215-4" tabindex="-1"></a>})</span>
+<span id="cb215-5"><a href="effect-of-dummy-ants.html#cb215-5" tabindex="-1"></a></span>
+<span id="cb215-6"><a href="effect-of-dummy-ants.html#cb215-6" tabindex="-1"></a><span class="co"># load data</span></span>
+<span id="cb215-7"><a href="effect-of-dummy-ants.html#cb215-7" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;separation_experiment_data&quot;</span>)</span>
+<span id="cb215-8"><a href="effect-of-dummy-ants.html#cb215-8" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;mass_spectra_data&quot;</span>)</span>
+<span id="cb215-9"><a href="effect-of-dummy-ants.html#cb215-9" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;subject_to_donor_mapping&quot;</span>)</span></code></pre></div>
 <div id="distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.-fusca-chcs" class="section level2 hasAnchor" number="9.1">
 <h2><span class="header-section-number">9.1</span> Distance to the CHC profile of the dummy ants treated by F. fusca CHCs<a href="effect-of-dummy-ants.html#distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.-fusca-chcs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We computed the chemical distance to the CHC profile of ants whose CHCs were used to cover glass beads serving as dummy ants.</p>
-<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="effect-of-dummy-ants.html#cb219-1" tabindex="-1"></a><span class="fu">test_dummy_ant_effect</span>(<span class="at">treatment_id=</span><span class="dv">5</span>, separation_experiment_data, mass_spectra_data, subject_to_donor_mapping)</span></code></pre></div>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="effect-of-dummy-ants.html#cb216-1" tabindex="-1"></a><span class="fu">test_dummy_ant_effect</span>(<span class="at">treatment_id=</span><span class="dv">5</span>, separation_experiment_data, mass_spectra_data, subject_to_donor_mapping)</span></code></pre></div>
 <pre><code>## # A tibble: 9 × 7
 ## # Groups:   colony, year, group [9]
 ##   colony   year group treatment_id.x mean_dist.x treatment_id.y mean_dist.y
 ##   &lt;chr&gt;   &lt;dbl&gt; &lt;int&gt;          &lt;dbl&gt;       &lt;dbl&gt;          &lt;dbl&gt;       &lt;dbl&gt;
-## 1 SD18-3   2020     2              5       0.396              9       0.512
-## 2 SD18-5   2020     3              5       0.606              9       0.496
-## 3 SD18-5   2021     4              5       0.847              9       0.836
-## 4 SD19-11  2021     5              5       0.464              9       0.476
-## 5 SD19-3   2020     6              5       0.492              9       0.432
-## 6 SD19-4   2020     8              5       0.302              9       0.423
-## 7 SD19-6   2021     9              5       0.684              9       0.702
-## 8 SD19-8   2021    10              5       0.600              9       0.588
-## 9 SD20-2   2021    11              5       0.712              9       0.723
+## 1 SD18-3   2020     2              5       0.401              9       0.518
+## 2 SD18-5   2020     3              5       0.616              9       0.496
+## 3 SD18-5   2021     4              5       0.846              9       0.835
+## 4 SD19-11  2021     5              5       0.468              9       0.475
+## 5 SD19-3   2020     6              5       0.500              9       0.436
+## 6 SD19-4   2020     8              5       0.307              9       0.426
+## 7 SD19-6   2021     9              5       0.680              9       0.702
+## 8 SD19-8   2021    10              5       0.601              9       0.593
+## 9 SD20-2   2021    11              5       0.711              9       0.722
 ## 
 ##  Wilcoxon signed rank exact test
 ## 
 ## data:  to_test$mean_dist.x and to_test$mean_dist.y
-## V = 19, p-value = 0.7344
+## V = 20, p-value = 0.8203
 ## alternative hypothesis: true location shift is not equal to 0</code></pre>
 </div>
 <div id="distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.sanguinea-chcs" class="section level2 hasAnchor" number="9.2">
 <h2><span class="header-section-number">9.2</span> Distance to the CHC profile of the dummy ants treated by F.sanguinea CHCs<a href="effect-of-dummy-ants.html#distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.sanguinea-chcs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="effect-of-dummy-ants.html#cb221-1" tabindex="-1"></a><span class="fu">test_dummy_ant_effect</span>(<span class="at">treatment_id=</span><span class="dv">7</span>, separation_experiment_data, mass_spectra_data, subject_to_donor_mapping)</span></code></pre></div>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="effect-of-dummy-ants.html#cb218-1" tabindex="-1"></a><span class="fu">test_dummy_ant_effect</span>(<span class="at">treatment_id=</span><span class="dv">7</span>, separation_experiment_data, mass_spectra_data, subject_to_donor_mapping)</span></code></pre></div>
 <pre><code>## # A tibble: 10 × 7
 ## # Groups:   colony, year, group [10]
 ##    colony   year group treatment_id.x mean_dist.x treatment_id.y mean_dist.y
 ##    &lt;chr&gt;   &lt;dbl&gt; &lt;int&gt;          &lt;dbl&gt;       &lt;dbl&gt;          &lt;dbl&gt;       &lt;dbl&gt;
-##  1 SD18-2   2020     1              7       0.605              9       0.397
-##  2 SD18-3   2020     2              7       0.461              9       0.616
-##  3 SD18-5   2020     3              7       0.536              9       0.583
-##  4 SD18-5   2021     4              7       0.246              9       0.237
-##  5 SD19-11  2021     5              7       0.591              9       0.605
-##  6 SD19-3   2020     6              7       0.438              9       0.511
-##  7 SD19-4   2020     8              7       0.663              9       0.696
-##  8 SD19-6   2021     9              7       0.544              9       0.593
-##  9 SD19-8   2021    10              7       0.887              9       0.887
-## 10 SD20-2   2021    11              7       0.744              9       0.782
+##  1 SD18-2   2020     1              7       0.580              9       0.379
+##  2 SD18-3   2020     2              7       0.458              9       0.604
+##  3 SD18-5   2020     3              7       0.530              9       0.588
+##  4 SD18-5   2021     4              7       0.250              9       0.240
+##  5 SD19-11  2021     5              7       0.597              9       0.611
+##  6 SD19-3   2020     6              7       0.446              9       0.511
+##  7 SD19-4   2020     8              7       0.653              9       0.676
+##  8 SD19-6   2021     9              7       0.552              9       0.600
+##  9 SD19-8   2021    10              7       0.869              9       0.869
+## 10 SD20-2   2021    11              7       0.679              9       0.685
 ## 
 ##  Wilcoxon signed rank exact test
 ## 
 ## data:  to_test$mean_dist.x and to_test$mean_dist.y
-## V = 13, p-value = 0.1602
+## V = 14, p-value = 0.1934
 ## alternative hypothesis: true location shift is not equal to 0</code></pre>
 </div>
 <div id="fraction-of-docosane-in-the-chc-profile" class="section level2 hasAnchor" number="9.3">
@@ -321,21 +321,21 @@ div.csl-indent {
 <p>For control treatment, glass beads were not covered by CHCs. In experimental treatment CHCs from donor colonies were contaminated with docosane which served as internal standard. We look for the differences in the proportion on docosane in the CHC profile of tested ants to judge about chemicals acquisition from dummy ants.</p>
 <div id="f.-fusca-2" class="section level3 hasAnchor" number="9.3.1">
 <h3><span class="header-section-number">9.3.1</span> F. fusca<a href="effect-of-dummy-ants.html#f.-fusca-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="effect-of-dummy-ants.html#cb223-1" tabindex="-1"></a><span class="fu">test_C22_proportion</span>(<span class="dv">5</span>, separation_experiment_data, mass_spectra_data)</span></code></pre></div>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="effect-of-dummy-ants.html#cb220-1" tabindex="-1"></a><span class="fu">test_C22_proportion</span>(<span class="dv">5</span>, separation_experiment_data, mass_spectra_data)</span></code></pre></div>
 <pre><code>## # A tibble: 10 × 7
 ## # Groups:   colony, year, group [10]
 ##    colony   year group treatment_id.x C22_prop.x treatment_id.y C22_prop.y
 ##    &lt;chr&gt;   &lt;dbl&gt; &lt;int&gt;          &lt;dbl&gt;      &lt;dbl&gt;          &lt;dbl&gt;      &lt;dbl&gt;
-##  1 SD18-3   2020     2              5    0.0182               9   0       
-##  2 SD18-5   2020     3              5    0.00126              9   0       
-##  3 SD18-5   2021     4              5    0.00169              9   0.000327
-##  4 SD19-11  2021     5              5    0.0112               9   0.00187 
-##  5 SD19-3   2020     6              5    0.00884              9   0.000984
-##  6 SD19-4   2020     8              5    0.0176               9   0       
-##  7 SD19-6   2021     9              5    0.00916              9   0.00112 
-##  8 SD19-8   2021    10              5    0.00264              9   0.00213 
-##  9 SD20-2   2021    11              5    0.00868              9   0.00495 
-## 10 W17-1    2020    12              5    0.0220               9   0.00158 
+##  1 SD18-3   2020     2              5    0.0178               9   0       
+##  2 SD18-5   2020     3              5    0.00120              9   0       
+##  3 SD18-5   2021     4              5    0.00169              9   0.000326
+##  4 SD19-11  2021     5              5    0.0113               9   0.00194 
+##  5 SD19-3   2020     6              5    0.00861              9   0.000972
+##  6 SD19-4   2020     8              5    0.0173               9   0       
+##  7 SD19-6   2021     9              5    0.00919              9   0.00112 
+##  8 SD19-8   2021    10              5    0.00264              9   0.00211 
+##  9 SD20-2   2021    11              5    0.00867              9   0.00493 
+## 10 W17-1    2020    12              5    0.0212               9   0.00149 
 ## 
 ##  Wilcoxon signed rank exact test
 ## 
@@ -345,22 +345,22 @@ div.csl-indent {
 </div>
 <div id="f.-sanguinea" class="section level3 hasAnchor" number="9.3.2">
 <h3><span class="header-section-number">9.3.2</span> F. sanguinea<a href="effect-of-dummy-ants.html#f.-sanguinea" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="effect-of-dummy-ants.html#cb225-1" tabindex="-1"></a><span class="fu">test_C22_proportion</span>(<span class="dv">7</span>, separation_experiment_data, mass_spectra_data)</span></code></pre></div>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="effect-of-dummy-ants.html#cb222-1" tabindex="-1"></a><span class="fu">test_C22_proportion</span>(<span class="dv">7</span>, separation_experiment_data, mass_spectra_data)</span></code></pre></div>
 <pre><code>## # A tibble: 11 × 7
 ## # Groups:   colony, year, group [11]
 ##    colony   year group treatment_id.x C22_prop.x treatment_id.y C22_prop.y
 ##    &lt;chr&gt;   &lt;dbl&gt; &lt;int&gt;          &lt;dbl&gt;      &lt;dbl&gt;          &lt;dbl&gt;      &lt;dbl&gt;
-##  1 SD18-2   2020     1              7    0.00523              9   0.00165 
-##  2 SD18-3   2020     2              7    0.0152               9   0       
-##  3 SD18-5   2020     3              7    0.00333              9   0       
-##  4 SD18-5   2021     4              7    0.00213              9   0.000327
-##  5 SD19-11  2021     5              7    0.00398              9   0.00187 
-##  6 SD19-3   2020     6              7    0                    9   0.000984
+##  1 SD18-2   2020     1              7    0.00507              9   0.00162 
+##  2 SD18-3   2020     2              7    0.0144               9   0       
+##  3 SD18-5   2020     3              7    0.00329              9   0       
+##  4 SD18-5   2021     4              7    0.00214              9   0.000326
+##  5 SD19-11  2021     5              7    0.00402              9   0.00194 
+##  6 SD19-3   2020     6              7    0                    9   0.000972
 ##  7 SD19-4   2020     8              7    0.00197              9   0       
-##  8 SD19-6   2021     9              7    0.00355              9   0.00112 
-##  9 SD19-8   2021    10              7    0.00173              9   0.00213 
-## 10 SD20-2   2021    11              7    0.00436              9   0.00495 
-## 11 W17-1    2020    12              7    0.00321              9   0.00158 
+##  8 SD19-6   2021     9              7    0.00356              9   0.00112 
+##  9 SD19-8   2021    10              7    0.00174              9   0.00211 
+## 10 SD20-2   2021    11              7    0.00434              9   0.00493 
+## 11 W17-1    2020    12              7    0.00307              9   0.00149 
 ## 
 ##  Wilcoxon signed rank exact test
 ## 
