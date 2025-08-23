@@ -259,19 +259,19 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="effect-of-dummy-ants" class="section level1 hasAnchor" number="9">
 <h1><span class="header-section-number">Chapter 9</span> Effect of dummy ants<a href="effect-of-dummy-ants.html#effect-of-dummy-ants" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="effect-of-dummy-ants.html#cb218-1" tabindex="-1"></a><span class="fu">suppressMessages</span>({</span>
-<span id="cb218-2"><a href="effect-of-dummy-ants.html#cb218-2" tabindex="-1"></a>  <span class="fu">library</span>(sangchem)</span>
-<span id="cb218-3"><a href="effect-of-dummy-ants.html#cb218-3" tabindex="-1"></a>  <span class="fu">library</span>(dplyr)</span>
-<span id="cb218-4"><a href="effect-of-dummy-ants.html#cb218-4" tabindex="-1"></a>})</span>
-<span id="cb218-5"><a href="effect-of-dummy-ants.html#cb218-5" tabindex="-1"></a></span>
-<span id="cb218-6"><a href="effect-of-dummy-ants.html#cb218-6" tabindex="-1"></a><span class="co"># load data</span></span>
-<span id="cb218-7"><a href="effect-of-dummy-ants.html#cb218-7" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;separation_experiment_data&quot;</span>)</span>
-<span id="cb218-8"><a href="effect-of-dummy-ants.html#cb218-8" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;mass_spectra_data&quot;</span>)</span>
-<span id="cb218-9"><a href="effect-of-dummy-ants.html#cb218-9" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;subject_to_donor_mapping&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="effect-of-dummy-ants.html#cb219-1" tabindex="-1"></a><span class="fu">suppressMessages</span>({</span>
+<span id="cb219-2"><a href="effect-of-dummy-ants.html#cb219-2" tabindex="-1"></a>  <span class="fu">library</span>(sangchem)</span>
+<span id="cb219-3"><a href="effect-of-dummy-ants.html#cb219-3" tabindex="-1"></a>  <span class="fu">library</span>(dplyr)</span>
+<span id="cb219-4"><a href="effect-of-dummy-ants.html#cb219-4" tabindex="-1"></a>})</span>
+<span id="cb219-5"><a href="effect-of-dummy-ants.html#cb219-5" tabindex="-1"></a></span>
+<span id="cb219-6"><a href="effect-of-dummy-ants.html#cb219-6" tabindex="-1"></a><span class="co"># load data</span></span>
+<span id="cb219-7"><a href="effect-of-dummy-ants.html#cb219-7" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;separation_experiment_data&quot;</span>)</span>
+<span id="cb219-8"><a href="effect-of-dummy-ants.html#cb219-8" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;mass_spectra_data&quot;</span>)</span>
+<span id="cb219-9"><a href="effect-of-dummy-ants.html#cb219-9" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;subject_to_donor_mapping&quot;</span>)</span></code></pre></div>
 <div id="distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.-fusca-chcs" class="section level2 hasAnchor" number="9.1">
 <h2><span class="header-section-number">9.1</span> Distance to the CHC profile of the dummy ants treated by F. fusca CHCs<a href="effect-of-dummy-ants.html#distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.-fusca-chcs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We computed the chemical distance to the CHC profile of ants whose CHCs were used to cover glass beads serving as dummy ants.</p>
-<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="effect-of-dummy-ants.html#cb219-1" tabindex="-1"></a><span class="fu">test_dummy_ant_effect</span>(<span class="at">treatment_id=</span><span class="dv">5</span>, separation_experiment_data, mass_spectra_data, subject_to_donor_mapping)</span></code></pre></div>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="effect-of-dummy-ants.html#cb220-1" tabindex="-1"></a><span class="fu">test_dummy_ant_effect</span>(<span class="at">treatment_id=</span><span class="dv">5</span>, separation_experiment_data, mass_spectra_data, subject_to_donor_mapping)</span></code></pre></div>
 <pre><code>## # A tibble: 9 × 7
 ## # Groups:   colony, year, group [9]
 ##   colony   year group treatment_id.x mean_dist.x treatment_id.y mean_dist.y
@@ -294,7 +294,7 @@ div.csl-indent {
 </div>
 <div id="distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.sanguinea-chcs" class="section level2 hasAnchor" number="9.2">
 <h2><span class="header-section-number">9.2</span> Distance to the CHC profile of the dummy ants treated by F.sanguinea CHCs<a href="effect-of-dummy-ants.html#distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.sanguinea-chcs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="effect-of-dummy-ants.html#cb221-1" tabindex="-1"></a><span class="fu">test_dummy_ant_effect</span>(<span class="at">treatment_id=</span><span class="dv">7</span>, separation_experiment_data, mass_spectra_data, subject_to_donor_mapping)</span></code></pre></div>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="effect-of-dummy-ants.html#cb222-1" tabindex="-1"></a><span class="fu">test_dummy_ant_effect</span>(<span class="at">treatment_id=</span><span class="dv">7</span>, separation_experiment_data, mass_spectra_data, subject_to_donor_mapping)</span></code></pre></div>
 <pre><code>## # A tibble: 10 × 7
 ## # Groups:   colony, year, group [10]
 ##    colony   year group treatment_id.x mean_dist.x treatment_id.y mean_dist.y
@@ -321,7 +321,7 @@ div.csl-indent {
 <p>For control treatment, glass beads were not covered by CHCs. In experimental treatment CHCs from donor colonies were contaminated with docosane which served as internal standard. We look for the differences in the proportion on docosane in the CHC profile of tested ants to judge about chemicals acquisition from dummy ants.</p>
 <div id="f.-fusca-2" class="section level3 hasAnchor" number="9.3.1">
 <h3><span class="header-section-number">9.3.1</span> F. fusca<a href="effect-of-dummy-ants.html#f.-fusca-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="effect-of-dummy-ants.html#cb223-1" tabindex="-1"></a><span class="fu">test_C22_proportion</span>(<span class="dv">5</span>, separation_experiment_data, mass_spectra_data)</span></code></pre></div>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="effect-of-dummy-ants.html#cb224-1" tabindex="-1"></a><span class="fu">test_C22_proportion</span>(<span class="dv">5</span>, separation_experiment_data, mass_spectra_data)</span></code></pre></div>
 <pre><code>## # A tibble: 10 × 7
 ## # Groups:   colony, year, group [10]
 ##    colony   year group treatment_id.x C22_prop.x treatment_id.y C22_prop.y
@@ -345,7 +345,7 @@ div.csl-indent {
 </div>
 <div id="f.-sanguinea" class="section level3 hasAnchor" number="9.3.2">
 <h3><span class="header-section-number">9.3.2</span> F. sanguinea<a href="effect-of-dummy-ants.html#f.-sanguinea" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="effect-of-dummy-ants.html#cb225-1" tabindex="-1"></a><span class="fu">test_C22_proportion</span>(<span class="dv">7</span>, separation_experiment_data, mass_spectra_data)</span></code></pre></div>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="effect-of-dummy-ants.html#cb226-1" tabindex="-1"></a><span class="fu">test_C22_proportion</span>(<span class="dv">7</span>, separation_experiment_data, mass_spectra_data)</span></code></pre></div>
 <pre><code>## # A tibble: 11 × 7
 ## # Groups:   colony, year, group [11]
 ##    colony   year group treatment_id.x C22_prop.x treatment_id.y C22_prop.y

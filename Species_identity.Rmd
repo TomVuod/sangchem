@@ -19,7 +19,7 @@ fusca_samples <- as.character(unique(field_colonies$chromatogram_ID)[stri_detect
 sanguinea_samples<-as.character(unique(field_colonies$chromatogram_ID)[stri_detect_regex(unique(field_colonies$chromatogram_ID),"sangFs[0-9].?\\([0-9]\\)")])
 
 # remove outliers
-sanguinea_samples <- setdiff(sanguinea_samples,c("sangFs2(1)","sangFs5(2)","sangFs26(1)","sangFs26(2)"))
+#sanguinea_samples <- setdiff(sanguinea_samples,c("sangFs2(1)","sangFs5(2)","sangFs26(1)","sangFs26(2)"))
 fusca_samples <- setdiff(fusca_samples,c("fus9-2(1)", "fus26-3(2)"))
 discrimination_data <- filter(field_colonies,chromatogram_ID %in% c(fusca_samples,sanguinea_samples)) 
 discrimination_data <- filter(discrimination_data, peak_ID<110)
