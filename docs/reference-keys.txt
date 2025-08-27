@@ -25,8 +25,8 @@ finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers
 determining-callow-markers
 determining-mature-f.-sanguinea-markers
 verifying-the-performace-of-the-discrimination-model
-change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows
-comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals
+change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-a-colony-increases
+comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories
 difference-in-the-total-chc-amount-between-f.-sanguinea-and-f.-fusca
 difference-in-the-total-chc-amount-between-callow-and-mature-f.-sanguinea
 difference-in-the-proportion-of-chcs-characteristic-of-f.-sanguinea-between-mature-f.-sanguinea-and-f.-fusca
@@ -52,3 +52,4 @@ distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.sanguinea-chcs
 fraction-of-docosane-in-the-chc-profile
 f.-fusca-2
 f.-sanguinea
+session-info

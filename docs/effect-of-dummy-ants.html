@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 9 Effect of dummy ants | sangchem R package: research project data analysis documentation</title>
+  <title>Chapter 8 Effect of dummy ants | sangchem R package: research project data analysis documentation</title>
   <meta name="description" content="This is a doucumentation of the data analysis workflows and function used to generate the results included in the manuscript entitled Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development." />
-  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.44 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 9 Effect of dummy ants | sangchem R package: research project data analysis documentation" />
+  <meta property="og:title" content="Chapter 8 Effect of dummy ants | sangchem R package: research project data analysis documentation" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This is a doucumentation of the data analysis workflows and function used to generate the results included in the manuscript entitled Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development." />
   <meta name="github-repo" content="TomVuod/sangchem" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 9 Effect of dummy ants | sangchem R package: research project data analysis documentation" />
+  <meta name="twitter:title" content="Chapter 8 Effect of dummy ants | sangchem R package: research project data analysis documentation" />
   
   <meta name="twitter:description" content="This is a doucumentation of the data analysis workflows and function used to generate the results included in the manuscript entitled Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development." />
   
@@ -23,6 +23,7 @@
 <meta name="author" content="Tomasz Włodarczyk" />
 
 
+<meta name="date" content="2025-08-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -30,8 +31,8 @@
   
   
 <link rel="prev" href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"/>
-
-<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link rel="next" href="session-info.html"/>
+<script src="libs/jquery-3.6.1/jquery-3.6.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -55,7 +56,7 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -65,7 +66,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -127,6 +128,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -198,45 +200,46 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="3.1" data-path="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#determining-callow-markers"><i class="fa fa-check"></i><b>3.1</b> Determining callow markers</a></li>
 <li class="chapter" data-level="3.2" data-path="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#determining-mature-f.-sanguinea-markers"><i class="fa fa-check"></i><b>3.2</b> Determining mature <em>F. sanguinea</em> markers</a></li>
+<li class="chapter" data-level="3.3" data-path="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#verifying-the-performace-of-the-discrimination-model"><i class="fa fa-check"></i><b>3.3</b> Verifying the performace of the discrimination model</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="verifying-the-performace-of-the-discrimination-model.html"><a href="verifying-the-performace-of-the-discrimination-model.html"><i class="fa fa-check"></i><b>4</b> Verifying the performace of the discrimination model</a></li>
-<li class="chapter" data-level="5" data-path="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html"><i class="fa fa-check"></i><b>5</b> Change in dissimilarity between callow and mature <em>F. sanguinea</em> as the proportion of slave-makers in the colony grows</a></li>
-<li class="chapter" data-level="6" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><i class="fa fa-check"></i><b>6</b> Comparison of CHC amount and proportions in between different categories of individuals</a>
+<li class="chapter" data-level="4" data-path="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-a-colony-increases.html"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-a-colony-increases.html"><i class="fa fa-check"></i><b>4</b> Change in dissimilarity between callow and mature <em>F. sanguinea</em> as the proportion of slave-makers in a colony increases</a></li>
+<li class="chapter" data-level="5" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><i class="fa fa-check"></i><b>5</b> Comparison of amount and proportions of CHC between species and age categories</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-total-chc-amount-between-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>6.1</b> Difference in the total CHC amount between <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
-<li class="chapter" data-level="6.2" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-total-chc-amount-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>6.2</b> Difference in the total CHC amount between callow and mature <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="6.3" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-sanguinea-between-mature-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>6.3</b> Difference in the proportion of CHCs characteristic of <em>F. sanguinea</em> between mature <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
-<li class="chapter" data-level="6.4" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>6.4</b> Difference in the proportion of CHCs characteristic of <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="6.5" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-callow-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>6.5</b> Difference in the proportion of CHCs characteristic of callow <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="6.6" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-amount-of-chcs-characteristic-of-callow-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>6.6</b> Difference in the amount of CHCs characteristic of callow <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="6.7" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-mature-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>6.7</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between mature <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
-<li class="chapter" data-level="6.8" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>6.8</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between mature and callow <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="6.9" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-callow-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>6.9</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between callow <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
-<li class="chapter" data-level="6.10" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-mass-of-n-alkanes-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>6.10</b> Difference in the mass of n-alkanes between callow and mature <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="6.11" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proprtion-of-n-alkanes-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>6.11</b> Difference in the proprtion of n-alkanes between callow and mature <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.1" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-total-chc-amount-between-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>5.1</b> Difference in the total CHC amount between <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
+<li class="chapter" data-level="5.2" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-total-chc-amount-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>5.2</b> Difference in the total CHC amount between callow and mature <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.3" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-sanguinea-between-mature-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>5.3</b> Difference in the proportion of CHCs characteristic of <em>F. sanguinea</em> between mature <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
+<li class="chapter" data-level="5.4" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>5.4</b> Difference in the proportion of CHCs characteristic of <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.5" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proportion-of-chcs-characteristic-of-callow-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>5.5</b> Difference in the proportion of CHCs characteristic of callow <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.6" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-amount-of-chcs-characteristic-of-callow-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>5.6</b> Difference in the amount of CHCs characteristic of callow <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.7" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-mature-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>5.7</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between mature <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
+<li class="chapter" data-level="5.8" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>5.8</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between mature and callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.9" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-callow-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>5.9</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between callow <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
+<li class="chapter" data-level="5.10" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-mass-of-n-alkanes-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>5.10</b> Difference in the mass of n-alkanes between callow and mature <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.11" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proprtion-of-n-alkanes-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>5.11</b> Difference in the proprtion of n-alkanes between callow and mature <em>F. sanguinea</em></a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><i class="fa fa-check"></i><b>7</b> Change in the CHC profile in separated callow <em>F. sanguinea</em> ants</a>
+<li class="chapter" data-level="6" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><i class="fa fa-check"></i><b>6</b> Change in the CHC profile in separated callow <em>F. sanguinea</em> ants</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-total-chc-amount-over-time"><i class="fa fa-check"></i><b>7.1</b> Change in the total CHC amount over time</a></li>
-<li class="chapter" data-level="7.2" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-callow-f.-sanguinea"><i class="fa fa-check"></i><b>7.2</b> Change in the amount of compounds associated with callow <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="7.3" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-f.-sanguinea"><i class="fa fa-check"></i><b>7.3</b> Change in the amount of compounds associated with <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="7.4" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-f.-fusca"><i class="fa fa-check"></i><b>7.4</b> Change in the amount of compounds associated with <em>F. fusca</em></a></li>
+<li class="chapter" data-level="6.1" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-total-chc-amount-over-time"><i class="fa fa-check"></i><b>6.1</b> Change in the total CHC amount over time</a></li>
+<li class="chapter" data-level="6.2" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-callow-f.-sanguinea"><i class="fa fa-check"></i><b>6.2</b> Change in the amount of compounds associated with callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="6.3" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-f.-sanguinea"><i class="fa fa-check"></i><b>6.3</b> Change in the amount of compounds associated with <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="6.4" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-f.-fusca"><i class="fa fa-check"></i><b>6.4</b> Change in the amount of compounds associated with <em>F. fusca</em></a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><i class="fa fa-check"></i><b>8</b> Impact of slave on the development of the <em>F. sanguinea</em> CHC profile</a>
+<li class="chapter" data-level="7" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><i class="fa fa-check"></i><b>7</b> Impact of slave on the development of the <em>F. sanguinea</em> CHC profile</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#analysis-based-on-all-samples"><i class="fa fa-check"></i><b>8.1</b> Analysis based on all samples</a></li>
-<li class="chapter" data-level="8.2" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#analysis-restricted-to-the-individuals-hatched-from-cocoons"><i class="fa fa-check"></i><b>8.2</b> Analysis restricted to the individuals hatched from cocoons</a></li>
+<li class="chapter" data-level="7.1" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#analysis-based-on-all-samples"><i class="fa fa-check"></i><b>7.1</b> Analysis based on all samples</a></li>
+<li class="chapter" data-level="7.2" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#analysis-restricted-to-the-individuals-hatched-from-cocoons"><i class="fa fa-check"></i><b>7.2</b> Analysis restricted to the individuals hatched from cocoons</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html"><i class="fa fa-check"></i><b>9</b> Effect of dummy ants</a>
+<li class="chapter" data-level="8" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html"><i class="fa fa-check"></i><b>8</b> Effect of dummy ants</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.-fusca-chcs"><i class="fa fa-check"></i><b>9.1</b> Distance to the CHC profile of the dummy ants treated by F. fusca CHCs</a></li>
-<li class="chapter" data-level="9.2" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.sanguinea-chcs"><i class="fa fa-check"></i><b>9.2</b> Distance to the CHC profile of the dummy ants treated by F.sanguinea CHCs</a></li>
-<li class="chapter" data-level="9.3" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#fraction-of-docosane-in-the-chc-profile"><i class="fa fa-check"></i><b>9.3</b> Fraction of docosane in the CHC profile</a>
+<li class="chapter" data-level="8.1" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.-fusca-chcs"><i class="fa fa-check"></i><b>8.1</b> Distance to the CHC profile of the dummy ants treated by F. fusca CHCs</a></li>
+<li class="chapter" data-level="8.2" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.sanguinea-chcs"><i class="fa fa-check"></i><b>8.2</b> Distance to the CHC profile of the dummy ants treated by F.sanguinea CHCs</a></li>
+<li class="chapter" data-level="8.3" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#fraction-of-docosane-in-the-chc-profile"><i class="fa fa-check"></i><b>8.3</b> Fraction of docosane in the CHC profile</a>
 <ul>
-<li class="chapter" data-level="9.3.1" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#f.-fusca-2"><i class="fa fa-check"></i><b>9.3.1</b> F. fusca</a></li>
-<li class="chapter" data-level="9.3.2" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#f.-sanguinea"><i class="fa fa-check"></i><b>9.3.2</b> F. sanguinea</a></li>
+<li class="chapter" data-level="8.3.1" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#f.-fusca-2"><i class="fa fa-check"></i><b>8.3.1</b> F. fusca</a></li>
+<li class="chapter" data-level="8.3.2" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#f.-sanguinea"><i class="fa fa-check"></i><b>8.3.2</b> F. sanguinea</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="9" data-path="session-info.html"><a href="session-info.html"><i class="fa fa-check"></i><b>9</b> Session info</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -257,31 +260,31 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="effect-of-dummy-ants" class="section level1 hasAnchor" number="9">
-<h1><span class="header-section-number">Chapter 9</span> Effect of dummy ants<a href="effect-of-dummy-ants.html#effect-of-dummy-ants" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="effect-of-dummy-ants.html#cb219-1" tabindex="-1"></a><span class="fu">suppressMessages</span>({</span>
-<span id="cb219-2"><a href="effect-of-dummy-ants.html#cb219-2" tabindex="-1"></a>  <span class="fu">library</span>(sangchem)</span>
-<span id="cb219-3"><a href="effect-of-dummy-ants.html#cb219-3" tabindex="-1"></a>  <span class="fu">library</span>(dplyr)</span>
-<span id="cb219-4"><a href="effect-of-dummy-ants.html#cb219-4" tabindex="-1"></a>})</span>
-<span id="cb219-5"><a href="effect-of-dummy-ants.html#cb219-5" tabindex="-1"></a></span>
-<span id="cb219-6"><a href="effect-of-dummy-ants.html#cb219-6" tabindex="-1"></a><span class="co"># load data</span></span>
-<span id="cb219-7"><a href="effect-of-dummy-ants.html#cb219-7" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;separation_experiment_data&quot;</span>)</span>
-<span id="cb219-8"><a href="effect-of-dummy-ants.html#cb219-8" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;mass_spectra_data&quot;</span>)</span>
-<span id="cb219-9"><a href="effect-of-dummy-ants.html#cb219-9" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;subject_to_donor_mapping&quot;</span>)</span></code></pre></div>
-<div id="distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.-fusca-chcs" class="section level2 hasAnchor" number="9.1">
-<h2><span class="header-section-number">9.1</span> Distance to the CHC profile of the dummy ants treated by F. fusca CHCs<a href="effect-of-dummy-ants.html#distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.-fusca-chcs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="effect-of-dummy-ants" class="section level1 hasAnchor" number="8">
+<h1><span class="header-section-number">Chapter 8</span> Effect of dummy ants<a href="effect-of-dummy-ants.html#effect-of-dummy-ants" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="effect-of-dummy-ants.html#cb226-1" tabindex="-1"></a><span class="fu">suppressMessages</span>({</span>
+<span id="cb226-2"><a href="effect-of-dummy-ants.html#cb226-2" tabindex="-1"></a>  <span class="fu">library</span>(sangchem)</span>
+<span id="cb226-3"><a href="effect-of-dummy-ants.html#cb226-3" tabindex="-1"></a>  <span class="fu">library</span>(dplyr)</span>
+<span id="cb226-4"><a href="effect-of-dummy-ants.html#cb226-4" tabindex="-1"></a>})</span>
+<span id="cb226-5"><a href="effect-of-dummy-ants.html#cb226-5" tabindex="-1"></a></span>
+<span id="cb226-6"><a href="effect-of-dummy-ants.html#cb226-6" tabindex="-1"></a><span class="co"># load data</span></span>
+<span id="cb226-7"><a href="effect-of-dummy-ants.html#cb226-7" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;separation_experiment_data&quot;</span>)</span>
+<span id="cb226-8"><a href="effect-of-dummy-ants.html#cb226-8" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;mass_spectra_data&quot;</span>)</span>
+<span id="cb226-9"><a href="effect-of-dummy-ants.html#cb226-9" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;subject_to_donor_mapping&quot;</span>)</span></code></pre></div>
+<div id="distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.-fusca-chcs" class="section level2 hasAnchor" number="8.1">
+<h2><span class="header-section-number">8.1</span> Distance to the CHC profile of the dummy ants treated by F. fusca CHCs<a href="effect-of-dummy-ants.html#distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.-fusca-chcs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We computed the chemical distance to the CHC profile of ants whose CHCs were used to cover glass beads serving as dummy ants.</p>
-<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="effect-of-dummy-ants.html#cb220-1" tabindex="-1"></a><span class="fu">test_dummy_ant_effect</span>(<span class="at">treatment_id=</span><span class="dv">5</span>, separation_experiment_data, mass_spectra_data, subject_to_donor_mapping)</span></code></pre></div>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="effect-of-dummy-ants.html#cb227-1" tabindex="-1"></a><span class="fu">test_dummy_ant_effect</span>(<span class="at">treatment_id=</span><span class="dv">5</span>, separation_experiment_data, mass_spectra_data, subject_to_donor_mapping)</span></code></pre></div>
 <pre><code>## # A tibble: 9 × 7
 ## # Groups:   colony, year, group [9]
 ##   colony   year group treatment_id.x mean_dist.x treatment_id.y mean_dist.y
 ##   &lt;chr&gt;   &lt;dbl&gt; &lt;int&gt;          &lt;dbl&gt;       &lt;dbl&gt;          &lt;dbl&gt;       &lt;dbl&gt;
-## 1 SD18-3   2020     2              5       0.401              9       0.518
-## 2 SD18-5   2020     3              5       0.616              9       0.496
+## 1 SD18-3   2020     2              5       0.396              9       0.509
+## 2 SD18-5   2020     3              5       0.616              9       0.513
 ## 3 SD18-5   2021     4              5       0.842              9       0.832
 ## 4 SD19-11  2021     5              5       0.467              9       0.472
 ## 5 SD19-3   2020     6              5       0.500              9       0.436
-## 6 SD19-4   2020     8              5       0.307              9       0.426
+## 6 SD19-4   2020     8              5       0.305              9       0.424
 ## 7 SD19-6   2021     9              5       0.674              9       0.699
 ## 8 SD19-8   2021    10              5       0.597              9       0.588
 ## 9 SD20-2   2021    11              5       0.699              9       0.709
@@ -289,23 +292,23 @@ div.csl-indent {
 ##  Wilcoxon signed rank exact test
 ## 
 ## data:  to_test$mean_dist.x and to_test$mean_dist.y
-## V = 21, p-value = 0.9102
+## V = 19, p-value = 0.7344
 ## alternative hypothesis: true location shift is not equal to 0</code></pre>
 </div>
-<div id="distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.sanguinea-chcs" class="section level2 hasAnchor" number="9.2">
-<h2><span class="header-section-number">9.2</span> Distance to the CHC profile of the dummy ants treated by F.sanguinea CHCs<a href="effect-of-dummy-ants.html#distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.sanguinea-chcs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="effect-of-dummy-ants.html#cb222-1" tabindex="-1"></a><span class="fu">test_dummy_ant_effect</span>(<span class="at">treatment_id=</span><span class="dv">7</span>, separation_experiment_data, mass_spectra_data, subject_to_donor_mapping)</span></code></pre></div>
+<div id="distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.sanguinea-chcs" class="section level2 hasAnchor" number="8.2">
+<h2><span class="header-section-number">8.2</span> Distance to the CHC profile of the dummy ants treated by F.sanguinea CHCs<a href="effect-of-dummy-ants.html#distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.sanguinea-chcs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="effect-of-dummy-ants.html#cb229-1" tabindex="-1"></a><span class="fu">test_dummy_ant_effect</span>(<span class="at">treatment_id=</span><span class="dv">7</span>, separation_experiment_data, mass_spectra_data, subject_to_donor_mapping)</span></code></pre></div>
 <pre><code>## # A tibble: 10 × 7
 ## # Groups:   colony, year, group [10]
 ##    colony   year group treatment_id.x mean_dist.x treatment_id.y mean_dist.y
 ##    &lt;chr&gt;   &lt;dbl&gt; &lt;int&gt;          &lt;dbl&gt;       &lt;dbl&gt;          &lt;dbl&gt;       &lt;dbl&gt;
-##  1 SD18-2   2020     1              7       0.580              9       0.378
-##  2 SD18-3   2020     2              7       0.458              9       0.604
-##  3 SD18-5   2020     3              7       0.530              9       0.588
+##  1 SD18-2   2020     1              7       0.571              9       0.374
+##  2 SD18-3   2020     2              7       0.457              9       0.599
+##  3 SD18-5   2020     3              7       0.525              9       0.580
 ##  4 SD18-5   2021     4              7       0.250              9       0.232
 ##  5 SD19-11  2021     5              7       0.597              9       0.610
-##  6 SD19-3   2020     6              7       0.446              9       0.511
-##  7 SD19-4   2020     8              7       0.653              9       0.676
+##  6 SD19-3   2020     6              7       0.419              9       0.511
+##  7 SD19-4   2020     8              7       0.648              9       0.668
 ##  8 SD19-6   2021     9              7       0.553              9       0.591
 ##  9 SD19-8   2021    10              7       0.850              9       0.850
 ## 10 SD20-2   2021    11              7       0.646              9       0.654
@@ -316,12 +319,12 @@ div.csl-indent {
 ## V = 15, p-value = 0.2324
 ## alternative hypothesis: true location shift is not equal to 0</code></pre>
 </div>
-<div id="fraction-of-docosane-in-the-chc-profile" class="section level2 hasAnchor" number="9.3">
-<h2><span class="header-section-number">9.3</span> Fraction of docosane in the CHC profile<a href="effect-of-dummy-ants.html#fraction-of-docosane-in-the-chc-profile" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="fraction-of-docosane-in-the-chc-profile" class="section level2 hasAnchor" number="8.3">
+<h2><span class="header-section-number">8.3</span> Fraction of docosane in the CHC profile<a href="effect-of-dummy-ants.html#fraction-of-docosane-in-the-chc-profile" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>For control treatment, glass beads were not covered by CHCs. In experimental treatment CHCs from donor colonies were contaminated with docosane which served as internal standard. We look for the differences in the proportion on docosane in the CHC profile of tested ants to judge about chemicals acquisition from dummy ants.</p>
-<div id="f.-fusca-2" class="section level3 hasAnchor" number="9.3.1">
-<h3><span class="header-section-number">9.3.1</span> F. fusca<a href="effect-of-dummy-ants.html#f.-fusca-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="effect-of-dummy-ants.html#cb224-1" tabindex="-1"></a><span class="fu">test_C22_proportion</span>(<span class="dv">5</span>, separation_experiment_data, mass_spectra_data)</span></code></pre></div>
+<div id="f.-fusca-2" class="section level3 hasAnchor" number="8.3.1">
+<h3><span class="header-section-number">8.3.1</span> F. fusca<a href="effect-of-dummy-ants.html#f.-fusca-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="effect-of-dummy-ants.html#cb231-1" tabindex="-1"></a><span class="fu">test_C22_proportion</span>(<span class="dv">5</span>, separation_experiment_data, mass_spectra_data)</span></code></pre></div>
 <pre><code>## # A tibble: 10 × 7
 ## # Groups:   colony, year, group [10]
 ##    colony   year group treatment_id.x C22_prop.x treatment_id.y C22_prop.y
@@ -343,36 +346,31 @@ div.csl-indent {
 ## V = 55, p-value = 0.001953
 ## alternative hypothesis: true location shift is not equal to 0</code></pre>
 </div>
-<div id="f.-sanguinea" class="section level3 hasAnchor" number="9.3.2">
-<h3><span class="header-section-number">9.3.2</span> F. sanguinea<a href="effect-of-dummy-ants.html#f.-sanguinea" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="effect-of-dummy-ants.html#cb226-1" tabindex="-1"></a><span class="fu">test_C22_proportion</span>(<span class="dv">7</span>, separation_experiment_data, mass_spectra_data)</span></code></pre></div>
+<div id="f.-sanguinea" class="section level3 hasAnchor" number="8.3.2">
+<h3><span class="header-section-number">8.3.2</span> F. sanguinea<a href="effect-of-dummy-ants.html#f.-sanguinea" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="effect-of-dummy-ants.html#cb233-1" tabindex="-1"></a><span class="fu">test_C22_proportion</span>(<span class="dv">7</span>, separation_experiment_data, mass_spectra_data)</span></code></pre></div>
 <pre><code>## # A tibble: 11 × 7
 ## # Groups:   colony, year, group [11]
 ##    colony   year group treatment_id.x C22_prop.x treatment_id.y C22_prop.y
 ##    &lt;chr&gt;   &lt;dbl&gt; &lt;int&gt;          &lt;dbl&gt;      &lt;dbl&gt;          &lt;dbl&gt;      &lt;dbl&gt;
 ##  1 SD18-2   2020     1              7    0.00507              9   0.00162 
-##  2 SD18-3   2020     2              7    0.0144               9   0       
+##  2 SD18-3   2020     2              7    0.0141               9   0       
 ##  3 SD18-5   2020     3              7    0.00329              9   0       
 ##  4 SD18-5   2021     4              7    0.00214              9   0.000327
 ##  5 SD19-11  2021     5              7    0.00402              9   0.00196 
-##  6 SD19-3   2020     6              7    0                    9   0.000972
-##  7 SD19-4   2020     8              7    0.00197              9   0       
+##  6 SD19-3   2020     6              7    0.00324              9   0.000972
+##  7 SD19-4   2020     8              7    0.00177              9   0       
 ##  8 SD19-6   2021     9              7    0.00356              9   0.00110 
 ##  9 SD19-8   2021    10              7    0.00174              9   0.00211 
 ## 10 SD20-2   2021    11              7    0.00437              9   0.00495 
-## 11 W17-1    2020    12              7    0.00308              9   0.00149 
+## 11 W17-1    2020    12              7    0.00302              9   0.00149 
 ## 
 ##  Wilcoxon signed rank exact test
 ## 
 ## data:  to_test$C22_prop.x and to_test$C22_prop.y
-## V = 60, p-value = 0.01367
+## V = 63, p-value = 0.004883
 ## alternative hypothesis: true location shift is not equal to 0</code></pre>
 
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div class="csl-entry">
-Włodarczyk, Tomasz, and Lech Szczepaniak. 2017. <span>“Facultative Slave-Making Ants Formica Sanguinea Label Their Slaves with Own Recognition Cues Instead of Employing the Strategy of Chemical Mimicry.”</span> <em>Journal of Insect Physiology</em> 96: 98–107. https://doi.org/<a href="https://doi.org/10.1016/j.jinsphys.2016.10.016">https://doi.org/10.1016/j.jinsphys.2016.10.016</a>.
-</div>
-</div>
 </div>
 </div>
 </div>
@@ -381,8 +379,8 @@ Włodarczyk, Tomasz, and Lech Szczepaniak. 2017. <span>“Facultative Slave-Maki
           </div>
         </div>
       </div>
-<a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="session-info.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -396,42 +394,42 @@ Włodarczyk, Tomasz, and Lech Szczepaniak. 2017. <span>“Facultative Slave-Maki
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": "https://github.com/USERNAME/REPO/edit/BRANCH/Dummy_ants.Rmd",
-"text": "Edit"
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": ["_main.pdf", "_main.epub"],
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "subsection"
-}
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/USERNAME/REPO/edit/BRANCH/Dummy_ants.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["_main.pdf", "_main.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
 });
 });
 </script>

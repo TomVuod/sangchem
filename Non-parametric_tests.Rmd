@@ -1,4 +1,4 @@
-# Comparison of CHC amount and proportions in between different categories of individuals
+# Comparison of amount and proportions of CHC between species and age categories
 
 ```{r warning=FALSE}
 suppressMessages({

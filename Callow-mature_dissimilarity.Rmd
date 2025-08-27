@@ -1,4 +1,4 @@
-# Change in dissimilarity between callow and mature *F. sanguinea* as the proportion of slave-makers in the colony grows
+# Change in dissimilarity between callow and mature *F. sanguinea* as the proportion of slave-makers in a colony increases
 
 ```{r}
 

@@ -1,9 +1,12 @@
 --- 
 title: "`sangchem` R package: research project data analysis documentation"
 author: "Tomasz Włodarczyk"
-date: "`r{Sys.Date()}`"
+date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
-documentclass: book
+output:
+  bookdown::html_document:
+    toc: True
+    toc_depth: 2
 bibliography: [book.bib]
 description: |
   This is a doucumentation of the data analysis workflows and function used to generate the results included in the manuscript entitled Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development. 

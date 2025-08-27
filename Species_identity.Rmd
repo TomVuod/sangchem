@@ -1,7 +1,8 @@
 # Species discrimination and prediction
+To classify the CHC samples collected from mixed colonies we need a measure which indicates the distances to *F. sanguinea* or *F. fusca* species-specific CHC profiles.
 
 ## Species markers
-This chapter shows the way how the peaks associated with *F. sanguinea* and *F. fusca* (species markers) were determined. We use the chemical data collected from the filed colonies in the earlier study [@WLODARCZYK201798] to train the discrimination model.
+In this chapter we present how the peaks associated with *F. sanguinea* and *F. fusca* (species markers) were determined. We use the chemical data collected from the filed colonies in the earlier study [@WLODARCZYK201798] to train the discrimination model.
 
 ```{r warning=FALSE}
 suppressMessages({
@@ -19,17 +20,18 @@ fusca_samples <- as.character(unique(field_colonies$chromatogram_ID)[stri_detect
 sanguinea_samples<-as.character(unique(field_colonies$chromatogram_ID)[stri_detect_regex(unique(field_colonies$chromatogram_ID),"sangFs[0-9].?\\([0-9]\\)")])
 
 # remove outliers
-#sanguinea_samples <- setdiff(sanguinea_samples,c("sangFs2(1)","sangFs5(2)","sangFs26(1)","sangFs26(2)"))
-fusca_samples <- setdiff(fusca_samples,c("fus9-2(1)", "fus26-3(2)"))
+# sanguinea_samples <- setdiff(sanguinea_samples,c("sangFs2(1)","sangFs5(2)","sangFs26(1)","sangFs26(2)"))
+# fusca_samples <- setdiff(fusca_samples,c("fus9-2(1)", "fus26-3(2)"))
 discrimination_data <- filter(field_colonies,chromatogram_ID %in% c(fusca_samples,sanguinea_samples)) 
 discrimination_data <- filter(discrimination_data, peak_ID<110)
-peak_prop_unfiltered <- peak_proportions_table(discrimination_data)
+# peak_prop_unfiltered <- peak_proportions_table(discrimination_data)
+peak_prop <- peak_proportions_table(discrimination_data)
 # feature selection
-peak_prop <- freq_abun_QC(peak_prop_unfiltered)
+# peak_prop <- freq_abun_QC(peak_prop_unfiltered)
 # re-normalize rows to 1
-peak_prop <- peak_prop/rowSums(peak_prop)
+# peak_prop <- peak_prop/rowSums(peak_prop)
 # remove absent peaks
-peak_prop <- peak_prop[,apply(peak_prop,2,function(x) sum(x)>0)]
+# peak_prop <- peak_prop[,apply(peak_prop,2,function(x) sum(x)>0)]
 # replace zeros with a small number before transformation
 peak_prop[peak_prop==0] <- 10^-16
 # apply central log ratio transformation
@@ -70,7 +72,7 @@ selected_n <- spec_discr_PC.plsda.perf$choice.ncom["overall", "max.dist"]
 # determine the number of the original variables to be kept in each component (actually
 # here we have only one component)
 spec_discr_PC.splsda <- tune.splsda(PCA_species_discr$x,Y,test.keepX = c(1:dim(PCA_species_discr$x)[2]),ncomp = selected_n, validation="Mfold", progressBar=FALSE, dist="max.dist",
-                                    nrepeat=5, cpus=2, folds=5, measure="BER", scale=FALSE)
+                                    nrepeat=5, folds=5, measure="BER", scale=FALSE)
 
 # final model
 species_prediction_model <- splsda(PCA_species_discr$x, Y, ncomp=selected_n,
@@ -80,6 +82,8 @@ species_prediction_model <- splsda(PCA_species_discr$x, Y, ncomp=selected_n,
 plotIndiv(species_prediction_model, group=Y, legend=TRUE, ellipse=TRUE, comp=1:2)
 
 ```
+
+The mock profiles, with one peak augmented and all the others kept equal, are used to calculate the effect of each peak on the prediction about the species identify. The results are normalized by subtracting the score obtained from profile with no augmented peaks. In this way, peaks with negative values bias prediction towards *F. fusca* whereas peaks with positive values bias it towards *F. sanguinea*.
 
 
 ```{r message=FALSE}
@@ -93,16 +97,24 @@ incremented_matrix <- apply(incremented_matrix, 2, function(x) x/sum(x))
 res1 <- calculate_SII(incremented_matrix)
 res2 <- calculate_SII(ones_matrix)
 res <- res1
+colnames(res)[1] <- "peak_ID"
 res$predicted_species = res1$predicted_species - res2$predicted_species
 res <- res[order(res$predicted_species),]
+peaks_fusca <- res$peak_ID[res$predicted_species<=quantile(res$predicted_species, 0.2)]
+peaks_sang <- res$peak_ID[res$predicted_species>=quantile(res$predicted_species, 0.8)]
+res$fusca_marker <- res$peak_ID %in% peaks_fusca
+res$sanguinea_marker <- res$peak_ID %in% peaks_sang
+compounds <- c()
+for(peak in res$peak_ID){
+  compounds <- c(compounds, mass_spectra_data[mass_spectra_data$peak_ID==peak,"identification"][1])
+}
+res$compounds = compounds
+res <- res[,c("peak_ID", "compounds", "predicted_species", "sanguinea_marker", "fusca_marker")]
+rownames(res) <- NULL
 print(res)
 ```
 
-```{r}
-peaks_fusca <- res$chromatogram_ID[res$predicted_species<=quantile(res$predicted_species, 0.2)]
-peaks_sang <- res$chromatogram_ID[res$predicted_species>=quantile(res$predicted_species, 0.8)]
-``` 
-The objects `peaks_sang`, `peaks_fusca`, `species_prediction_model` and `PCA_species_discr` are stored in the package and can be collectively loaded into the global environment along with the other objects by running `load_globals()`.
+The objects `peaks_sang`, `peaks_fusca`, `species_prediction_model` and `PCA_species_discr` are stored in the package folder and can collectively beloaded into the global environment along with the other objects by running `load_globals()`.
 ```{r eval=params$save_globals}
 globals <- readRDS(system.file("globals.rds", package="sangchem"))
 globals[["species_prediction_model"]] <- species_prediction_model
@@ -113,8 +125,8 @@ saveRDS(globals, system.file("globals.rds", package="sangchem"))
 ```
 
 ## Species identity score
-Ants in mixed colonies mixed CHCs to produce hybrid chemical identity. Here we develop the method to assign each sample a number indicating how much it is characteristic of one or the other species.
-The main idea is to fit a sPLS_DA model to the training set (sampled from field colonies) and use it predict the explanatory variable (species) in the test data (samples from experimental colonies). However the sPLS_DA model run on the raw data will yield the classificator which used only few variables (peaks) due to the well separation of samples of both species. The unused variables might also be informative in the species discrimination task. We want to use as much data as it is possible to make robust predictions and thus we will use principal component analysis output. Thus, the rotation matrix from the principal component analysis will be used to transform input data to the discrimination model. The correspondig code in encapsulated in the `claculate_SII` function.
+Ants in the mixed colonies exchanged their CHCs to produce hybrid chemical identity. We developed the method to assign each sample a number indicating how much the sample characteristic of one or the other species.
+The main idea is to fit a sPLS_DA model to the training set (sampled from the field colonies) and use it predict the explanatory variable (species) in the test data (samples from the experimental colonies). However, the sPLS_DA model run on the raw data might yield the classifier using only few variables (peaks) which might be enough to separate samples based on the species identity. But unused variables might also be informative in the species discrimination task. Since we want to use as much data as it is possible to make predictions robust, we will preprocess data using principal component analysis. Thus, the rotation matrix from the principal component analysis will be used to transform input data to the discrimination model. The corresponding code in encapsulated in the `claculate_SII` function.
 
 ### Data preparation
 ```{r}
@@ -138,20 +150,20 @@ print(summary(lm_model))
 # model diagnostics
 hist(residuals(lm_model))
 print(shapiro.test(residuals(lm_model)))
-simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n=1e4)
 plot(simulationOutput)
 ```
 
 #### *F. fusca*
 ```{r}
 model_input <- dev_samples[dev_samples$species=="F. fusca",]
-lm_model <- lmer(predicted_species~sang_prop+(1|colony)+(1|colony:census_date), data=model_input)
+lm_model <- lmer(sqrt(predicted_species)~sang_prop+(1|colony)+(1|colony:census_date), data=model_input)
 print(summary(lm_model))
 
 # model diagnostics
 hist(residuals(lm_model))
 print(shapiro.test(residuals(lm_model)))
-simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n=1e4)
 plot(simulationOutput)
 ```
 
@@ -164,7 +176,7 @@ print(summary(lm_model))
 # model diagnostics
 hist(residuals(lm_model))
 print(shapiro.test(residuals(lm_model)))
-simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n=1e4)
 plot(simulationOutput)
 ```
 
@@ -178,7 +190,7 @@ print(summary(lm_model))
 # model diagnostics
 hist(residuals(lm_model))
 print(shapiro.test(residuals(lm_model)))
-simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE)
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n=1e4)
 plot(simulationOutput)
 ```
 
@@ -188,6 +200,16 @@ Since the linear model does not meet one of diagnostics criterion we will apply 
 ```{r message=FALSE}
 library(ggpubr)
 library(rstatix)
+model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==1,]
+model_input$index_diff <- model_input$predicted_species - find_nestmates_SII(model_input$chromatogram_ID, dev_samples, heterospecific = TRUE)
+# no random effect since it captures no variance
+lm_model <- lm(index_diff~sang_prop, data=model_input)
+print(summary(lm_model))
+
+# model diagnostics
+hist(residuals(lm_model))
+print(shapiro.test(residuals(lm_model)))
+
 model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==1,]
 model_input$slave_species_index <- find_nestmates_SII(model_input$chromatogram_ID, dev_samples)
 print(wilcox.test(model_input$predicted_species, model_input$slave_species_index, paired=TRUE))
@@ -212,4 +234,17 @@ print(summary(lm_model))
 # model diagnostics
 hist(residuals(lm_model))
 print(shapiro.test(residuals(lm_model)))
+
+
+model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==1,]
+model_input$mature_ant_index <- find_nestmates_SII(model_input$chromatogram_ID, dev_samples, heterospecific = FALSE)
+print(wilcox.test(model_input$predicted_species, model_input$mature_ant_index, paired=TRUE))
+df <- data.frame(species_identity_index=c(model_input$predicted_species, model_input$mature_ant_index), age="mature")
+df$age[1:nrow(model_input)] <- "callow"
+stat_tests <- wilcox_test(df, species_identity_index~age, paired=TRUE) %>%
+  add_significance("p") %>%
+  add_xy_position(x="age", dodge=0.8, fun="max")
+ggboxplot(df, x="age", y="species_identity_index")+
+  scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
+  stat_pvalue_manual(stat_tests, label="p", tip.length = 0, size=3.5)
 ```

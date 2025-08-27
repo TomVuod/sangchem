@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 8 Impact of slave on the development of the F. sanguinea CHC profile | sangchem R package: research project data analysis documentation</title>
+  <title>Chapter 7 Impact of slave on the development of the F. sanguinea CHC profile | sangchem R package: research project data analysis documentation</title>
   <meta name="description" content="This is a doucumentation of the data analysis workflows and function used to generate the results included in the manuscript entitled Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development." />
-  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.44 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 8 Impact of slave on the development of the F. sanguinea CHC profile | sangchem R package: research project data analysis documentation" />
+  <meta property="og:title" content="Chapter 7 Impact of slave on the development of the F. sanguinea CHC profile | sangchem R package: research project data analysis documentation" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This is a doucumentation of the data analysis workflows and function used to generate the results included in the manuscript entitled Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development." />
   <meta name="github-repo" content="TomVuod/sangchem" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 8 Impact of slave on the development of the F. sanguinea CHC profile | sangchem R package: research project data analysis documentation" />
+  <meta name="twitter:title" content="Chapter 7 Impact of slave on the development of the F. sanguinea CHC profile | sangchem R package: research project data analysis documentation" />
   
   <meta name="twitter:description" content="This is a doucumentation of the data analysis workflows and function used to generate the results included in the manuscript entitled Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development." />
   
@@ -23,6 +23,7 @@
 <meta name="author" content="Tomasz Włodarczyk" />
 
 
+<meta name="date" content="2025-08-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +32,7 @@
   
 <link rel="prev" href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"/>
 <link rel="next" href="effect-of-dummy-ants.html"/>
-<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="libs/jquery-3.6.1/jquery-3.6.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -55,7 +56,7 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -65,7 +66,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -127,6 +128,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -198,45 +200,46 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="3.1" data-path="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#determining-callow-markers"><i class="fa fa-check"></i><b>3.1</b> Determining callow markers</a></li>
 <li class="chapter" data-level="3.2" data-path="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#determining-mature-f.-sanguinea-markers"><i class="fa fa-check"></i><b>3.2</b> Determining mature <em>F. sanguinea</em> markers</a></li>
+<li class="chapter" data-level="3.3" data-path="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#verifying-the-performace-of-the-discrimination-model"><i class="fa fa-check"></i><b>3.3</b> Verifying the performace of the discrimination model</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="verifying-the-performace-of-the-discrimination-model.html"><a href="verifying-the-performace-of-the-discrimination-model.html"><i class="fa fa-check"></i><b>4</b> Verifying the performace of the discrimination model</a></li>
-<li class="chapter" data-level="5" data-path="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html"><i class="fa fa-check"></i><b>5</b> Change in dissimilarity between callow and mature <em>F. sanguinea</em> as the proportion of slave-makers in the colony grows</a></li>
-<li class="chapter" data-level="6" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><i class="fa fa-check"></i><b>6</b> Comparison of CHC amount and proportions in between different categories of individuals</a>
+<li class="chapter" data-level="4" data-path="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-a-colony-increases.html"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-a-colony-increases.html"><i class="fa fa-check"></i><b>4</b> Change in dissimilarity between callow and mature <em>F. sanguinea</em> as the proportion of slave-makers in a colony increases</a></li>
+<li class="chapter" data-level="5" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><i class="fa fa-check"></i><b>5</b> Comparison of amount and proportions of CHC between species and age categories</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-total-chc-amount-between-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>6.1</b> Difference in the total CHC amount between <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
-<li class="chapter" data-level="6.2" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-total-chc-amount-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>6.2</b> Difference in the total CHC amount between callow and mature <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="6.3" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-sanguinea-between-mature-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>6.3</b> Difference in the proportion of CHCs characteristic of <em>F. sanguinea</em> between mature <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
-<li class="chapter" data-level="6.4" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>6.4</b> Difference in the proportion of CHCs characteristic of <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="6.5" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-callow-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>6.5</b> Difference in the proportion of CHCs characteristic of callow <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="6.6" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-amount-of-chcs-characteristic-of-callow-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>6.6</b> Difference in the amount of CHCs characteristic of callow <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="6.7" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-mature-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>6.7</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between mature <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
-<li class="chapter" data-level="6.8" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>6.8</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between mature and callow <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="6.9" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-callow-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>6.9</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between callow <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
-<li class="chapter" data-level="6.10" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-mass-of-n-alkanes-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>6.10</b> Difference in the mass of n-alkanes between callow and mature <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="6.11" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proprtion-of-n-alkanes-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>6.11</b> Difference in the proprtion of n-alkanes between callow and mature <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.1" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-total-chc-amount-between-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>5.1</b> Difference in the total CHC amount between <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
+<li class="chapter" data-level="5.2" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-total-chc-amount-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>5.2</b> Difference in the total CHC amount between callow and mature <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.3" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-sanguinea-between-mature-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>5.3</b> Difference in the proportion of CHCs characteristic of <em>F. sanguinea</em> between mature <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
+<li class="chapter" data-level="5.4" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>5.4</b> Difference in the proportion of CHCs characteristic of <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.5" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proportion-of-chcs-characteristic-of-callow-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>5.5</b> Difference in the proportion of CHCs characteristic of callow <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.6" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-amount-of-chcs-characteristic-of-callow-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>5.6</b> Difference in the amount of CHCs characteristic of callow <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.7" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-mature-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>5.7</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between mature <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
+<li class="chapter" data-level="5.8" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>5.8</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between mature and callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.9" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-callow-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>5.9</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between callow <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
+<li class="chapter" data-level="5.10" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-mass-of-n-alkanes-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>5.10</b> Difference in the mass of n-alkanes between callow and mature <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.11" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proprtion-of-n-alkanes-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>5.11</b> Difference in the proprtion of n-alkanes between callow and mature <em>F. sanguinea</em></a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><i class="fa fa-check"></i><b>7</b> Change in the CHC profile in separated callow <em>F. sanguinea</em> ants</a>
+<li class="chapter" data-level="6" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><i class="fa fa-check"></i><b>6</b> Change in the CHC profile in separated callow <em>F. sanguinea</em> ants</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-total-chc-amount-over-time"><i class="fa fa-check"></i><b>7.1</b> Change in the total CHC amount over time</a></li>
-<li class="chapter" data-level="7.2" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-callow-f.-sanguinea"><i class="fa fa-check"></i><b>7.2</b> Change in the amount of compounds associated with callow <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="7.3" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-f.-sanguinea"><i class="fa fa-check"></i><b>7.3</b> Change in the amount of compounds associated with <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="7.4" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-f.-fusca"><i class="fa fa-check"></i><b>7.4</b> Change in the amount of compounds associated with <em>F. fusca</em></a></li>
+<li class="chapter" data-level="6.1" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-total-chc-amount-over-time"><i class="fa fa-check"></i><b>6.1</b> Change in the total CHC amount over time</a></li>
+<li class="chapter" data-level="6.2" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-callow-f.-sanguinea"><i class="fa fa-check"></i><b>6.2</b> Change in the amount of compounds associated with callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="6.3" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-f.-sanguinea"><i class="fa fa-check"></i><b>6.3</b> Change in the amount of compounds associated with <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="6.4" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-f.-fusca"><i class="fa fa-check"></i><b>6.4</b> Change in the amount of compounds associated with <em>F. fusca</em></a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><i class="fa fa-check"></i><b>8</b> Impact of slave on the development of the <em>F. sanguinea</em> CHC profile</a>
+<li class="chapter" data-level="7" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><i class="fa fa-check"></i><b>7</b> Impact of slave on the development of the <em>F. sanguinea</em> CHC profile</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#analysis-based-on-all-samples"><i class="fa fa-check"></i><b>8.1</b> Analysis based on all samples</a></li>
-<li class="chapter" data-level="8.2" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#analysis-restricted-to-the-individuals-hatched-from-cocoons"><i class="fa fa-check"></i><b>8.2</b> Analysis restricted to the individuals hatched from cocoons</a></li>
+<li class="chapter" data-level="7.1" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#analysis-based-on-all-samples"><i class="fa fa-check"></i><b>7.1</b> Analysis based on all samples</a></li>
+<li class="chapter" data-level="7.2" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#analysis-restricted-to-the-individuals-hatched-from-cocoons"><i class="fa fa-check"></i><b>7.2</b> Analysis restricted to the individuals hatched from cocoons</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html"><i class="fa fa-check"></i><b>9</b> Effect of dummy ants</a>
+<li class="chapter" data-level="8" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html"><i class="fa fa-check"></i><b>8</b> Effect of dummy ants</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.-fusca-chcs"><i class="fa fa-check"></i><b>9.1</b> Distance to the CHC profile of the dummy ants treated by F. fusca CHCs</a></li>
-<li class="chapter" data-level="9.2" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.sanguinea-chcs"><i class="fa fa-check"></i><b>9.2</b> Distance to the CHC profile of the dummy ants treated by F.sanguinea CHCs</a></li>
-<li class="chapter" data-level="9.3" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#fraction-of-docosane-in-the-chc-profile"><i class="fa fa-check"></i><b>9.3</b> Fraction of docosane in the CHC profile</a>
+<li class="chapter" data-level="8.1" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.-fusca-chcs"><i class="fa fa-check"></i><b>8.1</b> Distance to the CHC profile of the dummy ants treated by F. fusca CHCs</a></li>
+<li class="chapter" data-level="8.2" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.sanguinea-chcs"><i class="fa fa-check"></i><b>8.2</b> Distance to the CHC profile of the dummy ants treated by F.sanguinea CHCs</a></li>
+<li class="chapter" data-level="8.3" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#fraction-of-docosane-in-the-chc-profile"><i class="fa fa-check"></i><b>8.3</b> Fraction of docosane in the CHC profile</a>
 <ul>
-<li class="chapter" data-level="9.3.1" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#f.-fusca-2"><i class="fa fa-check"></i><b>9.3.1</b> F. fusca</a></li>
-<li class="chapter" data-level="9.3.2" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#f.-sanguinea"><i class="fa fa-check"></i><b>9.3.2</b> F. sanguinea</a></li>
+<li class="chapter" data-level="8.3.1" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#f.-fusca-2"><i class="fa fa-check"></i><b>8.3.1</b> F. fusca</a></li>
+<li class="chapter" data-level="8.3.2" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#f.-sanguinea"><i class="fa fa-check"></i><b>8.3.2</b> F. sanguinea</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="9" data-path="session-info.html"><a href="session-info.html"><i class="fa fa-check"></i><b>9</b> Session info</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -257,112 +260,112 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile" class="section level1 hasAnchor" number="8">
-<h1><span class="header-section-number">Chapter 8</span> Impact of slave on the development of the <em>F. sanguinea</em> CHC profile<a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Chapter 7</span> Impact of slave on the development of the <em>F. sanguinea</em> CHC profile<a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Now we are going to analyze the impact of <em>F. fusca</em> slaves on the CHC profile of the callow <em>F. sanguinea</em> ants. In the experiment, <em>F. sanguinea</em> ants were isolated in pairs before hatching and their CHC profile was analysed at one of the four fixed points of adult life. We want to see whether the callow <em>F. sanguinea</em> ants are more similar to slave relatives from free-living colony as compared to <em>F. fusca</em> ants unrelated at all.</p>
-<div id="analysis-based-on-all-samples" class="section level2 hasAnchor" number="8.1">
-<h2><span class="header-section-number">8.1</span> Analysis based on all samples<a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#analysis-based-on-all-samples" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb171-1" tabindex="-1"></a><span class="co"># Load package</span></span>
-<span id="cb171-2"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb171-2" tabindex="-1"></a><span class="fu">library</span>(sangchem)</span>
-<span id="cb171-3"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb171-3" tabindex="-1"></a><span class="co"># Load data</span></span>
-<span id="cb171-4"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb171-4" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;separation_experiment_data&quot;</span>)</span>
-<span id="cb171-5"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb171-5" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;slave_source_colony&quot;</span>)</span>
-<span id="cb171-6"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb171-6" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;colony_to_chrID&quot;</span>)</span>
-<span id="cb171-7"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb171-7" tabindex="-1"></a></span>
-<span id="cb171-8"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb171-8" tabindex="-1"></a><span class="co"># Exclude colonies for which we don&#39;t have free-living F. fusca CHC profile</span></span>
-<span id="cb171-9"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb171-9" tabindex="-1"></a>separation_data <span class="ot">&lt;-</span> separation_experiment_data[<span class="sc">!</span><span class="fu">is.na</span>(colony_to_chrID[slave_source_colony[separation_experiment_data<span class="sc">$</span>colony]]),]</span>
-<span id="cb171-10"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb171-10" tabindex="-1"></a></span>
-<span id="cb171-11"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb171-11" tabindex="-1"></a><span class="co"># See the lifespan of the workers depending on the treatment</span></span>
-<span id="cb171-12"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb171-12" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> separation_data[separation_data<span class="sc">$</span>treatment_id <span class="sc">%in%</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,]</span>
-<span id="cb171-13"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb171-13" tabindex="-1"></a>plot_data<span class="sc">$</span>treatment <span class="ot">&lt;-</span> <span class="fu">factor</span>(plot_data<span class="sc">$</span>treatment, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;1-3 days&quot;</span>, <span class="st">&quot;8-10 days&quot;</span>, <span class="st">&quot;17-20 days&quot;</span>, <span class="st">&quot;35-40 days&quot;</span>))</span>
-<span id="cb171-14"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb171-14" tabindex="-1"></a><span class="fu">boxplot</span>(plot_data<span class="sc">$</span>mean_delta<span class="sc">~</span>plot_data<span class="sc">$</span>treatment, <span class="at">main =</span> <span class="st">&quot;Adult lifespan&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Treatment&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Separation period after hatching (avegared for a pair of individuals)&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-52-1.png" width="672" /></p>
-<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb172-1" tabindex="-1"></a><span class="co"># Calculate emprical p-value for the treatment 1</span></span>
-<span id="cb172-2"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb172-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">10101</span>)</span>
-<span id="cb172-3"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb172-3" tabindex="-1"></a>res_1 <span class="ot">&lt;-</span> <span class="fu">distances_permutation_test</span>(<span class="at">treatment_id =</span> <span class="dv">1</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb173-1" tabindex="-1"></a><span class="fu">print</span>(res_1<span class="sc">$</span>p.val)</span></code></pre></div>
+<div id="analysis-based-on-all-samples" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> Analysis based on all samples<a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#analysis-based-on-all-samples" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb178-1" tabindex="-1"></a><span class="co"># Load package</span></span>
+<span id="cb178-2"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb178-2" tabindex="-1"></a><span class="fu">library</span>(sangchem)</span>
+<span id="cb178-3"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb178-3" tabindex="-1"></a><span class="co"># Load data</span></span>
+<span id="cb178-4"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb178-4" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;separation_experiment_data&quot;</span>)</span>
+<span id="cb178-5"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb178-5" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;slave_source_colony&quot;</span>)</span>
+<span id="cb178-6"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb178-6" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;colony_to_chrID&quot;</span>)</span>
+<span id="cb178-7"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb178-7" tabindex="-1"></a></span>
+<span id="cb178-8"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb178-8" tabindex="-1"></a><span class="co"># Exclude colonies for which we don&#39;t have free-living F. fusca CHC profile</span></span>
+<span id="cb178-9"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb178-9" tabindex="-1"></a>separation_data <span class="ot">&lt;-</span> separation_experiment_data[<span class="sc">!</span><span class="fu">is.na</span>(colony_to_chrID[slave_source_colony[separation_experiment_data<span class="sc">$</span>colony]]),]</span>
+<span id="cb178-10"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb178-10" tabindex="-1"></a></span>
+<span id="cb178-11"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb178-11" tabindex="-1"></a><span class="co"># See the lifespan of the workers depending on the treatment</span></span>
+<span id="cb178-12"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb178-12" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> separation_data[separation_data<span class="sc">$</span>treatment_id <span class="sc">%in%</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,]</span>
+<span id="cb178-13"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb178-13" tabindex="-1"></a>plot_data<span class="sc">$</span>treatment <span class="ot">&lt;-</span> <span class="fu">factor</span>(plot_data<span class="sc">$</span>treatment, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;1-3 days&quot;</span>, <span class="st">&quot;8-10 days&quot;</span>, <span class="st">&quot;17-20 days&quot;</span>, <span class="st">&quot;35-40 days&quot;</span>))</span>
+<span id="cb178-14"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb178-14" tabindex="-1"></a><span class="fu">boxplot</span>(plot_data<span class="sc">$</span>mean_delta<span class="sc">~</span>plot_data<span class="sc">$</span>treatment, <span class="at">main =</span> <span class="st">&quot;Adult lifespan&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Treatment&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Separation period after hatching (avegared for a pair of individuals)&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb179-1" tabindex="-1"></a><span class="co"># Calculate emprical p-value for the treatment 1</span></span>
+<span id="cb179-2"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb179-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">10101</span>)</span>
+<span id="cb179-3"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb179-3" tabindex="-1"></a>res_1 <span class="ot">&lt;-</span> <span class="fu">distances_permutation_test</span>(<span class="at">treatment_id =</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb180-1" tabindex="-1"></a><span class="fu">print</span>(res_1<span class="sc">$</span>p.val)</span></code></pre></div>
 <pre><code>## [1] 0</code></pre>
-<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb175-1" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;Number of colonies: %d&quot;</span>, <span class="fu">length</span>(<span class="fu">unique</span>(separation_data[separation_data<span class="sc">$</span>treatment_id<span class="sc">==</span><span class="dv">1</span>, <span class="st">&quot;colony&quot;</span>])))</span></code></pre></div>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb182-1" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;Number of colonies: %d&quot;</span>, <span class="fu">length</span>(<span class="fu">unique</span>(separation_data[separation_data<span class="sc">$</span>treatment_id<span class="sc">==</span><span class="dv">1</span>, <span class="st">&quot;colony&quot;</span>])))</span></code></pre></div>
 <pre><code>## [1] &quot;Number of colonies: 9&quot;</code></pre>
-<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb177-1" tabindex="-1"></a><span class="co"># Calculate emprical p-value for the treatment 2</span></span>
-<span id="cb177-2"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb177-2" tabindex="-1"></a>res_2 <span class="ot">&lt;-</span> <span class="fu">distances_permutation_test</span>(<span class="at">treatment_id =</span> <span class="dv">2</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb178-1" tabindex="-1"></a><span class="fu">print</span>(res_2<span class="sc">$</span>p.val)</span></code></pre></div>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb184-1" tabindex="-1"></a><span class="co"># Calculate emprical p-value for the treatment 2</span></span>
+<span id="cb184-2"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb184-2" tabindex="-1"></a>res_2 <span class="ot">&lt;-</span> <span class="fu">distances_permutation_test</span>(<span class="at">treatment_id =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb185-1" tabindex="-1"></a><span class="fu">print</span>(res_2<span class="sc">$</span>p.val)</span></code></pre></div>
 <pre><code>## [1] 0</code></pre>
-<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb180-1" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;Number of colonies: %d&quot;</span>, <span class="fu">length</span>(<span class="fu">unique</span>(separation_data[separation_data<span class="sc">$</span>treatment_id<span class="sc">==</span><span class="dv">2</span>, <span class="st">&quot;colony&quot;</span>])))</span></code></pre></div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb187-1" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;Number of colonies: %d&quot;</span>, <span class="fu">length</span>(<span class="fu">unique</span>(separation_data[separation_data<span class="sc">$</span>treatment_id<span class="sc">==</span><span class="dv">2</span>, <span class="st">&quot;colony&quot;</span>])))</span></code></pre></div>
 <pre><code>## [1] &quot;Number of colonies: 9&quot;</code></pre>
-<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb182-1" tabindex="-1"></a><span class="co"># Calculate emprical p-value for the treatment 3</span></span>
-<span id="cb182-2"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb182-2" tabindex="-1"></a>res_3 <span class="ot">&lt;-</span> <span class="fu">distances_permutation_test</span>(<span class="at">treatment_id =</span> <span class="dv">3</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb183-1" tabindex="-1"></a><span class="fu">print</span>(res_3<span class="sc">$</span>p.val)</span></code></pre></div>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb189-1" tabindex="-1"></a><span class="co"># Calculate emprical p-value for the treatment 3</span></span>
+<span id="cb189-2"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb189-2" tabindex="-1"></a>res_3 <span class="ot">&lt;-</span> <span class="fu">distances_permutation_test</span>(<span class="at">treatment_id =</span> <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb190-1" tabindex="-1"></a><span class="fu">print</span>(res_3<span class="sc">$</span>p.val)</span></code></pre></div>
 <pre><code>## [1] 0.00103999</code></pre>
-<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb185-1" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;Number of colonies: %d&quot;</span>, <span class="fu">length</span>(<span class="fu">unique</span>(separation_data[separation_data<span class="sc">$</span>treatment_id<span class="sc">==</span><span class="dv">3</span>, <span class="st">&quot;colony&quot;</span>])))</span></code></pre></div>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb192-1" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;Number of colonies: %d&quot;</span>, <span class="fu">length</span>(<span class="fu">unique</span>(separation_data[separation_data<span class="sc">$</span>treatment_id<span class="sc">==</span><span class="dv">3</span>, <span class="st">&quot;colony&quot;</span>])))</span></code></pre></div>
 <pre><code>## [1] &quot;Number of colonies: 9&quot;</code></pre>
-<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb187-1" tabindex="-1"></a><span class="co"># Calculate emprical p-value for the treatment 3</span></span>
-<span id="cb187-2"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb187-2" tabindex="-1"></a>res_4 <span class="ot">&lt;-</span> <span class="fu">distances_permutation_test</span>(<span class="at">treatment_id =</span> <span class="dv">4</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb188-1" tabindex="-1"></a><span class="fu">print</span>(res_4<span class="sc">$</span>p.val)</span></code></pre></div>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb194-1" tabindex="-1"></a><span class="co"># Calculate emprical p-value for the treatment 3</span></span>
+<span id="cb194-2"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb194-2" tabindex="-1"></a>res_4 <span class="ot">&lt;-</span> <span class="fu">distances_permutation_test</span>(<span class="at">treatment_id =</span> <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb195-1" tabindex="-1"></a><span class="fu">print</span>(res_4<span class="sc">$</span>p.val)</span></code></pre></div>
 <pre><code>## [1] 0.007899921</code></pre>
-<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb190-1" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;Number of colonies: %d&quot;</span>, <span class="fu">length</span>(<span class="fu">unique</span>(separation_data[separation_data<span class="sc">$</span>treatment_id<span class="sc">==</span><span class="dv">4</span>, <span class="st">&quot;colony&quot;</span>])))</span></code></pre></div>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb197-1" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;Number of colonies: %d&quot;</span>, <span class="fu">length</span>(<span class="fu">unique</span>(separation_data[separation_data<span class="sc">$</span>treatment_id<span class="sc">==</span><span class="dv">4</span>, <span class="st">&quot;colony&quot;</span>])))</span></code></pre></div>
 <pre><code>## [1] &quot;Number of colonies: 8&quot;</code></pre>
-<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb192-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">data.frame</span>(<span class="at">treatment_id=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">chemical_distance_to_slave_relatives=</span><span class="fu">c</span>(res_1[[<span class="dv">2</span>]], res_2[[<span class="dv">2</span>]],</span>
-<span id="cb192-2"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb192-2" tabindex="-1"></a>                                                                          res_3[[<span class="dv">2</span>]], res_4[[<span class="dv">2</span>]]),</span>
-<span id="cb192-3"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb192-3" tabindex="-1"></a>                 <span class="at">chemical_distance_to_random_colonies=</span><span class="fu">vapply</span>(<span class="fu">list</span>(res_1[[<span class="dv">3</span>]], res_2[[<span class="dv">3</span>]],</span>
-<span id="cb192-4"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb192-4" tabindex="-1"></a>                                                                  res_3[[<span class="dv">3</span>]], res_4[[<span class="dv">3</span>]]), mean,</span>
-<span id="cb192-5"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb192-5" tabindex="-1"></a>                                                             <span class="at">FUN.VALUE=</span><span class="fu">numeric</span>(<span class="dv">1</span>))))</span></code></pre></div>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb199-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">data.frame</span>(<span class="at">treatment_id=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">chemical_distance_to_slave_relatives=</span><span class="fu">c</span>(res_1[[<span class="dv">2</span>]], res_2[[<span class="dv">2</span>]],</span>
+<span id="cb199-2"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb199-2" tabindex="-1"></a>                                                                          res_3[[<span class="dv">2</span>]], res_4[[<span class="dv">2</span>]]),</span>
+<span id="cb199-3"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb199-3" tabindex="-1"></a>                 <span class="at">chemical_distance_to_random_colonies=</span><span class="fu">vapply</span>(<span class="fu">list</span>(res_1[[<span class="dv">3</span>]], res_2[[<span class="dv">3</span>]],</span>
+<span id="cb199-4"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb199-4" tabindex="-1"></a>                                                                  res_3[[<span class="dv">3</span>]], res_4[[<span class="dv">3</span>]]), mean,</span>
+<span id="cb199-5"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb199-5" tabindex="-1"></a>                                                             <span class="at">FUN.VALUE=</span><span class="fu">numeric</span>(<span class="dv">1</span>))))</span></code></pre></div>
 <pre><code>##   treatment_id chemical_distance_to_slave_relatives chemical_distance_to_random_colonies
 ## 1            1                            0.3424769                            0.4797216
 ## 2            2                            0.3606382                            0.4894156
 ## 3            3                            0.4635844                            0.5370807
 ## 4            4                            0.5773342                            0.6149781</code></pre>
-<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb194-1" tabindex="-1"></a>distances_to_free_living_fusca <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb194-2"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb194-2" tabindex="-1"></a>distances_to_free_living_fusca<span class="sc">$</span>all <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">treatment_1 =</span> res_1,</span>
-<span id="cb194-3"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb194-3" tabindex="-1"></a>                                           <span class="at">treatment_2 =</span> res_2,</span>
-<span id="cb194-4"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb194-4" tabindex="-1"></a>                                           <span class="at">treatment_3 =</span> res_3,</span>
-<span id="cb194-5"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb194-5" tabindex="-1"></a>                                           <span class="at">treatment_4 =</span> res_4)</span></code></pre></div>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb201-1" tabindex="-1"></a>distances_to_free_living_fusca <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb201-2"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb201-2" tabindex="-1"></a>distances_to_free_living_fusca<span class="sc">$</span>all <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">treatment_1 =</span> res_1,</span>
+<span id="cb201-3"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb201-3" tabindex="-1"></a>                                           <span class="at">treatment_2 =</span> res_2,</span>
+<span id="cb201-4"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb201-4" tabindex="-1"></a>                                           <span class="at">treatment_3 =</span> res_3,</span>
+<span id="cb201-5"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb201-5" tabindex="-1"></a>                                           <span class="at">treatment_4 =</span> res_4)</span></code></pre></div>
 </div>
-<div id="analysis-restricted-to-the-individuals-hatched-from-cocoons" class="section level2 hasAnchor" number="8.2">
-<h2><span class="header-section-number">8.2</span> Analysis restricted to the individuals hatched from cocoons<a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#analysis-restricted-to-the-individuals-hatched-from-cocoons" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="analysis-restricted-to-the-individuals-hatched-from-cocoons" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> Analysis restricted to the individuals hatched from cocoons<a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#analysis-restricted-to-the-individuals-hatched-from-cocoons" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Since naked pupae might have acquired CHCs through physical contact with adult ants after pupation, we will subset out data to include only these samples which come from the ants hatched from cocoons. In this case silky envelop during pupa stage ruled out possibility of CHC transfer from the environment.</p>
-<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb195-1" tabindex="-1"></a>separation_data <span class="ot">&lt;-</span> separation_data[<span class="fu">as.numeric</span>(separation_data<span class="sc">$</span>cocoon_1)<span class="sc">==</span><span class="dv">1</span><span class="sc">&amp;</span><span class="fu">as.numeric</span>(separation_data<span class="sc">$</span>cocoon_2)<span class="sc">==</span><span class="dv">1</span>,]</span></code></pre></div>
-<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb196-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">10101</span>)</span>
-<span id="cb196-2"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb196-2" tabindex="-1"></a><span class="co"># Calculate emprical p-value for the treatment 1</span></span>
-<span id="cb196-3"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb196-3" tabindex="-1"></a>res_1 <span class="ot">&lt;-</span> <span class="fu">distances_permutation_test</span>(<span class="at">treatment_id=</span><span class="dv">1</span>, <span class="at">exclude_naked_pupae=</span><span class="cn">TRUE</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb197-1" tabindex="-1"></a><span class="fu">print</span>(res_1<span class="sc">$</span>p.val)</span></code></pre></div>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb202-1" tabindex="-1"></a>separation_data <span class="ot">&lt;-</span> separation_data[<span class="fu">as.numeric</span>(separation_data<span class="sc">$</span>cocoon_1)<span class="sc">==</span><span class="dv">1</span><span class="sc">&amp;</span><span class="fu">as.numeric</span>(separation_data<span class="sc">$</span>cocoon_2)<span class="sc">==</span><span class="dv">1</span>,]</span></code></pre></div>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb203-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">10101</span>)</span>
+<span id="cb203-2"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb203-2" tabindex="-1"></a><span class="co"># Calculate emprical p-value for the treatment 1</span></span>
+<span id="cb203-3"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb203-3" tabindex="-1"></a>res_1 <span class="ot">&lt;-</span> <span class="fu">distances_permutation_test</span>(<span class="at">treatment_id=</span><span class="dv">1</span>, <span class="at">exclude_naked_pupae=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb204-1" tabindex="-1"></a><span class="fu">print</span>(res_1<span class="sc">$</span>p.val)</span></code></pre></div>
 <pre><code>## [1] 0</code></pre>
-<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb199-1" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;Number of colonies: %d&quot;</span>, <span class="fu">length</span>(<span class="fu">unique</span>(separation_data[separation_data<span class="sc">$</span>treatment_id<span class="sc">==</span><span class="dv">1</span>, <span class="st">&quot;colony&quot;</span>])))</span></code></pre></div>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb206-1" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;Number of colonies: %d&quot;</span>, <span class="fu">length</span>(<span class="fu">unique</span>(separation_data[separation_data<span class="sc">$</span>treatment_id<span class="sc">==</span><span class="dv">1</span>, <span class="st">&quot;colony&quot;</span>])))</span></code></pre></div>
 <pre><code>## [1] &quot;Number of colonies: 8&quot;</code></pre>
-<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb201-1" tabindex="-1"></a><span class="co"># Calculate emprical p-value for the treatment 2</span></span>
-<span id="cb201-2"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb201-2" tabindex="-1"></a>res_2 <span class="ot">&lt;-</span> <span class="fu">distances_permutation_test</span>(<span class="at">treatment_id=</span><span class="dv">2</span>, <span class="at">exclude_naked_pupae=</span><span class="cn">TRUE</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb202-1" tabindex="-1"></a><span class="fu">print</span>(res_2<span class="sc">$</span>p.val)</span></code></pre></div>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb208-1" tabindex="-1"></a><span class="co"># Calculate emprical p-value for the treatment 2</span></span>
+<span id="cb208-2"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb208-2" tabindex="-1"></a>res_2 <span class="ot">&lt;-</span> <span class="fu">distances_permutation_test</span>(<span class="at">treatment_id=</span><span class="dv">2</span>, <span class="at">exclude_naked_pupae=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb209-1" tabindex="-1"></a><span class="fu">print</span>(res_2<span class="sc">$</span>p.val)</span></code></pre></div>
 <pre><code>## [1] 9.9999e-06</code></pre>
-<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb204-1" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;Number of colonies: %d&quot;</span>, <span class="fu">length</span>(<span class="fu">unique</span>(separation_data[separation_data<span class="sc">$</span>treatment_id<span class="sc">==</span><span class="dv">2</span>, <span class="st">&quot;colony&quot;</span>])))</span></code></pre></div>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb211-1" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;Number of colonies: %d&quot;</span>, <span class="fu">length</span>(<span class="fu">unique</span>(separation_data[separation_data<span class="sc">$</span>treatment_id<span class="sc">==</span><span class="dv">2</span>, <span class="st">&quot;colony&quot;</span>])))</span></code></pre></div>
 <pre><code>## [1] &quot;Number of colonies: 8&quot;</code></pre>
-<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb206-1" tabindex="-1"></a><span class="co"># Calculate emprical p-value for the treatment 3</span></span>
-<span id="cb206-2"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb206-2" tabindex="-1"></a>res_3 <span class="ot">&lt;-</span> <span class="fu">distances_permutation_test</span>(<span class="at">treatment_id=</span><span class="dv">3</span>, <span class="at">exclude_naked_pupae=</span><span class="cn">TRUE</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb207-1" tabindex="-1"></a><span class="fu">print</span>(res_3<span class="sc">$</span>p.val)</span></code></pre></div>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb213-1" tabindex="-1"></a><span class="co"># Calculate emprical p-value for the treatment 3</span></span>
+<span id="cb213-2"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb213-2" tabindex="-1"></a>res_3 <span class="ot">&lt;-</span> <span class="fu">distances_permutation_test</span>(<span class="at">treatment_id=</span><span class="dv">3</span>, <span class="at">exclude_naked_pupae=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb214-1" tabindex="-1"></a><span class="fu">print</span>(res_3<span class="sc">$</span>p.val)</span></code></pre></div>
 <pre><code>## [1] 0.005139949</code></pre>
-<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb209-1" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;Number of colonies: %d&quot;</span>, <span class="fu">length</span>(<span class="fu">unique</span>(separation_data[separation_data<span class="sc">$</span>treatment_id<span class="sc">==</span><span class="dv">3</span>, <span class="st">&quot;colony&quot;</span>])))</span></code></pre></div>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb216-1" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;Number of colonies: %d&quot;</span>, <span class="fu">length</span>(<span class="fu">unique</span>(separation_data[separation_data<span class="sc">$</span>treatment_id<span class="sc">==</span><span class="dv">3</span>, <span class="st">&quot;colony&quot;</span>])))</span></code></pre></div>
 <pre><code>## [1] &quot;Number of colonies: 8&quot;</code></pre>
-<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb211-1" tabindex="-1"></a><span class="co"># Calculate emprical p-value for the treatment 3</span></span>
-<span id="cb211-2"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb211-2" tabindex="-1"></a>res_4 <span class="ot">&lt;-</span> <span class="fu">distances_permutation_test</span>(<span class="at">treatment_id=</span><span class="dv">4</span>, <span class="at">exclude_naked_pupae=</span><span class="cn">TRUE</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb212-1" tabindex="-1"></a><span class="fu">print</span>(res_4<span class="sc">$</span>p.val)</span></code></pre></div>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb218-1" tabindex="-1"></a><span class="co"># Calculate emprical p-value for the treatment 3</span></span>
+<span id="cb218-2"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb218-2" tabindex="-1"></a>res_4 <span class="ot">&lt;-</span> <span class="fu">distances_permutation_test</span>(<span class="at">treatment_id=</span><span class="dv">4</span>, <span class="at">exclude_naked_pupae=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb219-1" tabindex="-1"></a><span class="fu">print</span>(res_4<span class="sc">$</span>p.val)</span></code></pre></div>
 <pre><code>## [1] 0.03803962</code></pre>
-<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb214-1" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;Number of colonies: %d&quot;</span>, <span class="fu">length</span>(<span class="fu">unique</span>(separation_data[separation_data<span class="sc">$</span>treatment_id<span class="sc">==</span><span class="dv">4</span>, <span class="st">&quot;colony&quot;</span>])))</span></code></pre></div>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb221-1" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;Number of colonies: %d&quot;</span>, <span class="fu">length</span>(<span class="fu">unique</span>(separation_data[separation_data<span class="sc">$</span>treatment_id<span class="sc">==</span><span class="dv">4</span>, <span class="st">&quot;colony&quot;</span>])))</span></code></pre></div>
 <pre><code>## [1] &quot;Number of colonies: 7&quot;</code></pre>
-<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb216-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">data.frame</span>(<span class="at">treatment_id=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">chemical_distance_to_slave_relatives=</span><span class="fu">c</span>(res_1[[<span class="dv">2</span>]], res_2[[<span class="dv">2</span>]],</span>
-<span id="cb216-2"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb216-2" tabindex="-1"></a>                                                                          res_3[[<span class="dv">2</span>]], res_4[[<span class="dv">2</span>]]),</span>
-<span id="cb216-3"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb216-3" tabindex="-1"></a>                 <span class="at">chemical_distance_to_random_colonies=</span><span class="fu">vapply</span>(<span class="fu">list</span>(res_1[[<span class="dv">3</span>]], res_2[[<span class="dv">3</span>]],</span>
-<span id="cb216-4"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb216-4" tabindex="-1"></a>                                                                  res_3[[<span class="dv">3</span>]], res_4[[<span class="dv">3</span>]]), mean,</span>
-<span id="cb216-5"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb216-5" tabindex="-1"></a>                                                             <span class="at">FUN.VALUE=</span><span class="fu">numeric</span>(<span class="dv">1</span>))))</span></code></pre></div>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb223-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">data.frame</span>(<span class="at">treatment_id=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">chemical_distance_to_slave_relatives=</span><span class="fu">c</span>(res_1[[<span class="dv">2</span>]], res_2[[<span class="dv">2</span>]],</span>
+<span id="cb223-2"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb223-2" tabindex="-1"></a>                                                                          res_3[[<span class="dv">2</span>]], res_4[[<span class="dv">2</span>]]),</span>
+<span id="cb223-3"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb223-3" tabindex="-1"></a>                 <span class="at">chemical_distance_to_random_colonies=</span><span class="fu">vapply</span>(<span class="fu">list</span>(res_1[[<span class="dv">3</span>]], res_2[[<span class="dv">3</span>]],</span>
+<span id="cb223-4"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb223-4" tabindex="-1"></a>                                                                  res_3[[<span class="dv">3</span>]], res_4[[<span class="dv">3</span>]]), mean,</span>
+<span id="cb223-5"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb223-5" tabindex="-1"></a>                                                             <span class="at">FUN.VALUE=</span><span class="fu">numeric</span>(<span class="dv">1</span>))))</span></code></pre></div>
 <pre><code>##   treatment_id chemical_distance_to_slave_relatives chemical_distance_to_random_colonies
 ## 1            1                            0.3573031                            0.4955207
 ## 2            2                            0.3843412                            0.5036721
 ## 3            3                            0.4758548                            0.5490103
 ## 4            4                            0.6218406                            0.6505040</code></pre>
-<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb218-1" tabindex="-1"></a>distances_to_free_living_fusca<span class="sc">$</span>cocoons <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">treatment_1 =</span> res_1,</span>
-<span id="cb218-2"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb218-2" tabindex="-1"></a>                                           <span class="at">treatment_2 =</span> res_2,</span>
-<span id="cb218-3"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb218-3" tabindex="-1"></a>                                           <span class="at">treatment_3 =</span> res_3,</span>
-<span id="cb218-4"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb218-4" tabindex="-1"></a>                                           <span class="at">treatment_4 =</span> res_4)</span>
-<span id="cb218-5"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb218-5" tabindex="-1"></a></span>
-<span id="cb218-6"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb218-6" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_data</span>(distances_to_free_living_fusca, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb225-1" tabindex="-1"></a>distances_to_free_living_fusca<span class="sc">$</span>cocoons <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">treatment_1 =</span> res_1,</span>
+<span id="cb225-2"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb225-2" tabindex="-1"></a>                                           <span class="at">treatment_2 =</span> res_2,</span>
+<span id="cb225-3"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb225-3" tabindex="-1"></a>                                           <span class="at">treatment_3 =</span> res_3,</span>
+<span id="cb225-4"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb225-4" tabindex="-1"></a>                                           <span class="at">treatment_4 =</span> res_4)</span>
+<span id="cb225-5"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb225-5" tabindex="-1"></a></span>
+<span id="cb225-6"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#cb225-6" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_data</span>(distances_to_free_living_fusca, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 
 </div>
 </div>
@@ -386,42 +389,42 @@ div.csl-indent {
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": "https://github.com/USERNAME/REPO/edit/BRANCH/Slave_impact.Rmd",
-"text": "Edit"
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": ["_main.pdf", "_main.epub"],
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "subsection"
-}
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/USERNAME/REPO/edit/BRANCH/Slave_impact.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["_main.pdf", "_main.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
 });
 });
 </script>

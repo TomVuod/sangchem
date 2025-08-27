@@ -6,7 +6,8 @@ rmd_files: ["index.Rmd",
     "Non-parametric_tests.Rmd",
     "Separation_experiment.Rmd",
     "Slave_impact.Rmd",
-    "Dummy_ants.Rmd"]
+    "Dummy_ants.Rmd",
+    "Session_info.Rmd"]
 output_dir: "docs"
 delete_merged_file: true
 language:

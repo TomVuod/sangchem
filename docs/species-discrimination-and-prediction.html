@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 1 Species discrimination and prediction | sangchem R package: research project data analysis documentation</title>
   <meta name="description" content="This is a doucumentation of the data analysis workflows and function used to generate the results included in the manuscript entitled Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development." />
-  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.44 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 1 Species discrimination and prediction | sangchem R package: research project data analysis documentation" />
   <meta property="og:type" content="book" />
@@ -23,6 +23,7 @@
 <meta name="author" content="Tomasz Włodarczyk" />
 
 
+<meta name="date" content="2025-08-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +32,7 @@
   
 <link rel="prev" href="index.html"/>
 <link rel="next" href="changes-of-chcs-amount-over-time.html"/>
-<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="libs/jquery-3.6.1/jquery-3.6.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -55,7 +56,7 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -65,7 +66,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -127,6 +128,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -198,45 +200,46 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="3.1" data-path="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#determining-callow-markers"><i class="fa fa-check"></i><b>3.1</b> Determining callow markers</a></li>
 <li class="chapter" data-level="3.2" data-path="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#determining-mature-f.-sanguinea-markers"><i class="fa fa-check"></i><b>3.2</b> Determining mature <em>F. sanguinea</em> markers</a></li>
+<li class="chapter" data-level="3.3" data-path="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#verifying-the-performace-of-the-discrimination-model"><i class="fa fa-check"></i><b>3.3</b> Verifying the performace of the discrimination model</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="verifying-the-performace-of-the-discrimination-model.html"><a href="verifying-the-performace-of-the-discrimination-model.html"><i class="fa fa-check"></i><b>4</b> Verifying the performace of the discrimination model</a></li>
-<li class="chapter" data-level="5" data-path="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html"><i class="fa fa-check"></i><b>5</b> Change in dissimilarity between callow and mature <em>F. sanguinea</em> as the proportion of slave-makers in the colony grows</a></li>
-<li class="chapter" data-level="6" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><i class="fa fa-check"></i><b>6</b> Comparison of CHC amount and proportions in between different categories of individuals</a>
+<li class="chapter" data-level="4" data-path="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-a-colony-increases.html"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-a-colony-increases.html"><i class="fa fa-check"></i><b>4</b> Change in dissimilarity between callow and mature <em>F. sanguinea</em> as the proportion of slave-makers in a colony increases</a></li>
+<li class="chapter" data-level="5" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><i class="fa fa-check"></i><b>5</b> Comparison of amount and proportions of CHC between species and age categories</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-total-chc-amount-between-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>6.1</b> Difference in the total CHC amount between <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
-<li class="chapter" data-level="6.2" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-total-chc-amount-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>6.2</b> Difference in the total CHC amount between callow and mature <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="6.3" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-sanguinea-between-mature-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>6.3</b> Difference in the proportion of CHCs characteristic of <em>F. sanguinea</em> between mature <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
-<li class="chapter" data-level="6.4" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>6.4</b> Difference in the proportion of CHCs characteristic of <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="6.5" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-callow-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>6.5</b> Difference in the proportion of CHCs characteristic of callow <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="6.6" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-amount-of-chcs-characteristic-of-callow-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>6.6</b> Difference in the amount of CHCs characteristic of callow <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="6.7" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-mature-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>6.7</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between mature <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
-<li class="chapter" data-level="6.8" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>6.8</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between mature and callow <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="6.9" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-callow-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>6.9</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between callow <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
-<li class="chapter" data-level="6.10" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-mass-of-n-alkanes-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>6.10</b> Difference in the mass of n-alkanes between callow and mature <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="6.11" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proprtion-of-n-alkanes-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>6.11</b> Difference in the proprtion of n-alkanes between callow and mature <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.1" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-total-chc-amount-between-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>5.1</b> Difference in the total CHC amount between <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
+<li class="chapter" data-level="5.2" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-total-chc-amount-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>5.2</b> Difference in the total CHC amount between callow and mature <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.3" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-sanguinea-between-mature-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>5.3</b> Difference in the proportion of CHCs characteristic of <em>F. sanguinea</em> between mature <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
+<li class="chapter" data-level="5.4" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>5.4</b> Difference in the proportion of CHCs characteristic of <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.5" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proportion-of-chcs-characteristic-of-callow-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>5.5</b> Difference in the proportion of CHCs characteristic of callow <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.6" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-amount-of-chcs-characteristic-of-callow-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>5.6</b> Difference in the amount of CHCs characteristic of callow <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.7" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-mature-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>5.7</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between mature <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
+<li class="chapter" data-level="5.8" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>5.8</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between mature and callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.9" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-callow-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>5.9</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between callow <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
+<li class="chapter" data-level="5.10" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-mass-of-n-alkanes-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>5.10</b> Difference in the mass of n-alkanes between callow and mature <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.11" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proprtion-of-n-alkanes-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>5.11</b> Difference in the proprtion of n-alkanes between callow and mature <em>F. sanguinea</em></a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><i class="fa fa-check"></i><b>7</b> Change in the CHC profile in separated callow <em>F. sanguinea</em> ants</a>
+<li class="chapter" data-level="6" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><i class="fa fa-check"></i><b>6</b> Change in the CHC profile in separated callow <em>F. sanguinea</em> ants</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-total-chc-amount-over-time"><i class="fa fa-check"></i><b>7.1</b> Change in the total CHC amount over time</a></li>
-<li class="chapter" data-level="7.2" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-callow-f.-sanguinea"><i class="fa fa-check"></i><b>7.2</b> Change in the amount of compounds associated with callow <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="7.3" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-f.-sanguinea"><i class="fa fa-check"></i><b>7.3</b> Change in the amount of compounds associated with <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="7.4" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-f.-fusca"><i class="fa fa-check"></i><b>7.4</b> Change in the amount of compounds associated with <em>F. fusca</em></a></li>
+<li class="chapter" data-level="6.1" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-total-chc-amount-over-time"><i class="fa fa-check"></i><b>6.1</b> Change in the total CHC amount over time</a></li>
+<li class="chapter" data-level="6.2" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-callow-f.-sanguinea"><i class="fa fa-check"></i><b>6.2</b> Change in the amount of compounds associated with callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="6.3" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-f.-sanguinea"><i class="fa fa-check"></i><b>6.3</b> Change in the amount of compounds associated with <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="6.4" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-f.-fusca"><i class="fa fa-check"></i><b>6.4</b> Change in the amount of compounds associated with <em>F. fusca</em></a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><i class="fa fa-check"></i><b>8</b> Impact of slave on the development of the <em>F. sanguinea</em> CHC profile</a>
+<li class="chapter" data-level="7" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><i class="fa fa-check"></i><b>7</b> Impact of slave on the development of the <em>F. sanguinea</em> CHC profile</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#analysis-based-on-all-samples"><i class="fa fa-check"></i><b>8.1</b> Analysis based on all samples</a></li>
-<li class="chapter" data-level="8.2" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#analysis-restricted-to-the-individuals-hatched-from-cocoons"><i class="fa fa-check"></i><b>8.2</b> Analysis restricted to the individuals hatched from cocoons</a></li>
+<li class="chapter" data-level="7.1" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#analysis-based-on-all-samples"><i class="fa fa-check"></i><b>7.1</b> Analysis based on all samples</a></li>
+<li class="chapter" data-level="7.2" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#analysis-restricted-to-the-individuals-hatched-from-cocoons"><i class="fa fa-check"></i><b>7.2</b> Analysis restricted to the individuals hatched from cocoons</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html"><i class="fa fa-check"></i><b>9</b> Effect of dummy ants</a>
+<li class="chapter" data-level="8" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html"><i class="fa fa-check"></i><b>8</b> Effect of dummy ants</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.-fusca-chcs"><i class="fa fa-check"></i><b>9.1</b> Distance to the CHC profile of the dummy ants treated by F. fusca CHCs</a></li>
-<li class="chapter" data-level="9.2" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.sanguinea-chcs"><i class="fa fa-check"></i><b>9.2</b> Distance to the CHC profile of the dummy ants treated by F.sanguinea CHCs</a></li>
-<li class="chapter" data-level="9.3" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#fraction-of-docosane-in-the-chc-profile"><i class="fa fa-check"></i><b>9.3</b> Fraction of docosane in the CHC profile</a>
+<li class="chapter" data-level="8.1" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.-fusca-chcs"><i class="fa fa-check"></i><b>8.1</b> Distance to the CHC profile of the dummy ants treated by F. fusca CHCs</a></li>
+<li class="chapter" data-level="8.2" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.sanguinea-chcs"><i class="fa fa-check"></i><b>8.2</b> Distance to the CHC profile of the dummy ants treated by F.sanguinea CHCs</a></li>
+<li class="chapter" data-level="8.3" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#fraction-of-docosane-in-the-chc-profile"><i class="fa fa-check"></i><b>8.3</b> Fraction of docosane in the CHC profile</a>
 <ul>
-<li class="chapter" data-level="9.3.1" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#f.-fusca-2"><i class="fa fa-check"></i><b>9.3.1</b> F. fusca</a></li>
-<li class="chapter" data-level="9.3.2" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#f.-sanguinea"><i class="fa fa-check"></i><b>9.3.2</b> F. sanguinea</a></li>
+<li class="chapter" data-level="8.3.1" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#f.-fusca-2"><i class="fa fa-check"></i><b>8.3.1</b> F. fusca</a></li>
+<li class="chapter" data-level="8.3.2" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#f.-sanguinea"><i class="fa fa-check"></i><b>8.3.2</b> F. sanguinea</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="9" data-path="session-info.html"><a href="session-info.html"><i class="fa fa-check"></i><b>9</b> Session info</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -259,9 +262,10 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="species-discrimination-and-prediction" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">Chapter 1</span> Species discrimination and prediction<a href="species-discrimination-and-prediction.html#species-discrimination-and-prediction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>To classify the CHC samples collected from mixed colonies we need a measure which indicates the distances to <em>F. sanguinea</em> or <em>F. fusca</em> species-specific CHC profiles.</p>
 <div id="species-markers" class="section level2 hasAnchor" number="1.1">
 <h2><span class="header-section-number">1.1</span> Species markers<a href="species-discrimination-and-prediction.html#species-markers" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>This chapter shows the way how the peaks associated with <em>F. sanguinea</em> and <em>F. fusca</em> (species markers) were determined. We use the chemical data collected from the filed colonies in the earlier study <span class="citation">(<a href="#ref-WLODARCZYK201798">Włodarczyk and Szczepaniak 2017</a>)</span> to train the discrimination model.</p>
+<p>In this chapter we present how the peaks associated with <em>F. sanguinea</em> and <em>F. fusca</em> (species markers) were determined. We use the chemical data collected from the filed colonies in the earlier study <span class="citation">(<a href="#ref-WLODARCZYK201798">Włodarczyk and Szczepaniak 2017</a>)</span> to train the discrimination model.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="species-discrimination-and-prediction.html#cb2-1" tabindex="-1"></a><span class="fu">suppressMessages</span>({</span>
 <span id="cb2-2"><a href="species-discrimination-and-prediction.html#cb2-2" tabindex="-1"></a>  <span class="fu">library</span>(sangchem)</span>
 <span id="cb2-3"><a href="species-discrimination-and-prediction.html#cb2-3" tabindex="-1"></a>  <span class="fu">library</span>(stringi)</span>
@@ -277,21 +281,22 @@ div.csl-indent {
 <span id="cb2-13"><a href="species-discrimination-and-prediction.html#cb2-13" tabindex="-1"></a>sanguinea_samples<span class="ot">&lt;-</span><span class="fu">as.character</span>(<span class="fu">unique</span>(field_colonies<span class="sc">$</span>chromatogram_ID)[<span class="fu">stri_detect_regex</span>(<span class="fu">unique</span>(field_colonies<span class="sc">$</span>chromatogram_ID),<span class="st">&quot;sangFs[0-9].?</span><span class="sc">\\</span><span class="st">([0-9]</span><span class="sc">\\</span><span class="st">)&quot;</span>)])</span>
 <span id="cb2-14"><a href="species-discrimination-and-prediction.html#cb2-14" tabindex="-1"></a></span>
 <span id="cb2-15"><a href="species-discrimination-and-prediction.html#cb2-15" tabindex="-1"></a><span class="co"># remove outliers</span></span>
-<span id="cb2-16"><a href="species-discrimination-and-prediction.html#cb2-16" tabindex="-1"></a><span class="co">#sanguinea_samples &lt;- setdiff(sanguinea_samples,c(&quot;sangFs2(1)&quot;,&quot;sangFs5(2)&quot;,&quot;sangFs26(1)&quot;,&quot;sangFs26(2)&quot;))</span></span>
-<span id="cb2-17"><a href="species-discrimination-and-prediction.html#cb2-17" tabindex="-1"></a>fusca_samples <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(fusca_samples,<span class="fu">c</span>(<span class="st">&quot;fus9-2(1)&quot;</span>, <span class="st">&quot;fus26-3(2)&quot;</span>))</span>
+<span id="cb2-16"><a href="species-discrimination-and-prediction.html#cb2-16" tabindex="-1"></a><span class="co"># sanguinea_samples &lt;- setdiff(sanguinea_samples,c(&quot;sangFs2(1)&quot;,&quot;sangFs5(2)&quot;,&quot;sangFs26(1)&quot;,&quot;sangFs26(2)&quot;))</span></span>
+<span id="cb2-17"><a href="species-discrimination-and-prediction.html#cb2-17" tabindex="-1"></a><span class="co"># fusca_samples &lt;- setdiff(fusca_samples,c(&quot;fus9-2(1)&quot;, &quot;fus26-3(2)&quot;))</span></span>
 <span id="cb2-18"><a href="species-discrimination-and-prediction.html#cb2-18" tabindex="-1"></a>discrimination_data <span class="ot">&lt;-</span> <span class="fu">filter</span>(field_colonies,chromatogram_ID <span class="sc">%in%</span> <span class="fu">c</span>(fusca_samples,sanguinea_samples)) </span>
 <span id="cb2-19"><a href="species-discrimination-and-prediction.html#cb2-19" tabindex="-1"></a>discrimination_data <span class="ot">&lt;-</span> <span class="fu">filter</span>(discrimination_data, peak_ID<span class="sc">&lt;</span><span class="dv">110</span>)</span>
-<span id="cb2-20"><a href="species-discrimination-and-prediction.html#cb2-20" tabindex="-1"></a>peak_prop_unfiltered <span class="ot">&lt;-</span> <span class="fu">peak_proportions_table</span>(discrimination_data)</span>
-<span id="cb2-21"><a href="species-discrimination-and-prediction.html#cb2-21" tabindex="-1"></a><span class="co"># feature selection</span></span>
-<span id="cb2-22"><a href="species-discrimination-and-prediction.html#cb2-22" tabindex="-1"></a>peak_prop <span class="ot">&lt;-</span> <span class="fu">freq_abun_QC</span>(peak_prop_unfiltered)</span>
-<span id="cb2-23"><a href="species-discrimination-and-prediction.html#cb2-23" tabindex="-1"></a><span class="co"># re-normalize rows to 1</span></span>
-<span id="cb2-24"><a href="species-discrimination-and-prediction.html#cb2-24" tabindex="-1"></a>peak_prop <span class="ot">&lt;-</span> peak_prop<span class="sc">/</span><span class="fu">rowSums</span>(peak_prop)</span>
-<span id="cb2-25"><a href="species-discrimination-and-prediction.html#cb2-25" tabindex="-1"></a><span class="co"># remove absent peaks</span></span>
-<span id="cb2-26"><a href="species-discrimination-and-prediction.html#cb2-26" tabindex="-1"></a>peak_prop <span class="ot">&lt;-</span> peak_prop[,<span class="fu">apply</span>(peak_prop,<span class="dv">2</span>,<span class="cf">function</span>(x) <span class="fu">sum</span>(x)<span class="sc">&gt;</span><span class="dv">0</span>)]</span>
-<span id="cb2-27"><a href="species-discrimination-and-prediction.html#cb2-27" tabindex="-1"></a><span class="co"># replace zeros with a small number before transformation</span></span>
-<span id="cb2-28"><a href="species-discrimination-and-prediction.html#cb2-28" tabindex="-1"></a>peak_prop[peak_prop<span class="sc">==</span><span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^-</span><span class="dv">16</span></span>
-<span id="cb2-29"><a href="species-discrimination-and-prediction.html#cb2-29" tabindex="-1"></a><span class="co"># apply central log ratio transformation</span></span>
-<span id="cb2-30"><a href="species-discrimination-and-prediction.html#cb2-30" tabindex="-1"></a>peak_transformed <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">apply</span>(peak_prop, <span class="dv">1</span>, clr_transformation))</span></code></pre></div>
+<span id="cb2-20"><a href="species-discrimination-and-prediction.html#cb2-20" tabindex="-1"></a><span class="co"># peak_prop_unfiltered &lt;- peak_proportions_table(discrimination_data)</span></span>
+<span id="cb2-21"><a href="species-discrimination-and-prediction.html#cb2-21" tabindex="-1"></a>peak_prop <span class="ot">&lt;-</span> <span class="fu">peak_proportions_table</span>(discrimination_data)</span>
+<span id="cb2-22"><a href="species-discrimination-and-prediction.html#cb2-22" tabindex="-1"></a><span class="co"># feature selection</span></span>
+<span id="cb2-23"><a href="species-discrimination-and-prediction.html#cb2-23" tabindex="-1"></a><span class="co"># peak_prop &lt;- freq_abun_QC(peak_prop_unfiltered)</span></span>
+<span id="cb2-24"><a href="species-discrimination-and-prediction.html#cb2-24" tabindex="-1"></a><span class="co"># re-normalize rows to 1</span></span>
+<span id="cb2-25"><a href="species-discrimination-and-prediction.html#cb2-25" tabindex="-1"></a><span class="co"># peak_prop &lt;- peak_prop/rowSums(peak_prop)</span></span>
+<span id="cb2-26"><a href="species-discrimination-and-prediction.html#cb2-26" tabindex="-1"></a><span class="co"># remove absent peaks</span></span>
+<span id="cb2-27"><a href="species-discrimination-and-prediction.html#cb2-27" tabindex="-1"></a><span class="co"># peak_prop &lt;- peak_prop[,apply(peak_prop,2,function(x) sum(x)&gt;0)]</span></span>
+<span id="cb2-28"><a href="species-discrimination-and-prediction.html#cb2-28" tabindex="-1"></a><span class="co"># replace zeros with a small number before transformation</span></span>
+<span id="cb2-29"><a href="species-discrimination-and-prediction.html#cb2-29" tabindex="-1"></a>peak_prop[peak_prop<span class="sc">==</span><span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^-</span><span class="dv">16</span></span>
+<span id="cb2-30"><a href="species-discrimination-and-prediction.html#cb2-30" tabindex="-1"></a><span class="co"># apply central log ratio transformation</span></span>
+<span id="cb2-31"><a href="species-discrimination-and-prediction.html#cb2-31" tabindex="-1"></a>peak_transformed <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">apply</span>(peak_prop, <span class="dv">1</span>, clr_transformation))</span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="species-discrimination-and-prediction.html#cb3-1" tabindex="-1"></a>PCA_species_discr <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(peak_transformed, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>We also need to define our response variable which the discrimination model will learn to predict.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="species-discrimination-and-prediction.html#cb4-1" tabindex="-1"></a><span class="co">#define groups to be compared</span></span>
@@ -317,7 +322,7 @@ discriminant analysis.</p>
 <span id="cb7-3"><a href="species-discrimination-and-prediction.html#cb7-3" tabindex="-1"></a><span class="co"># determine the number of the original variables to be kept in each component (actually</span></span>
 <span id="cb7-4"><a href="species-discrimination-and-prediction.html#cb7-4" tabindex="-1"></a><span class="co"># here we have only one component)</span></span>
 <span id="cb7-5"><a href="species-discrimination-and-prediction.html#cb7-5" tabindex="-1"></a>spec_discr_PC.splsda <span class="ot">&lt;-</span> <span class="fu">tune.splsda</span>(PCA_species_discr<span class="sc">$</span>x,Y,<span class="at">test.keepX =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">dim</span>(PCA_species_discr<span class="sc">$</span>x)[<span class="dv">2</span>]),<span class="at">ncomp =</span> selected_n, <span class="at">validation=</span><span class="st">&quot;Mfold&quot;</span>, <span class="at">progressBar=</span><span class="cn">FALSE</span>, <span class="at">dist=</span><span class="st">&quot;max.dist&quot;</span>,</span>
-<span id="cb7-6"><a href="species-discrimination-and-prediction.html#cb7-6" tabindex="-1"></a>                                    <span class="at">nrepeat=</span><span class="dv">5</span>, <span class="at">cpus=</span><span class="dv">2</span>, <span class="at">folds=</span><span class="dv">5</span>, <span class="at">measure=</span><span class="st">&quot;BER&quot;</span>, <span class="at">scale=</span><span class="cn">FALSE</span>)</span>
+<span id="cb7-6"><a href="species-discrimination-and-prediction.html#cb7-6" tabindex="-1"></a>                                    <span class="at">nrepeat=</span><span class="dv">5</span>, <span class="at">folds=</span><span class="dv">5</span>, <span class="at">measure=</span><span class="st">&quot;BER&quot;</span>, <span class="at">scale=</span><span class="cn">FALSE</span>)</span>
 <span id="cb7-7"><a href="species-discrimination-and-prediction.html#cb7-7" tabindex="-1"></a></span>
 <span id="cb7-8"><a href="species-discrimination-and-prediction.html#cb7-8" tabindex="-1"></a><span class="co"># final model</span></span>
 <span id="cb7-9"><a href="species-discrimination-and-prediction.html#cb7-9" tabindex="-1"></a>species_prediction_model <span class="ot">&lt;-</span> <span class="fu">splsda</span>(PCA_species_discr<span class="sc">$</span>x, Y, <span class="at">ncomp=</span>selected_n,</span>
@@ -326,6 +331,7 @@ discriminant analysis.</p>
 <span id="cb7-12"><a href="species-discrimination-and-prediction.html#cb7-12" tabindex="-1"></a><span class="co"># visualize results for the first two components</span></span>
 <span id="cb7-13"><a href="species-discrimination-and-prediction.html#cb7-13" tabindex="-1"></a><span class="fu">plotIndiv</span>(species_prediction_model, <span class="at">group=</span>Y, <span class="at">legend=</span><span class="cn">TRUE</span>, <span class="at">ellipse=</span><span class="cn">TRUE</span>, <span class="at">comp=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>The mock profiles, with one peak augmented and all the others kept equal, are used to calculate the effect of each peak on the prediction about the species identify. The results are normalized by subtracting the score obtained from profile with no augmented peaks. In this way, peaks with negative values bias prediction towards <em>F. fusca</em> whereas peaks with positive values bias it towards <em>F. sanguinea</em>.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="species-discrimination-and-prediction.html#cb8-1" tabindex="-1"></a>ones_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span>, <span class="at">nrow =</span> <span class="fu">ncol</span>(peak_prop),<span class="at">ncol=</span> <span class="fu">ncol</span>(peak_prop))</span>
 <span id="cb8-2"><a href="species-discrimination-and-prediction.html#cb8-2" tabindex="-1"></a><span class="fu">colnames</span>(ones_matrix) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(ones_matrix) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(peak_prop)</span>
 <span id="cb8-3"><a href="species-discrimination-and-prediction.html#cb8-3" tabindex="-1"></a>unit_input <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">ncol</span>(peak_prop)))</span>
@@ -336,194 +342,217 @@ discriminant analysis.</p>
 <span id="cb8-8"><a href="species-discrimination-and-prediction.html#cb8-8" tabindex="-1"></a>res1 <span class="ot">&lt;-</span> <span class="fu">calculate_SII</span>(incremented_matrix)</span>
 <span id="cb8-9"><a href="species-discrimination-and-prediction.html#cb8-9" tabindex="-1"></a>res2 <span class="ot">&lt;-</span> <span class="fu">calculate_SII</span>(ones_matrix)</span>
 <span id="cb8-10"><a href="species-discrimination-and-prediction.html#cb8-10" tabindex="-1"></a>res <span class="ot">&lt;-</span> res1</span>
-<span id="cb8-11"><a href="species-discrimination-and-prediction.html#cb8-11" tabindex="-1"></a>res<span class="sc">$</span>predicted_species <span class="ot">=</span> res1<span class="sc">$</span>predicted_species <span class="sc">-</span> res2<span class="sc">$</span>predicted_species</span>
-<span id="cb8-12"><a href="species-discrimination-and-prediction.html#cb8-12" tabindex="-1"></a>res <span class="ot">&lt;-</span> res[<span class="fu">order</span>(res<span class="sc">$</span>predicted_species),]</span>
-<span id="cb8-13"><a href="species-discrimination-and-prediction.html#cb8-13" tabindex="-1"></a>res<span class="sc">$</span>predicted_species <span class="ot">=</span> res<span class="sc">$</span>predicted_species <span class="sc">-</span> res2<span class="sc">$</span>predicted_species</span>
-<span id="cb8-14"><a href="species-discrimination-and-prediction.html#cb8-14" tabindex="-1"></a><span class="fu">print</span>(res)</span></code></pre></div>
-<pre><code>##     chromatogram_ID predicted_species
-## 36               36        -0.7504704
-## 15               15        -0.7504618
-## 33               33        -0.7503843
-## 23               23        -0.7503646
-## 9                 9        -0.7502450
-## 8                 8        -0.7501879
-## 38               38        -0.7501424
-## 18               18        -0.7501317
-## 12               12        -0.7500813
-## 29               29        -0.7500509
-## 16               16        -0.7500359
-## 27               27        -0.7498158
-## 37               37        -0.7497980
-## 32               32        -0.7497481
-## 14               14        -0.7496999
-## 45               45        -0.7496661
-## 7                 7        -0.7496015
-## 55               55        -0.7495599
-## 28               28        -0.7495414
-## 42               42        -0.7494051
-## 64               64        -0.7493037
-## 24               24        -0.7492391
-## 50               50        -0.7492267
-## 11               11        -0.7492137
-## 53               53        -0.7491232
-## 19               19        -0.7490964
-## 31               31        -0.7490939
-## 76               76        -0.7490706
-## 58               58        -0.7489700
-## 57               57        -0.7489235
-## 65               65        -0.7488174
-## 49               49        -0.7487899
-## 35               35        -0.7487772
-## 20               20        -0.7487713
-## 40               40        -0.7487651
-## 68               68        -0.7487162
-## 43               43        -0.7486404
-## 51               51        -0.7486308
-## 22               22        -0.7486265
-## 59               59        -0.7484459
-## 21               21        -0.7484373
-## 54               54        -0.7483343
-## 47               47        -0.7482137
-## 78               78        -0.7482070
-## 41               41        -0.7480403
-## 81               81        -0.7478566
-## 95               95        -0.7478028
-## 75               75        -0.7477927
-## 63               63        -0.7477302
-## 96               96        -0.7477072
-## 83               83        -0.7475814
-## 52               52        -0.7475740
-## 82               82        -0.7475094
-## 71               71        -0.7472785
-## 92               92        -0.7472735
-## 109             109        -0.7472296
-## 108             108        -0.7472242
-## 94               94        -0.7471907
-## 56               56        -0.7471903
-## 30               30        -0.7471048
-## 85               85        -0.7469475</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="species-discrimination-and-prediction.html#cb10-1" tabindex="-1"></a><span class="fu">hist</span>(res<span class="sc">$</span>predicted_species)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="species-discrimination-and-prediction.html#cb11-1" tabindex="-1"></a>peaks_fusca <span class="ot">&lt;-</span> res<span class="sc">$</span>chromatogram_ID[res<span class="sc">$</span>predicted_species<span class="sc">&lt;=</span><span class="fu">quantile</span>(res<span class="sc">$</span>predicted_species, <span class="fl">0.2</span>)]</span>
-<span id="cb11-2"><a href="species-discrimination-and-prediction.html#cb11-2" tabindex="-1"></a>peaks_sang <span class="ot">&lt;-</span> res<span class="sc">$</span>chromatogram_ID[res<span class="sc">$</span>predicted_species<span class="sc">&gt;=</span><span class="fu">quantile</span>(res<span class="sc">$</span>predicted_species, <span class="fl">0.8</span>)]</span></code></pre></div>
-<p>The objects <code>peaks_sang</code>, <code>peaks_fusca</code>, <code>species_prediction_model</code> and <code>PCA_species_discr</code> are stored in the package and can be collectively loaded into the global environment along with the other objects by running <code>load_globals()</code>.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="species-discrimination-and-prediction.html#cb12-1" tabindex="-1"></a>globals <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">&quot;globals.rds&quot;</span>, <span class="at">package=</span><span class="st">&quot;sangchem&quot;</span>))</span>
-<span id="cb12-2"><a href="species-discrimination-and-prediction.html#cb12-2" tabindex="-1"></a>globals[[<span class="st">&quot;species_prediction_model&quot;</span>]] <span class="ot">&lt;-</span> species_prediction_model</span>
-<span id="cb12-3"><a href="species-discrimination-and-prediction.html#cb12-3" tabindex="-1"></a>globals[[<span class="st">&quot;PCA_species_discr&quot;</span>]] <span class="ot">&lt;-</span> PCA_species_discr</span>
-<span id="cb12-4"><a href="species-discrimination-and-prediction.html#cb12-4" tabindex="-1"></a>globals[[<span class="st">&quot;peaks_sang&quot;</span>]] <span class="ot">&lt;-</span> peaks_sang</span>
-<span id="cb12-5"><a href="species-discrimination-and-prediction.html#cb12-5" tabindex="-1"></a>globals[[<span class="st">&quot;peaks_fusca&quot;</span>]] <span class="ot">&lt;-</span> peaks_fusca</span>
-<span id="cb12-6"><a href="species-discrimination-and-prediction.html#cb12-6" tabindex="-1"></a><span class="fu">saveRDS</span>(globals, <span class="fu">system.file</span>(<span class="st">&quot;globals.rds&quot;</span>, <span class="at">package=</span><span class="st">&quot;sangchem&quot;</span>))</span></code></pre></div>
+<span id="cb8-11"><a href="species-discrimination-and-prediction.html#cb8-11" tabindex="-1"></a><span class="fu">colnames</span>(res)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">&quot;peak_ID&quot;</span></span>
+<span id="cb8-12"><a href="species-discrimination-and-prediction.html#cb8-12" tabindex="-1"></a>res<span class="sc">$</span>predicted_species <span class="ot">=</span> res1<span class="sc">$</span>predicted_species <span class="sc">-</span> res2<span class="sc">$</span>predicted_species</span>
+<span id="cb8-13"><a href="species-discrimination-and-prediction.html#cb8-13" tabindex="-1"></a>res <span class="ot">&lt;-</span> res[<span class="fu">order</span>(res<span class="sc">$</span>predicted_species),]</span>
+<span id="cb8-14"><a href="species-discrimination-and-prediction.html#cb8-14" tabindex="-1"></a>peaks_fusca <span class="ot">&lt;-</span> res<span class="sc">$</span>peak_ID[res<span class="sc">$</span>predicted_species<span class="sc">&lt;=</span><span class="fu">quantile</span>(res<span class="sc">$</span>predicted_species, <span class="fl">0.2</span>)]</span>
+<span id="cb8-15"><a href="species-discrimination-and-prediction.html#cb8-15" tabindex="-1"></a>peaks_sang <span class="ot">&lt;-</span> res<span class="sc">$</span>peak_ID[res<span class="sc">$</span>predicted_species<span class="sc">&gt;=</span><span class="fu">quantile</span>(res<span class="sc">$</span>predicted_species, <span class="fl">0.8</span>)]</span>
+<span id="cb8-16"><a href="species-discrimination-and-prediction.html#cb8-16" tabindex="-1"></a>res<span class="sc">$</span>fusca_marker <span class="ot">&lt;-</span> res<span class="sc">$</span>peak_ID <span class="sc">%in%</span> peaks_fusca</span>
+<span id="cb8-17"><a href="species-discrimination-and-prediction.html#cb8-17" tabindex="-1"></a>res<span class="sc">$</span>sanguinea_marker <span class="ot">&lt;-</span> res<span class="sc">$</span>peak_ID <span class="sc">%in%</span> peaks_sang</span>
+<span id="cb8-18"><a href="species-discrimination-and-prediction.html#cb8-18" tabindex="-1"></a>compounds <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb8-19"><a href="species-discrimination-and-prediction.html#cb8-19" tabindex="-1"></a><span class="cf">for</span>(peak <span class="cf">in</span> res<span class="sc">$</span>peak_ID){</span>
+<span id="cb8-20"><a href="species-discrimination-and-prediction.html#cb8-20" tabindex="-1"></a>  compounds <span class="ot">&lt;-</span> <span class="fu">c</span>(compounds, mass_spectra_data[mass_spectra_data<span class="sc">$</span>peak_ID<span class="sc">==</span>peak,<span class="st">&quot;identification&quot;</span>][<span class="dv">1</span>])</span>
+<span id="cb8-21"><a href="species-discrimination-and-prediction.html#cb8-21" tabindex="-1"></a>}</span>
+<span id="cb8-22"><a href="species-discrimination-and-prediction.html#cb8-22" tabindex="-1"></a>res<span class="sc">$</span>compounds <span class="ot">=</span> compounds</span>
+<span id="cb8-23"><a href="species-discrimination-and-prediction.html#cb8-23" tabindex="-1"></a>res <span class="ot">&lt;-</span> res[,<span class="fu">c</span>(<span class="st">&quot;peak_ID&quot;</span>, <span class="st">&quot;compounds&quot;</span>, <span class="st">&quot;predicted_species&quot;</span>, <span class="st">&quot;sanguinea_marker&quot;</span>, <span class="st">&quot;fusca_marker&quot;</span>)]</span>
+<span id="cb8-24"><a href="species-discrimination-and-prediction.html#cb8-24" tabindex="-1"></a><span class="fu">rownames</span>(res) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb8-25"><a href="species-discrimination-and-prediction.html#cb8-25" tabindex="-1"></a><span class="fu">print</span>(res)</span></code></pre></div>
+<pre><code>##    peak_ID                       compounds predicted_species sanguinea_marker fusca_marker
+## 1       33                    5,13-diMeC25     -1.441399e-03            FALSE         TRUE
+## 2       29                         7-MeC25     -1.299403e-03            FALSE         TRUE
+## 3       12                         3-MeC23     -1.156065e-03            FALSE         TRUE
+## 4       15 3,13-; 3,11-; 3,9-; 3,7-diMeC23     -1.152569e-03            FALSE         TRUE
+## 5       16      12-; 11-; 10-; 9-; 8-MeC24     -1.142443e-03            FALSE         TRUE
+## 6       37 14-; 10-MeC26 + 3,7,11-triMeC25     -1.116312e-03            FALSE         TRUE
+## 7       32          7,11-diMeC25 + 3-MeC25     -1.116240e-03            FALSE         TRUE
+## 8       14                             C24     -1.080174e-03            FALSE         TRUE
+## 9       23                    4,12-diMeC24     -1.065228e-03            FALSE         TRUE
+## 10       8            11-Me-C23 + 9-Me-C23     -1.038232e-03            FALSE         TRUE
+## 11       7                             C23     -1.012895e-03            FALSE         TRUE
+## 12      24                             C25     -9.363669e-04            FALSE         TRUE
+## 13      50                         7-MeC27     -9.155284e-04            FALSE         TRUE
+## 14      31            11,15-; 9,13-diMeC25     -8.682843e-04            FALSE         TRUE
+## 15       9                        7-Me-C23     -8.633500e-04            FALSE         TRUE
+## 16      18                         4-MeC24     -8.528222e-04            FALSE        FALSE
+## 17      35                             C26     -8.042499e-04            FALSE        FALSE
+## 18      38                         6-MeC26     -7.916360e-04            FALSE        FALSE
+## 19      49                        13-MeC27     -7.572285e-04            FALSE        FALSE
+## 20      28                         9-MeC25     -4.606212e-04            FALSE        FALSE
+## 21      19                   10,14-diMeC24     -4.051966e-04            FALSE        FALSE
+## 22      11                    9,13-diMeC23     -2.578399e-04            FALSE        FALSE
+## 23      51                         5-MeC27     -2.240360e-04            FALSE        FALSE
+## 24      57              C28 + 3,15-diMeC27     -1.964987e-04            FALSE        FALSE
+## 25      41           10,16-; 10,14-diMeC26     -1.890677e-04            FALSE        FALSE
+## 26      64                            &lt;NA&gt;     -1.885036e-04            FALSE        FALSE
+## 27      45                    4,12-diMeC26     -1.609511e-04            FALSE        FALSE
+## 28      54                    9,13-diMeC27     -8.799445e-05            FALSE        FALSE
+## 29      47                             C27     -6.553081e-05            FALSE        FALSE
+## 30      21                         C25-ene     -5.502985e-05            FALSE        FALSE
+## 31      43          C27-ene + 6,12-diMeC26     -4.873818e-05            FALSE        FALSE
+## 32      55                    7,11-diMeC27     -4.450295e-05            FALSE        FALSE
+## 33       5                         C23-ene      0.000000e+00            FALSE        FALSE
+## 34       6                         C23-ene      0.000000e+00            FALSE        FALSE
+## 35      10                        5-Me C23      0.000000e+00            FALSE        FALSE
+## 36      17                         6-MeC24      0.000000e+00            FALSE        FALSE
+## 37      25                4,12,16-triMeC24      0.000000e+00            FALSE        FALSE
+## 38      39                         5-MeC26      0.000000e+00            FALSE        FALSE
+## 39      48                    4,8,14-MeC26      0.000000e+00            FALSE        FALSE
+## 40      65                          C29ene      0.000000e+00            FALSE        FALSE
+## 41      69                 4,8,12-triMeC28      0.000000e+00            FALSE        FALSE
+## 42      82        3,7-; 3,9-; 3,11-diMeC29      0.000000e+00            FALSE        FALSE
+## 43      90                             C31      0.000000e+00            FALSE        FALSE
+## 44      96                            &lt;NA&gt;      0.000000e+00            FALSE        FALSE
+## 45     101                        x-Me_C32      0.000000e+00            FALSE        FALSE
+## 46     106                          C33ene      0.000000e+00            FALSE        FALSE
+## 47     108                        x-Me_C32      0.000000e+00            FALSE        FALSE
+## 48      36                    3,13-diMeC25      2.828020e-05            FALSE        FALSE
+## 49      27               13-; 11-; 9-MeC25      6.773249e-05            FALSE        FALSE
+## 50      53             9,17-; 9,15-diMeC27      1.178721e-04            FALSE        FALSE
+## 51      20                        C25diene      2.755591e-04            FALSE        FALSE
+## 52      22                         C25-ene      2.912596e-04            FALSE        FALSE
+## 53      40                         4-MeC26      3.635994e-04            FALSE        FALSE
+## 54      59              14-; 12-; 10-MeC28      6.120083e-04            FALSE        FALSE
+## 55      58               3,9-; 3,7-diMeC27      6.204980e-04            FALSE        FALSE
+## 56     109           11,21-; 11,19-diMeC33      6.597382e-04            FALSE        FALSE
+## 57      95            13,19-;13,17-diMeC31      8.677977e-04            FALSE        FALSE
+## 58      68                             C29      8.848034e-04            FALSE        FALSE
+## 59      94   11,19-; 11,17-; 11,15-diMeC31      8.970276e-04            FALSE        FALSE
+## 60      56                          C28ene      9.356841e-04             TRUE        FALSE
+## 61      76                   13,17-diMeC29      9.442292e-04             TRUE        FALSE
+## 62      78       5,9-; 5,11-; 5,13-diMeC29      9.966266e-04             TRUE        FALSE
+## 63      75                   11,17-diMeC29      1.033894e-03             TRUE        FALSE
+## 64      71      15-; 13-; 11-; 9-; 7-MeC29      1.050492e-03             TRUE        FALSE
+## 65      83         14-; 13-; 12-; 11-MeC30      1.083220e-03             TRUE        FALSE
+## 66      63                8,12,16-triMeC28      1.123146e-03             TRUE        FALSE
+## 67      52                   11,15-diMeC27      1.171752e-03             TRUE        FALSE
+## 68      79                          C30ene      1.252029e-03             TRUE        FALSE
+## 69      42       7,x-; 5,x-; 10,14-diMeC26      1.256326e-03             TRUE        FALSE
+## 70      92          15-; 13-; 11-; 9-MeC31      1.302578e-03             TRUE        FALSE
+## 71      85                 (di)MeC30 (mix)      1.429159e-03             TRUE        FALSE
+## 72      99                  (di)MeC31, mix      1.438869e-03             TRUE        FALSE
+## 73      30                         5-MeC25      1.460408e-03             TRUE        FALSE
+## 74     102   13,17-DiMe_C32 + x,y-DiMe_C32      1.558973e-03             TRUE        FALSE</code></pre>
+<p>The objects <code>peaks_sang</code>, <code>peaks_fusca</code>, <code>species_prediction_model</code> and <code>PCA_species_discr</code> are stored in the package folder and can collectively beloaded into the global environment along with the other objects by running <code>load_globals()</code>.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="species-discrimination-and-prediction.html#cb10-1" tabindex="-1"></a>globals <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">&quot;globals.rds&quot;</span>, <span class="at">package=</span><span class="st">&quot;sangchem&quot;</span>))</span>
+<span id="cb10-2"><a href="species-discrimination-and-prediction.html#cb10-2" tabindex="-1"></a>globals[[<span class="st">&quot;species_prediction_model&quot;</span>]] <span class="ot">&lt;-</span> species_prediction_model</span>
+<span id="cb10-3"><a href="species-discrimination-and-prediction.html#cb10-3" tabindex="-1"></a>globals[[<span class="st">&quot;PCA_species_discr&quot;</span>]] <span class="ot">&lt;-</span> PCA_species_discr</span>
+<span id="cb10-4"><a href="species-discrimination-and-prediction.html#cb10-4" tabindex="-1"></a>globals[[<span class="st">&quot;peaks_sang&quot;</span>]] <span class="ot">&lt;-</span> peaks_sang</span>
+<span id="cb10-5"><a href="species-discrimination-and-prediction.html#cb10-5" tabindex="-1"></a>globals[[<span class="st">&quot;peaks_fusca&quot;</span>]] <span class="ot">&lt;-</span> peaks_fusca</span>
+<span id="cb10-6"><a href="species-discrimination-and-prediction.html#cb10-6" tabindex="-1"></a><span class="fu">saveRDS</span>(globals, <span class="fu">system.file</span>(<span class="st">&quot;globals.rds&quot;</span>, <span class="at">package=</span><span class="st">&quot;sangchem&quot;</span>))</span></code></pre></div>
 </div>
 <div id="species-identity-score" class="section level2 hasAnchor" number="1.2">
 <h2><span class="header-section-number">1.2</span> Species identity score<a href="species-discrimination-and-prediction.html#species-identity-score" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Ants in mixed colonies mixed CHCs to produce hybrid chemical identity. Here we develop the method to assign each sample a number indicating how much it is characteristic of one or the other species.
-The main idea is to fit a sPLS_DA model to the training set (sampled from field colonies) and use it predict the explanatory variable (species) in the test data (samples from experimental colonies). However the sPLS_DA model run on the raw data will yield the classificator which used only few variables (peaks) due to the well separation of samples of both species. The unused variables might also be informative in the species discrimination task. We want to use as much data as it is possible to make robust predictions and thus we will use principal component analysis output. Thus, the rotation matrix from the principal component analysis will be used to transform input data to the discrimination model. The correspondig code in encapsulated in the <code>claculate_SII</code> function.</p>
+<p>Ants in the mixed colonies exchanged their CHCs to produce hybrid chemical identity. We developed the method to assign each sample a number indicating how much the sample characteristic of one or the other species.
+The main idea is to fit a sPLS_DA model to the training set (sampled from the field colonies) and use it predict the explanatory variable (species) in the test data (samples from the experimental colonies). However, the sPLS_DA model run on the raw data might yield the classifier using only few variables (peaks) which might be enough to separate samples based on the species identity. But unused variables might also be informative in the species discrimination task. Since we want to use as much data as it is possible to make predictions robust, we will preprocess data using principal component analysis. Thus, the rotation matrix from the principal component analysis will be used to transform input data to the discrimination model. The corresponding code in encapsulated in the <code>claculate_SII</code> function.</p>
 <div id="data-preparation" class="section level3 hasAnchor" number="1.2.1">
 <h3><span class="header-section-number">1.2.1</span> Data preparation<a href="species-discrimination-and-prediction.html#data-preparation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="species-discrimination-and-prediction.html#cb13-1" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;development_data&quot;</span>)</span>
-<span id="cb13-2"><a href="species-discrimination-and-prediction.html#cb13-2" tabindex="-1"></a>dev_samples <span class="ot">&lt;-</span> <span class="fu">filter</span>(development_data, caste<span class="sc">==</span><span class="st">&quot;worker&quot;</span>,<span class="sc">!</span><span class="fu">is.na</span>(head_width), <span class="sc">!</span>remarks <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;aggression actor&quot;</span>, <span class="st">&quot;aggression target&quot;</span>, <span class="st">&quot;queenless colony&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb13-3"><a href="species-discrimination-and-prediction.html#cb13-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(chromatogram_ID, species, colony, sang_prop, callow, census_date)</span>
-<span id="cb13-4"><a href="species-discrimination-and-prediction.html#cb13-4" tabindex="-1"></a>normalized_abundances <span class="ot">&lt;-</span> <span class="fu">peak_proportions_table</span>(mass_spectra_data[mass_spectra_data<span class="sc">$</span>chromatogram_ID <span class="sc">%in%</span> dev_samples<span class="sc">$</span>chromatogram_ID,])</span>
-<span id="cb13-5"><a href="species-discrimination-and-prediction.html#cb13-5" tabindex="-1"></a>species_indices <span class="ot">&lt;-</span> <span class="fu">calculate_SII</span>(normalized_abundances)</span>
-<span id="cb13-6"><a href="species-discrimination-and-prediction.html#cb13-6" tabindex="-1"></a>dev_samples <span class="ot">&lt;-</span> <span class="fu">left_join</span>(dev_samples, species_indices)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="species-discrimination-and-prediction.html#cb11-1" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;development_data&quot;</span>)</span>
+<span id="cb11-2"><a href="species-discrimination-and-prediction.html#cb11-2" tabindex="-1"></a>dev_samples <span class="ot">&lt;-</span> <span class="fu">filter</span>(development_data, caste<span class="sc">==</span><span class="st">&quot;worker&quot;</span>,<span class="sc">!</span><span class="fu">is.na</span>(head_width), <span class="sc">!</span>remarks <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;aggression actor&quot;</span>, <span class="st">&quot;aggression target&quot;</span>, <span class="st">&quot;queenless colony&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="species-discrimination-and-prediction.html#cb11-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(chromatogram_ID, species, colony, sang_prop, callow, census_date)</span>
+<span id="cb11-4"><a href="species-discrimination-and-prediction.html#cb11-4" tabindex="-1"></a>normalized_abundances <span class="ot">&lt;-</span> <span class="fu">peak_proportions_table</span>(mass_spectra_data[mass_spectra_data<span class="sc">$</span>chromatogram_ID <span class="sc">%in%</span> dev_samples<span class="sc">$</span>chromatogram_ID,])</span>
+<span id="cb11-5"><a href="species-discrimination-and-prediction.html#cb11-5" tabindex="-1"></a>species_indices <span class="ot">&lt;-</span> <span class="fu">calculate_SII</span>(normalized_abundances)</span>
+<span id="cb11-6"><a href="species-discrimination-and-prediction.html#cb11-6" tabindex="-1"></a>dev_samples <span class="ot">&lt;-</span> <span class="fu">left_join</span>(dev_samples, species_indices)</span></code></pre></div>
 <pre><code>## Joining with `by = join_by(chromatogram_ID)`</code></pre>
 </div>
 <div id="predicted-species-of-different-categories-of-ants-as-a-function-of-the-proportion-of-f.-sanguinea-ants-in-a-colony" class="section level3 hasAnchor" number="1.2.2">
 <h3><span class="header-section-number">1.2.2</span> Predicted species of different categories of ants as a function of the proportion of <em>F. sanguinea</em> ants in a colony<a href="species-discrimination-and-prediction.html#predicted-species-of-different-categories-of-ants-as-a-function-of-the-proportion-of-f.-sanguinea-ants-in-a-colony" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="mature-f.-sanguinea" class="section level4 hasAnchor" number="1.2.2.1">
 <h4><span class="header-section-number">1.2.2.1</span> Mature <em>F. sanguinea</em><a href="species-discrimination-and-prediction.html#mature-f.-sanguinea" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="species-discrimination-and-prediction.html#cb15-1" tabindex="-1"></a><span class="fu">library</span>(lmerTest)</span>
-<span id="cb15-2"><a href="species-discrimination-and-prediction.html#cb15-2" tabindex="-1"></a><span class="fu">library</span>(DHARMa)</span>
-<span id="cb15-3"><a href="species-discrimination-and-prediction.html#cb15-3" tabindex="-1"></a>model_input <span class="ot">&lt;-</span> dev_samples[dev_samples<span class="sc">$</span>species<span class="sc">==</span><span class="st">&quot;F. sanguinea&quot;</span><span class="sc">&amp;</span>dev_samples<span class="sc">$</span>callow<span class="sc">==</span><span class="dv">0</span>,]</span>
-<span id="cb15-4"><a href="species-discrimination-and-prediction.html#cb15-4" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(predicted_species<span class="sc">~</span>sang_prop<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>colony)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>colony<span class="sc">:</span>census_date), <span class="at">data=</span>model_input)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="species-discrimination-and-prediction.html#cb13-1" tabindex="-1"></a><span class="fu">library</span>(lmerTest)</span>
+<span id="cb13-2"><a href="species-discrimination-and-prediction.html#cb13-2" tabindex="-1"></a><span class="fu">library</span>(DHARMa)</span>
+<span id="cb13-3"><a href="species-discrimination-and-prediction.html#cb13-3" tabindex="-1"></a>model_input <span class="ot">&lt;-</span> dev_samples[dev_samples<span class="sc">$</span>species<span class="sc">==</span><span class="st">&quot;F. sanguinea&quot;</span><span class="sc">&amp;</span>dev_samples<span class="sc">$</span>callow<span class="sc">==</span><span class="dv">0</span>,]</span>
+<span id="cb13-4"><a href="species-discrimination-and-prediction.html#cb13-4" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(predicted_species<span class="sc">~</span>sang_prop<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>colony)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>colony<span class="sc">:</span>census_date), <span class="at">data=</span>model_input)</span></code></pre></div>
 <pre><code>## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="species-discrimination-and-prediction.html#cb17-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="species-discrimination-and-prediction.html#cb15-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
 ## Formula: predicted_species ~ sang_prop + (1 | colony) + (1 | colony:census_date)
 ##    Data: model_input
 ## 
-## REML criterion at convergence: -42.7
+## REML criterion at convergence: -52
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -1.7585 -0.4730 -0.0482  0.4918  2.1410 
+## -2.3681 -0.5516  0.1130  0.6079  1.5989 
 ## 
 ## Random effects:
 ##  Groups             Name        Variance Std.Dev.
-##  colony:census_date (Intercept) 0.02141  0.1463  
+##  colony:census_date (Intercept) 0.01104  0.1051  
 ##  colony             (Intercept) 0.00000  0.0000  
-##  Residual                       0.01257  0.1121  
+##  Residual                       0.01523  0.1234  
 ## Number of obs: 68, groups:  colony:census_date, 44; colony, 16
 ## 
 ## Fixed effects:
 ##             Estimate Std. Error       df t value Pr(&gt;|t|)    
-## (Intercept)  0.40076    0.04609 42.98489   8.696 5.03e-11 ***
-## sang_prop    0.69524    0.08956 42.46886   7.763 1.12e-09 ***
+## (Intercept)  0.30788    0.03911 44.32364   7.873 5.85e-10 ***
+## sang_prop    0.72923    0.07584 43.53731   9.616 2.46e-12 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Correlation of Fixed Effects:
 ##           (Intr)
-## sang_prop -0.822
+## sang_prop -0.825
 ## optimizer (nloptwrap) convergence code: 0 (OK)
 ## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="species-discrimination-and-prediction.html#cb19-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
-<span id="cb19-2"><a href="species-discrimination-and-prediction.html#cb19-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="species-discrimination-and-prediction.html#cb20-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model)))</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="species-discrimination-and-prediction.html#cb17-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
+<span id="cb17-2"><a href="species-discrimination-and-prediction.html#cb17-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="species-discrimination-and-prediction.html#cb18-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model)))</span></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  residuals(lm_model)
-## W = 0.98861, p-value = 0.7944</code></pre>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="species-discrimination-and-prediction.html#cb22-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb22-2"><a href="species-discrimination-and-prediction.html#cb22-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-11-2.png" width="672" /></p>
+## W = 0.97633, p-value = 0.2218</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="species-discrimination-and-prediction.html#cb20-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>, <span class="at">n=</span><span class="fl">1e4</span>)</span>
+<span id="cb20-2"><a href="species-discrimination-and-prediction.html#cb20-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
 </div>
 <div id="f.-fusca" class="section level4 hasAnchor" number="1.2.2.2">
 <h4><span class="header-section-number">1.2.2.2</span> <em>F. fusca</em><a href="species-discrimination-and-prediction.html#f.-fusca" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="species-discrimination-and-prediction.html#cb23-1" tabindex="-1"></a>model_input <span class="ot">&lt;-</span> dev_samples[dev_samples<span class="sc">$</span>species<span class="sc">==</span><span class="st">&quot;F. fusca&quot;</span>,]</span>
-<span id="cb23-2"><a href="species-discrimination-and-prediction.html#cb23-2" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(predicted_species<span class="sc">~</span>sang_prop<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>colony)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>colony<span class="sc">:</span>census_date), <span class="at">data=</span>model_input)</span>
-<span id="cb23-3"><a href="species-discrimination-and-prediction.html#cb23-3" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="species-discrimination-and-prediction.html#cb21-1" tabindex="-1"></a>model_input <span class="ot">&lt;-</span> dev_samples[dev_samples<span class="sc">$</span>species<span class="sc">==</span><span class="st">&quot;F. fusca&quot;</span>,]</span>
+<span id="cb21-2"><a href="species-discrimination-and-prediction.html#cb21-2" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">sqrt</span>(predicted_species)<span class="sc">~</span>sang_prop<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>colony)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>colony<span class="sc">:</span>census_date), <span class="at">data=</span>model_input)</span></code></pre></div>
+<pre><code>## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="species-discrimination-and-prediction.html#cb23-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
-## Formula: predicted_species ~ sang_prop + (1 | colony) + (1 | colony:census_date)
+## Formula: sqrt(predicted_species) ~ sang_prop + (1 | colony) + (1 | colony:census_date)
 ##    Data: model_input
 ## 
-## REML criterion at convergence: -29.5
+## REML criterion at convergence: -79.6
 ## 
 ## Scaled residuals: 
-##      Min       1Q   Median       3Q      Max 
-## -2.69204 -0.48394 -0.02248  0.45073  1.61626 
+##     Min      1Q  Median      3Q     Max 
+## -2.5605 -0.5609  0.1308  0.4927  2.6982 
 ## 
 ## Random effects:
 ##  Groups             Name        Variance Std.Dev.
-##  colony:census_date (Intercept) 0.022771 0.15090 
-##  colony             (Intercept) 0.004504 0.06711 
-##  Residual                       0.016462 0.12831 
-## Number of obs: 80, groups:  colony:census_date, 57; colony, 20
+##  colony:census_date (Intercept) 0.000000 0.00000 
+##  colony             (Intercept) 0.005389 0.07341 
+##  Residual                       0.014864 0.12192 
+## Number of obs: 76, groups:  colony:census_date, 54; colony, 20
 ## 
 ## Fixed effects:
 ##             Estimate Std. Error       df t value Pr(&gt;|t|)    
-## (Intercept)  0.17695    0.03940 41.89480   4.492 5.46e-05 ***
-## sang_prop    0.84865    0.08886 43.70933   9.550 2.90e-12 ***
+## (Intercept)  0.40693    0.02713 39.36945   15.00   &lt;2e-16 ***
+## sang_prop    0.55759    0.05184 69.99650   10.76   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Correlation of Fixed Effects:
 ##           (Intr)
-## sang_prop -0.659</code></pre>
+## sang_prop -0.579
+## optimizer (nloptwrap) convergence code: 0 (OK)
+## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="species-discrimination-and-prediction.html#cb25-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
 <span id="cb25-2"><a href="species-discrimination-and-prediction.html#cb25-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="species-discrimination-and-prediction.html#cb26-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model)))</span></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  residuals(lm_model)
-## W = 0.97043, p-value = 0.06046</code></pre>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="species-discrimination-and-prediction.html#cb28-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+## W = 0.98056, p-value = 0.2953</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="species-discrimination-and-prediction.html#cb28-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>, <span class="at">n=</span><span class="fl">1e4</span>)</span>
 <span id="cb28-2"><a href="species-discrimination-and-prediction.html#cb28-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-12-2.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-11-2.png" width="672" /></p>
 </div>
 <div id="callow-f.-sanguinea" class="section level4 hasAnchor" number="1.2.2.3">
 <h4><span class="header-section-number">1.2.2.3</span> Callow <em>F. sanguinea</em><a href="species-discrimination-and-prediction.html#callow-f.-sanguinea" class="anchor-section" aria-label="Anchor link to header"></a></h4>
@@ -535,22 +564,22 @@ The main idea is to fit a sPLS_DA model to the training set (sampled from field 
 ## Formula: predicted_species ~ sang_prop + (1 | colony)
 ##    Data: model_input
 ## 
-## REML criterion at convergence: -21.1
+## REML criterion at convergence: -20.9
 ## 
 ## Scaled residuals: 
-##     Min      1Q  Median      3Q     Max 
-## -2.0445 -0.8594  0.2403  0.5662  1.6829 
+##      Min       1Q   Median       3Q      Max 
+## -1.78837 -0.66876 -0.02711  0.59910  2.32635 
 ## 
 ## Random effects:
 ##  Groups   Name        Variance  Std.Dev. 
-##  colony   (Intercept) 1.424e-16 1.193e-08
-##  Residual             2.495e-02 1.579e-01
+##  colony   (Intercept) 8.483e-17 9.210e-09
+##  Residual             2.513e-02 1.585e-01
 ## Number of obs: 32, groups:  colony, 16
 ## 
 ## Fixed effects:
 ##             Estimate Std. Error       df t value Pr(&gt;|t|)    
-## (Intercept)  0.21010    0.04972 30.00000   4.226 0.000205 ***
-## sang_prop    0.69582    0.09347 30.00000   7.445 2.69e-08 ***
+## (Intercept)  0.10879    0.04990 30.00000   2.180   0.0372 *  
+## sang_prop    0.74069    0.09381 30.00000   7.895 8.22e-09 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
@@ -561,133 +590,178 @@ The main idea is to fit a sPLS_DA model to the training set (sampled from field 
 ## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="species-discrimination-and-prediction.html#cb33-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
 <span id="cb33-2"><a href="species-discrimination-and-prediction.html#cb33-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="species-discrimination-and-prediction.html#cb34-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model)))</span></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  residuals(lm_model)
-## W = 0.9662, p-value = 0.4015</code></pre>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="species-discrimination-and-prediction.html#cb36-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+## W = 0.98191, p-value = 0.8528</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="species-discrimination-and-prediction.html#cb36-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>, <span class="at">n=</span><span class="fl">1e4</span>)</span>
 <span id="cb36-2"><a href="species-discrimination-and-prediction.html#cb36-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-13-2.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-12-2.png" width="672" /></p>
 </div>
 </div>
 <div id="difference-in-species-prediction-between-mature-f.-sanguinea-ants-and-their-slaves" class="section level3 hasAnchor" number="1.2.3">
 <h3><span class="header-section-number">1.2.3</span> Difference in species prediction between mature <em>F. sanguinea</em> ants and their slaves<a href="species-discrimination-and-prediction.html#difference-in-species-prediction-between-mature-f.-sanguinea-ants-and-their-slaves" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="species-discrimination-and-prediction.html#cb37-1" tabindex="-1"></a>model_input <span class="ot">&lt;-</span> dev_samples[dev_samples<span class="sc">$</span>species<span class="sc">==</span><span class="st">&quot;F. sanguinea&quot;</span><span class="sc">&amp;</span>dev_samples<span class="sc">$</span>callow<span class="sc">==</span><span class="dv">0</span>,]</span>
 <span id="cb37-2"><a href="species-discrimination-and-prediction.html#cb37-2" tabindex="-1"></a>model_input<span class="sc">$</span>index_diff <span class="ot">&lt;-</span> model_input<span class="sc">$</span>predicted_species <span class="sc">-</span> <span class="fu">find_nestmates_SII</span>(model_input<span class="sc">$</span>chromatogram_ID, dev_samples)</span>
-<span id="cb37-3"><a href="species-discrimination-and-prediction.html#cb37-3" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(index_diff<span class="sc">~</span>sang_prop<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>colony)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>colony<span class="sc">:</span>census_date), <span class="at">data=</span>model_input)</span></code></pre></div>
-<pre><code>## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="species-discrimination-and-prediction.html#cb39-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
+<span id="cb37-3"><a href="species-discrimination-and-prediction.html#cb37-3" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(index_diff<span class="sc">~</span>sang_prop<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>colony)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>colony<span class="sc">:</span>census_date), <span class="at">data=</span>model_input)</span>
+<span id="cb37-4"><a href="species-discrimination-and-prediction.html#cb37-4" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
 ## Formula: index_diff ~ sang_prop + (1 | colony) + (1 | colony:census_date)
 ##    Data: model_input
 ## 
-## REML criterion at convergence: -15.5
+## REML criterion at convergence: -32.5
 ## 
 ## Scaled residuals: 
 ##      Min       1Q   Median       3Q      Max 
-## -1.91560 -0.38909  0.06832  0.42181  1.91871 
+## -2.05305 -0.38563  0.05205  0.59315  1.69019 
 ## 
 ## Random effects:
 ##  Groups             Name        Variance Std.Dev.
-##  colony:census_date (Intercept) 0.04809  0.2193  
-##  colony             (Intercept) 0.00000  0.0000  
-##  Residual                       0.01300  0.1140  
-## Number of obs: 66, groups:  colony:census_date, 42; colony, 16
+##  colony:census_date (Intercept) 0.016579 0.12876 
+##  colony             (Intercept) 0.005309 0.07286 
+##  Residual                       0.016262 0.12752 
+## Number of obs: 65, groups:  colony:census_date, 41; colony, 16
 ## 
 ## Fixed effects:
-##             Estimate Std. Error       df t value Pr(&gt;|t|)   
-## (Intercept)  0.21844    0.06502 38.83288   3.359  0.00176 **
-## sang_prop   -0.10595    0.13521 37.71840  -0.784  0.43817   
+##             Estimate Std. Error       df t value Pr(&gt;|t|)    
+## (Intercept)  0.22554    0.05146 34.01571   4.383 0.000107 ***
+## sang_prop   -0.12364    0.09795 28.84113  -1.262 0.216974    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Correlation of Fixed Effects:
 ##           (Intr)
-## sang_prop -0.823
-## optimizer (nloptwrap) convergence code: 0 (OK)
-## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="species-discrimination-and-prediction.html#cb41-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
-<span id="cb41-2"><a href="species-discrimination-and-prediction.html#cb41-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="species-discrimination-and-prediction.html#cb42-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model)))</span></code></pre></div>
+## sang_prop -0.780</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="species-discrimination-and-prediction.html#cb39-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
+<span id="cb39-2"><a href="species-discrimination-and-prediction.html#cb39-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="species-discrimination-and-prediction.html#cb40-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model)))</span></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  residuals(lm_model)
-## W = 0.97563, p-value = 0.219</code></pre>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="species-discrimination-and-prediction.html#cb44-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb44-2"><a href="species-discrimination-and-prediction.html#cb44-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-14-2.png" width="672" /></p>
+## W = 0.98152, p-value = 0.4407</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="species-discrimination-and-prediction.html#cb42-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>, <span class="at">n=</span><span class="fl">1e4</span>)</span>
+<span id="cb42-2"><a href="species-discrimination-and-prediction.html#cb42-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-13-2.png" width="672" /></p>
 </div>
 <div id="difference-in-species-prediction-between-callow-f.-sanguinea-ants-and-their-slaves" class="section level3 hasAnchor" number="1.2.4">
 <h3><span class="header-section-number">1.2.4</span> Difference in species prediction between callow <em>F. sanguinea</em> ants and their slaves<a href="species-discrimination-and-prediction.html#difference-in-species-prediction-between-callow-f.-sanguinea-ants-and-their-slaves" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Since the linear model does not meet one of diagnostics criterion we will apply Wilcoxon paired test.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="species-discrimination-and-prediction.html#cb45-1" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
-<span id="cb45-2"><a href="species-discrimination-and-prediction.html#cb45-2" tabindex="-1"></a><span class="fu">library</span>(rstatix)</span>
-<span id="cb45-3"><a href="species-discrimination-and-prediction.html#cb45-3" tabindex="-1"></a>model_input <span class="ot">&lt;-</span> dev_samples[dev_samples<span class="sc">$</span>species<span class="sc">==</span><span class="st">&quot;F. sanguinea&quot;</span><span class="sc">&amp;</span>dev_samples<span class="sc">$</span>callow<span class="sc">==</span><span class="dv">1</span>,]</span>
-<span id="cb45-4"><a href="species-discrimination-and-prediction.html#cb45-4" tabindex="-1"></a>model_input<span class="sc">$</span>slave_species_index <span class="ot">&lt;-</span> <span class="fu">find_nestmates_SII</span>(model_input<span class="sc">$</span>chromatogram_ID, dev_samples)</span>
-<span id="cb45-5"><a href="species-discrimination-and-prediction.html#cb45-5" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">wilcox.test</span>(model_input<span class="sc">$</span>predicted_species, model_input<span class="sc">$</span>slave_species_index, <span class="at">paired=</span><span class="cn">TRUE</span>))</span></code></pre></div>
-<pre><code>## 
-##  Wilcoxon signed rank exact test
-## 
-## data:  model_input$predicted_species and model_input$slave_species_index
-## V = 190, p-value = 0.3931
-## alternative hypothesis: true location shift is not equal to 0</code></pre>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="species-discrimination-and-prediction.html#cb47-1" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">species_identity_index=</span><span class="fu">c</span>(model_input<span class="sc">$</span>predicted_species, model_input<span class="sc">$</span>slave_species_index), <span class="at">species=</span><span class="st">&quot;F. fusca&quot;</span>)</span>
-<span id="cb47-2"><a href="species-discrimination-and-prediction.html#cb47-2" tabindex="-1"></a>df<span class="sc">$</span>species[<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(model_input)] <span class="ot">&lt;-</span> <span class="st">&quot;callow F. sanguinea&quot;</span></span>
-<span id="cb47-3"><a href="species-discrimination-and-prediction.html#cb47-3" tabindex="-1"></a>stat_tests <span class="ot">&lt;-</span> <span class="fu">wilcox_test</span>(df, species_identity_index<span class="sc">~</span>species, <span class="at">paired=</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb47-4"><a href="species-discrimination-and-prediction.html#cb47-4" tabindex="-1"></a>  <span class="fu">add_significance</span>(<span class="st">&quot;p&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb47-5"><a href="species-discrimination-and-prediction.html#cb47-5" tabindex="-1"></a>  <span class="fu">add_xy_position</span>(<span class="at">x=</span><span class="st">&quot;species&quot;</span>, <span class="at">dodge=</span><span class="fl">0.8</span>, <span class="at">fun=</span><span class="st">&quot;max&quot;</span>)</span>
-<span id="cb47-6"><a href="species-discrimination-and-prediction.html#cb47-6" tabindex="-1"></a><span class="fu">ggboxplot</span>(df, <span class="at">x=</span><span class="st">&quot;species&quot;</span>, <span class="at">y=</span><span class="st">&quot;species_identity_index&quot;</span>)<span class="sc">+</span></span>
-<span id="cb47-7"><a href="species-discrimination-and-prediction.html#cb47-7" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult=</span><span class="fu">c</span>(<span class="fl">0.02</span>,<span class="fl">0.1</span>)))<span class="sc">+</span></span>
-<span id="cb47-8"><a href="species-discrimination-and-prediction.html#cb47-8" tabindex="-1"></a>  <span class="fu">stat_pvalue_manual</span>(stat_tests, <span class="at">label=</span><span class="st">&quot;p&quot;</span>, <span class="at">tip.length =</span> <span class="dv">0</span>, <span class="at">size=</span><span class="fl">3.5</span>)</span></code></pre></div>
-<pre><code>## Warning: Removed 2 rows containing non-finite outside the scale range (`stat_boxplot()`).</code></pre>
-<p><img src="_main_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
-</div>
-<div id="difference-in-species-prediction-between-callow-and-mature-f.-sanguinea-ants." class="section level3 hasAnchor" number="1.2.5">
-<h3><span class="header-section-number">1.2.5</span> Difference in species prediction between callow and mature <em>F. sanguinea</em> ants.<a href="species-discrimination-and-prediction.html#difference-in-species-prediction-between-callow-and-mature-f.-sanguinea-ants." class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="species-discrimination-and-prediction.html#cb49-1" tabindex="-1"></a>model_input <span class="ot">&lt;-</span> dev_samples[dev_samples<span class="sc">$</span>species<span class="sc">==</span><span class="st">&quot;F. sanguinea&quot;</span><span class="sc">&amp;</span>dev_samples<span class="sc">$</span>callow<span class="sc">==</span><span class="dv">1</span>,]</span>
-<span id="cb49-2"><a href="species-discrimination-and-prediction.html#cb49-2" tabindex="-1"></a>model_input<span class="sc">$</span>index_diff <span class="ot">&lt;-</span> model_input<span class="sc">$</span>predicted_species <span class="sc">-</span> <span class="fu">find_nestmates_SII</span>(model_input<span class="sc">$</span>chromatogram_ID, dev_samples, <span class="at">heterospecific =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb49-3"><a href="species-discrimination-and-prediction.html#cb49-3" tabindex="-1"></a><span class="co"># no random effect since it captures no variance</span></span>
-<span id="cb49-4"><a href="species-discrimination-and-prediction.html#cb49-4" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(index_diff<span class="sc">~</span>sang_prop, <span class="at">data=</span>model_input)</span>
-<span id="cb49-5"><a href="species-discrimination-and-prediction.html#cb49-5" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="species-discrimination-and-prediction.html#cb43-1" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb43-2"><a href="species-discrimination-and-prediction.html#cb43-2" tabindex="-1"></a><span class="fu">library</span>(rstatix)</span>
+<span id="cb43-3"><a href="species-discrimination-and-prediction.html#cb43-3" tabindex="-1"></a>model_input <span class="ot">&lt;-</span> dev_samples[dev_samples<span class="sc">$</span>species<span class="sc">==</span><span class="st">&quot;F. sanguinea&quot;</span><span class="sc">&amp;</span>dev_samples<span class="sc">$</span>callow<span class="sc">==</span><span class="dv">1</span>,]</span>
+<span id="cb43-4"><a href="species-discrimination-and-prediction.html#cb43-4" tabindex="-1"></a>model_input<span class="sc">$</span>index_diff <span class="ot">&lt;-</span> model_input<span class="sc">$</span>predicted_species <span class="sc">-</span> <span class="fu">find_nestmates_SII</span>(model_input<span class="sc">$</span>chromatogram_ID, dev_samples, <span class="at">heterospecific =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb43-5"><a href="species-discrimination-and-prediction.html#cb43-5" tabindex="-1"></a><span class="co"># no random effect since it captures no variance</span></span>
+<span id="cb43-6"><a href="species-discrimination-and-prediction.html#cb43-6" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(index_diff<span class="sc">~</span>sang_prop, <span class="at">data=</span>model_input)</span>
+<span id="cb43-7"><a href="species-discrimination-and-prediction.html#cb43-7" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = index_diff ~ sang_prop, data = model_input)
 ## 
 ## Residuals:
 ##      Min       1Q   Median       3Q      Max 
-## -0.39777 -0.14752  0.03406  0.09929  0.35861 
+## -0.25169 -0.09692  0.01144  0.06247  0.45869 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -0.22883    0.05928  -3.860  0.00061 ***
-## sang_prop    0.06812    0.10845   0.628  0.53502    
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+##             Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept) -0.02461    0.05253  -0.469    0.643
+## sang_prop   -0.01936    0.10832  -0.179    0.859
 ## 
-## Residual standard error: 0.177 on 28 degrees of freedom
+## Residual standard error: 0.1602 on 28 degrees of freedom
 ##   (2 observations deleted due to missingness)
-## Multiple R-squared:  0.01389,    Adjusted R-squared:  -0.02132 
-## F-statistic: 0.3945 on 1 and 28 DF,  p-value: 0.535</code></pre>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="species-discrimination-and-prediction.html#cb51-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
-<span id="cb51-2"><a href="species-discrimination-and-prediction.html#cb51-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="species-discrimination-and-prediction.html#cb52-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model)))</span></code></pre></div>
+## Multiple R-squared:  0.00114,    Adjusted R-squared:  -0.03453 
+## F-statistic: 0.03195 on 1 and 28 DF,  p-value: 0.8594</code></pre>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="species-discrimination-and-prediction.html#cb45-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
+<span id="cb45-2"><a href="species-discrimination-and-prediction.html#cb45-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="species-discrimination-and-prediction.html#cb46-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model)))</span></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  residuals(lm_model)
-## W = 0.98036, p-value = 0.8351</code></pre>
+## W = 0.93718, p-value = 0.0764</code></pre>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="species-discrimination-and-prediction.html#cb48-1" tabindex="-1"></a>model_input <span class="ot">&lt;-</span> dev_samples[dev_samples<span class="sc">$</span>species<span class="sc">==</span><span class="st">&quot;F. sanguinea&quot;</span><span class="sc">&amp;</span>dev_samples<span class="sc">$</span>callow<span class="sc">==</span><span class="dv">1</span>,]</span>
+<span id="cb48-2"><a href="species-discrimination-and-prediction.html#cb48-2" tabindex="-1"></a>model_input<span class="sc">$</span>slave_species_index <span class="ot">&lt;-</span> <span class="fu">find_nestmates_SII</span>(model_input<span class="sc">$</span>chromatogram_ID, dev_samples)</span>
+<span id="cb48-3"><a href="species-discrimination-and-prediction.html#cb48-3" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">wilcox.test</span>(model_input<span class="sc">$</span>predicted_species, model_input<span class="sc">$</span>slave_species_index, <span class="at">paired=</span><span class="cn">TRUE</span>))</span></code></pre></div>
+<pre><code>## 
+##  Wilcoxon signed rank exact test
+## 
+## data:  model_input$predicted_species and model_input$slave_species_index
+## V = 166, p-value = 0.1772
+## alternative hypothesis: true location shift is not equal to 0</code></pre>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="species-discrimination-and-prediction.html#cb50-1" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">species_identity_index=</span><span class="fu">c</span>(model_input<span class="sc">$</span>predicted_species, model_input<span class="sc">$</span>slave_species_index), <span class="at">species=</span><span class="st">&quot;F. fusca&quot;</span>)</span>
+<span id="cb50-2"><a href="species-discrimination-and-prediction.html#cb50-2" tabindex="-1"></a>df<span class="sc">$</span>species[<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(model_input)] <span class="ot">&lt;-</span> <span class="st">&quot;callow F. sanguinea&quot;</span></span>
+<span id="cb50-3"><a href="species-discrimination-and-prediction.html#cb50-3" tabindex="-1"></a>stat_tests <span class="ot">&lt;-</span> <span class="fu">wilcox_test</span>(df, species_identity_index<span class="sc">~</span>species, <span class="at">paired=</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb50-4"><a href="species-discrimination-and-prediction.html#cb50-4" tabindex="-1"></a>  <span class="fu">add_significance</span>(<span class="st">&quot;p&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb50-5"><a href="species-discrimination-and-prediction.html#cb50-5" tabindex="-1"></a>  <span class="fu">add_xy_position</span>(<span class="at">x=</span><span class="st">&quot;species&quot;</span>, <span class="at">dodge=</span><span class="fl">0.8</span>, <span class="at">fun=</span><span class="st">&quot;max&quot;</span>)</span>
+<span id="cb50-6"><a href="species-discrimination-and-prediction.html#cb50-6" tabindex="-1"></a><span class="fu">ggboxplot</span>(df, <span class="at">x=</span><span class="st">&quot;species&quot;</span>, <span class="at">y=</span><span class="st">&quot;species_identity_index&quot;</span>)<span class="sc">+</span></span>
+<span id="cb50-7"><a href="species-discrimination-and-prediction.html#cb50-7" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult=</span><span class="fu">c</span>(<span class="fl">0.02</span>,<span class="fl">0.1</span>)))<span class="sc">+</span></span>
+<span id="cb50-8"><a href="species-discrimination-and-prediction.html#cb50-8" tabindex="-1"></a>  <span class="fu">stat_pvalue_manual</span>(stat_tests, <span class="at">label=</span><span class="st">&quot;p&quot;</span>, <span class="at">tip.length =</span> <span class="dv">0</span>, <span class="at">size=</span><span class="fl">3.5</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-14-2.png" width="672" /></p>
+</div>
+<div id="difference-in-species-prediction-between-callow-and-mature-f.-sanguinea-ants." class="section level3 hasAnchor" number="1.2.5">
+<h3><span class="header-section-number">1.2.5</span> Difference in species prediction between callow and mature <em>F. sanguinea</em> ants.<a href="species-discrimination-and-prediction.html#difference-in-species-prediction-between-callow-and-mature-f.-sanguinea-ants." class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="species-discrimination-and-prediction.html#cb51-1" tabindex="-1"></a>model_input <span class="ot">&lt;-</span> dev_samples[dev_samples<span class="sc">$</span>species<span class="sc">==</span><span class="st">&quot;F. sanguinea&quot;</span><span class="sc">&amp;</span>dev_samples<span class="sc">$</span>callow<span class="sc">==</span><span class="dv">1</span>,]</span>
+<span id="cb51-2"><a href="species-discrimination-and-prediction.html#cb51-2" tabindex="-1"></a>model_input<span class="sc">$</span>index_diff <span class="ot">&lt;-</span> model_input<span class="sc">$</span>predicted_species <span class="sc">-</span> <span class="fu">find_nestmates_SII</span>(model_input<span class="sc">$</span>chromatogram_ID, dev_samples, <span class="at">heterospecific =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb51-3"><a href="species-discrimination-and-prediction.html#cb51-3" tabindex="-1"></a><span class="co"># no random effect since it captures no variance</span></span>
+<span id="cb51-4"><a href="species-discrimination-and-prediction.html#cb51-4" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(index_diff<span class="sc">~</span>sang_prop, <span class="at">data=</span>model_input)</span>
+<span id="cb51-5"><a href="species-discrimination-and-prediction.html#cb51-5" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = index_diff ~ sang_prop, data = model_input)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.21981 -0.13916 -0.02158  0.07804  0.32989 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -0.26424    0.05681  -4.651  7.2e-05 ***
+## sang_prop    0.11393    0.10393   1.096    0.282    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.1696 on 28 degrees of freedom
+##   (2 observations deleted due to missingness)
+## Multiple R-squared:  0.04115,    Adjusted R-squared:  0.006908 
+## F-statistic: 1.202 on 1 and 28 DF,  p-value: 0.2823</code></pre>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="species-discrimination-and-prediction.html#cb53-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
+<span id="cb53-2"><a href="species-discrimination-and-prediction.html#cb53-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="species-discrimination-and-prediction.html#cb54-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model)))</span></code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  residuals(lm_model)
+## W = 0.90729, p-value = 0.01272</code></pre>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="species-discrimination-and-prediction.html#cb56-1" tabindex="-1"></a>model_input <span class="ot">&lt;-</span> dev_samples[dev_samples<span class="sc">$</span>species<span class="sc">==</span><span class="st">&quot;F. sanguinea&quot;</span><span class="sc">&amp;</span>dev_samples<span class="sc">$</span>callow<span class="sc">==</span><span class="dv">1</span>,]</span>
+<span id="cb56-2"><a href="species-discrimination-and-prediction.html#cb56-2" tabindex="-1"></a>model_input<span class="sc">$</span>mature_ant_index <span class="ot">&lt;-</span> <span class="fu">find_nestmates_SII</span>(model_input<span class="sc">$</span>chromatogram_ID, dev_samples, <span class="at">heterospecific =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb56-3"><a href="species-discrimination-and-prediction.html#cb56-3" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">wilcox.test</span>(model_input<span class="sc">$</span>predicted_species, model_input<span class="sc">$</span>mature_ant_index, <span class="at">paired=</span><span class="cn">TRUE</span>))</span></code></pre></div>
+<pre><code>## 
+##  Wilcoxon signed rank exact test
+## 
+## data:  model_input$predicted_species and model_input$mature_ant_index
+## V = 24, p-value = 1.419e-06
+## alternative hypothesis: true location shift is not equal to 0</code></pre>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="species-discrimination-and-prediction.html#cb58-1" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">species_identity_index=</span><span class="fu">c</span>(model_input<span class="sc">$</span>predicted_species, model_input<span class="sc">$</span>mature_ant_index), <span class="at">age=</span><span class="st">&quot;mature&quot;</span>)</span>
+<span id="cb58-2"><a href="species-discrimination-and-prediction.html#cb58-2" tabindex="-1"></a>df<span class="sc">$</span>age[<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(model_input)] <span class="ot">&lt;-</span> <span class="st">&quot;callow&quot;</span></span>
+<span id="cb58-3"><a href="species-discrimination-and-prediction.html#cb58-3" tabindex="-1"></a>stat_tests <span class="ot">&lt;-</span> <span class="fu">wilcox_test</span>(df, species_identity_index<span class="sc">~</span>age, <span class="at">paired=</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb58-4"><a href="species-discrimination-and-prediction.html#cb58-4" tabindex="-1"></a>  <span class="fu">add_significance</span>(<span class="st">&quot;p&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb58-5"><a href="species-discrimination-and-prediction.html#cb58-5" tabindex="-1"></a>  <span class="fu">add_xy_position</span>(<span class="at">x=</span><span class="st">&quot;age&quot;</span>, <span class="at">dodge=</span><span class="fl">0.8</span>, <span class="at">fun=</span><span class="st">&quot;max&quot;</span>)</span>
+<span id="cb58-6"><a href="species-discrimination-and-prediction.html#cb58-6" tabindex="-1"></a><span class="fu">ggboxplot</span>(df, <span class="at">x=</span><span class="st">&quot;age&quot;</span>, <span class="at">y=</span><span class="st">&quot;species_identity_index&quot;</span>)<span class="sc">+</span></span>
+<span id="cb58-7"><a href="species-discrimination-and-prediction.html#cb58-7" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult=</span><span class="fu">c</span>(<span class="fl">0.02</span>,<span class="fl">0.1</span>)))<span class="sc">+</span></span>
+<span id="cb58-8"><a href="species-discrimination-and-prediction.html#cb58-8" tabindex="-1"></a>  <span class="fu">stat_pvalue_manual</span>(stat_tests, <span class="at">label=</span><span class="st">&quot;p&quot;</span>, <span class="at">tip.length =</span> <span class="dv">0</span>, <span class="at">size=</span><span class="fl">3.5</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-15-2.png" width="672" /></p>
 
 </div>
 </div>
 </div>
 <h3>References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-WLODARCZYK201798" class="csl-entry">
 Włodarczyk, Tomasz, and Lech Szczepaniak. 2017. <span>“Facultative Slave-Making Ants Formica Sanguinea Label Their Slaves with Own Recognition Cues Instead of Employing the Strategy of Chemical Mimicry.”</span> <em>Journal of Insect Physiology</em> 96: 98–107. https://doi.org/<a href="https://doi.org/10.1016/j.jinsphys.2016.10.016">https://doi.org/10.1016/j.jinsphys.2016.10.016</a>.
 </div>
@@ -712,42 +786,42 @@ Włodarczyk, Tomasz, and Lech Szczepaniak. 2017. <span>“Facultative Slave-Maki
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": "https://github.com/USERNAME/REPO/edit/BRANCH/Species_identity.Rmd",
-"text": "Edit"
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": ["_main.pdf", "_main.epub"],
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "subsection"
-}
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/USERNAME/REPO/edit/BRANCH/Species_identity.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["_main.pdf", "_main.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
 });
 });
 </script>

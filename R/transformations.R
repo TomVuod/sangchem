@@ -65,7 +65,7 @@ clr_transformation <- function(x){
 #' Calculate proportion of a set of peaks in samples
 #'
 #' @export
-subsample_proportion<-function(peak_IDs, chromatogram_IDs, MS_data=NULL){
+subsamr markdown automatic figure numberingple_proportion<-function(peak_IDs, chromatogram_IDs, MS_data=NULL){
   if (is.null(peak_IDs)) stop("Peak IDs argument null")
   if (any(is.na(peak_IDs))) stop("A NA value in peak IDs argument")
   if (!all(is.numeric(peak_IDs))) stop("Peak IDs value should be numeric")

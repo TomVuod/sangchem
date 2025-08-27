@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 2 Changes of CHCs amount over time | sangchem R package: research project data analysis documentation</title>
   <meta name="description" content="This is a doucumentation of the data analysis workflows and function used to generate the results included in the manuscript entitled Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development." />
-  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.44 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 2 Changes of CHCs amount over time | sangchem R package: research project data analysis documentation" />
   <meta property="og:type" content="book" />
@@ -23,6 +23,7 @@
 <meta name="author" content="Tomasz Włodarczyk" />
 
 
+<meta name="date" content="2025-08-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +32,7 @@
   
 <link rel="prev" href="species-discrimination-and-prediction.html"/>
 <link rel="next" href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html"/>
-<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="libs/jquery-3.6.1/jquery-3.6.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -55,7 +56,7 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -65,7 +66,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -127,6 +128,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -198,45 +200,46 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="3.1" data-path="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#determining-callow-markers"><i class="fa fa-check"></i><b>3.1</b> Determining callow markers</a></li>
 <li class="chapter" data-level="3.2" data-path="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#determining-mature-f.-sanguinea-markers"><i class="fa fa-check"></i><b>3.2</b> Determining mature <em>F. sanguinea</em> markers</a></li>
+<li class="chapter" data-level="3.3" data-path="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#verifying-the-performace-of-the-discrimination-model"><i class="fa fa-check"></i><b>3.3</b> Verifying the performace of the discrimination model</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="verifying-the-performace-of-the-discrimination-model.html"><a href="verifying-the-performace-of-the-discrimination-model.html"><i class="fa fa-check"></i><b>4</b> Verifying the performace of the discrimination model</a></li>
-<li class="chapter" data-level="5" data-path="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html"><i class="fa fa-check"></i><b>5</b> Change in dissimilarity between callow and mature <em>F. sanguinea</em> as the proportion of slave-makers in the colony grows</a></li>
-<li class="chapter" data-level="6" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><i class="fa fa-check"></i><b>6</b> Comparison of CHC amount and proportions in between different categories of individuals</a>
+<li class="chapter" data-level="4" data-path="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-a-colony-increases.html"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-a-colony-increases.html"><i class="fa fa-check"></i><b>4</b> Change in dissimilarity between callow and mature <em>F. sanguinea</em> as the proportion of slave-makers in a colony increases</a></li>
+<li class="chapter" data-level="5" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><i class="fa fa-check"></i><b>5</b> Comparison of amount and proportions of CHC between species and age categories</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-total-chc-amount-between-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>6.1</b> Difference in the total CHC amount between <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
-<li class="chapter" data-level="6.2" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-total-chc-amount-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>6.2</b> Difference in the total CHC amount between callow and mature <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="6.3" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-sanguinea-between-mature-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>6.3</b> Difference in the proportion of CHCs characteristic of <em>F. sanguinea</em> between mature <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
-<li class="chapter" data-level="6.4" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>6.4</b> Difference in the proportion of CHCs characteristic of <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="6.5" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-callow-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>6.5</b> Difference in the proportion of CHCs characteristic of callow <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="6.6" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-amount-of-chcs-characteristic-of-callow-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>6.6</b> Difference in the amount of CHCs characteristic of callow <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="6.7" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-mature-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>6.7</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between mature <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
-<li class="chapter" data-level="6.8" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>6.8</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between mature and callow <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="6.9" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-callow-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>6.9</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between callow <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
-<li class="chapter" data-level="6.10" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-mass-of-n-alkanes-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>6.10</b> Difference in the mass of n-alkanes between callow and mature <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="6.11" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proprtion-of-n-alkanes-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>6.11</b> Difference in the proprtion of n-alkanes between callow and mature <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.1" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-total-chc-amount-between-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>5.1</b> Difference in the total CHC amount between <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
+<li class="chapter" data-level="5.2" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-total-chc-amount-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>5.2</b> Difference in the total CHC amount between callow and mature <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.3" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-sanguinea-between-mature-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>5.3</b> Difference in the proportion of CHCs characteristic of <em>F. sanguinea</em> between mature <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
+<li class="chapter" data-level="5.4" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>5.4</b> Difference in the proportion of CHCs characteristic of <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.5" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proportion-of-chcs-characteristic-of-callow-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>5.5</b> Difference in the proportion of CHCs characteristic of callow <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.6" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-amount-of-chcs-characteristic-of-callow-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>5.6</b> Difference in the amount of CHCs characteristic of callow <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.7" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-mature-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>5.7</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between mature <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
+<li class="chapter" data-level="5.8" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>5.8</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between mature and callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.9" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-callow-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>5.9</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between callow <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
+<li class="chapter" data-level="5.10" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-mass-of-n-alkanes-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>5.10</b> Difference in the mass of n-alkanes between callow and mature <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.11" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proprtion-of-n-alkanes-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>5.11</b> Difference in the proprtion of n-alkanes between callow and mature <em>F. sanguinea</em></a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><i class="fa fa-check"></i><b>7</b> Change in the CHC profile in separated callow <em>F. sanguinea</em> ants</a>
+<li class="chapter" data-level="6" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><i class="fa fa-check"></i><b>6</b> Change in the CHC profile in separated callow <em>F. sanguinea</em> ants</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-total-chc-amount-over-time"><i class="fa fa-check"></i><b>7.1</b> Change in the total CHC amount over time</a></li>
-<li class="chapter" data-level="7.2" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-callow-f.-sanguinea"><i class="fa fa-check"></i><b>7.2</b> Change in the amount of compounds associated with callow <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="7.3" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-f.-sanguinea"><i class="fa fa-check"></i><b>7.3</b> Change in the amount of compounds associated with <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="7.4" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-f.-fusca"><i class="fa fa-check"></i><b>7.4</b> Change in the amount of compounds associated with <em>F. fusca</em></a></li>
+<li class="chapter" data-level="6.1" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-total-chc-amount-over-time"><i class="fa fa-check"></i><b>6.1</b> Change in the total CHC amount over time</a></li>
+<li class="chapter" data-level="6.2" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-callow-f.-sanguinea"><i class="fa fa-check"></i><b>6.2</b> Change in the amount of compounds associated with callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="6.3" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-f.-sanguinea"><i class="fa fa-check"></i><b>6.3</b> Change in the amount of compounds associated with <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="6.4" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-f.-fusca"><i class="fa fa-check"></i><b>6.4</b> Change in the amount of compounds associated with <em>F. fusca</em></a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><i class="fa fa-check"></i><b>8</b> Impact of slave on the development of the <em>F. sanguinea</em> CHC profile</a>
+<li class="chapter" data-level="7" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><i class="fa fa-check"></i><b>7</b> Impact of slave on the development of the <em>F. sanguinea</em> CHC profile</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#analysis-based-on-all-samples"><i class="fa fa-check"></i><b>8.1</b> Analysis based on all samples</a></li>
-<li class="chapter" data-level="8.2" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#analysis-restricted-to-the-individuals-hatched-from-cocoons"><i class="fa fa-check"></i><b>8.2</b> Analysis restricted to the individuals hatched from cocoons</a></li>
+<li class="chapter" data-level="7.1" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#analysis-based-on-all-samples"><i class="fa fa-check"></i><b>7.1</b> Analysis based on all samples</a></li>
+<li class="chapter" data-level="7.2" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#analysis-restricted-to-the-individuals-hatched-from-cocoons"><i class="fa fa-check"></i><b>7.2</b> Analysis restricted to the individuals hatched from cocoons</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html"><i class="fa fa-check"></i><b>9</b> Effect of dummy ants</a>
+<li class="chapter" data-level="8" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html"><i class="fa fa-check"></i><b>8</b> Effect of dummy ants</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.-fusca-chcs"><i class="fa fa-check"></i><b>9.1</b> Distance to the CHC profile of the dummy ants treated by F. fusca CHCs</a></li>
-<li class="chapter" data-level="9.2" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.sanguinea-chcs"><i class="fa fa-check"></i><b>9.2</b> Distance to the CHC profile of the dummy ants treated by F.sanguinea CHCs</a></li>
-<li class="chapter" data-level="9.3" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#fraction-of-docosane-in-the-chc-profile"><i class="fa fa-check"></i><b>9.3</b> Fraction of docosane in the CHC profile</a>
+<li class="chapter" data-level="8.1" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.-fusca-chcs"><i class="fa fa-check"></i><b>8.1</b> Distance to the CHC profile of the dummy ants treated by F. fusca CHCs</a></li>
+<li class="chapter" data-level="8.2" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.sanguinea-chcs"><i class="fa fa-check"></i><b>8.2</b> Distance to the CHC profile of the dummy ants treated by F.sanguinea CHCs</a></li>
+<li class="chapter" data-level="8.3" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#fraction-of-docosane-in-the-chc-profile"><i class="fa fa-check"></i><b>8.3</b> Fraction of docosane in the CHC profile</a>
 <ul>
-<li class="chapter" data-level="9.3.1" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#f.-fusca-2"><i class="fa fa-check"></i><b>9.3.1</b> F. fusca</a></li>
-<li class="chapter" data-level="9.3.2" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#f.-sanguinea"><i class="fa fa-check"></i><b>9.3.2</b> F. sanguinea</a></li>
+<li class="chapter" data-level="8.3.1" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#f.-fusca-2"><i class="fa fa-check"></i><b>8.3.1</b> F. fusca</a></li>
+<li class="chapter" data-level="8.3.2" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#f.-sanguinea"><i class="fa fa-check"></i><b>8.3.2</b> F. sanguinea</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="9" data-path="session-info.html"><a href="session-info.html"><i class="fa fa-check"></i><b>9</b> Session info</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -259,29 +262,28 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="changes-of-chcs-amount-over-time" class="section level1 hasAnchor" number="2">
 <h1><span class="header-section-number">Chapter 2</span> Changes of CHCs amount over time<a href="changes-of-chcs-amount-over-time.html#changes-of-chcs-amount-over-time" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>In this chapter we will check how all CHCs or their specific subsets change
-in both studied species over the colony development.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="changes-of-chcs-amount-over-time.html#cb54-1" tabindex="-1"></a><span class="fu">suppressMessages</span>({</span>
-<span id="cb54-2"><a href="changes-of-chcs-amount-over-time.html#cb54-2" tabindex="-1"></a><span class="fu">library</span>(sangchem)</span>
-<span id="cb54-3"><a href="changes-of-chcs-amount-over-time.html#cb54-3" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb54-4"><a href="changes-of-chcs-amount-over-time.html#cb54-4" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
-<span id="cb54-5"><a href="changes-of-chcs-amount-over-time.html#cb54-5" tabindex="-1"></a><span class="fu">library</span>(lmerTest)</span>
-<span id="cb54-6"><a href="changes-of-chcs-amount-over-time.html#cb54-6" tabindex="-1"></a><span class="fu">library</span>(DHARMa)</span>
-<span id="cb54-7"><a href="changes-of-chcs-amount-over-time.html#cb54-7" tabindex="-1"></a>})</span>
-<span id="cb54-8"><a href="changes-of-chcs-amount-over-time.html#cb54-8" tabindex="-1"></a><span class="co"># load data</span></span>
-<span id="cb54-9"><a href="changes-of-chcs-amount-over-time.html#cb54-9" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;development_data&quot;</span>)</span>
-<span id="cb54-10"><a href="changes-of-chcs-amount-over-time.html#cb54-10" tabindex="-1"></a><span class="fu">load_globals</span>()</span>
-<span id="cb54-11"><a href="changes-of-chcs-amount-over-time.html#cb54-11" tabindex="-1"></a>dev_samples <span class="ot">&lt;-</span> <span class="fu">filter</span>(development_data, caste<span class="sc">==</span><span class="st">&quot;worker&quot;</span>,<span class="sc">!</span><span class="fu">is.na</span>(head_width), <span class="sc">!</span>remarks <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;aggression actor&quot;</span>, <span class="st">&quot;aggression target&quot;</span>, <span class="st">&quot;queenless colony&quot;</span>), callow<span class="sc">==</span><span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb54-12"><a href="changes-of-chcs-amount-over-time.html#cb54-12" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) <span class="sc">%&gt;%</span></span>
-<span id="cb54-13"><a href="changes-of-chcs-amount-over-time.html#cb54-13" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">corrected_mass=</span>mass<span class="sc">/</span>head_width<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>)</span></code></pre></div>
+<p>This chapter contains a series of linear models fitted to examine how the proportion of <em>F. sanguinea</em> workers in a colony is associated with the amount of CHC, analyzed together or in subsets.</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="changes-of-chcs-amount-over-time.html#cb59-1" tabindex="-1"></a><span class="fu">suppressMessages</span>({</span>
+<span id="cb59-2"><a href="changes-of-chcs-amount-over-time.html#cb59-2" tabindex="-1"></a><span class="fu">library</span>(sangchem)</span>
+<span id="cb59-3"><a href="changes-of-chcs-amount-over-time.html#cb59-3" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb59-4"><a href="changes-of-chcs-amount-over-time.html#cb59-4" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb59-5"><a href="changes-of-chcs-amount-over-time.html#cb59-5" tabindex="-1"></a><span class="fu">library</span>(lmerTest)</span>
+<span id="cb59-6"><a href="changes-of-chcs-amount-over-time.html#cb59-6" tabindex="-1"></a><span class="fu">library</span>(DHARMa)</span>
+<span id="cb59-7"><a href="changes-of-chcs-amount-over-time.html#cb59-7" tabindex="-1"></a>})</span>
+<span id="cb59-8"><a href="changes-of-chcs-amount-over-time.html#cb59-8" tabindex="-1"></a><span class="co"># load data</span></span>
+<span id="cb59-9"><a href="changes-of-chcs-amount-over-time.html#cb59-9" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;development_data&quot;</span>)</span>
+<span id="cb59-10"><a href="changes-of-chcs-amount-over-time.html#cb59-10" tabindex="-1"></a><span class="fu">load_globals</span>()</span>
+<span id="cb59-11"><a href="changes-of-chcs-amount-over-time.html#cb59-11" tabindex="-1"></a>dev_samples <span class="ot">&lt;-</span> <span class="fu">filter</span>(development_data, caste<span class="sc">==</span><span class="st">&quot;worker&quot;</span>,<span class="sc">!</span><span class="fu">is.na</span>(head_width), <span class="sc">!</span>remarks <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;aggression actor&quot;</span>, <span class="st">&quot;aggression target&quot;</span>, <span class="st">&quot;queenless colony&quot;</span>), callow<span class="sc">==</span><span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb59-12"><a href="changes-of-chcs-amount-over-time.html#cb59-12" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) <span class="sc">%&gt;%</span></span>
+<span id="cb59-13"><a href="changes-of-chcs-amount-over-time.html#cb59-13" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">corrected_mass=</span>mass<span class="sc">/</span>head_width<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>)</span></code></pre></div>
 <div id="change-in-the-total-chcs-mass" class="section level2 hasAnchor" number="2.1">
 <h2><span class="header-section-number">2.1</span> Change in the total CHCs mass<a href="changes-of-chcs-amount-over-time.html#change-in-the-total-chcs-mass" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="mature-f.-sanguinea-1" class="section level3 hasAnchor" number="2.1.1">
 <h3><span class="header-section-number">2.1.1</span> Mature <em>F. sanguinea</em><a href="changes-of-chcs-amount-over-time.html#mature-f.-sanguinea-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="changes-of-chcs-amount-over-time.html#cb55-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3453</span>)</span>
-<span id="cb55-2"><a href="changes-of-chcs-amount-over-time.html#cb55-2" tabindex="-1"></a>model_input <span class="ot">&lt;-</span> dev_samples[dev_samples<span class="sc">$</span>species<span class="sc">==</span><span class="st">&quot;F. sanguinea&quot;</span>,]</span>
-<span id="cb55-3"><a href="changes-of-chcs-amount-over-time.html#cb55-3" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">I</span>(<span class="fu">log</span>(corrected_mass)) <span class="sc">~</span> sang_prop  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>colony) <span class="sc">+</span>(<span class="dv">1</span> <span class="sc">|</span> colony<span class="sc">:</span>census_date), <span class="at">data=</span>model_input)</span>
-<span id="cb55-4"><a href="changes-of-chcs-amount-over-time.html#cb55-4" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="changes-of-chcs-amount-over-time.html#cb60-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3453</span>)</span>
+<span id="cb60-2"><a href="changes-of-chcs-amount-over-time.html#cb60-2" tabindex="-1"></a>model_input <span class="ot">&lt;-</span> dev_samples[dev_samples<span class="sc">$</span>species<span class="sc">==</span><span class="st">&quot;F. sanguinea&quot;</span>,]</span>
+<span id="cb60-3"><a href="changes-of-chcs-amount-over-time.html#cb60-3" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">I</span>(<span class="fu">log</span>(corrected_mass)) <span class="sc">~</span> sang_prop  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>colony) <span class="sc">+</span>(<span class="dv">1</span> <span class="sc">|</span> colony<span class="sc">:</span>census_date), <span class="at">data=</span>model_input)</span>
+<span id="cb60-4"><a href="changes-of-chcs-amount-over-time.html#cb60-4" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
 ## Formula: I(log(corrected_mass)) ~ sang_prop + (1 | colony) + (1 | colony:census_date)
 ##    Data: model_input
@@ -309,71 +311,71 @@ in both studied species over the colony development.</p>
 ## Correlation of Fixed Effects:
 ##           (Intr)
 ## sang_prop -0.790</code></pre>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="changes-of-chcs-amount-over-time.html#cb57-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
-<span id="cb57-2"><a href="changes-of-chcs-amount-over-time.html#cb57-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="changes-of-chcs-amount-over-time.html#cb58-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model)))</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="changes-of-chcs-amount-over-time.html#cb62-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
+<span id="cb62-2"><a href="changes-of-chcs-amount-over-time.html#cb62-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="changes-of-chcs-amount-over-time.html#cb63-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model)))</span></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  residuals(lm_model)
 ## W = 0.98549, p-value = 0.6168</code></pre>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="changes-of-chcs-amount-over-time.html#cb60-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>, <span class="at">n =</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">4</span>)</span>
-<span id="cb60-2"><a href="changes-of-chcs-amount-over-time.html#cb60-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-18-2.png" width="672" /></p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="changes-of-chcs-amount-over-time.html#cb65-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>, <span class="at">n =</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">4</span>)</span>
+<span id="cb65-2"><a href="changes-of-chcs-amount-over-time.html#cb65-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-17-2.png" width="672" /></p>
 </div>
 <div id="f.-fusca-1" class="section level3 hasAnchor" number="2.1.2">
 <h3><span class="header-section-number">2.1.2</span> <em>F. fusca</em><a href="changes-of-chcs-amount-over-time.html#f.-fusca-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="changes-of-chcs-amount-over-time.html#cb61-1" tabindex="-1"></a>model_input <span class="ot">&lt;-</span> dev_samples[dev_samples<span class="sc">$</span>species<span class="sc">==</span><span class="st">&quot;F. fusca&quot;</span>,]</span>
-<span id="cb61-2"><a href="changes-of-chcs-amount-over-time.html#cb61-2" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">I</span>(<span class="fu">log</span>(corrected_mass)) <span class="sc">~</span> sang_prop  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>colony), <span class="at">data=</span>model_input)</span>
-<span id="cb61-3"><a href="changes-of-chcs-amount-over-time.html#cb61-3" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="changes-of-chcs-amount-over-time.html#cb66-1" tabindex="-1"></a>model_input <span class="ot">&lt;-</span> dev_samples[dev_samples<span class="sc">$</span>species<span class="sc">==</span><span class="st">&quot;F. fusca&quot;</span>,]</span>
+<span id="cb66-2"><a href="changes-of-chcs-amount-over-time.html#cb66-2" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">I</span>(<span class="fu">log</span>(corrected_mass)) <span class="sc">~</span> sang_prop  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>colony), <span class="at">data=</span>model_input)</span>
+<span id="cb66-3"><a href="changes-of-chcs-amount-over-time.html#cb66-3" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
 ## Formula: I(log(corrected_mass)) ~ sang_prop + (1 | colony)
 ##    Data: model_input
 ## 
-## REML criterion at convergence: 112.1
+## REML criterion at convergence: 105.4
 ## 
 ## Scaled residuals: 
-##     Min      1Q  Median      3Q     Max 
-## -2.7202 -0.6512 -0.0015  0.6182  1.7640 
+##      Min       1Q   Median       3Q      Max 
+## -2.78977 -0.63150 -0.00543  0.63013  2.46223 
 ## 
 ## Random effects:
 ##  Groups   Name        Variance Std.Dev.
-##  colony   (Intercept) 0.09007  0.3001  
-##  Residual             0.17545  0.4189  
-## Number of obs: 80, groups:  colony, 20
+##  colony   (Intercept) 0.05167  0.2273  
+##  Residual             0.18054  0.4249  
+## Number of obs: 78, groups:  colony, 20
 ## 
 ## Fixed effects:
 ##             Estimate Std. Error       df t value Pr(&gt;|t|)    
-## (Intercept)  0.59289    0.09748 29.44644   6.082 1.19e-06 ***
-## sang_prop    0.12706    0.17569 69.33935   0.723    0.472    
+## (Intercept)  0.55270    0.08905 31.67460   6.207 6.23e-07 ***
+## sang_prop    0.16713    0.17687 69.98722   0.945    0.348    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Correlation of Fixed Effects:
 ##           (Intr)
-## sang_prop -0.513</code></pre>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="changes-of-chcs-amount-over-time.html#cb63-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
-<span id="cb63-2"><a href="changes-of-chcs-amount-over-time.html#cb63-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="changes-of-chcs-amount-over-time.html#cb64-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model)))</span></code></pre></div>
+## sang_prop -0.592</code></pre>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="changes-of-chcs-amount-over-time.html#cb68-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
+<span id="cb68-2"><a href="changes-of-chcs-amount-over-time.html#cb68-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="changes-of-chcs-amount-over-time.html#cb69-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model)))</span></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  residuals(lm_model)
-## W = 0.98411, p-value = 0.4245</code></pre>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="changes-of-chcs-amount-over-time.html#cb66-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>, <span class="at">n =</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">4</span>)</span>
-<span id="cb66-2"><a href="changes-of-chcs-amount-over-time.html#cb66-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-19-2.png" width="672" /></p>
+## W = 0.99263, p-value = 0.9379</code></pre>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="changes-of-chcs-amount-over-time.html#cb71-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>, <span class="at">n =</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">4</span>)</span>
+<span id="cb71-2"><a href="changes-of-chcs-amount-over-time.html#cb71-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-18-2.png" width="672" /></p>
 </div>
 <div id="callow-f.-sanguinea-1" class="section level3 hasAnchor" number="2.1.3">
 <h3><span class="header-section-number">2.1.3</span> Callow <em>F. sanguinea</em><a href="changes-of-chcs-amount-over-time.html#callow-f.-sanguinea-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="changes-of-chcs-amount-over-time.html#cb67-1" tabindex="-1"></a>model_input <span class="ot">&lt;-</span> <span class="fu">filter</span>(development_data, caste<span class="sc">==</span><span class="st">&quot;worker&quot;</span>,<span class="sc">!</span><span class="fu">is.na</span>(head_width), <span class="sc">!</span>remarks <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;aggression actor&quot;</span>, <span class="st">&quot;aggression target&quot;</span>, <span class="st">&quot;queenless colony&quot;</span>), callow<span class="sc">==</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb67-2"><a href="changes-of-chcs-amount-over-time.html#cb67-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) <span class="sc">%&gt;%</span></span>
-<span id="cb67-3"><a href="changes-of-chcs-amount-over-time.html#cb67-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">corrected_mass=</span>mass<span class="sc">/</span>head_width<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>)</span>
-<span id="cb67-4"><a href="changes-of-chcs-amount-over-time.html#cb67-4" tabindex="-1"></a></span>
-<span id="cb67-5"><a href="changes-of-chcs-amount-over-time.html#cb67-5" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">I</span>((corrected_mass)) <span class="sc">~</span> sang_prop  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>colony), <span class="at">data=</span>model_input)</span>
-<span id="cb67-6"><a href="changes-of-chcs-amount-over-time.html#cb67-6" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="changes-of-chcs-amount-over-time.html#cb72-1" tabindex="-1"></a>model_input <span class="ot">&lt;-</span> <span class="fu">filter</span>(development_data, caste<span class="sc">==</span><span class="st">&quot;worker&quot;</span>,<span class="sc">!</span><span class="fu">is.na</span>(head_width), <span class="sc">!</span>remarks <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;aggression actor&quot;</span>, <span class="st">&quot;aggression target&quot;</span>, <span class="st">&quot;queenless colony&quot;</span>), callow<span class="sc">==</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb72-2"><a href="changes-of-chcs-amount-over-time.html#cb72-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) <span class="sc">%&gt;%</span></span>
+<span id="cb72-3"><a href="changes-of-chcs-amount-over-time.html#cb72-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">corrected_mass=</span>mass<span class="sc">/</span>head_width<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>)</span>
+<span id="cb72-4"><a href="changes-of-chcs-amount-over-time.html#cb72-4" tabindex="-1"></a></span>
+<span id="cb72-5"><a href="changes-of-chcs-amount-over-time.html#cb72-5" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">I</span>((corrected_mass)) <span class="sc">~</span> sang_prop  <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>colony), <span class="at">data=</span>model_input)</span>
+<span id="cb72-6"><a href="changes-of-chcs-amount-over-time.html#cb72-6" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
 ## Formula: I((corrected_mass)) ~ sang_prop + (1 | colony)
 ##    Data: model_input
@@ -400,247 +402,253 @@ in both studied species over the colony development.</p>
 ## Correlation of Fixed Effects:
 ##           (Intr)
 ## sang_prop -0.811</code></pre>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="changes-of-chcs-amount-over-time.html#cb69-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
-<span id="cb69-2"><a href="changes-of-chcs-amount-over-time.html#cb69-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="changes-of-chcs-amount-over-time.html#cb70-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model)))</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="changes-of-chcs-amount-over-time.html#cb74-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
+<span id="cb74-2"><a href="changes-of-chcs-amount-over-time.html#cb74-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="changes-of-chcs-amount-over-time.html#cb75-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model)))</span></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  residuals(lm_model)
 ## W = 0.94835, p-value = 0.1294</code></pre>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="changes-of-chcs-amount-over-time.html#cb72-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>, <span class="at">n =</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">4</span>)</span>
-<span id="cb72-2"><a href="changes-of-chcs-amount-over-time.html#cb72-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-20-2.png" width="672" /></p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="changes-of-chcs-amount-over-time.html#cb77-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>, <span class="at">n =</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">4</span>)</span>
+<span id="cb77-2"><a href="changes-of-chcs-amount-over-time.html#cb77-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-19-2.png" width="672" /></p>
 </div>
 </div>
 <div id="change-of-the-chcs-associated-with-f.-sanguinea" class="section level2 hasAnchor" number="2.2">
 <h2><span class="header-section-number">2.2</span> Change of the CHCs associated with <em>F. sanguinea</em><a href="changes-of-chcs-amount-over-time.html#change-of-the-chcs-associated-with-f.-sanguinea" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="mature-f.-sanguinea-ants" class="section level3 hasAnchor" number="2.2.1">
 <h3><span class="header-section-number">2.2.1</span> Mature <em>F. sanguinea</em> ants<a href="changes-of-chcs-amount-over-time.html#mature-f.-sanguinea-ants" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="changes-of-chcs-amount-over-time.html#cb73-1" tabindex="-1"></a>model_input <span class="ot">&lt;-</span> dev_samples[dev_samples<span class="sc">$</span>species<span class="sc">==</span><span class="st">&quot;F. sanguinea&quot;</span>,]</span>
-<span id="cb73-2"><a href="changes-of-chcs-amount-over-time.html#cb73-2" tabindex="-1"></a>model_input<span class="sc">$</span>corrected_mass <span class="ot">&lt;-</span> model_input<span class="sc">$</span>corrected_mass<span class="sc">*</span><span class="fu">subsample_proportion</span>(peaks_sang, model_input<span class="sc">$</span>chromatogram_ID)</span>
-<span id="cb73-3"><a href="changes-of-chcs-amount-over-time.html#cb73-3" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">I</span>(<span class="fu">log</span>(corrected_mass)) <span class="sc">~</span> sang_prop <span class="sc">+</span>(<span class="dv">1</span> <span class="sc">|</span> colony<span class="sc">:</span>census_date) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>colony), <span class="at">data=</span>model_input)</span></code></pre></div>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="changes-of-chcs-amount-over-time.html#cb78-1" tabindex="-1"></a>model_input <span class="ot">&lt;-</span> dev_samples[dev_samples<span class="sc">$</span>species<span class="sc">==</span><span class="st">&quot;F. sanguinea&quot;</span>,]</span>
+<span id="cb78-2"><a href="changes-of-chcs-amount-over-time.html#cb78-2" tabindex="-1"></a>model_input<span class="sc">$</span>corrected_mass <span class="ot">&lt;-</span> model_input<span class="sc">$</span>corrected_mass<span class="sc">*</span><span class="fu">subsample_proportion</span>(peaks_sang, model_input<span class="sc">$</span>chromatogram_ID)</span>
+<span id="cb78-3"><a href="changes-of-chcs-amount-over-time.html#cb78-3" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">I</span>(<span class="fu">log</span>(corrected_mass<span class="fl">+0.1</span>)) <span class="sc">~</span> sang_prop <span class="sc">+</span>(<span class="dv">1</span> <span class="sc">|</span> colony<span class="sc">:</span>census_date) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>colony), <span class="at">data=</span>model_input)</span></code></pre></div>
 <pre><code>## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="changes-of-chcs-amount-over-time.html#cb75-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="changes-of-chcs-amount-over-time.html#cb80-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
-## Formula: I(log(corrected_mass)) ~ sang_prop + (1 | colony:census_date) +      (1 | colony)
+## Formula: I(log(corrected_mass + 0.1)) ~ sang_prop + (1 | colony:census_date) +      (1 | colony)
 ##    Data: model_input
 ## 
-## REML criterion at convergence: 166.3
+## REML criterion at convergence: 87.3
 ## 
 ## Scaled residuals: 
-##     Min      1Q  Median      3Q     Max 
-## -3.3260 -0.3292  0.1735  0.5265  1.4150 
+##      Min       1Q   Median       3Q      Max 
+## -1.91083 -0.65281  0.05028  0.62439  1.99795 
 ## 
 ## Random effects:
 ##  Groups             Name        Variance Std.Dev.
-##  colony:census_date (Intercept) 0.1972   0.4441  
-##  colony             (Intercept) 0.0000   0.0000  
-##  Residual                       0.4922   0.7016  
+##  colony:census_date (Intercept) 0.02083  0.1443  
+##  colony             (Intercept) 0.00000  0.0000  
+##  Residual                       0.18122  0.4257  
 ## Number of obs: 68, groups:  colony:census_date, 44; colony, 16
 ## 
 ## Fixed effects:
 ##             Estimate Std. Error      df t value Pr(&gt;|t|)    
-## (Intercept)  -2.0162     0.1950 38.5781 -10.342 1.11e-12 ***
-## sang_prop     2.5034     0.3775 37.5415   6.631 8.25e-08 ***
+## (Intercept)  -1.4581     0.1010 40.5678 -14.441  &lt; 2e-16 ***
+## sang_prop     1.6987     0.1951 39.3799   8.706 1.02e-10 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Correlation of Fixed Effects:
 ##           (Intr)
-## sang_prop -0.827
+## sang_prop -0.829
 ## optimizer (nloptwrap) convergence code: 0 (OK)
 ## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="changes-of-chcs-amount-over-time.html#cb77-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
-<span id="cb77-2"><a href="changes-of-chcs-amount-over-time.html#cb77-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="changes-of-chcs-amount-over-time.html#cb78-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model)))</span></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="changes-of-chcs-amount-over-time.html#cb82-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
+<span id="cb82-2"><a href="changes-of-chcs-amount-over-time.html#cb82-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="changes-of-chcs-amount-over-time.html#cb83-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model)))</span></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  residuals(lm_model)
-## W = 0.91016, p-value = 0.0001253</code></pre>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="changes-of-chcs-amount-over-time.html#cb80-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>, <span class="at">n =</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">4</span>)</span>
-<span id="cb80-2"><a href="changes-of-chcs-amount-over-time.html#cb80-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-21-2.png" width="672" /></p>
+## W = 0.98486, p-value = 0.5807</code></pre>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="changes-of-chcs-amount-over-time.html#cb85-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>, <span class="at">n =</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">4</span>)</span>
+<span id="cb85-2"><a href="changes-of-chcs-amount-over-time.html#cb85-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-20-2.png" width="672" /></p>
 </div>
 <div id="f.-fusca-ants" class="section level3 hasAnchor" number="2.2.2">
 <h3><span class="header-section-number">2.2.2</span> <em>F. fusca</em> ants<a href="changes-of-chcs-amount-over-time.html#f.-fusca-ants" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="changes-of-chcs-amount-over-time.html#cb81-1" tabindex="-1"></a>model_input <span class="ot">&lt;-</span> dev_samples[dev_samples<span class="sc">$</span>species<span class="sc">==</span><span class="st">&quot;F. fusca&quot;</span>,]</span>
-<span id="cb81-2"><a href="changes-of-chcs-amount-over-time.html#cb81-2" tabindex="-1"></a>model_input<span class="sc">$</span>corrected_mass <span class="ot">&lt;-</span> model_input<span class="sc">$</span>corrected_mass<span class="sc">*</span><span class="fu">subsample_proportion</span>(peaks_sang, model_input<span class="sc">$</span>chromatogram_ID)</span>
-<span id="cb81-3"><a href="changes-of-chcs-amount-over-time.html#cb81-3" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">I</span>(<span class="fu">sqrt</span>(corrected_mass)) <span class="sc">~</span> sang_prop <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>colony<span class="sc">:</span>census_date), <span class="at">data=</span>model_input)</span>
-<span id="cb81-4"><a href="changes-of-chcs-amount-over-time.html#cb81-4" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="changes-of-chcs-amount-over-time.html#cb86-1" tabindex="-1"></a>model_input <span class="ot">&lt;-</span> dev_samples[dev_samples<span class="sc">$</span>species<span class="sc">==</span><span class="st">&quot;F. fusca&quot;</span>,]</span>
+<span id="cb86-2"><a href="changes-of-chcs-amount-over-time.html#cb86-2" tabindex="-1"></a>model_input<span class="sc">$</span>corrected_mass <span class="ot">&lt;-</span> model_input<span class="sc">$</span>corrected_mass<span class="sc">*</span><span class="fu">subsample_proportion</span>(peaks_sang, model_input<span class="sc">$</span>chromatogram_ID)</span>
+<span id="cb86-3"><a href="changes-of-chcs-amount-over-time.html#cb86-3" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">I</span>(<span class="fu">sqrt</span>(corrected_mass)) <span class="sc">~</span> sang_prop <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>colony<span class="sc">:</span>census_date), <span class="at">data=</span>model_input)</span>
+<span id="cb86-4"><a href="changes-of-chcs-amount-over-time.html#cb86-4" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
 ## Formula: I(sqrt(corrected_mass)) ~ sang_prop + (1 | colony:census_date)
 ##    Data: model_input
 ## 
-## REML criterion at convergence: -50.9
+## REML criterion at convergence: -96.2
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -2.5641 -0.5000 -0.1335  0.4351  4.1946 
+## -2.6985 -0.5631 -0.0743  0.5952  3.1810 
 ## 
 ## Random effects:
-##  Groups             Name        Variance Std.Dev.
-##  colony:census_date (Intercept) 0.001267 0.03559 
-##  Residual                       0.026915 0.16406 
-## Number of obs: 80, groups:  colony:census_date, 57
+##  Groups             Name        Variance  Std.Dev.
+##  colony:census_date (Intercept) 0.0004215 0.02053 
+##  Residual                       0.0148038 0.12167 
+## Number of obs: 78, groups:  colony:census_date, 55
 ## 
 ## Fixed effects:
 ##             Estimate Std. Error       df t value Pr(&gt;|t|)    
-## (Intercept)  0.17944    0.02777 43.67026   6.460 7.32e-08 ***
-## sang_prop    0.48825    0.06567 36.71869   7.435 7.89e-09 ***
+## (Intercept)  0.19056    0.02079 57.03614   9.168 8.18e-13 ***
+## sang_prop    0.47427    0.04851 52.29418   9.778 2.12e-13 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Correlation of Fixed Effects:
 ##           (Intr)
-## sang_prop -0.729</code></pre>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="changes-of-chcs-amount-over-time.html#cb83-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
-<span id="cb83-2"><a href="changes-of-chcs-amount-over-time.html#cb83-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="changes-of-chcs-amount-over-time.html#cb84-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model)))</span></code></pre></div>
+## sang_prop -0.735</code></pre>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="changes-of-chcs-amount-over-time.html#cb88-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
+<span id="cb88-2"><a href="changes-of-chcs-amount-over-time.html#cb88-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="changes-of-chcs-amount-over-time.html#cb89-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model)))</span></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  residuals(lm_model)
-## W = 0.90234, p-value = 1.53e-05</code></pre>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="changes-of-chcs-amount-over-time.html#cb86-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>, <span class="at">n =</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">4</span>)</span>
-<span id="cb86-2"><a href="changes-of-chcs-amount-over-time.html#cb86-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-22-2.png" width="672" /></p>
+## W = 0.98077, p-value = 0.287</code></pre>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="changes-of-chcs-amount-over-time.html#cb91-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>, <span class="at">n =</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">4</span>)</span>
+<span id="cb91-2"><a href="changes-of-chcs-amount-over-time.html#cb91-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-21-2.png" width="672" /></p>
 </div>
 <div id="callow-f.-sanguinea-ants" class="section level3 hasAnchor" number="2.2.3">
 <h3><span class="header-section-number">2.2.3</span> Callow <em>F. sanguinea</em> ants<a href="changes-of-chcs-amount-over-time.html#callow-f.-sanguinea-ants" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="changes-of-chcs-amount-over-time.html#cb87-1" tabindex="-1"></a>model_input <span class="ot">&lt;-</span> <span class="fu">filter</span>(development_data, caste<span class="sc">==</span><span class="st">&quot;worker&quot;</span>,<span class="sc">!</span><span class="fu">is.na</span>(head_width), <span class="sc">!</span>remarks <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;aggression actor&quot;</span>, <span class="st">&quot;aggression target&quot;</span>, <span class="st">&quot;queenless colony&quot;</span>), callow<span class="sc">==</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb87-2"><a href="changes-of-chcs-amount-over-time.html#cb87-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) <span class="sc">%&gt;%</span></span>
-<span id="cb87-3"><a href="changes-of-chcs-amount-over-time.html#cb87-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">corrected_mass=</span>mass<span class="sc">/</span>head_width<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>)</span>
-<span id="cb87-4"><a href="changes-of-chcs-amount-over-time.html#cb87-4" tabindex="-1"></a><span class="co"># random term dropped because of the model singularity</span></span>
-<span id="cb87-5"><a href="changes-of-chcs-amount-over-time.html#cb87-5" tabindex="-1"></a>model_input<span class="sc">$</span>corrected_mass <span class="ot">&lt;-</span> model_input<span class="sc">$</span>corrected_mass<span class="sc">*</span><span class="fu">subsample_proportion</span>(peaks_sang, model_input<span class="sc">$</span>chromatogram_ID)</span>
-<span id="cb87-6"><a href="changes-of-chcs-amount-over-time.html#cb87-6" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">I</span>((corrected_mass)<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)) <span class="sc">~</span> sang_prop, <span class="at">data=</span>model_input)</span>
-<span id="cb87-7"><a href="changes-of-chcs-amount-over-time.html#cb87-7" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="changes-of-chcs-amount-over-time.html#cb92-1" tabindex="-1"></a>model_input <span class="ot">&lt;-</span> <span class="fu">filter</span>(development_data, caste<span class="sc">==</span><span class="st">&quot;worker&quot;</span>,<span class="sc">!</span><span class="fu">is.na</span>(head_width), <span class="sc">!</span>remarks <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;aggression actor&quot;</span>, <span class="st">&quot;aggression target&quot;</span>, <span class="st">&quot;queenless colony&quot;</span>), callow<span class="sc">==</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb92-2"><a href="changes-of-chcs-amount-over-time.html#cb92-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) <span class="sc">%&gt;%</span></span>
+<span id="cb92-3"><a href="changes-of-chcs-amount-over-time.html#cb92-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">corrected_mass=</span>mass<span class="sc">/</span>head_width<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>)</span>
+<span id="cb92-4"><a href="changes-of-chcs-amount-over-time.html#cb92-4" tabindex="-1"></a><span class="co"># random term dropped because of the model singularity</span></span>
+<span id="cb92-5"><a href="changes-of-chcs-amount-over-time.html#cb92-5" tabindex="-1"></a>model_input<span class="sc">$</span>corrected_mass <span class="ot">&lt;-</span> model_input<span class="sc">$</span>corrected_mass<span class="sc">*</span><span class="fu">subsample_proportion</span>(peaks_sang, model_input<span class="sc">$</span>chromatogram_ID)</span>
+<span id="cb92-6"><a href="changes-of-chcs-amount-over-time.html#cb92-6" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">I</span>((corrected_mass)<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)) <span class="sc">~</span> sang_prop, <span class="at">data=</span>model_input)</span>
+<span id="cb92-7"><a href="changes-of-chcs-amount-over-time.html#cb92-7" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = I((corrected_mass)^(1/3)) ~ sang_prop, data = model_input)
 ## 
 ## Residuals:
 ##      Min       1Q   Median       3Q      Max 
-## -0.42238 -0.06172 -0.00021  0.11655  0.28191 
+## -0.39993 -0.06213 -0.00430  0.10868  0.31082 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  0.26743    0.04572   5.850 2.12e-06 ***
-## sang_prop    0.67495    0.08594   7.854 9.17e-09 ***
+## (Intercept)  0.26654    0.04484   5.944 1.63e-06 ***
+## sang_prop    0.66657    0.08430   7.907 7.98e-09 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 0.1452 on 30 degrees of freedom
-## Multiple R-squared:  0.6728, Adjusted R-squared:  0.6619 
-## F-statistic: 61.68 on 1 and 30 DF,  p-value: 9.167e-09</code></pre>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="changes-of-chcs-amount-over-time.html#cb89-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
-<span id="cb89-2"><a href="changes-of-chcs-amount-over-time.html#cb89-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="changes-of-chcs-amount-over-time.html#cb90-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model)))</span></code></pre></div>
+## Residual standard error: 0.1425 on 30 degrees of freedom
+## Multiple R-squared:  0.6757, Adjusted R-squared:  0.6649 
+## F-statistic: 62.52 on 1 and 30 DF,  p-value: 7.977e-09</code></pre>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="changes-of-chcs-amount-over-time.html#cb94-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
+<span id="cb94-2"><a href="changes-of-chcs-amount-over-time.html#cb94-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="changes-of-chcs-amount-over-time.html#cb95-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model)))</span></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  residuals(lm_model)
-## W = 0.95154, p-value = 0.1594</code></pre>
+## W = 0.95738, p-value = 0.2325</code></pre>
 </div>
 </div>
 <div id="change-of-the-chcs-associated-with-f.-fusca" class="section level2 hasAnchor" number="2.3">
 <h2><span class="header-section-number">2.3</span> Change of the CHCs associated with <em>F. fusca</em><a href="changes-of-chcs-amount-over-time.html#change-of-the-chcs-associated-with-f.-fusca" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="mature-f.-sanguinea-ants-1" class="section level3 hasAnchor" number="2.3.1">
 <h3><span class="header-section-number">2.3.1</span> Mature <em>F. sanguinea</em> ants<a href="changes-of-chcs-amount-over-time.html#mature-f.-sanguinea-ants-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="changes-of-chcs-amount-over-time.html#cb92-1" tabindex="-1"></a>model_input <span class="ot">&lt;-</span> dev_samples[dev_samples<span class="sc">$</span>species<span class="sc">==</span><span class="st">&quot;F. sanguinea&quot;</span>,]</span>
-<span id="cb92-2"><a href="changes-of-chcs-amount-over-time.html#cb92-2" tabindex="-1"></a>model_input<span class="sc">$</span>corrected_mass <span class="ot">&lt;-</span> model_input<span class="sc">$</span>corrected_mass<span class="sc">*</span><span class="fu">subsample_proportion</span>(peaks_fusca, model_input<span class="sc">$</span>chromatogram_ID)</span>
-<span id="cb92-3"><a href="changes-of-chcs-amount-over-time.html#cb92-3" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">I</span>(<span class="fu">log</span>(corrected_mass<span class="fl">+0.01</span>)) <span class="sc">~</span> sang_prop <span class="sc">+</span>(<span class="dv">1</span> <span class="sc">|</span> colony<span class="sc">:</span>census_date) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> colony), <span class="at">data=</span>model_input)</span>
-<span id="cb92-4"><a href="changes-of-chcs-amount-over-time.html#cb92-4" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="changes-of-chcs-amount-over-time.html#cb97-1" tabindex="-1"></a>model_input <span class="ot">&lt;-</span> dev_samples[dev_samples<span class="sc">$</span>species<span class="sc">==</span><span class="st">&quot;F. sanguinea&quot;</span>,]</span>
+<span id="cb97-2"><a href="changes-of-chcs-amount-over-time.html#cb97-2" tabindex="-1"></a>model_input<span class="sc">$</span>corrected_mass <span class="ot">&lt;-</span> model_input<span class="sc">$</span>corrected_mass<span class="sc">*</span><span class="fu">subsample_proportion</span>(peaks_fusca, model_input<span class="sc">$</span>chromatogram_ID)</span>
+<span id="cb97-3"><a href="changes-of-chcs-amount-over-time.html#cb97-3" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">I</span>(<span class="fu">log</span>(corrected_mass<span class="sc">+</span><span class="dv">1</span>)) <span class="sc">~</span> sang_prop <span class="sc">+</span>(<span class="dv">1</span> <span class="sc">|</span> colony<span class="sc">:</span>census_date) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> colony), <span class="at">data=</span>model_input)</span>
+<span id="cb97-4"><a href="changes-of-chcs-amount-over-time.html#cb97-4" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
-## Formula: I(log(corrected_mass + 0.01)) ~ sang_prop + (1 | colony:census_date) +      (1 | colony)
+## Formula: I(log(corrected_mass + 1)) ~ sang_prop + (1 | colony:census_date) +      (1 | colony)
 ##    Data: model_input
 ## 
-## REML criterion at convergence: 116.5
+## REML criterion at convergence: 0.2
 ## 
 ## Scaled residuals: 
 ##      Min       1Q   Median       3Q      Max 
-## -1.69392 -0.48776  0.00363  0.46558  2.09299 
+## -1.31776 -0.39048  0.00428  0.38324  2.28522 
 ## 
 ## Random effects:
 ##  Groups             Name        Variance Std.Dev.
-##  colony:census_date (Intercept) 0.09112  0.3019  
-##  colony             (Intercept) 0.19332  0.4397  
-##  Residual                       0.15860  0.3982  
+##  colony:census_date (Intercept) 0.033783 0.18380 
+##  colony             (Intercept) 0.005872 0.07663 
+##  Residual                       0.025124 0.15850 
 ## Number of obs: 68, groups:  colony:census_date, 44; colony, 16
 ## 
 ## Fixed effects:
 ##             Estimate Std. Error      df t value Pr(&gt;|t|)    
-## (Intercept)   0.6017     0.1711 32.7490   3.517   0.0013 ** 
-## sang_prop    -2.0266     0.2542 32.3815  -7.972 3.89e-09 ***
+## (Intercept)   0.7662     0.0647 37.1167  11.842  3.6e-14 ***
+## sang_prop    -0.1247     0.1203 39.3362  -1.037    0.306    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Correlation of Fixed Effects:
 ##           (Intr)
-## sang_prop -0.645</code></pre>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="changes-of-chcs-amount-over-time.html#cb94-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
-<span id="cb94-2"><a href="changes-of-chcs-amount-over-time.html#cb94-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="changes-of-chcs-amount-over-time.html#cb95-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model)))</span></code></pre></div>
+## sang_prop -0.790</code></pre>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="changes-of-chcs-amount-over-time.html#cb99-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
+<span id="cb99-2"><a href="changes-of-chcs-amount-over-time.html#cb99-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="changes-of-chcs-amount-over-time.html#cb100-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model)))</span></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  residuals(lm_model)
-## W = 0.98926, p-value = 0.8288</code></pre>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="changes-of-chcs-amount-over-time.html#cb97-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb97-2"><a href="changes-of-chcs-amount-over-time.html#cb97-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
-<pre><code>## qu = 0.75, log(sigma) = -2.891286 : outer Newton did not converge fully.</code></pre>
-<p><img src="_main_files/figure-html/unnamed-chunk-24-2.png" width="672" /></p>
+## W = 0.96376, p-value = 0.04545</code></pre>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="changes-of-chcs-amount-over-time.html#cb102-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>, <span class="at">n=</span><span class="fl">1e4</span>)</span>
+<span id="cb102-2"><a href="changes-of-chcs-amount-over-time.html#cb102-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-23-2.png" width="672" /></p>
 </div>
 <div id="f.-fusca-ants-1" class="section level3 hasAnchor" number="2.3.2">
 <h3><span class="header-section-number">2.3.2</span> <em>F. fusca</em> ants<a href="changes-of-chcs-amount-over-time.html#f.-fusca-ants-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="changes-of-chcs-amount-over-time.html#cb99-1" tabindex="-1"></a>model_input <span class="ot">&lt;-</span> dev_samples[dev_samples<span class="sc">$</span>species<span class="sc">==</span><span class="st">&quot;F. fusca&quot;</span>,]</span>
-<span id="cb99-2"><a href="changes-of-chcs-amount-over-time.html#cb99-2" tabindex="-1"></a>model_input<span class="sc">$</span>corrected_mass <span class="ot">&lt;-</span> model_input<span class="sc">$</span>corrected_mass<span class="sc">*</span><span class="fu">subsample_proportion</span>(peaks_fusca, model_input<span class="sc">$</span>chromatogram_ID)</span>
-<span id="cb99-3"><a href="changes-of-chcs-amount-over-time.html#cb99-3" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">I</span>(<span class="fu">log</span>(corrected_mass)) <span class="sc">~</span> sang_prop <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> colony), <span class="at">data=</span>model_input)</span>
-<span id="cb99-4"><a href="changes-of-chcs-amount-over-time.html#cb99-4" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="changes-of-chcs-amount-over-time.html#cb103-1" tabindex="-1"></a>model_input <span class="ot">&lt;-</span> dev_samples[dev_samples<span class="sc">$</span>species<span class="sc">==</span><span class="st">&quot;F. fusca&quot;</span>,]</span>
+<span id="cb103-2"><a href="changes-of-chcs-amount-over-time.html#cb103-2" tabindex="-1"></a>model_input<span class="sc">$</span>corrected_mass <span class="ot">&lt;-</span> model_input<span class="sc">$</span>corrected_mass<span class="sc">*</span><span class="fu">subsample_proportion</span>(peaks_fusca, model_input<span class="sc">$</span>chromatogram_ID)</span>
+<span id="cb103-3"><a href="changes-of-chcs-amount-over-time.html#cb103-3" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">I</span>(<span class="fu">log</span>(corrected_mass)) <span class="sc">~</span> sang_prop <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> colony)<span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> colony<span class="sc">:</span>census_date), <span class="at">data=</span>model_input)</span></code></pre></div>
+<pre><code>## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="changes-of-chcs-amount-over-time.html#cb105-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(lm_model))</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
-## Formula: I(log(corrected_mass)) ~ sang_prop + (1 | colony)
+## Formula: I(log(corrected_mass)) ~ sang_prop + (1 | colony) + (1 | colony:census_date)
 ##    Data: model_input
 ## 
-## REML criterion at convergence: 171.5
+## REML criterion at convergence: 115
 ## 
 ## Scaled residuals: 
 ##      Min       1Q   Median       3Q      Max 
-## -2.51831 -0.51839  0.06955  0.50608  2.35521 
+## -2.58321 -0.57289 -0.07609  0.65892  2.38020 
 ## 
 ## Random effects:
-##  Groups   Name        Variance Std.Dev.
-##  colony   (Intercept) 0.1509   0.3885  
-##  Residual             0.3920   0.6261  
-## Number of obs: 80, groups:  colony, 20
+##  Groups             Name        Variance Std.Dev.
+##  colony:census_date (Intercept) 0.0000   0.0000  
+##  colony             (Intercept) 0.1080   0.3286  
+##  Residual                       0.1848   0.4299  
+## Number of obs: 78, groups:  colony:census_date, 55; colony, 20
 ## 
 ## Fixed effects:
-##             Estimate Std. Error       df t value Pr(&gt;|t|)    
-## (Intercept) -0.08753    0.13651 32.60339  -0.641    0.526    
-## sang_prop   -1.77877    0.26013 71.16940  -6.838  2.3e-09 ***
+##             Estimate Std. Error      df t value Pr(&gt;|t|)   
+## (Intercept)  -0.2202     0.1048 28.1273  -2.101  0.04476 * 
+## sang_prop    -0.5097     0.1834 66.6764  -2.779  0.00708 **
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Correlation of Fixed Effects:
 ##           (Intr)
-## sang_prop -0.549</code></pre>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="changes-of-chcs-amount-over-time.html#cb101-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
-<span id="cb101-2"><a href="changes-of-chcs-amount-over-time.html#cb101-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
-<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="changes-of-chcs-amount-over-time.html#cb102-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model)))</span></code></pre></div>
+## sang_prop -0.508
+## optimizer (nloptwrap) convergence code: 0 (OK)
+## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="changes-of-chcs-amount-over-time.html#cb107-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>, <span class="at">n=</span><span class="fl">1e4</span>)</span>
+<span id="cb107-2"><a href="changes-of-chcs-amount-over-time.html#cb107-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="changes-of-chcs-amount-over-time.html#cb108-1" tabindex="-1"></a><span class="co"># model diagnostics</span></span>
+<span id="cb108-2"><a href="changes-of-chcs-amount-over-time.html#cb108-2" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(lm_model))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-24-2.png" width="672" /></p>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="changes-of-chcs-amount-over-time.html#cb109-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(lm_model)))</span></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  residuals(lm_model)
-## W = 0.99112, p-value = 0.8608</code></pre>
-<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="changes-of-chcs-amount-over-time.html#cb104-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb104-2"><a href="changes-of-chcs-amount-over-time.html#cb104-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-25-2.png" width="672" /></p>
+## W = 0.98732, p-value = 0.6366</code></pre>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="changes-of-chcs-amount-over-time.html#cb111-1" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> lm_model, <span class="at">plot =</span> <span class="cn">FALSE</span>, <span class="at">n=</span><span class="fl">1e4</span>)</span>
+<span id="cb111-2"><a href="changes-of-chcs-amount-over-time.html#cb111-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-24-3.png" width="672" /></p>
 
 </div>
 </div>
@@ -665,42 +673,42 @@ in both studied species over the colony development.</p>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": "https://github.com/USERNAME/REPO/edit/BRANCH/CHCs_over_time.Rmd",
-"text": "Edit"
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": ["_main.pdf", "_main.epub"],
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "subsection"
-}
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/USERNAME/REPO/edit/BRANCH/CHCs_over_time.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["_main.pdf", "_main.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
 });
 });
 </script>

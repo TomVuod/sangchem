@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 3 Finding peaks discriminating callow and mature F. sanguinea workers | sangchem R package: research project data analysis documentation</title>
   <meta name="description" content="This is a doucumentation of the data analysis workflows and function used to generate the results included in the manuscript entitled Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development." />
-  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.44 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 3 Finding peaks discriminating callow and mature F. sanguinea workers | sangchem R package: research project data analysis documentation" />
   <meta property="og:type" content="book" />
@@ -23,6 +23,7 @@
 <meta name="author" content="Tomasz Włodarczyk" />
 
 
+<meta name="date" content="2025-08-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -30,8 +31,8 @@
   
   
 <link rel="prev" href="changes-of-chcs-amount-over-time.html"/>
-<link rel="next" href="verifying-the-performace-of-the-discrimination-model.html"/>
-<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link rel="next" href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-a-colony-increases.html"/>
+<script src="libs/jquery-3.6.1/jquery-3.6.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -55,7 +56,7 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -65,7 +66,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -127,6 +128,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -198,45 +200,46 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="3.1" data-path="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#determining-callow-markers"><i class="fa fa-check"></i><b>3.1</b> Determining callow markers</a></li>
 <li class="chapter" data-level="3.2" data-path="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#determining-mature-f.-sanguinea-markers"><i class="fa fa-check"></i><b>3.2</b> Determining mature <em>F. sanguinea</em> markers</a></li>
+<li class="chapter" data-level="3.3" data-path="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#verifying-the-performace-of-the-discrimination-model"><i class="fa fa-check"></i><b>3.3</b> Verifying the performace of the discrimination model</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="verifying-the-performace-of-the-discrimination-model.html"><a href="verifying-the-performace-of-the-discrimination-model.html"><i class="fa fa-check"></i><b>4</b> Verifying the performace of the discrimination model</a></li>
-<li class="chapter" data-level="5" data-path="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-the-colony-grows.html"><i class="fa fa-check"></i><b>5</b> Change in dissimilarity between callow and mature <em>F. sanguinea</em> as the proportion of slave-makers in the colony grows</a></li>
-<li class="chapter" data-level="6" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><i class="fa fa-check"></i><b>6</b> Comparison of CHC amount and proportions in between different categories of individuals</a>
+<li class="chapter" data-level="4" data-path="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-a-colony-increases.html"><a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-a-colony-increases.html"><i class="fa fa-check"></i><b>4</b> Change in dissimilarity between callow and mature <em>F. sanguinea</em> as the proportion of slave-makers in a colony increases</a></li>
+<li class="chapter" data-level="5" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><i class="fa fa-check"></i><b>5</b> Comparison of amount and proportions of CHC between species and age categories</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-total-chc-amount-between-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>6.1</b> Difference in the total CHC amount between <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
-<li class="chapter" data-level="6.2" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-total-chc-amount-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>6.2</b> Difference in the total CHC amount between callow and mature <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="6.3" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-sanguinea-between-mature-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>6.3</b> Difference in the proportion of CHCs characteristic of <em>F. sanguinea</em> between mature <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
-<li class="chapter" data-level="6.4" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>6.4</b> Difference in the proportion of CHCs characteristic of <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="6.5" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-callow-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>6.5</b> Difference in the proportion of CHCs characteristic of callow <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="6.6" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-amount-of-chcs-characteristic-of-callow-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>6.6</b> Difference in the amount of CHCs characteristic of callow <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="6.7" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-mature-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>6.7</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between mature <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
-<li class="chapter" data-level="6.8" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>6.8</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between mature and callow <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="6.9" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-callow-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>6.9</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between callow <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
-<li class="chapter" data-level="6.10" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-mass-of-n-alkanes-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>6.10</b> Difference in the mass of n-alkanes between callow and mature <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="6.11" data-path="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html"><a href="comparison-of-chc-amount-and-proportions-in-between-different-categories-of-individuals.html#difference-in-the-proprtion-of-n-alkanes-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>6.11</b> Difference in the proprtion of n-alkanes between callow and mature <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.1" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-total-chc-amount-between-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>5.1</b> Difference in the total CHC amount between <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
+<li class="chapter" data-level="5.2" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-total-chc-amount-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>5.2</b> Difference in the total CHC amount between callow and mature <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.3" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-sanguinea-between-mature-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>5.3</b> Difference in the proportion of CHCs characteristic of <em>F. sanguinea</em> between mature <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
+<li class="chapter" data-level="5.4" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>5.4</b> Difference in the proportion of CHCs characteristic of <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.5" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proportion-of-chcs-characteristic-of-callow-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>5.5</b> Difference in the proportion of CHCs characteristic of callow <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.6" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-amount-of-chcs-characteristic-of-callow-f.-sanguinea-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>5.6</b> Difference in the amount of CHCs characteristic of callow <em>F. sanguinea</em> between mature and callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.7" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-mature-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>5.7</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between mature <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
+<li class="chapter" data-level="5.8" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-mature-and-callow-f.-sanguinea"><i class="fa fa-check"></i><b>5.8</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between mature and callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.9" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proportion-of-chcs-characteristic-of-f.-fusca-between-callow-f.-sanguinea-and-f.-fusca"><i class="fa fa-check"></i><b>5.9</b> Difference in the proportion of CHCs characteristic of <em>F. fusca</em> between callow <em>F. sanguinea</em> and <em>F. fusca</em></a></li>
+<li class="chapter" data-level="5.10" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-mass-of-n-alkanes-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>5.10</b> Difference in the mass of n-alkanes between callow and mature <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="5.11" data-path="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html"><a href="comparison-of-amount-and-proportions-of-chc-between-species-and-age-categories.html#difference-in-the-proprtion-of-n-alkanes-between-callow-and-mature-f.-sanguinea"><i class="fa fa-check"></i><b>5.11</b> Difference in the proprtion of n-alkanes between callow and mature <em>F. sanguinea</em></a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><i class="fa fa-check"></i><b>7</b> Change in the CHC profile in separated callow <em>F. sanguinea</em> ants</a>
+<li class="chapter" data-level="6" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><i class="fa fa-check"></i><b>6</b> Change in the CHC profile in separated callow <em>F. sanguinea</em> ants</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-total-chc-amount-over-time"><i class="fa fa-check"></i><b>7.1</b> Change in the total CHC amount over time</a></li>
-<li class="chapter" data-level="7.2" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-callow-f.-sanguinea"><i class="fa fa-check"></i><b>7.2</b> Change in the amount of compounds associated with callow <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="7.3" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-f.-sanguinea"><i class="fa fa-check"></i><b>7.3</b> Change in the amount of compounds associated with <em>F. sanguinea</em></a></li>
-<li class="chapter" data-level="7.4" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-f.-fusca"><i class="fa fa-check"></i><b>7.4</b> Change in the amount of compounds associated with <em>F. fusca</em></a></li>
+<li class="chapter" data-level="6.1" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-total-chc-amount-over-time"><i class="fa fa-check"></i><b>6.1</b> Change in the total CHC amount over time</a></li>
+<li class="chapter" data-level="6.2" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-callow-f.-sanguinea"><i class="fa fa-check"></i><b>6.2</b> Change in the amount of compounds associated with callow <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="6.3" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-f.-sanguinea"><i class="fa fa-check"></i><b>6.3</b> Change in the amount of compounds associated with <em>F. sanguinea</em></a></li>
+<li class="chapter" data-level="6.4" data-path="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html"><a href="change-in-the-chc-profile-in-separated-callow-f.-sanguinea-ants.html#change-in-the-amount-of-compounds-associated-with-f.-fusca"><i class="fa fa-check"></i><b>6.4</b> Change in the amount of compounds associated with <em>F. fusca</em></a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><i class="fa fa-check"></i><b>8</b> Impact of slave on the development of the <em>F. sanguinea</em> CHC profile</a>
+<li class="chapter" data-level="7" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><i class="fa fa-check"></i><b>7</b> Impact of slave on the development of the <em>F. sanguinea</em> CHC profile</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#analysis-based-on-all-samples"><i class="fa fa-check"></i><b>8.1</b> Analysis based on all samples</a></li>
-<li class="chapter" data-level="8.2" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#analysis-restricted-to-the-individuals-hatched-from-cocoons"><i class="fa fa-check"></i><b>8.2</b> Analysis restricted to the individuals hatched from cocoons</a></li>
+<li class="chapter" data-level="7.1" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#analysis-based-on-all-samples"><i class="fa fa-check"></i><b>7.1</b> Analysis based on all samples</a></li>
+<li class="chapter" data-level="7.2" data-path="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html"><a href="impact-of-slave-on-the-development-of-the-f.-sanguinea-chc-profile.html#analysis-restricted-to-the-individuals-hatched-from-cocoons"><i class="fa fa-check"></i><b>7.2</b> Analysis restricted to the individuals hatched from cocoons</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html"><i class="fa fa-check"></i><b>9</b> Effect of dummy ants</a>
+<li class="chapter" data-level="8" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html"><i class="fa fa-check"></i><b>8</b> Effect of dummy ants</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.-fusca-chcs"><i class="fa fa-check"></i><b>9.1</b> Distance to the CHC profile of the dummy ants treated by F. fusca CHCs</a></li>
-<li class="chapter" data-level="9.2" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.sanguinea-chcs"><i class="fa fa-check"></i><b>9.2</b> Distance to the CHC profile of the dummy ants treated by F.sanguinea CHCs</a></li>
-<li class="chapter" data-level="9.3" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#fraction-of-docosane-in-the-chc-profile"><i class="fa fa-check"></i><b>9.3</b> Fraction of docosane in the CHC profile</a>
+<li class="chapter" data-level="8.1" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.-fusca-chcs"><i class="fa fa-check"></i><b>8.1</b> Distance to the CHC profile of the dummy ants treated by F. fusca CHCs</a></li>
+<li class="chapter" data-level="8.2" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#distance-to-the-chc-profile-of-the-dummy-ants-treated-by-f.sanguinea-chcs"><i class="fa fa-check"></i><b>8.2</b> Distance to the CHC profile of the dummy ants treated by F.sanguinea CHCs</a></li>
+<li class="chapter" data-level="8.3" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#fraction-of-docosane-in-the-chc-profile"><i class="fa fa-check"></i><b>8.3</b> Fraction of docosane in the CHC profile</a>
 <ul>
-<li class="chapter" data-level="9.3.1" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#f.-fusca-2"><i class="fa fa-check"></i><b>9.3.1</b> F. fusca</a></li>
-<li class="chapter" data-level="9.3.2" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#f.-sanguinea"><i class="fa fa-check"></i><b>9.3.2</b> F. sanguinea</a></li>
+<li class="chapter" data-level="8.3.1" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#f.-fusca-2"><i class="fa fa-check"></i><b>8.3.1</b> F. fusca</a></li>
+<li class="chapter" data-level="8.3.2" data-path="effect-of-dummy-ants.html"><a href="effect-of-dummy-ants.html#f.-sanguinea"><i class="fa fa-check"></i><b>8.3.2</b> F. sanguinea</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="9" data-path="session-info.html"><a href="session-info.html"><i class="fa fa-check"></i><b>9</b> Session info</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -259,225 +262,358 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers" class="section level1 hasAnchor" number="3">
 <h1><span class="header-section-number">Chapter 3</span> Finding peaks discriminating callow and mature <em>F. sanguinea</em> workers<a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-1" tabindex="-1"></a><span class="co"># devtools::install_github(&quot;mixOmicsTeam/mixOmics&quot;, ref = &quot;143d31f9629bc83f1f27272ba6b7a2aaef0ee0e8&quot;)</span></span>
-<span id="cb105-2"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-2" tabindex="-1"></a><span class="fu">suppressMessages</span>({</span>
-<span id="cb105-3"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-3" tabindex="-1"></a>  <span class="fu">library</span>(sangchem)</span>
-<span id="cb105-4"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-4" tabindex="-1"></a>  <span class="fu">library</span>(dplyr)</span>
-<span id="cb105-5"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-5" tabindex="-1"></a>  <span class="fu">library</span>(mixOmics)</span>
-<span id="cb105-6"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-6" tabindex="-1"></a>})</span>
-<span id="cb105-7"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-7" tabindex="-1"></a></span>
-<span id="cb105-8"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-8" tabindex="-1"></a><span class="co"># load data</span></span>
-<span id="cb105-9"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-9" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;development_data&quot;</span>)</span>
-<span id="cb105-10"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-10" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;mass_spectra_data&quot;</span>)</span>
-<span id="cb105-11"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-11" tabindex="-1"></a></span>
-<span id="cb105-12"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-12" tabindex="-1"></a>DA_data <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(development_data, caste<span class="sc">==</span><span class="st">&quot;worker&quot;</span>, <span class="sc">!</span>remarks <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;aggression actor&quot;</span>, <span class="st">&quot;aggression target&quot;</span>, <span class="st">&quot;queenless colony&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb105-13"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-13" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(colony, species, callow, census_date, chromatogram_ID, sang_prop) <span class="sc">%&gt;%</span></span>
-<span id="cb105-14"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-14" tabindex="-1"></a>  <span class="fu">split</span>(<span class="fu">list</span>(.<span class="sc">$</span>colony, .<span class="sc">$</span>census_date), <span class="at">drop=</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb105-15"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-15" tabindex="-1"></a>  <span class="fu">lapply</span>(<span class="cf">function</span>(x){<span class="cf">if</span>(<span class="fu">sum</span>(x<span class="sc">$</span>callow)<span class="sc">==</span><span class="dv">0</span>) <span class="fu">return</span>(<span class="cn">NULL</span>); x}) <span class="sc">%&gt;%</span></span>
-<span id="cb105-16"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-16" tabindex="-1"></a>  {<span class="cf">function</span>(x) x[<span class="sc">!</span><span class="fu">unlist</span>((<span class="fu">lapply</span>(x, is.null)))]}() <span class="sc">%&gt;%</span></span>
-<span id="cb105-17"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-17" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map2</span>(<span class="fu">seq_along</span>(.), <span class="cf">function</span>(x,y){x<span class="sc">$</span>group <span class="ot">&lt;-</span> y; x}) <span class="sc">%&gt;%</span></span>
-<span id="cb105-18"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-18" tabindex="-1"></a>  {<span class="cf">function</span>(x) <span class="fu">do.call</span>(rbind, x)}()</span>
-<span id="cb105-19"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-19" tabindex="-1"></a></span>
-<span id="cb105-20"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-20" tabindex="-1"></a>Y <span class="ot">&lt;-</span> (DA_data<span class="sc">$</span>callow<span class="sc">==</span><span class="dv">1</span>) <span class="sc">+</span> (DA_data<span class="sc">$</span>species<span class="sc">==</span><span class="st">&quot;F. sanguinea&quot;</span>)</span>
-<span id="cb105-21"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-21" tabindex="-1"></a></span>
-<span id="cb105-22"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-22" tabindex="-1"></a>peak_prop <span class="ot">&lt;-</span> <span class="fu">peak_proportions_table</span>(mass_spectra_data[mass_spectra_data<span class="sc">$</span>chromatogram_ID <span class="sc">%in%</span> DA_data<span class="sc">$</span>chromatogram_ID,])</span>
-<span id="cb105-23"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-23" tabindex="-1"></a>peak_prop <span class="ot">&lt;-</span> peak_prop[<span class="fu">match</span>(DA_data<span class="sc">$</span>chromatogram_ID, <span class="fu">rownames</span>(peak_prop)),]</span>
-<span id="cb105-24"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-24" tabindex="-1"></a><span class="co"># remove absent peaks</span></span>
-<span id="cb105-25"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-25" tabindex="-1"></a>peak_prop <span class="ot">&lt;-</span> peak_prop[,<span class="fu">apply</span>(peak_prop,<span class="dv">2</span>,<span class="cf">function</span>(x) <span class="fu">sum</span>(x)<span class="sc">&gt;</span><span class="dv">0</span>)]</span>
-<span id="cb105-26"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-26" tabindex="-1"></a>peak_prop <span class="ot">&lt;-</span> <span class="fu">freq_abun_QC</span>(peak_prop, <span class="at">freq_cutoff =</span> <span class="fl">0.3</span>, <span class="at">abundance_cutoff =</span> <span class="fl">0.005</span>)</span>
-<span id="cb105-27"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-27" tabindex="-1"></a><span class="co"># replace zeros with a small number before transformation</span></span>
-<span id="cb105-28"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-28" tabindex="-1"></a>peak_prop[peak_prop<span class="sc">==</span><span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^-</span><span class="dv">16</span></span>
-<span id="cb105-29"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-29" tabindex="-1"></a><span class="co"># apply central log ratio transformation</span></span>
-<span id="cb105-30"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-30" tabindex="-1"></a>peak_transformed <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">apply</span>(peak_prop, <span class="dv">1</span>, clr_transformation))</span>
-<span id="cb105-31"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-31" tabindex="-1"></a>PCA_callow_discr <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(peak_transformed, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb105-32"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb105-32" tabindex="-1"></a>PCA_callow_discr<span class="sc">$</span>x <span class="ot">&lt;-</span> <span class="fu">withinVariation</span>(PCA_callow_discr<span class="sc">$</span>x, <span class="fu">data.frame</span>(DA_data<span class="sc">$</span>group))</span></code></pre></div>
+<p>The procedure applied to identify species markers can also be applied to determine peaks characteristic of <em>F. sanguinea</em> callow ants. In discriminant analysis, we include two more groups: adult <em>F. sanguinea</em> and adult <em>F. fusca</em> as contrasts against which the callow features are extracted.</p>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-1" tabindex="-1"></a><span class="co"># devtools::install_github(&quot;mixOmicsTeam/mixOmics&quot;, ref = &quot;143d31f9629bc83f1f27272ba6b7a2aaef0ee0e8&quot;)</span></span>
+<span id="cb112-2"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-2" tabindex="-1"></a><span class="fu">suppressMessages</span>({</span>
+<span id="cb112-3"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-3" tabindex="-1"></a>  <span class="fu">library</span>(sangchem)</span>
+<span id="cb112-4"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-4" tabindex="-1"></a>  <span class="fu">library</span>(dplyr)</span>
+<span id="cb112-5"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-5" tabindex="-1"></a>  <span class="fu">library</span>(mixOmics)</span>
+<span id="cb112-6"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-6" tabindex="-1"></a>})</span>
+<span id="cb112-7"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-7" tabindex="-1"></a></span>
+<span id="cb112-8"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-8" tabindex="-1"></a><span class="co"># load data</span></span>
+<span id="cb112-9"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-9" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;development_data&quot;</span>)</span>
+<span id="cb112-10"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-10" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;mass_spectra_data&quot;</span>)</span>
+<span id="cb112-11"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-11" tabindex="-1"></a></span>
+<span id="cb112-12"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-12" tabindex="-1"></a>DA_data <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(development_data, caste<span class="sc">==</span><span class="st">&quot;worker&quot;</span>, <span class="sc">!</span>remarks <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;aggression actor&quot;</span>, <span class="st">&quot;aggression target&quot;</span>, <span class="st">&quot;queenless colony&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb112-13"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-13" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(colony, species, callow, census_date, chromatogram_ID, sang_prop) <span class="sc">%&gt;%</span></span>
+<span id="cb112-14"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-14" tabindex="-1"></a>  <span class="fu">split</span>(<span class="fu">list</span>(.<span class="sc">$</span>colony, .<span class="sc">$</span>census_date), <span class="at">drop=</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb112-15"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-15" tabindex="-1"></a>  <span class="fu">lapply</span>(<span class="cf">function</span>(x){<span class="cf">if</span>(<span class="fu">sum</span>(x<span class="sc">$</span>callow)<span class="sc">==</span><span class="dv">0</span>) <span class="fu">return</span>(<span class="cn">NULL</span>); x}) <span class="sc">%&gt;%</span></span>
+<span id="cb112-16"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-16" tabindex="-1"></a>  {<span class="cf">function</span>(x) x[<span class="sc">!</span><span class="fu">unlist</span>((<span class="fu">lapply</span>(x, is.null)))]}() <span class="sc">%&gt;%</span></span>
+<span id="cb112-17"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-17" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map2</span>(<span class="fu">seq_along</span>(.), <span class="cf">function</span>(x,y){x<span class="sc">$</span>group <span class="ot">&lt;-</span> y; x}) <span class="sc">%&gt;%</span></span>
+<span id="cb112-18"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-18" tabindex="-1"></a>  {<span class="cf">function</span>(x) <span class="fu">do.call</span>(rbind, x)}()</span>
+<span id="cb112-19"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-19" tabindex="-1"></a></span>
+<span id="cb112-20"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-20" tabindex="-1"></a>Y <span class="ot">&lt;-</span> (DA_data<span class="sc">$</span>callow<span class="sc">==</span><span class="dv">1</span>) <span class="sc">+</span> (DA_data<span class="sc">$</span>species<span class="sc">==</span><span class="st">&quot;F. sanguinea&quot;</span>)</span>
+<span id="cb112-21"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-21" tabindex="-1"></a></span>
+<span id="cb112-22"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-22" tabindex="-1"></a>peak_prop <span class="ot">&lt;-</span> <span class="fu">peak_proportions_table</span>(mass_spectra_data[mass_spectra_data<span class="sc">$</span>chromatogram_ID <span class="sc">%in%</span> DA_data<span class="sc">$</span>chromatogram_ID,])</span>
+<span id="cb112-23"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-23" tabindex="-1"></a>peak_prop <span class="ot">&lt;-</span> peak_prop[<span class="fu">match</span>(DA_data<span class="sc">$</span>chromatogram_ID, <span class="fu">rownames</span>(peak_prop)),]</span>
+<span id="cb112-24"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-24" tabindex="-1"></a><span class="co"># remove absent peaks</span></span>
+<span id="cb112-25"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-25" tabindex="-1"></a>peak_prop <span class="ot">&lt;-</span> peak_prop[,<span class="fu">apply</span>(peak_prop,<span class="dv">2</span>,<span class="cf">function</span>(x) <span class="fu">sum</span>(x)<span class="sc">&gt;</span><span class="dv">0</span>)]</span>
+<span id="cb112-26"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-26" tabindex="-1"></a>peak_prop <span class="ot">&lt;-</span> <span class="fu">freq_abun_QC</span>(peak_prop, <span class="at">freq_cutoff =</span> <span class="fl">0.3</span>, <span class="at">abundance_cutoff =</span> <span class="fl">0.005</span>)</span>
+<span id="cb112-27"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-27" tabindex="-1"></a><span class="co"># replace zeros with a small number before transformation</span></span>
+<span id="cb112-28"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-28" tabindex="-1"></a>peak_prop[peak_prop<span class="sc">==</span><span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^-</span><span class="dv">16</span></span>
+<span id="cb112-29"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-29" tabindex="-1"></a><span class="co"># apply central log ratio transformation</span></span>
+<span id="cb112-30"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-30" tabindex="-1"></a>peak_transformed <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">apply</span>(peak_prop, <span class="dv">1</span>, clr_transformation))</span>
+<span id="cb112-31"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-31" tabindex="-1"></a>PCA_callow_discr <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(peak_transformed, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb112-32"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-32" tabindex="-1"></a>PCA_callow_discr<span class="sc">$</span>x <span class="ot">&lt;-</span> <span class="fu">withinVariation</span>(PCA_callow_discr<span class="sc">$</span>x, <span class="fu">data.frame</span>(DA_data<span class="sc">$</span>group))</span></code></pre></div>
 <pre><code>## Splitting the variation for 1 level factor.</code></pre>
-<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb107-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1342</span>)</span>
-<span id="cb107-2"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb107-2" tabindex="-1"></a>discr_analysis_callow <span class="ot">&lt;-</span> <span class="fu">splsda</span>(PCA_callow_discr<span class="sc">$</span>x, <span class="at">Y=</span>Y ,<span class="at">multilevel=</span>DA_data<span class="sc">$</span>group, </span>
-<span id="cb107-3"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb107-3" tabindex="-1"></a>                                <span class="at">ncomp=</span><span class="dv">7</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb114-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1342</span>)</span>
+<span id="cb114-2"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb114-2" tabindex="-1"></a>discr_analysis_callow <span class="ot">&lt;-</span> <span class="fu">splsda</span>(PCA_callow_discr<span class="sc">$</span>x, <span class="at">Y=</span>Y ,<span class="at">multilevel=</span>DA_data<span class="sc">$</span>group, </span>
+<span id="cb114-3"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb114-3" tabindex="-1"></a>                                <span class="at">ncomp=</span><span class="dv">7</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>## Splitting the variation for 1 level factor.</code></pre>
-<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb109-1" tabindex="-1"></a><span class="fu">plotIndiv</span>(discr_analysis_callow, <span class="at">legend=</span><span class="cn">TRUE</span>,<span class="at">ellipse=</span><span class="cn">TRUE</span>,<span class="at">comp=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
-<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb110-1" tabindex="-1"></a>perf.discr_analysis_callow <span class="ot">&lt;-</span> <span class="fu">perf</span>(discr_analysis_callow, </span>
-<span id="cb110-2"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb110-2" tabindex="-1"></a>                                <span class="at">validation =</span> <span class="st">&quot;Mfold&quot;</span>, </span>
-<span id="cb110-3"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb110-3" tabindex="-1"></a>                                <span class="at">folds =</span> <span class="dv">4</span>, </span>
-<span id="cb110-4"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb110-4" tabindex="-1"></a>                           <span class="at">progressBar =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb110-5"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb110-5" tabindex="-1"></a>                           <span class="at">auc =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb110-6"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb110-6" tabindex="-1"></a>                           <span class="at">nrepeat =</span> <span class="dv">30</span>,</span>
-<span id="cb110-7"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb110-7" tabindex="-1"></a>                           <span class="at">scale =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb116-1" tabindex="-1"></a><span class="fu">plotIndiv</span>(discr_analysis_callow, <span class="at">legend=</span><span class="cn">TRUE</span>,<span class="at">ellipse=</span><span class="cn">TRUE</span>,<span class="at">comp=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb117-1" tabindex="-1"></a>perf.discr_analysis_callow <span class="ot">&lt;-</span> <span class="fu">perf</span>(discr_analysis_callow, </span>
+<span id="cb117-2"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb117-2" tabindex="-1"></a>                                <span class="at">validation =</span> <span class="st">&quot;Mfold&quot;</span>, </span>
+<span id="cb117-3"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb117-3" tabindex="-1"></a>                                <span class="at">folds =</span> <span class="dv">4</span>, </span>
+<span id="cb117-4"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb117-4" tabindex="-1"></a>                           <span class="at">progressBar =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb117-5"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb117-5" tabindex="-1"></a>                           <span class="at">auc =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb117-6"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb117-6" tabindex="-1"></a>                           <span class="at">nrepeat =</span> <span class="dv">30</span>,</span>
+<span id="cb117-7"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb117-7" tabindex="-1"></a>                           <span class="at">scale =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>## Splitting the variation for 1 level factor.</code></pre>
-<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb112-1" tabindex="-1"></a><span class="fu">plot</span>(perf.discr_analysis_callow, <span class="at">col =</span> <span class="fu">color.mixo</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>), <span class="at">sd =</span> <span class="cn">TRUE</span>, <span class="at">legend.position =</span> <span class="st">&quot;horizontal&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-27-2.png" width="672" /></p>
-<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb113-1" tabindex="-1"></a>selected_n <span class="ot">&lt;-</span> perf.discr_analysis_callow<span class="sc">$</span>choice.ncom[<span class="st">&quot;overall&quot;</span>, <span class="st">&quot;max.dist&quot;</span>]</span>
-<span id="cb113-2"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb113-2" tabindex="-1"></a>discr_analysis_callows_tuned <span class="ot">&lt;-</span> <span class="fu">tune.splsda</span>(PCA_callow_discr<span class="sc">$</span>x,</span>
-<span id="cb113-3"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb113-3" tabindex="-1"></a>                                   <span class="at">Y=</span>Y,</span>
-<span id="cb113-4"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb113-4" tabindex="-1"></a>                                   <span class="at">nrepeat =</span> <span class="dv">30</span>,</span>
-<span id="cb113-5"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb113-5" tabindex="-1"></a>                                   <span class="at">folds =</span> <span class="dv">4</span>,</span>
-<span id="cb113-6"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb113-6" tabindex="-1"></a>                                   <span class="at">ncomp =</span> selected_n,</span>
-<span id="cb113-7"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb113-7" tabindex="-1"></a>                                   <span class="at">test.keepX =</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">dim</span>(PCA_callow_discr<span class="sc">$</span>x)[<span class="dv">2</span>]), </span>
-<span id="cb113-8"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb113-8" tabindex="-1"></a>                                   <span class="at">dist =</span> <span class="st">&#39;max.dist&#39;</span>,</span>
-<span id="cb113-9"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb113-9" tabindex="-1"></a>                                   <span class="at">validation =</span> <span class="st">&#39;Mfold&#39;</span>,</span>
-<span id="cb113-10"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb113-10" tabindex="-1"></a>                                   <span class="at">measure =</span> <span class="st">&quot;BER&quot;</span>,</span>
-<span id="cb113-11"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb113-11" tabindex="-1"></a>                                   <span class="at">progressBar =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb113-12"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb113-12" tabindex="-1"></a>                                   <span class="at">scale =</span> <span class="cn">FALSE</span>) </span>
-<span id="cb113-13"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb113-13" tabindex="-1"></a></span>
-<span id="cb113-14"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb113-14" tabindex="-1"></a>selected_n <span class="ot">&lt;-</span> discr_analysis_callows_tuned<span class="sc">$</span>choice.ncomp<span class="sc">$</span>ncomp</span>
-<span id="cb113-15"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb113-15" tabindex="-1"></a>discr_analysis_callows_res <span class="ot">&lt;-</span> <span class="fu">splsda</span>(PCA_callow_discr<span class="sc">$</span>x,<span class="at">Y=</span>Y,</span>
-<span id="cb113-16"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb113-16" tabindex="-1"></a>                      <span class="at">multilevel=</span> DA_data<span class="sc">$</span>group,</span>
-<span id="cb113-17"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb113-17" tabindex="-1"></a>                      <span class="at">keepX=</span>discr_analysis_callows_tuned<span class="sc">$</span>choice.keepX,</span>
-<span id="cb113-18"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb113-18" tabindex="-1"></a>                      <span class="at">ncomp=</span>selected_n,</span>
-<span id="cb113-19"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb113-19" tabindex="-1"></a>                      <span class="at">scale =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb119-1" tabindex="-1"></a><span class="fu">plot</span>(perf.discr_analysis_callow, <span class="at">col =</span> <span class="fu">color.mixo</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>), <span class="at">sd =</span> <span class="cn">TRUE</span>, <span class="at">legend.position =</span> <span class="st">&quot;horizontal&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-26-2.png" width="672" /></p>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb120-1" tabindex="-1"></a>selected_n <span class="ot">&lt;-</span> perf.discr_analysis_callow<span class="sc">$</span>choice.ncom[<span class="st">&quot;overall&quot;</span>, <span class="st">&quot;max.dist&quot;</span>]</span>
+<span id="cb120-2"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb120-2" tabindex="-1"></a>discr_analysis_callows_tuned <span class="ot">&lt;-</span> <span class="fu">tune.splsda</span>(PCA_callow_discr<span class="sc">$</span>x,</span>
+<span id="cb120-3"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb120-3" tabindex="-1"></a>                                   <span class="at">Y=</span>Y,</span>
+<span id="cb120-4"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb120-4" tabindex="-1"></a>                                   <span class="at">nrepeat =</span> <span class="dv">30</span>,</span>
+<span id="cb120-5"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb120-5" tabindex="-1"></a>                                   <span class="at">folds =</span> <span class="dv">4</span>,</span>
+<span id="cb120-6"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb120-6" tabindex="-1"></a>                                   <span class="at">ncomp =</span> selected_n,</span>
+<span id="cb120-7"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb120-7" tabindex="-1"></a>                                   <span class="at">test.keepX =</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">dim</span>(PCA_callow_discr<span class="sc">$</span>x)[<span class="dv">2</span>]), </span>
+<span id="cb120-8"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb120-8" tabindex="-1"></a>                                   <span class="at">dist =</span> <span class="st">&#39;max.dist&#39;</span>,</span>
+<span id="cb120-9"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb120-9" tabindex="-1"></a>                                   <span class="at">validation =</span> <span class="st">&#39;Mfold&#39;</span>,</span>
+<span id="cb120-10"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb120-10" tabindex="-1"></a>                                   <span class="at">measure =</span> <span class="st">&quot;BER&quot;</span>,</span>
+<span id="cb120-11"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb120-11" tabindex="-1"></a>                                   <span class="at">progressBar =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb120-12"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb120-12" tabindex="-1"></a>                                   <span class="at">scale =</span> <span class="cn">FALSE</span>) </span>
+<span id="cb120-13"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb120-13" tabindex="-1"></a></span>
+<span id="cb120-14"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb120-14" tabindex="-1"></a>selected_n <span class="ot">&lt;-</span> discr_analysis_callows_tuned<span class="sc">$</span>choice.ncomp<span class="sc">$</span>ncomp</span>
+<span id="cb120-15"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb120-15" tabindex="-1"></a>discr_analysis_callows_res <span class="ot">&lt;-</span> <span class="fu">splsda</span>(PCA_callow_discr<span class="sc">$</span>x,<span class="at">Y=</span>Y,</span>
+<span id="cb120-16"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb120-16" tabindex="-1"></a>                      <span class="at">multilevel=</span> DA_data<span class="sc">$</span>group,</span>
+<span id="cb120-17"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb120-17" tabindex="-1"></a>                      <span class="at">keepX=</span>discr_analysis_callows_tuned<span class="sc">$</span>choice.keepX,</span>
+<span id="cb120-18"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb120-18" tabindex="-1"></a>                      <span class="at">ncomp=</span>selected_n,</span>
+<span id="cb120-19"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb120-19" tabindex="-1"></a>                      <span class="at">scale =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>## Splitting the variation for 1 level factor.</code></pre>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb115-1" tabindex="-1"></a><span class="fu">plotIndiv</span>(discr_analysis_callows_res,</span>
-<span id="cb115-2"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb115-2" tabindex="-1"></a>          <span class="at">legend=</span><span class="cn">TRUE</span>, <span class="at">ellipse=</span><span class="cn">TRUE</span>, <span class="at">comp=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-27-3.png" width="672" /></p>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb122-1" tabindex="-1"></a><span class="fu">plotIndiv</span>(discr_analysis_callows_res,</span>
+<span id="cb122-2"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb122-2" tabindex="-1"></a>          <span class="at">legend=</span><span class="cn">TRUE</span>, <span class="at">ellipse=</span><span class="cn">TRUE</span>, <span class="at">comp=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-26-3.png" width="672" /></p>
 <p>Now we are ready to determine the marker peaks. To do so, we will calculate the effect of each peak on the final classification. We generate input matrix populated with all ones and then we increment input for one peak at a time.</p>
 <div id="determining-callow-markers" class="section level2 hasAnchor" number="3.1">
 <h2><span class="header-section-number">3.1</span> Determining callow markers<a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#determining-callow-markers" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb116-1" tabindex="-1"></a>ones_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span>, <span class="at">nrow =</span> <span class="fu">ncol</span>(peak_prop),<span class="at">ncol=</span> <span class="fu">ncol</span>(peak_prop))</span>
-<span id="cb116-2"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb116-2" tabindex="-1"></a><span class="fu">colnames</span>(ones_matrix) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(ones_matrix) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(peak_prop)</span>
-<span id="cb116-3"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb116-3" tabindex="-1"></a>unit_input <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">ncol</span>(peak_prop)))</span>
-<span id="cb116-4"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb116-4" tabindex="-1"></a>incremented_matrix <span class="ot">&lt;-</span> ones_matrix <span class="sc">+</span> unit_input</span>
-<span id="cb116-5"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb116-5" tabindex="-1"></a>ones_matrix <span class="ot">&lt;-</span> ones_matrix[<span class="dv">1</span>,,drop<span class="ot">=</span><span class="cn">FALSE</span>]</span>
-<span id="cb116-6"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb116-6" tabindex="-1"></a>ones_matrix <span class="ot">&lt;-</span> ones_matrix<span class="sc">/</span><span class="fu">ncol</span>(ones_matrix)</span>
-<span id="cb116-7"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb116-7" tabindex="-1"></a>incremented_matrix <span class="ot">&lt;-</span> <span class="fu">apply</span>(incremented_matrix, <span class="dv">2</span>, <span class="cf">function</span>(x) x<span class="sc">/</span><span class="fu">sum</span>(x))</span>
-<span id="cb116-8"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb116-8" tabindex="-1"></a>res1 <span class="ot">&lt;-</span> <span class="fu">calculate_SII</span>(incremented_matrix, discr_analysis_callows_res, PCA_callow_discr, <span class="at">predicted_category=</span><span class="dv">3</span>)</span>
-<span id="cb116-9"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb116-9" tabindex="-1"></a>res2 <span class="ot">&lt;-</span> <span class="fu">calculate_SII</span>(ones_matrix, discr_analysis_callows_res, PCA_callow_discr, <span class="at">predicted_category=</span><span class="dv">3</span>)</span>
-<span id="cb116-10"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb116-10" tabindex="-1"></a>res <span class="ot">&lt;-</span> res1</span>
-<span id="cb116-11"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb116-11" tabindex="-1"></a>res<span class="sc">$</span>predicted_species <span class="ot">=</span> res1<span class="sc">$</span>predicted_species <span class="sc">-</span> res2<span class="sc">$</span>predicted_species</span>
-<span id="cb116-12"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb116-12" tabindex="-1"></a>res <span class="ot">&lt;-</span> res[<span class="fu">order</span>(res<span class="sc">$</span>predicted_species),]</span>
-<span id="cb116-13"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb116-13" tabindex="-1"></a><span class="fu">print</span>(res)</span></code></pre></div>
-<pre><code>##     chromatogram_ID predicted_species
-## 90               90     -4.159219e-03
-## 47               47     -3.588709e-03
-## 107             107     -2.997965e-03
-## 109             109     -2.444410e-03
-## 42               42     -2.150768e-03
-## 30               30     -1.891202e-03
-## 35               35     -1.877074e-03
-## 57               57     -1.855527e-03
-## 102             102     -1.853874e-03
-## 14               14     -1.699499e-03
-## 81               81     -1.659301e-03
-## 24               24     -1.412691e-03
-## 54               54     -1.359107e-03
-## 77               77     -1.242064e-03
-## 20               20     -1.156125e-03
-## 94               94     -1.146213e-03
-## 50               50     -1.082947e-03
-## 75               75     -9.948903e-04
-## 108             108     -9.403595e-04
-## 95               95     -9.397279e-04
-## 101             101     -7.896210e-04
-## 55               55     -7.670304e-04
-## 9                 9     -6.635095e-04
-## 5                 5     -6.345851e-04
-## 106             106     -5.244650e-04
-## 52               52     -2.088747e-04
-## 68               68     -1.867320e-04
-## 83               83     -9.406790e-05
-## 76               76     -7.309044e-05
-## 85               85     -2.989869e-05
-## 53               53      1.238204e-04
-## 41               41      1.288446e-04
-## 21               21      1.535508e-04
-## 15               15      1.589963e-04
-## 23               23      2.234896e-04
-## 31               31      2.378793e-04
-## 63               63      3.424210e-04
-## 7                 7      5.624342e-04
-## 28               28      5.631769e-04
-## 56               56      7.109498e-04
-## 92               92      9.014744e-04
-## 58               58      9.516242e-04
-## 59               59      1.355974e-03
-## 51               51      1.399106e-03
-## 8                 8      1.416204e-03
-## 36               36      1.537843e-03
-## 32               32      1.787573e-03
-## 27               27      1.884739e-03
-## 16               16      2.243418e-03
-## 12               12      2.466785e-03
-## 29               29      2.490606e-03
-## 43               43      2.698657e-03
-## 33               33      2.712353e-03
-## 49               49      2.930750e-03
-## 71               71      3.051945e-03
-## 88               88      3.475691e-03
-## 37               37      3.913239e-03</code></pre>
-<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb118-1" tabindex="-1"></a>peaks_callow <span class="ot">&lt;-</span> res<span class="sc">$</span>chromatogram_ID[res<span class="sc">$</span>predicted_species<span class="sc">&lt;=</span><span class="fu">quantile</span>(res<span class="sc">$</span>predicted_species, <span class="fl">0.2</span>)]</span></code></pre></div>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb123-1" tabindex="-1"></a>ones_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span>, <span class="at">nrow =</span> <span class="fu">ncol</span>(peak_prop),<span class="at">ncol=</span> <span class="fu">ncol</span>(peak_prop))</span>
+<span id="cb123-2"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb123-2" tabindex="-1"></a><span class="fu">colnames</span>(ones_matrix) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(ones_matrix) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(peak_prop)</span>
+<span id="cb123-3"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb123-3" tabindex="-1"></a>unit_input <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">ncol</span>(peak_prop)))</span>
+<span id="cb123-4"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb123-4" tabindex="-1"></a>incremented_matrix <span class="ot">&lt;-</span> ones_matrix <span class="sc">+</span> unit_input</span>
+<span id="cb123-5"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb123-5" tabindex="-1"></a>ones_matrix <span class="ot">&lt;-</span> ones_matrix[<span class="dv">1</span>,,drop<span class="ot">=</span><span class="cn">FALSE</span>]</span>
+<span id="cb123-6"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb123-6" tabindex="-1"></a>ones_matrix <span class="ot">&lt;-</span> ones_matrix<span class="sc">/</span><span class="fu">ncol</span>(ones_matrix)</span>
+<span id="cb123-7"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb123-7" tabindex="-1"></a>incremented_matrix <span class="ot">&lt;-</span> <span class="fu">apply</span>(incremented_matrix, <span class="dv">2</span>, <span class="cf">function</span>(x) x<span class="sc">/</span><span class="fu">sum</span>(x))</span>
+<span id="cb123-8"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb123-8" tabindex="-1"></a>res1 <span class="ot">&lt;-</span> <span class="fu">calculate_SII</span>(incremented_matrix, discr_analysis_callows_res, PCA_callow_discr, <span class="at">predicted_category=</span><span class="dv">3</span>)</span>
+<span id="cb123-9"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb123-9" tabindex="-1"></a>res2 <span class="ot">&lt;-</span> <span class="fu">calculate_SII</span>(ones_matrix, discr_analysis_callows_res, PCA_callow_discr, <span class="at">predicted_category=</span><span class="dv">3</span>)</span>
+<span id="cb123-10"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb123-10" tabindex="-1"></a>res <span class="ot">&lt;-</span> res1</span>
+<span id="cb123-11"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb123-11" tabindex="-1"></a>res<span class="sc">$</span>predicted_callow <span class="ot">=</span> res1<span class="sc">$</span>predicted_species <span class="sc">-</span> res2<span class="sc">$</span>predicted_species</span>
+<span id="cb123-12"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb123-12" tabindex="-1"></a>res <span class="ot">&lt;-</span> res[<span class="fu">order</span>(res<span class="sc">$</span>predicted_callow),]</span>
+<span id="cb123-13"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb123-13" tabindex="-1"></a><span class="fu">colnames</span>(res)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">&quot;peak_ID&quot;</span></span>
+<span id="cb123-14"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb123-14" tabindex="-1"></a>compounds <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb123-15"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb123-15" tabindex="-1"></a><span class="cf">for</span>(peak <span class="cf">in</span> res<span class="sc">$</span>peak_ID){</span>
+<span id="cb123-16"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb123-16" tabindex="-1"></a>  compounds <span class="ot">&lt;-</span> <span class="fu">c</span>(compounds, mass_spectra_data[mass_spectra_data<span class="sc">$</span>peak_ID<span class="sc">==</span>peak,<span class="st">&quot;identification&quot;</span>][<span class="dv">1</span>])</span>
+<span id="cb123-17"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb123-17" tabindex="-1"></a>}</span>
+<span id="cb123-18"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb123-18" tabindex="-1"></a>res<span class="sc">$</span>compounds <span class="ot">=</span> compounds</span>
+<span id="cb123-19"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb123-19" tabindex="-1"></a>res <span class="ot">&lt;-</span> res[,<span class="fu">c</span>(<span class="st">&quot;peak_ID&quot;</span>, <span class="st">&quot;compounds&quot;</span>, <span class="st">&quot;predicted_callow&quot;</span>)]</span>
+<span id="cb123-20"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb123-20" tabindex="-1"></a><span class="fu">print</span>(res)</span></code></pre></div>
+<pre><code>##     peak_ID                       compounds predicted_callow
+## 90       90                             C31    -4.660784e-03
+## 47       47                             C27    -4.054835e-03
+## 14       14                             C24    -3.116226e-03
+## 109     109           11,21-; 11,19-diMeC33    -2.977968e-03
+## 107     107                        x-Me-C32    -2.842787e-03
+## 102     102   13,17-DiMe_C32 + x,y-DiMe_C32    -2.558299e-03
+## 54       54                    9,13-diMeC27    -2.447265e-03
+## 30       30                         5-MeC25    -2.278376e-03
+## 35       35                             C26    -2.134043e-03
+## 42       42       7,x-; 5,x-; 10,14-diMeC26    -1.991181e-03
+## 57       57              C28 + 3,15-diMeC27    -1.897695e-03
+## 24       24                             C25    -1.529241e-03
+## 75       75                   11,17-diMeC29    -1.328364e-03
+## 108     108                        x-Me_C32    -1.312495e-03
+## 94       94   11,19-; 11,17-; 11,15-diMeC31    -1.289708e-03
+## 7         7                             C23    -1.179041e-03
+## 85       85                 (di)MeC30 (mix)    -1.127536e-03
+## 52       52                   11,15-diMeC27    -1.098272e-03
+## 77       77      7,11-; 7,13-; 7,15-diMeC29    -1.082656e-03
+## 63       63                8,12,16-triMeC28    -9.628906e-04
+## 81       81                             C30    -8.853911e-04
+## 21       21                         C25-ene    -7.833790e-04
+## 95       95            13,19-;13,17-diMeC31    -4.814744e-04
+## 68       68                             C29    -4.515935e-04
+## 50       50                         7-MeC27    -4.066903e-04
+## 9         9                        7-Me-C23    -3.101459e-04
+## 101     101                        x-Me_C32    -1.235770e-04
+## 5         5                         C23-ene    -3.579267e-05
+## 32       32          7,11-diMeC25 + 3-MeC25    -1.211783e-05
+## 29       29                         7-MeC25     1.128296e-04
+## 55       55                    7,11-diMeC27     1.261611e-04
+## 20       20                        C25diene     1.442921e-04
+## 92       92          15-; 13-; 11-; 9-MeC31     1.666569e-04
+## 106     106                          C33ene     1.728681e-04
+## 56       56                          C28ene     1.789221e-04
+## 76       76                   13,17-diMeC29     2.261527e-04
+## 15       15 3,13-; 3,11-; 3,9-; 3,7-diMeC23     5.295931e-04
+## 83       83         14-; 13-; 12-; 11-MeC30     5.465798e-04
+## 53       53             9,17-; 9,15-diMeC27     6.100153e-04
+## 41       41           10,16-; 10,14-diMeC26     6.989176e-04
+## 31       31            11,15-; 9,13-diMeC25     7.925110e-04
+## 28       28                         9-MeC25     1.054063e-03
+## 51       51                         5-MeC27     1.196895e-03
+## 23       23                    4,12-diMeC24     1.329767e-03
+## 58       58               3,9-; 3,7-diMeC27     1.447397e-03
+## 59       59              14-; 12-; 10-MeC28     1.556811e-03
+## 8         8            11-Me-C23 + 9-Me-C23     1.666742e-03
+## 71       71      15-; 13-; 11-; 9-; 7-MeC29     1.857691e-03
+## 36       36                    3,13-diMeC25     2.183240e-03
+## 12       12                         3-MeC23     2.969896e-03
+## 27       27               13-; 11-; 9-MeC25     3.020577e-03
+## 33       33                    5,13-diMeC25     3.092596e-03
+## 16       16      12-; 11-; 10-; 9-; 8-MeC24     3.411977e-03
+## 37       37 14-; 10-MeC26 + 3,7,11-triMeC25     3.456261e-03
+## 49       49                        13-MeC27     3.604555e-03
+## 43       43          C27-ene + 6,12-diMeC26     3.869135e-03
+## 88       88                 C31ene; 3-MeC30     5.336721e-03</code></pre>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb125-1" tabindex="-1"></a>peaks_callow <span class="ot">&lt;-</span> res<span class="sc">$</span>chromatogram_ID[res<span class="sc">$</span>predicted_callow<span class="sc">&lt;=</span><span class="fu">quantile</span>(res<span class="sc">$</span>predicted_callow, <span class="fl">0.2</span>)]</span></code></pre></div>
 </div>
 <div id="determining-mature-f.-sanguinea-markers" class="section level2 hasAnchor" number="3.2">
 <h2><span class="header-section-number">3.2</span> Determining mature <em>F. sanguinea</em> markers<a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#determining-mature-f.-sanguinea-markers" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb119-1" tabindex="-1"></a>res1 <span class="ot">&lt;-</span> <span class="fu">calculate_SII</span>(incremented_matrix, discr_analysis_callows_res, PCA_callow_discr, <span class="at">predicted_category=</span><span class="dv">2</span>)</span>
-<span id="cb119-2"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb119-2" tabindex="-1"></a>res2 <span class="ot">&lt;-</span> <span class="fu">calculate_SII</span>(ones_matrix, discr_analysis_callows_res, PCA_callow_discr, <span class="at">predicted_category=</span><span class="dv">3</span>)</span>
-<span id="cb119-3"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb119-3" tabindex="-1"></a>res <span class="ot">&lt;-</span> res1</span>
-<span id="cb119-4"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb119-4" tabindex="-1"></a>res<span class="sc">$</span>predicted_species <span class="ot">=</span> res1<span class="sc">$</span>predicted_species <span class="sc">-</span> res2<span class="sc">$</span>predicted_species</span>
-<span id="cb119-5"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb119-5" tabindex="-1"></a>res <span class="ot">&lt;-</span> res[<span class="fu">order</span>(res<span class="sc">$</span>predicted_species),]</span>
-<span id="cb119-6"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb119-6" tabindex="-1"></a><span class="fu">print</span>(res)</span></code></pre></div>
-<pre><code>##     chromatogram_ID predicted_species
-## 27               27          1.333255
-## 24               24          1.333760
-## 7                 7          1.333850
-## 37               37          1.333895
-## 29               29          1.334982
-## 16               16          1.335204
-## 14               14          1.335230
-## 49               49          1.335321
-## 47               47          1.335777
-## 68               68          1.336314
-## 33               33          1.336334
-## 8                 8          1.337056
-## 32               32          1.337252
-## 12               12          1.337269
-## 88               88          1.337280
-## 71               71          1.337568
-## 50               50          1.337756
-## 42               42          1.337796
-## 35               35          1.337810
-## 59               59          1.337832
-## 5                 5          1.337877
-## 23               23          1.337884
-## 58               58          1.337916
-## 36               36          1.338088
-## 55               55          1.338092
-## 20               20          1.338095
-## 31               31          1.338265
-## 53               53          1.338350
-## 15               15          1.338432
-## 81               81          1.338533
-## 9                 9          1.338546
-## 41               41          1.338581
-## 54               54          1.338744
-## 90               90          1.338794
-## 63               63          1.338993
-## 28               28          1.339028
-## 75               75          1.339121
-## 51               51          1.339178
-## 95               95          1.339235
-## 107             107          1.339243
-## 57               57          1.339366
-## 77               77          1.339409
-## 76               76          1.339623
-## 43               43          1.339661
-## 92               92          1.339673
-## 56               56          1.339717
-## 101             101          1.339720
-## 21               21          1.339790
-## 83               83          1.339822
-## 85               85          1.339827
-## 52               52          1.339842
-## 106             106          1.339848
-## 108             108          1.339865
-## 94               94          1.339897
-## 109             109          1.340641
-## 30               30          1.340932
-## 102             102          1.341676</code></pre>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb121-1" tabindex="-1"></a>peaks_mature <span class="ot">&lt;-</span> res<span class="sc">$</span>chromatogram_ID[res<span class="sc">$</span>predicted_species<span class="sc">&lt;=</span><span class="fu">quantile</span>(res<span class="sc">$</span>predicted_species, <span class="fl">0.2</span>)]</span></code></pre></div>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb122-1" tabindex="-1"></a>globals <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">&quot;globals.rds&quot;</span>, <span class="at">package=</span><span class="st">&quot;sangchem&quot;</span>))</span>
-<span id="cb122-2"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb122-2" tabindex="-1"></a>globals[[<span class="st">&quot;peaks_callow&quot;</span>]] <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(peaks_callow)</span>
-<span id="cb122-3"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb122-3" tabindex="-1"></a>globals[[<span class="st">&quot;peaks_mature&quot;</span>]] <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(peaks_mature)</span>
-<span id="cb122-4"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb122-4" tabindex="-1"></a><span class="fu">saveRDS</span>(globals, <span class="fu">system.file</span>(<span class="st">&quot;globals.rds&quot;</span>, <span class="at">package=</span><span class="st">&quot;sangchem&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb126-1" tabindex="-1"></a>res1 <span class="ot">&lt;-</span> <span class="fu">calculate_SII</span>(incremented_matrix, discr_analysis_callows_res, PCA_callow_discr, <span class="at">predicted_category=</span><span class="dv">2</span>)</span>
+<span id="cb126-2"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb126-2" tabindex="-1"></a>res2 <span class="ot">&lt;-</span> <span class="fu">calculate_SII</span>(ones_matrix, discr_analysis_callows_res, PCA_callow_discr, <span class="at">predicted_category=</span><span class="dv">2</span>)</span>
+<span id="cb126-3"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb126-3" tabindex="-1"></a>res <span class="ot">&lt;-</span> res1</span>
+<span id="cb126-4"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb126-4" tabindex="-1"></a>res<span class="sc">$</span>predicted_mature <span class="ot">=</span> res1<span class="sc">$</span>predicted_species <span class="sc">-</span> res2<span class="sc">$</span>predicted_species</span>
+<span id="cb126-5"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb126-5" tabindex="-1"></a>res <span class="ot">&lt;-</span> res[<span class="fu">order</span>(res<span class="sc">$</span>predicted_mature),]</span>
+<span id="cb126-6"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb126-6" tabindex="-1"></a><span class="fu">colnames</span>(res)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">&quot;peak_ID&quot;</span></span>
+<span id="cb126-7"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb126-7" tabindex="-1"></a>compounds <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb126-8"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb126-8" tabindex="-1"></a><span class="cf">for</span>(peak <span class="cf">in</span> res<span class="sc">$</span>peak_ID){</span>
+<span id="cb126-9"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb126-9" tabindex="-1"></a>  compounds <span class="ot">&lt;-</span> <span class="fu">c</span>(compounds, mass_spectra_data[mass_spectra_data<span class="sc">$</span>peak_ID<span class="sc">==</span>peak,<span class="st">&quot;identification&quot;</span>][<span class="dv">1</span>])</span>
+<span id="cb126-10"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb126-10" tabindex="-1"></a>}</span>
+<span id="cb126-11"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb126-11" tabindex="-1"></a>res<span class="sc">$</span>compounds <span class="ot">=</span> compounds</span>
+<span id="cb126-12"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb126-12" tabindex="-1"></a>res <span class="ot">&lt;-</span> res[,<span class="fu">c</span>(<span class="st">&quot;peak_ID&quot;</span>, <span class="st">&quot;compounds&quot;</span>, <span class="st">&quot;predicted_mature&quot;</span>)]</span>
+<span id="cb126-13"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb126-13" tabindex="-1"></a><span class="fu">print</span>(res)</span></code></pre></div>
+<pre><code>##     peak_ID                       compounds predicted_mature
+## 27       27               13-; 11-; 9-MeC25    -5.801977e-03
+## 24       24                             C25    -4.286894e-03
+## 16       16      12-; 11-; 10-; 9-; 8-MeC24    -4.093351e-03
+## 49       49                        13-MeC27    -3.632269e-03
+## 33       33                    5,13-diMeC25    -3.583579e-03
+## 37       37 14-; 10-MeC26 + 3,7,11-triMeC25    -3.281924e-03
+## 88       88                 C31ene; 3-MeC30    -3.163516e-03
+## 20       20                        C25diene    -1.933283e-03
+## 7         7                             C23    -1.887812e-03
+## 23       23                    4,12-diMeC24    -1.702269e-03
+## 68       68                             C29    -1.525393e-03
+## 47       47                             C27    -1.524423e-03
+## 12       12                         3-MeC23    -1.418233e-03
+## 50       50                         7-MeC27    -1.293511e-03
+## 8         8            11-Me-C23 + 9-Me-C23    -1.275707e-03
+## 59       59              14-; 12-; 10-MeC28    -1.224474e-03
+## 55       55                    7,11-diMeC27    -1.211880e-03
+## 58       58               3,9-; 3,7-diMeC27    -9.797685e-04
+## 5         5                         C23-ene    -9.308733e-04
+## 36       36                    3,13-diMeC25    -9.209188e-04
+## 53       53             9,17-; 9,15-diMeC27    -8.418324e-04
+## 14       14                             C24    -7.850844e-04
+## 42       42       7,x-; 5,x-; 10,14-diMeC26    -7.567144e-04
+## 81       81                             C30    -6.211158e-04
+## 31       31            11,15-; 9,13-diMeC25    -5.810443e-04
+## 43       43          C27-ene + 6,12-diMeC26    -4.122897e-04
+## 41       41           10,16-; 10,14-diMeC26    -1.801194e-04
+## 29       29                         7-MeC25    -9.773193e-05
+## 15       15 3,13-; 3,11-; 3,9-; 3,7-diMeC23    -5.405809e-05
+## 35       35                             C26     1.320471e-04
+## 9         9                        7-Me-C23     1.684881e-04
+## 95       95            13,19-;13,17-diMeC31     2.259712e-04
+## 28       28                         9-MeC25     4.168034e-04
+## 101     101                        x-Me_C32     7.976493e-04
+## 57       57              C28 + 3,15-diMeC27     9.225051e-04
+## 107     107                        x-Me-C32     9.291651e-04
+## 106     106                          C33ene     9.326154e-04
+## 76       76                   13,17-diMeC29     1.031587e-03
+## 77       77      7,11-; 7,13-; 7,15-diMeC29     1.050332e-03
+## 90       90                             C31     1.117906e-03
+## 83       83         14-; 13-; 12-; 11-MeC30     1.135511e-03
+## 51       51                         5-MeC27     1.163271e-03
+## 75       75                   11,17-diMeC29     1.241467e-03
+## 71       71      15-; 13-; 11-; 9-; 7-MeC29     1.786873e-03
+## 32       32          7,11-diMeC25 + 3-MeC25     2.062674e-03
+## 94       94   11,19-; 11,17-; 11,15-diMeC31     2.115486e-03
+## 108     108                        x-Me_C32     2.157134e-03
+## 54       54                    9,13-diMeC27     2.208613e-03
+## 92       92          15-; 13-; 11-; 9-MeC31     2.476930e-03
+## 56       56                          C28ene     2.596959e-03
+## 21       21                         C25-ene     2.854763e-03
+## 63       63                8,12,16-triMeC28     2.938598e-03
+## 52       52                   11,15-diMeC27     3.032515e-03
+## 109     109           11,21-; 11,19-diMeC33     3.228464e-03
+## 85       85                 (di)MeC30 (mix)     3.267911e-03
+## 30       30                         5-MeC25     3.306284e-03
+## 102     102   13,17-DiMe_C32 + x,y-DiMe_C32     4.703522e-03</code></pre>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb128-1" tabindex="-1"></a>peaks_mature <span class="ot">&lt;-</span> res<span class="sc">$</span>chromatogram_ID[res<span class="sc">$</span>predicted_mature<span class="sc">&lt;=</span><span class="fu">quantile</span>(res<span class="sc">$</span>predicted_mature, <span class="fl">0.2</span>)]</span></code></pre></div>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb129-1" tabindex="-1"></a>globals <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">&quot;globals.rds&quot;</span>, <span class="at">package=</span><span class="st">&quot;sangchem&quot;</span>))</span>
+<span id="cb129-2"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb129-2" tabindex="-1"></a>globals[[<span class="st">&quot;discr_analysis_callows_res&quot;</span>]] <span class="ot">&lt;-</span> discr_analysis_callows_res</span>
+<span id="cb129-3"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb129-3" tabindex="-1"></a>globals[[<span class="st">&quot;PCA_callow_discr&quot;</span>]] <span class="ot">&lt;-</span> PCA_callow_discr</span>
+<span id="cb129-4"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb129-4" tabindex="-1"></a>globals[[<span class="st">&quot;peaks_mature&quot;</span>]] <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(peaks_mature)</span>
+<span id="cb129-5"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb129-5" tabindex="-1"></a>globals[[<span class="st">&quot;peaks_mature&quot;</span>]] <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(peaks_mature)</span>
+<span id="cb129-6"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb129-6" tabindex="-1"></a><span class="fu">saveRDS</span>(globals, <span class="fu">system.file</span>(<span class="st">&quot;globals.rds&quot;</span>, <span class="at">package=</span><span class="st">&quot;sangchem&quot;</span>))</span></code></pre></div>
+</div>
+<div id="verifying-the-performace-of-the-discrimination-model" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Verifying the performace of the discrimination model<a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#verifying-the-performace-of-the-discrimination-model" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will verify the performance the above model against the null ones which are trained using the data where age category of <em>F. sanguinea</em> ants has been shuffled.</p>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-1" tabindex="-1"></a><span class="co"># running basic model </span></span>
+<span id="cb130-2"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1342</span>)</span>
+<span id="cb130-3"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-3" tabindex="-1"></a>results_basic <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb130-4"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-4" tabindex="-1"></a><span class="cf">while</span>(<span class="fu">length</span>(results_basic)<span class="sc">&lt;</span><span class="dv">1000</span>){</span>
+<span id="cb130-5"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-5" tabindex="-1"></a>  <span class="fu">message</span>(counter)</span>
+<span id="cb130-6"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-6" tabindex="-1"></a>  .Random.seed <span class="ot">&lt;-</span> results<span class="sc">$</span>random.seed</span>
+<span id="cb130-7"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-7" tabindex="-1"></a>  discr_analysis_callow <span class="ot">&lt;-</span> <span class="fu">splsda</span>(PCA_callow_discr<span class="sc">$</span>x, <span class="at">Y=</span>Y ,</span>
+<span id="cb130-8"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-8" tabindex="-1"></a>                                  <span class="at">ncomp=</span><span class="dv">7</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb130-9"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-9" tabindex="-1"></a>  <span class="fu">tryCatch</span>({perf.discr_analysis_callow <span class="ot">&lt;-</span> <span class="fu">perf</span>(discr_analysis_callow,</span>
+<span id="cb130-10"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-10" tabindex="-1"></a>                                               <span class="at">validation =</span> <span class="st">&quot;Mfold&quot;</span>,</span>
+<span id="cb130-11"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-11" tabindex="-1"></a>                                               <span class="at">folds =</span> <span class="dv">4</span>,</span>
+<span id="cb130-12"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-12" tabindex="-1"></a>                                               <span class="at">progressBar =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb130-13"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-13" tabindex="-1"></a>                                               <span class="at">auc =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb130-14"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-14" tabindex="-1"></a>                                               <span class="at">nrepeat =</span> <span class="dv">30</span>,</span>
+<span id="cb130-15"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-15" tabindex="-1"></a>                                               <span class="at">scale =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb130-16"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-16" tabindex="-1"></a>                                               <span class="at">cpus=</span><span class="dv">16</span>)</span>
+<span id="cb130-17"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-17" tabindex="-1"></a>  </span>
+<span id="cb130-18"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-18" tabindex="-1"></a>  selected_n <span class="ot">&lt;-</span> perf.discr_analysis_callow<span class="sc">$</span>choice.ncom[<span class="st">&quot;overall&quot;</span>, <span class="st">&quot;max.dist&quot;</span>]</span>
+<span id="cb130-19"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-19" tabindex="-1"></a>  discr_analysis_callows_tuned <span class="ot">&lt;-</span> <span class="fu">tune.splsda</span>(PCA_callow_discr<span class="sc">$</span>x,</span>
+<span id="cb130-20"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-20" tabindex="-1"></a>                                              <span class="at">Y=</span>Y,</span>
+<span id="cb130-21"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-21" tabindex="-1"></a>                                              <span class="at">ncomp =</span> selected_n,</span>
+<span id="cb130-22"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-22" tabindex="-1"></a>                                              <span class="at">test.keepX =</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">120</span>),</span>
+<span id="cb130-23"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-23" tabindex="-1"></a>                                              <span class="at">validation =</span> <span class="st">&#39;Mfold&#39;</span>,</span>
+<span id="cb130-24"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-24" tabindex="-1"></a>                                              <span class="at">folds =</span> <span class="dv">4</span>, </span>
+<span id="cb130-25"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-25" tabindex="-1"></a>                                              <span class="at">nrepeat =</span> <span class="dv">30</span>,</span>
+<span id="cb130-26"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-26" tabindex="-1"></a>                                              <span class="at">dist =</span> <span class="st">&#39;max.dist&#39;</span>, <span class="co"># use max.dist measure</span></span>
+<span id="cb130-27"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-27" tabindex="-1"></a>                                              <span class="at">measure =</span> <span class="st">&quot;BER&quot;</span>,</span>
+<span id="cb130-28"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-28" tabindex="-1"></a>                                              <span class="at">progressBar =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb130-29"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-29" tabindex="-1"></a>                                              <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb130-30"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-30" tabindex="-1"></a>  </span>
+<span id="cb130-31"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-31" tabindex="-1"></a>  n_comp <span class="ot">&lt;-</span> discr_analysis_callows_tuned<span class="sc">$</span>choice.ncomp<span class="sc">$</span>ncomp</span>
+<span id="cb130-32"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-32" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">is.null</span>(n_comp)) n_comp <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb130-33"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-33" tabindex="-1"></a>  discr_analysis_callows_res <span class="ot">&lt;-</span> <span class="fu">splsda</span>(PCA_callow_discr<span class="sc">$</span>x,<span class="at">Y=</span>Y,</span>
+<span id="cb130-34"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-34" tabindex="-1"></a>                                       <span class="at">keepX=</span>discr_analysis_callows_tuned<span class="sc">$</span>choice.keepX,</span>
+<span id="cb130-35"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-35" tabindex="-1"></a>                                       <span class="at">ncomp=</span>n_comp,</span>
+<span id="cb130-36"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-36" tabindex="-1"></a>                                       <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb130-37"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-37" tabindex="-1"></a>  </span>
+<span id="cb130-38"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-38" tabindex="-1"></a>  perf.discr_analysis_callows_res <span class="ot">&lt;-</span> <span class="fu">perf</span>(discr_analysis_callows_res,</span>
+<span id="cb130-39"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-39" tabindex="-1"></a>                                          <span class="at">validation =</span> <span class="st">&quot;Mfold&quot;</span>,</span>
+<span id="cb130-40"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-40" tabindex="-1"></a>                                          <span class="at">folds =</span> <span class="dv">4</span>,</span>
+<span id="cb130-41"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-41" tabindex="-1"></a>                                          <span class="at">progressBar =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb130-42"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-42" tabindex="-1"></a>                                          <span class="at">nrepeat =</span> <span class="dv">1</span>,</span>
+<span id="cb130-43"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-43" tabindex="-1"></a>                                          <span class="at">scale =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb130-44"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-44" tabindex="-1"></a>                                          <span class="at">cpus=</span><span class="dv">16</span>)</span>
+<span id="cb130-45"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-45" tabindex="-1"></a>  </span>
+<span id="cb130-46"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-46" tabindex="-1"></a>  curve_data <span class="ot">&lt;-</span> <span class="fu">calculate_accuracy_metrics</span>(perf.discr_analysis_callows_res<span class="sc">$</span>predict[[<span class="fu">length</span>(perf.discr_analysis_callows_res<span class="sc">$</span>predict)]][,<span class="dv">3</span>,<span class="dv">1</span>][Y<span class="sc">&gt;</span><span class="dv">0</span>], Y[Y<span class="sc">&gt;</span><span class="dv">0</span>]<span class="sc">==</span><span class="dv">2</span>)</span>
+<span id="cb130-47"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-47" tabindex="-1"></a>  AUC <span class="ot">&lt;-</span> <span class="fu">calculate_AUC</span>(curve_data<span class="sc">$</span>FPR, curve_data<span class="sc">$</span>TPR)</span>
+<span id="cb130-48"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-48" tabindex="-1"></a>  results_basic <span class="ot">&lt;-</span> <span class="fu">c</span>(results_basic, AUC)}, </span>
+<span id="cb130-49"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-49" tabindex="-1"></a>  <span class="at">error=</span><span class="cf">function</span>(cond) <span class="fu">message</span>(cond))</span>
+<span id="cb130-50"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-50" tabindex="-1"></a>}</span>
+<span id="cb130-51"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-51" tabindex="-1"></a></span>
+<span id="cb130-52"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-52" tabindex="-1"></a></span>
+<span id="cb130-53"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-53" tabindex="-1"></a><span class="co"># running null models</span></span>
+<span id="cb130-54"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-54" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1342</span>)</span>
+<span id="cb130-55"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-55" tabindex="-1"></a>results_null <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb130-56"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-56" tabindex="-1"></a><span class="cf">while</span>(<span class="fu">length</span>(results_null)<span class="sc">&lt;</span><span class="dv">1000</span>){</span>
+<span id="cb130-57"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-57" tabindex="-1"></a>  <span class="co"># shuffle categories 1 (mature F. sanguinea) and 2 (callow F. sanguinea)</span></span>
+<span id="cb130-58"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-58" tabindex="-1"></a>  Y <span class="ot">&lt;-</span> <span class="fu">split</span>(Y, DA_data<span class="sc">$</span>group) <span class="sc">%&gt;%</span> <span class="fu">lapply</span>(<span class="cf">function</span>(x) {x[x<span class="sc">&gt;</span><span class="dv">0</span>]<span class="ot">&lt;-</span><span class="fu">sample</span>(x[x<span class="sc">&gt;</span><span class="dv">0</span>], <span class="fu">length</span>(x[x<span class="sc">&gt;</span><span class="dv">0</span>]));x}) <span class="sc">%&gt;%</span> <span class="fu">unlist</span>()</span>
+<span id="cb130-59"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-59" tabindex="-1"></a>  discr_analysis_callow <span class="ot">&lt;-</span> <span class="fu">splsda</span>(PCA_callow_discr<span class="sc">$</span>x, <span class="at">Y=</span>Y ,</span>
+<span id="cb130-60"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-60" tabindex="-1"></a>                                  <span class="at">ncomp=</span><span class="dv">7</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb130-61"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-61" tabindex="-1"></a>  <span class="fu">tryCatch</span>({perf.discr_analysis_callow <span class="ot">&lt;-</span> <span class="fu">perf</span>(discr_analysis_callow,</span>
+<span id="cb130-62"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-62" tabindex="-1"></a>                                               <span class="at">validation =</span> <span class="st">&quot;Mfold&quot;</span>,</span>
+<span id="cb130-63"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-63" tabindex="-1"></a>                                               <span class="at">folds =</span> <span class="dv">4</span>,</span>
+<span id="cb130-64"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-64" tabindex="-1"></a>                                               <span class="at">progressBar =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb130-65"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-65" tabindex="-1"></a>                                               <span class="at">auc =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb130-66"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-66" tabindex="-1"></a>                                               <span class="at">nrepeat =</span> <span class="dv">30</span>,</span>
+<span id="cb130-67"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-67" tabindex="-1"></a>                                               <span class="at">scale =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb130-68"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-68" tabindex="-1"></a>                                               <span class="at">cpus=</span><span class="dv">16</span>)</span>
+<span id="cb130-69"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-69" tabindex="-1"></a>  </span>
+<span id="cb130-70"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-70" tabindex="-1"></a>  selected_n <span class="ot">&lt;-</span> perf.discr_analysis_callow<span class="sc">$</span>choice.ncom[<span class="st">&quot;overall&quot;</span>, <span class="st">&quot;max.dist&quot;</span>]</span>
+<span id="cb130-71"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-71" tabindex="-1"></a>  discr_analysis_callows_tuned <span class="ot">&lt;-</span> <span class="fu">tune.splsda</span>(PCA_callow_discr<span class="sc">$</span>x,</span>
+<span id="cb130-72"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-72" tabindex="-1"></a>                                              <span class="at">Y=</span>Y,</span>
+<span id="cb130-73"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-73" tabindex="-1"></a>                                              <span class="at">ncomp =</span> selected_n,</span>
+<span id="cb130-74"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-74" tabindex="-1"></a>                                              <span class="at">test.keepX =</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">120</span>),</span>
+<span id="cb130-75"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-75" tabindex="-1"></a>                                              <span class="at">validation =</span> <span class="st">&#39;Mfold&#39;</span>,</span>
+<span id="cb130-76"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-76" tabindex="-1"></a>                                              <span class="at">folds =</span> <span class="dv">4</span>, </span>
+<span id="cb130-77"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-77" tabindex="-1"></a>                                              <span class="at">nrepeat =</span> <span class="dv">30</span>,</span>
+<span id="cb130-78"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-78" tabindex="-1"></a>                                              <span class="at">dist =</span> <span class="st">&#39;max.dist&#39;</span>, <span class="co"># use max.dist measure</span></span>
+<span id="cb130-79"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-79" tabindex="-1"></a>                                              <span class="at">measure =</span> <span class="st">&quot;BER&quot;</span>,</span>
+<span id="cb130-80"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-80" tabindex="-1"></a>                                              <span class="at">progressBar =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb130-81"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-81" tabindex="-1"></a>                                              <span class="at">scale =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb130-82"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-82" tabindex="-1"></a>                                              <span class="at">cpus=</span><span class="dv">16</span>)</span>
+<span id="cb130-83"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-83" tabindex="-1"></a>  </span>
+<span id="cb130-84"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-84" tabindex="-1"></a>  n_comp <span class="ot">&lt;-</span> discr_analysis_callows_tuned<span class="sc">$</span>choice.ncomp<span class="sc">$</span>ncomp</span>
+<span id="cb130-85"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-85" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">is.null</span>(n_comp)) n_comp <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb130-86"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-86" tabindex="-1"></a>  discr_analysis_callows_res <span class="ot">&lt;-</span> <span class="fu">splsda</span>(PCA_callow_discr<span class="sc">$</span>x,<span class="at">Y=</span>Y,</span>
+<span id="cb130-87"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-87" tabindex="-1"></a>                                       <span class="at">keepX=</span>discr_analysis_callows_tuned<span class="sc">$</span>choice.keepX,</span>
+<span id="cb130-88"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-88" tabindex="-1"></a>                                       <span class="at">ncomp=</span>n_comp,</span>
+<span id="cb130-89"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-89" tabindex="-1"></a>                                       <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb130-90"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-90" tabindex="-1"></a>  </span>
+<span id="cb130-91"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-91" tabindex="-1"></a>  perf.discr_analysis_callows_res <span class="ot">&lt;-</span> <span class="fu">perf</span>(discr_analysis_callows_res,</span>
+<span id="cb130-92"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-92" tabindex="-1"></a>                                          <span class="at">validation =</span> <span class="st">&quot;Mfold&quot;</span>,</span>
+<span id="cb130-93"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-93" tabindex="-1"></a>                                          <span class="at">folds =</span> <span class="dv">4</span>,</span>
+<span id="cb130-94"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-94" tabindex="-1"></a>                                          <span class="at">progressBar =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb130-95"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-95" tabindex="-1"></a>                                          <span class="at">nrepeat =</span> <span class="dv">1</span>,</span>
+<span id="cb130-96"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-96" tabindex="-1"></a>                                          <span class="at">scale =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb130-97"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-97" tabindex="-1"></a>                                          <span class="at">cpus=</span><span class="dv">16</span>)</span>
+<span id="cb130-98"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-98" tabindex="-1"></a>  </span>
+<span id="cb130-99"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-99" tabindex="-1"></a>  curve_data <span class="ot">&lt;-</span> <span class="fu">calculate_accuracy_metrics</span>(perf.discr_analysis_callows_res<span class="sc">$</span>predict[[<span class="fu">length</span>(perf.discr_analysis_callows_res<span class="sc">$</span>predict)]][,<span class="dv">3</span>,<span class="dv">1</span>][Y<span class="sc">&gt;</span><span class="dv">0</span>], Y[Y<span class="sc">&gt;</span><span class="dv">0</span>]<span class="sc">==</span><span class="dv">2</span>)</span>
+<span id="cb130-100"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-100" tabindex="-1"></a>  AUC <span class="ot">&lt;-</span> <span class="fu">calculate_AUC</span>(curve_data<span class="sc">$</span>FPR, curve_data<span class="sc">$</span>TPR)</span>
+<span id="cb130-101"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-101" tabindex="-1"></a>  results_null <span class="ot">&lt;-</span> <span class="fu">c</span>(results_null, AUC)}, </span>
+<span id="cb130-102"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-102" tabindex="-1"></a>  <span class="at">error=</span><span class="cf">function</span>(cond) <span class="fu">message</span>(cond))</span>
+<span id="cb130-103"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb130-103" tabindex="-1"></a>}</span></code></pre></div>
+<p>The p-value is calculated as proportion of differences with value equal to or less than zero.</p>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb131-1" tabindex="-1"></a><span class="fu">summary</span>(results_basic<span class="sc">-</span>results_null)</span>
+<span id="cb131-2"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb131-2" tabindex="-1"></a><span class="fu">hist</span>(results_basic<span class="sc">-</span>results_null, <span class="at">breaks=</span><span class="dv">15</span>, <span class="at">xlab =</span> <span class="st">&quot;Difference in AUROC&quot;</span>, </span>
+<span id="cb131-3"><a href="finding-peaks-discriminating-callow-and-mature-f.-sanguinea-workers.html#cb131-3" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Basic vs. null models&quot;</span>)</span></code></pre></div>
+<pre><code>## Number of cases in table: 1.717858 
+## Number of factors: 0</code></pre>
+<p><img src="_main_files/figure-html/unnamed-chunk-32-1.png" width="672" />
+All differences are positive, so the p-value is less than 0.001 since we have 1000 values.</p>
+
 </div>
 </div>
             </section>
@@ -486,7 +622,7 @@ div.csl-indent {
         </div>
       </div>
 <a href="changes-of-chcs-amount-over-time.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="verifying-the-performace-of-the-discrimination-model.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="change-in-dissimilarity-between-callow-and-mature-f.-sanguinea-as-the-proportion-of-slave-makers-in-a-colony-increases.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -500,42 +636,42 @@ div.csl-indent {
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": "https://github.com/USERNAME/REPO/edit/BRANCH/Callow_markers.Rmd",
-"text": "Edit"
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": ["_main.pdf", "_main.epub"],
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "subsection"
-}
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/USERNAME/REPO/edit/BRANCH/Callow_markers.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["_main.pdf", "_main.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
 });
 });
 </script>

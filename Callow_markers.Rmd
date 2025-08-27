@@ -1,5 +1,7 @@
 # Finding peaks discriminating callow and mature *F. sanguinea* workers
 
+The procedure applied to identify species markers can also be applied to determine peaks characteristic of *F. sanguinea* callow ants. In discriminant analysis, we include two more groups: adult *F. sanguinea* and adult *F. fusca* as contrasts against which the callow features are extracted. 
+
 ```{r warning=FALSE}
 # devtools::install_github("mixOmicsTeam/mixOmics", ref = "143d31f9629bc83f1f27272ba6b7a2aaef0ee0e8")
 suppressMessages({
@@ -32,7 +34,7 @@ peak_prop[peak_prop==0] <- 10^-16
 # apply central log ratio transformation
 peak_transformed <- t(apply(peak_prop, 1, clr_transformation))
 PCA_callow_discr <- prcomp(peak_transformed, scale. = TRUE)
-PCA_callow_discr$x <- withinVariation(PCA_callow_discr$x, data.frame(DA_data$group))
+# PCA_callow_discr$x <- withinVariation(PCA_callow_discr$x, data.frame(DA_data$group))
 ```
 ```{r}
 set.seed(1342)
@@ -86,33 +88,49 @@ incremented_matrix <- apply(incremented_matrix, 2, function(x) x/sum(x))
 res1 <- calculate_SII(incremented_matrix, discr_analysis_callows_res, PCA_callow_discr, predicted_category=3)
 res2 <- calculate_SII(ones_matrix, discr_analysis_callows_res, PCA_callow_discr, predicted_category=3)
 res <- res1
-res$predicted_species = res1$predicted_species - res2$predicted_species
-res <- res[order(res$predicted_species),]
+res$predicted_callow = res1$predicted_species - res2$predicted_species
+res <- res[order(res$predicted_callow),]
+colnames(res)[1] <- "peak_ID"
+compounds <- c()
+for(peak in res$peak_ID){
+  compounds <- c(compounds, mass_spectra_data[mass_spectra_data$peak_ID==peak,"identification"][1])
+}
+res$compounds = compounds
+res <- res[,c("peak_ID", "compounds", "predicted_callow")]
 print(res)
-peaks_callow <- res$chromatogram_ID[res$predicted_species<=quantile(res$predicted_species, 0.2)]
+peaks_callow <- res$chromatogram_ID[res$predicted_callow<=quantile(res$predicted_callow, 0.2)]
 ```
 
 ## Determining mature *F. sanguinea* markers
 ```{r}
 res1 <- calculate_SII(incremented_matrix, discr_analysis_callows_res, PCA_callow_discr, predicted_category=2)
-res2 <- calculate_SII(ones_matrix, discr_analysis_callows_res, PCA_callow_discr, predicted_category=3)
+res2 <- calculate_SII(ones_matrix, discr_analysis_callows_res, PCA_callow_discr, predicted_category=2)
 res <- res1
-res$predicted_species = res1$predicted_species - res2$predicted_species
-res <- res[order(res$predicted_species),]
+res$predicted_mature = res1$predicted_species - res2$predicted_species
+res <- res[order(res$predicted_mature),]
+colnames(res)[1] <- "peak_ID"
+compounds <- c()
+for(peak in res$peak_ID){
+  compounds <- c(compounds, mass_spectra_data[mass_spectra_data$peak_ID==peak,"identification"][1])
+}
+res$compounds = compounds
+res <- res[,c("peak_ID", "compounds", "predicted_mature")]
 print(res)
-peaks_mature <- res$chromatogram_ID[res$predicted_species<=quantile(res$predicted_species, 0.2)]
+peaks_mature <- res$chromatogram_ID[res$predicted_mature<=quantile(res$predicted_mature, 0.2)]
 ```
 
 ```{r eval=params$save_globals}
 globals <- readRDS(system.file("globals.rds", package="sangchem"))
-globals[["peaks_callow"]] <- as.numeric(peaks_callow)
+globals[["discr_analysis_callows_res"]] <- discr_analysis_callows_res
+globals[["PCA_callow_discr"]] <- PCA_callow_discr
+globals[["peaks_mature"]] <- as.numeric(peaks_mature)
 globals[["peaks_mature"]] <- as.numeric(peaks_mature)
 saveRDS(globals, system.file("globals.rds", package="sangchem"))
 ```
 
-# Verifying the performace of the discrimination model
+## Verifying the performace of the discrimination model
 
-We will verify the performance the above model against the null ones for which the age status of *F. sanguinea* ants is shuffled. 
+We will verify the performance the above model against the null ones which are trained using the data where age category of *F. sanguinea* ants has been shuffled. 
 
 ```{r eval = FALSE}
 # running basic model 
@@ -143,8 +161,7 @@ while(length(results_basic)<1000){
                                               dist = 'max.dist', # use max.dist measure
                                               measure = "BER",
                                               progressBar = FALSE,
-                                              scale = FALSE,
-                                              cpus=16)
+                                              scale = FALSE)
   
   n_comp <- discr_analysis_callows_tuned$choice.ncomp$ncomp
   if(is.null(n_comp)) n_comp <- 1
