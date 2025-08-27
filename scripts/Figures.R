@@ -71,7 +71,7 @@ p1 <- ggplot(aes(x=species, y=proportion , group=species), data=df)+
   theme(axis.title.y=element_text(vjust = 0.5))+
   theme(legend.title=element_text(size=14),
         legend.text=element_text(size=13),
-        legend.position = c(0.29, 0.8),
+        legend.position = c(0.28, 0.675),
         legend.background = element_rect(fill = NA))+
   theme(panel.background = element_rect(fill="white"),
         axis.line = element_line(size = 0.5, linetype = "solid",
@@ -221,7 +221,7 @@ p6 <- ggplot(aes(x=as.numeric(callow), y=proportion , group=mature), data=df)+
 
 
 
-pdf("Fig1.pdf", width = 19, height = 7.5)
+pdf("./inst/figures/Fig1.pdf", width = 19, height = 7.5)
 #dev.new()
 ggarrange(p1, p2, p4, p3, p6, ncol=5, labels=LETTERS[1:5], widths = c(4.5, 4.5, 4, 4, 4))
 dev.off()
@@ -244,7 +244,7 @@ x <- seq(0,1,by=0.001)
 model_prediction <- data.frame(sang_prop = x, SII_difference=predict(lm_model, data.frame(sang_prop=x), re.form=NA))
 
 dev.new()
-pdf("Fig2.pdf", width = 7, height = 4)
+pdf("./inst/figures/Fig2.pdf", width = 7, height = 4)
 ggplot(model_input, aes(x=sang_prop, y=SII_difference))+
   geom_point(size = 2)+
   xlab("Proportion of the F. sanguinea ants in a colony")+
@@ -355,7 +355,7 @@ diff_data$peak_ID <- match(diff_data$peak_ID, peaks_ordered)
 library(ggplot2)
 
 dev.new()
-pdf("Fig3.pdf", width = 12, height = 6)
+pdf("./inst/figures/Fig3.pdf", width = 8, height = 4)
 ggplot(NULL, aes(x=peak_ID, y=relative_abundance, fill = age, color=age))+
   geom_bar(data = age_profiles[[1]], stat = "identity",linewidth=0.2,
            position = position_dodge(1), width = 0.6)+
@@ -364,10 +364,12 @@ ggplot(NULL, aes(x=peak_ID, y=relative_abundance, fill = age, color=age))+
   scale_color_manual(values=c("transparent", "#00000099"))+
   scale_fill_manual(values=c("#99999966", "transparent"))+
   geom_text(data = age_profiles[[1]], aes(label=peak_ID), size = 2,
-            hjust=-0.8, color="black", angle = 90, vjust = 0.3)+
+            hjust=-2, color="black", angle = 90, vjust = 0.3)+
   geom_point(data = diff_data, aes(x=peak_ID, y=relative_abundance), color = "black", fill="black", size = 0.1)+
   theme(panel.border = element_rect(color = "black", fill=NA),
-        panel.background = element_rect(color="white", fill = "white"))+
+        panel.background = element_rect(color="white", fill = "white"),
+        axis.ticks.x=element_blank(),
+        axis.text.x=element_blank())+
   ylab("Relative abundance")+
   xlab("Peak ID")
 
@@ -409,7 +411,7 @@ plot_data_2 <- rbind(plot_data_2, data.frame(corrected_mass = CHC_mass_predictio
 
 
 dev.new()
-pdf("Fig4.pdf", width = 9, height = 5)
+pdf("./inst/figures/Fig4.pdf", width = 9, height = 5)
 ggplot(plot_data, aes(x=sang_prop, y=corrected_mass, color=species, fill=species))+
   scale_color_manual(values=c("black", "red"))+
   geom_point()+
@@ -453,7 +455,7 @@ for(i in 1:length(distances_to_free_living_fusca$all)){
 
 
 dev.new()
-pdf("Fig5.pdf", width = 5, height = 7)
+pdf("./inst/figures/Fig5.pdf", width = 5, height = 7)
 ggplot(plot_data, aes(x=x, y=y))+
   facet_wrap(~treatment, labeller = labeller(treatment=c(treatment_1 = "1-3 days", treatment_2 = "7-10 days",
                                                          treatment_3 = "17-20 days", treatment_4 = "35-40 days")),
