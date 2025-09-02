@@ -1,5 +1,12 @@
 ---
 title: "Supplementary materials"
+bibliography: book.bib
+params:
+  save_globals: TRUE
+clean: false
+output:
+  bookdown::pdf_document:
+    keep_tex: true
 ---
 
 # Introduction
@@ -7,7 +14,12 @@ This document presents graphical results generated as output from analytic workf
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   fig.align = 'center',
-  width = 100
+  width = 100,
+  echo=FALSE,
+  fig.show='hold', 
+  fig.keep='all',
+  message = FALSE,
+  warning = FALSE
 #  cache=TRUE
 )
 ```

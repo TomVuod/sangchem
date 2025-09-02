@@ -1,11 +1,13 @@
 # Impact of slave on the development of the *F. sanguinea* CHC profile
 
-Now we are going to analyze the impact of *F. fusca* slaves on the CHC profile of the callow *F. sanguinea* ants. In the experiment, *F. sanguinea* ants were isolated in pairs before hatching and their CHC profile was analysed at one of the four fixed points of adult life. We want to see whether the callow *F. sanguinea* ants are more similar to slave relatives from free-living colony as compared to *F. fusca*  ants unrelated at all.
+We analyzed the impact of *F. fusca* slaves on the CHC profile of callow *F. sanguinea* ants. In this experiment, *F. sanguinea* ants were isolated in pairs before eclosion, and their CHC profiles were analyzed at one of four time points marking their adult age. We then tested whether callow *F. sanguinea* ants were chemically more similar to their slave relatives from free-living colonies. Unrelated *F. fusca* ants served as a background group."
 
 ## Analysis based on all samples
 ```{r message=FALSE,}
 # Load package
 library(sangchem)
+library(dplyr)
+library(kableExtra)
 # Load data
 data("separation_experiment_data")
 data("slave_source_colony")
@@ -17,9 +19,13 @@ separation_data <- separation_experiment_data[!is.na(colony_to_chrID[slave_sourc
 # See the lifespan of the workers depending on the treatment
 plot_data <- separation_data[separation_data$treatment_id %in% 1:4,]
 plot_data$treatment <- factor(plot_data$treatment, levels = c("1-3 days", "8-10 days", "17-20 days", "35-40 days"))
-boxplot(plot_data$mean_delta~plot_data$treatment, main = "Adult lifespan", xlab = "Treatment", ylab = "Separation period after hatching (avegared for a pair of individuals)")
-
 ```
+
+```{r fig.cap="Distribution of lifespans of ants used in the experiment. The precise age of individuals could not be determined because ants in pairs were not marked. Therefore, all possible combinations were considered to illustrate the potential range.", out.width="80%"}
+boxplot(plot_data$mean_delta~plot_data$treatment, main = "Adult lifespan", xlab = "Treatment", ylab = "Separation period after eclosion\n(avegared for a pair of individuals)")
+```
+
+
 ```{r echo = FALSE}
 data("distances_to_free_living_fusca")
 res_1 <- distances_to_free_living_fusca$all$treatment_1
@@ -33,39 +39,43 @@ set.seed(10101)
 res_1 <- distances_permutation_test(treatment_id = 1)
 ```
 ```{r}
-print(res_1$p.val)
-sprintf("Number of colonies: %d", length(unique(separation_data[separation_data$treatment_id==1, "colony"])))
+cat(sprintf("Empirical p-value for the chemical distance difference for the ants aged 1-3 days:%.5f",res_1$p.val))
+cat(sprintf("Number of colonies used in the treatment of 1-3 days of separation: %d", length(unique(separation_data[separation_data$treatment_id==1, "colony"]))))
 ```
 
 ```{r eval=FALSE}
-# Calculate emprical p-value for the treatment 2
+# Calculate empirical p-value for the treatment 2
 res_2 <- distances_permutation_test(treatment_id = 2)
 ```
 ```{r}
-print(res_2$p.val)
-sprintf("Number of colonies: %d", length(unique(separation_data[separation_data$treatment_id==2, "colony"])))
+cat(sprintf("Empirical p-value for the chemical distance difference for the ants aged 8-10 days:%.5f",res_2$p.val))
+cat(sprintf("Number of colonies used in the treatment of 8-10 days of separation: %d", length(unique(separation_data[separation_data$treatment_id==2, "colony"]))))
 ```
 ```{r eval = FALSE}
-# Calculate emprical p-value for the treatment 3
+# Calculate empirical p-value for the treatment 3
 res_3 <- distances_permutation_test(treatment_id = 3)
 ```
 ```{r}
-print(res_3$p.val)
-sprintf("Number of colonies: %d", length(unique(separation_data[separation_data$treatment_id==3, "colony"])))
+cat(sprintf("Empirical p-value for the chemical distance difference for the ants aged 17-20 days:%.5f",res_3$p.val))
+cat(sprintf("Number of colonies used in the treatment of 17-20 days of separation: %d", length(unique(separation_data[separation_data$treatment_id==3, "colony"]))))
 ```
 ```{r eval =FALSE}
-# Calculate emprical p-value for the treatment 3
+# Calculate empirical p-value for the treatment 3
 res_4 <- distances_permutation_test(treatment_id = 4)
 ```
 ```{r}
-print(res_4$p.val)
-sprintf("Number of colonies: %d", length(unique(separation_data[separation_data$treatment_id==4, "colony"])))
-
-print(data.frame(treatment_id=1:4, chemical_distance_to_slave_relatives=c(res_1[[2]], res_2[[2]],
+cat(sprintf("Empirical p-value for the chemical distance difference for the ants aged 35-40 days:%.5f",res_4$p.val))
+cat(sprintf("Number of colonies used in the treatment of 35-40 days of separation: %d", length(unique(separation_data[separation_data$treatment_id==4, "colony"]))))
+summary_df <- data.frame(treatment_id=c("1-3 days", "8-10 days", "17-20 days", "35-40 days"), 
+                         chemical_distance_to_slave_relatives=c(res_1[[2]], res_2[[2]],
                                                                           res_3[[2]], res_4[[2]]),
                  chemical_distance_to_random_colonies=vapply(list(res_1[[3]], res_2[[3]],
                                                                   res_3[[3]], res_4[[3]]), mean,
-                                                             FUN.VALUE=numeric(1))))
+                                                             FUN.VALUE=numeric(1)))
+
+summary_df[,2:3] <- round(summary_df[,2:3],4)
+kableExtra::kbl(summary_df, col.names=c("Adult age", "Chemical distance to slaves' relatives", "Chemical distance to random colonies"),
+                caption="Chemical distance of the isolated \\textit{F. sanguinea} ant to \\textit{F. fusca} ants realted and unrelated to slaves.") %>% column_spec(c(2:3), width="4cm")
 ```
 ```{r eval=FALSE}
 
@@ -79,7 +89,7 @@ distances_to_free_living_fusca$all <- list(treatment_1 = res_1,
 
 ## Analysis restricted to the individuals hatched from cocoons
 
-Since naked pupae might have acquired CHCs through physical contact with adult ants after pupation, we will subset out data to include only these samples which come from the ants hatched from cocoons. In this case silky envelop during pupa stage ruled out possibility of CHC transfer from the environment. 
+Since naked pupae might have acquired CHC through physical contact with adult ants after pupation, we subset our data to include only those samples which derived from the ants hatched from cocoons. In this case silky envelop during pupa stage ruled out possibility of the CHC transfer from the environment. 
 
 ```{r echo = FALSE}
 res_1 <- distances_to_free_living_fusca$cocoons$treatment_1
@@ -96,38 +106,45 @@ set.seed(10101)
 res_1 <- distances_permutation_test(treatment_id=1, exclude_naked_pupae=TRUE)
 ```
 ```{r}
-print(res_1$p.val)
-sprintf("Number of colonies: %d", length(unique(separation_data[separation_data$treatment_id==1, "colony"])))
+cat(sprintf("Empirical p-value for the chemical distance difference for the ants aged 1-3 days:%.5f",res_1$p.val))
+cat(sprintf("Number of colonies used in the treatment of 1-3 days of separation: %d", length(unique(separation_data[separation_data$treatment_id==1, "colony"]))))
 ```
 ```{r eval=FALSE}
 # Calculate emprical p-value for the treatment 2
 res_2 <- distances_permutation_test(treatment_id=2, exclude_naked_pupae=TRUE)
 ```
 ```{r}
-print(res_2$p.val)
-sprintf("Number of colonies: %d", length(unique(separation_data[separation_data$treatment_id==2, "colony"])))
+cat(sprintf("Empirical p-value for the chemical distance difference for the ants aged 8-10 days:%.5f",res_2$p.val))
+cat(sprintf("Number of colonies used in the treatment of 8-10 days of separation: %d", length(unique(separation_data[separation_data$treatment_id==2, "colony"]))))
 ```
 ```{r eval=FALSE}
 # Calculate emprical p-value for the treatment 3
 res_3 <- distances_permutation_test(treatment_id=3, exclude_naked_pupae=TRUE)
 ```
+
 ```{r}
-print(res_3$p.val)
-sprintf("Number of colonies: %d", length(unique(separation_data[separation_data$treatment_id==3, "colony"])))
+cat(sprintf("Empirical p-value for the chemical distance difference for the ants aged 17-20 days:%.5f",res_3$p.val))
+cat(sprintf("Number of colonies used in the treatment of 17-20 days of separation: %d", length(unique(separation_data[separation_data$treatment_id==3, "colony"]))))
 ```
+
+
 ```{r eval=FALSE}
 # Calculate emprical p-value for the treatment 3
 res_4 <- distances_permutation_test(treatment_id=4, exclude_naked_pupae=TRUE)
 ```
 ```{r}
-print(res_4$p.val)
-sprintf("Number of colonies: %d", length(unique(separation_data[separation_data$treatment_id==4, "colony"])))
+cat(sprintf("Empirical p-value for the chemical distance difference for the ants aged 35-40 days:%.5f",res_4$p.val))
+cat(sprintf("Number of colonies used in the treatment of 35-40 days of separation: %d", length(unique(separation_data[separation_data$treatment_id==4, "colony"]))))
 
-print(data.frame(treatment_id=1:4, chemical_distance_to_slave_relatives=c(res_1[[2]], res_2[[2]],
+summary_df <- data.frame(treatment_id=c("1-3 days", "8-10 days", "17-20 days", "35-40 days"), 
+                         chemical_distance_to_slave_relatives=c(res_1[[2]], res_2[[2]],
                                                                           res_3[[2]], res_4[[2]]),
                  chemical_distance_to_random_colonies=vapply(list(res_1[[3]], res_2[[3]],
                                                                   res_3[[3]], res_4[[3]]), mean,
-                                                             FUN.VALUE=numeric(1))))
+                                                             FUN.VALUE=numeric(1)))
+summary_df[,2:3] <- round(summary_df[,2:3],4)
+kableExtra::kbl(summary_df, col.names=c("Adult age", "Chemical distance to slaves' relatives", "Chemical distance to random colonies"),
+                caption="Chemical distance of the isolated \\textit{F. sanguinea} ant to \\textit{F. fusca} ants realted and unrelated to slaves. Isolated ant spun a silky envelope before pupal stage, which prevented CHC transfer from the enviroment.") %>% column_spec(c(2:3), width="4cm")
 ```
 ```{r eval=FALSE}
 

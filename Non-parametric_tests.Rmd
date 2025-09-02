@@ -1,4 +1,6 @@
-# Comparison of amount and proportions of CHC between species and age categories
+# Comparison of the amount and proportions of CHC between species and age categories
+
+This section presents the results of Wilcoxon tests comparing features of CHC profiles between callow and mature *F. sanguinea* ants as well as *F. fusca* slaves. Samples from the same colony were averaged before calculation of the final statistics to account for their non-independence.  
 
 ```{r warning=FALSE}
 suppressMessages({
@@ -59,7 +61,7 @@ ggboxplot(test_df, x="callow", y="corrected_mass")+
   stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)
 ```
 
-## Difference in the proportion of CHCs characteristic of *F. sanguinea* between mature *F. sanguinea* and *F. fusca*
+## Difference in the proportion of CHC characteristic of *F. sanguinea* between mature *F. sanguinea* and *F. fusca*
 ```{r}
 test_data <- development_samples
 test_data$sang_prop <- subsample_proportion(peaks_sang, test_data$chromatogram_ID)
@@ -76,12 +78,12 @@ test_stats <- wilcox_test(test_df, sang_prop~species, paired=TRUE) %>%
   add_significance("p") %>%
   add_xy_position(x="species", dodge=0.8, fun="max")
 ggboxplot(test_df, x="species", y="sang_prop")+
-  ylab("Proportion of CHCs characteristic of F. sanguinea")+
+  ylab("Proportion of CHC characteristic of F. sanguinea")+
   scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
   stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)
 ```
 
-## Difference in the proportion of CHCs characteristic of *F. sanguinea* between mature and callow *F. sanguinea* 
+## Difference in the proportion of CHC characteristic of *F. sanguinea* between mature and callow *F. sanguinea* 
 ```{r}
 test_data <- filter(development_samples, species == "F. sanguinea")
 test_data$sang_prop <- subsample_proportion(peaks_sang, test_data$chromatogram_ID)
@@ -99,12 +101,12 @@ test_stats <- wilcox_test(test_df, sang_prop~callow, paired=TRUE) %>%
   add_significance("p") %>%
   add_xy_position(x="callow", dodge=0.8, fun="max")
 ggboxplot(test_df, x="callow", y="sang_prop")+
-  ylab("Proportion of CHCs characteristic of F. sanguinea between mature and callow F. sanguinea")+
+  ylab("Proportion of CHC characteristic of F. sanguinea between mature and callow F. sanguinea")+
   scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
   stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)
 ```
 
-## Difference in the proportion of CHCs characteristic of callow *F. sanguinea* between mature and callow *F. sanguinea* 
+## Difference in the proportion of CHC characteristic of callow *F. sanguinea* between mature and callow *F. sanguinea* 
 ```{r}
 test_data <- filter(development_samples, species == "F. sanguinea")
 test_data$sang_prop <- subsample_proportion(peaks_callow, test_data$chromatogram_ID)
@@ -122,13 +124,13 @@ test_stats <- wilcox_test(test_df, sang_prop~callow, paired=TRUE) %>%
   add_significance("p") %>%
   add_xy_position(x="callow", dodge=0.8, fun="max")
 ggboxplot(test_df, x="callow", y="sang_prop")+
-  ylab("Proportion of CHCs characteristic of callow F. sanguinea\nbetween mature and callow F. sanguinea")+
+  ylab("Proportion of CHC characteristic of callow F. sanguinea\nbetween mature and callow F. sanguinea")+
   scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
   stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)
 ```
 
 
-## Difference in the amount of CHCs characteristic of callow *F. sanguinea* between mature and callow *F. sanguinea* 
+## Difference in the amount of CHC characteristic of callow *F. sanguinea* between mature and callow *F. sanguinea* 
 ```{r}
 test_data <- filter(development_samples, species == "F. sanguinea")
 test_data$marker_prop <- subsample_proportion(peaks_callow, test_data$chromatogram_ID)
@@ -152,7 +154,7 @@ ggboxplot(test_df, x="callow", y="marker_mass")+
   stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)
 ```
 
-## Difference in the proportion of CHCs characteristic of *F. fusca* between mature *F. sanguinea* and *F. fusca*
+## Difference in the proportion of CHC characteristic of *F. fusca* between mature *F. sanguinea* and *F. fusca*
 ```{r}
 test_data <- development_samples
 test_data$fusca_prop <- subsample_proportion(peaks_fusca, test_data$chromatogram_ID)
@@ -169,12 +171,12 @@ test_stats <- wilcox_test(test_df, fusca_prop~species, paired=TRUE) %>%
   add_significance("p") %>%
   add_xy_position(x="species", dodge=0.8, fun="max")
 ggboxplot(test_df, x="species", y="fusca_prop")+
-  ylab("Proportion of CHCs characteristic of F. fusca")+
+  ylab("Proportion of CHC characteristic of F. fusca")+
   scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
   stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)
 ```
 
-## Difference in the proportion of CHCs characteristic of *F. fusca* between mature and callow *F. sanguinea* 
+## Difference in the proportion of CHC characteristic of *F. fusca* between mature and callow *F. sanguinea* 
 ```{r}
 test_data <- filter(development_samples, species == "F. sanguinea")
 test_data$fusca_prop <- subsample_proportion(peaks_fusca, test_data$chromatogram_ID)
@@ -192,13 +194,13 @@ test_stats <- wilcox_test(test_df, fusca_prop~callow, paired=TRUE) %>%
   add_significance("p") %>%
   add_xy_position(x="callow", dodge=0.8, fun="max")
 ggboxplot(test_df, x="callow", y="fusca_prop")+
-  ylab("Proportion of CHCs characteristic of F. fusca in mature and callow F. sanguinea")+
+  ylab("Proportion of CHC characteristic of F. fusca in mature and callow F. sanguinea")+
   scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
   stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)
 ```
 
 
-## Difference in the proportion of CHCs characteristic of *F. fusca* between callow *F. sanguinea* and *F. fusca*
+## Difference in the proportion of CHC characteristic of *F. fusca* between callow *F. sanguinea* and *F. fusca*
 ```{r}
 test_data <- filter(development_samples)
 test_data$fusca_prop <- subsample_proportion(peaks_fusca, test_data$chromatogram_ID)
@@ -216,12 +218,12 @@ test_stats <- wilcox_test(test_df, fusca_prop~species, paired=TRUE) %>%
   add_significance("p") %>%
   add_xy_position(x="species", dodge=0.8, fun="max")
 ggboxplot(test_df, x="species", y="fusca_prop")+
-  ylab("Proportion of CHCs characteristic of F. fusca in F. fusca callow F. sanguinea")+
+  ylab("Proportion of CHC characteristic of F. fusca in F. fusca callow F. sanguinea")+
   scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
   stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)
 ```
 
-## Difference in the mass of n-alkanes between callow and mature *F. sanguinea*
+## Difference in the mass of *n*-alkanes between callow and mature *F. sanguinea*
 ```{r}
 n_alkanes_ID <- unique(mass_spectra_data$peak_ID[grep("^C[0-9]{2}$",mass_spectra_data$identification)])
 test_data <- filter(development_samples, species == "F. sanguinea")
@@ -246,7 +248,7 @@ ggboxplot(test_df, x="callow", y="n_alkanes_mass")+
   stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)
 ```
 
-## Difference in the proprtion of n-alkanes between callow and mature *F. sanguinea*
+## Difference in the proprtion of *n*-alkanes between callow and mature *F. sanguinea*
 ```{r}
 test_data <- filter(development_samples, species == "F. sanguinea")
 test_data$n_alkanes_prop <- subsample_proportion(n_alkanes_ID, test_data$chromatogram_ID)

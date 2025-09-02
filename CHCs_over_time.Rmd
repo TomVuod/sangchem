@@ -1,6 +1,8 @@
 # Changes of CHCs amount over time
 
-This chapter contains a series of linear models fitted to examine how the proportion of *F. sanguinea* workers in a colony is associated with the amount of CHC, analyzed together or in subsets.
+This section contains a series of linear (mixed) models fitted to examine how the proportion of *F. sanguinea* workers in a colony is associated with the amount of CHC, analyzed as a whole or in subsets. Included are summary reports, results of the Shapiro-Wilk test of nornalizty of conditional residuals, as well as diagnostic plots and tests generated with the use of `DHARMa` R package[@R-DHARMa]. The response variable often needed to be transformed to meet model assumptions. Random terms with no variance have been dropped. 
+
+In model specification $(1|\text{random_factor})$ denotes random intercept (separate for each level of the random factor) and $((1|\text{random_factor_1:random_factor_2}))$ denotes random intercepts generated from the combinations of two factors. $\beta_{0}$ and $\epsilon$ denote intercept and error term, respectively. 
 
 ```{r}
 suppressMessages({
@@ -19,7 +21,16 @@ dev_samples <- filter(development_data, caste=="worker",!is.na(head_width), !rem
 ```
 
 ## Change in the total CHCs mass
+
+In this series of models the total CHC mass (normalized by assuming head width of 1.3 mm) was regressed on the proportion of *Formica sanguinea* workers in the colony. 
+
 ### Mature *F. sanguinea*
+
+$$
+\log(\text{CHC_mass_sanguinea}) =  \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+$$
+where $\text{CHC_mass_sanguinea}$ denotes the total normalized CHC mass on the body of adult *F. sanguinea* worker.
+
 ```{r}
 set.seed(3453)
 model_input <- dev_samples[dev_samples$species=="F. sanguinea",]
@@ -27,26 +38,38 @@ lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop  + (1|colony) +(1 | colony:c
 print(summary(lm_model))
 
 # model diagnostics
-hist(residuals(lm_model))
+hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
 print(shapiro.test(residuals(lm_model)))
 simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n = 10^4)
 plot(simulationOutput)
 ```
 
 ### *F. fusca*
+
+$$
+\log(\text{CHC_mass_fusca}) =  \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID}) + \epsilon,
+$$
+where $\text{CHC_mass_fusca}$ denotes the total normalized CHC mass on the body of adult *F. fusca* worker. 
+
 ```{r}
 model_input <- dev_samples[dev_samples$species=="F. fusca",]
 lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop  + (1|colony), data=model_input)
 print(summary(lm_model))
 
 # model diagnostics
-hist(residuals(lm_model))
+hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
 print(shapiro.test(residuals(lm_model)))
 simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n = 10^4)
 plot(simulationOutput)
 ```
 
 ### Callow *F. sanguinea*
+
+$$
+\log(\text{CHC_mass_callow}) =  \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+$$
+where $\text{CHC_mass_callow}$ denotes the total normalized CHC mass on the body of callow *F. sanguinea* worker.
+
 ```{r}
 model_input <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), callow==1) %>%
   dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) %>%
@@ -56,27 +79,42 @@ lm_model <- lmer(I((corrected_mass)) ~ sang_prop  + (1|colony), data=model_input
 print(summary(lm_model))
 
 # model diagnostics
-hist(residuals(lm_model))
+hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
 print(shapiro.test(residuals(lm_model)))
 simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n = 10^4)
 plot(simulationOutput)
 ```
 
 ## Change of the CHCs associated with *F. sanguinea*
+
+In this section the subset of peaks were used to calculate normalized CHC mass. These were peaks identified as *F. sanguinea* markers.
+
 ### Mature *F. sanguinea* ants
+
+$$
+\log(\text{CHC_mass_mature}) =  \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+$$
+where $\text{CHC_mass_mature}$ denotes the normalized mass of *F. sanguinea* markers on the body of adult *F. sanguinea* worker.
+
 ```{r}
 model_input <- dev_samples[dev_samples$species=="F. sanguinea",]
 model_input$corrected_mass <- model_input$corrected_mass*subsample_proportion(peaks_sang, model_input$chromatogram_ID)
-lm_model <- lmer(I(log(corrected_mass+0.1)) ~ sang_prop +(1 | colony:census_date) + (1|colony), data=model_input)
+lm_model <- lmer(I(log(corrected_mass+1)) ~ sang_prop +(1 | colony:census_date) + (1|colony), data=model_input)
 print(summary(lm_model))
 # model diagnostics
-hist(residuals(lm_model))
+hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
 print(shapiro.test(residuals(lm_model)))
 simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n = 10^4)
 plot(simulationOutput)
 ```
 
 ### *F. fusca* ants
+
+$$
+\sqrt{(\text{CHC_mass_fusca})} =  \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+$$
+where $\text{CHC_mass_fusca}$ denotes the normalized mass of *F. sanguinea* markers on the body of adult *F. sanguinea* worker.
+
 ```{r}
 model_input <- dev_samples[dev_samples$species=="F. fusca",]
 model_input$corrected_mass <- model_input$corrected_mass*subsample_proportion(peaks_sang, model_input$chromatogram_ID)
@@ -84,13 +122,19 @@ lm_model <- lmer(I(sqrt(corrected_mass)) ~ sang_prop +(1|colony:census_date), da
 print(summary(lm_model))
 
 # model diagnostics
-hist(residuals(lm_model))
+hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
 print(shapiro.test(residuals(lm_model)))
 simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n = 10^4)
 plot(simulationOutput)
 ```
 
 ### Callow *F. sanguinea* ants
+
+$$
+\sqrt[3]{(\text{CHC_mass_mature})} = \beta_0 + \text{sanguinea_proportion} + \epsilon,
+$$
+where $\text{CHC_mass_mature}$ denotes the normalized mass of *F. sanguinea* markers on the body of callow *F. sanguinea* worker.
+
 ```{r}
 model_input <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), callow==1) %>%
   dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) %>%
@@ -101,38 +145,73 @@ lm_model <- lm(I((corrected_mass)^(1/3)) ~ sang_prop, data=model_input)
 print(summary(lm_model))
 
 # model diagnostics
-hist(residuals(lm_model))
+hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
 print(shapiro.test(residuals(lm_model)))
 ```
 
 ## Change of the CHCs associated with *F. fusca*
+
+Similarly to the analysis with the use of markers of *F. sanguinea* workers, the procedure was repeated using the mass of *F. fusca* markers as a response variable. 
+
 ### Mature *F. sanguinea* ants
+
+$$
+\log(\text{CHC_mass_mature}) =  \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+$$
+where $\text{CHC_mass_mature}$ denotes the normalized mass of *F. fusca* markers on the body of adult *F. sanguinea* worker.
+
+
 ```{r}
 model_input <- dev_samples[dev_samples$species=="F. sanguinea",]
 model_input$corrected_mass <- model_input$corrected_mass*subsample_proportion(peaks_fusca, model_input$chromatogram_ID)
-lm_model <- lmer(I(log(corrected_mass+1)) ~ sang_prop +(1 | colony:census_date) + (1 | colony), data=model_input)
+lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop +(1 | colony:census_date) + (1 | colony), data=model_input)
 print(summary(lm_model))
 
 # model diagnostics
-hist(residuals(lm_model))
+hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
 print(shapiro.test(residuals(lm_model)))
 simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n=1e4)
 plot(simulationOutput)
 ```
 
 ### *F. fusca* ants
+
+$$
+\log(\text{CHC_mass_mature}+0.01) =  \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+$$
+where $\text{CHC_mass_mature}$ denotes the normalized mass of *F. fusca* markers on the body of *F. fusca* worker.
+
 ```{r}
+set.seed(1001)
 model_input <- dev_samples[dev_samples$species=="F. fusca",]
 model_input$corrected_mass <- model_input$corrected_mass*subsample_proportion(peaks_fusca, model_input$chromatogram_ID)
-lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop + (1 | colony)+ (1 | colony:census_date), data=model_input)
+lm_model <- lmer(I(log(corrected_mass+0.01)) ~ sang_prop + (1 | colony)+ (1 | colony:census_date), data=model_input)
 print(summary(lm_model))
 
-simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n=1e4)
-plot(simulationOutput)
-
 # model diagnostics
-hist(residuals(lm_model))
+hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
 print(shapiro.test(residuals(lm_model)))
 simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n=1e4)
 plot(simulationOutput)
+```
+
+### Callow *F. sanguinea* ants
+
+$$
+\log(\text{CHC_mass_mature}) = \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID}) + \epsilon,
+$$
+where $\log(\text{CHC_mass_mature})$ denotes the normalized mass of *F. fusca* markers on the body of callow *F. sanguinea* worker.
+
+```{r}
+model_input <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), callow==1) %>%
+  dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) %>%
+  mutate(corrected_mass=mass/head_width^2*10^6)
+# random term dropped because of the model singularity
+model_input$corrected_mass <- model_input$corrected_mass*subsample_proportion(peaks_fusca, model_input$chromatogram_ID)
+lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop+(1 | colony), data=model_input)
+print(summary(lm_model))
+
+# model diagnostics
+hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
+print(shapiro.test(residuals(lm_model)))
 ```
