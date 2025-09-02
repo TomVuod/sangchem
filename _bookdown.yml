@@ -1,15 +1,31 @@
 rmd_files: ["index.Rmd",
     "Species_identity.Rmd",
-    "CHCs_over_time.Rmd",
-    "Callow_markers.Rmd",
-    "Callow-mature_dissimilarity.Rmd",
-    "Non-parametric_tests.Rmd",
-    "Separation_experiment.Rmd",
-    "Slave_impact.Rmd",
+    #"CHCs_over_time.Rmd",
+    #"Callow_markers.Rmd",
+    #"Callow-mature_dissimilarity.Rmd",
+    #"Non-parametric_tests.Rmd",
+    #"Separation_experiment.Rmd",
+    #"Slave_impact.Rmd",
     "Dummy_ants.Rmd",
     "Session_info.Rmd"]
+clean: false
 output_dir: "docs"
-delete_merged_file: true
+delete_merged_file: false
 language:
   ui:
-    chapter_name: "Chapter "
+    chapter_name: "Section "
+  label:
+    fig: "Figure S"
+output:
+  bookdown::pdf_book:
+    self_contained: false
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+bibliography: [book.bib]
+description: |
+  This is a doucumentation of the data analysis workflows and function used to generate the results included in the manuscript entitled Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development.
+link-citations: yes
+github-repo: TomVuod/sangchem
+params:
+  save_globals: TRUE
+

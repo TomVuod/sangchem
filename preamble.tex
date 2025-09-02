@@ -1,1 +1,14 @@
 \usepackage{booktabs}
+% Customized caption example
+\usepackage{subcaption}
+\usepackage{graphicx}
+% Label format
+\DeclareCaptionLabelFormat{custom}
+{%
+      #1 S#2
+}
+
+\captionsetup
+{
+    labelformat=custom
+}

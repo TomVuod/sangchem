@@ -1,4 +1,4 @@
-# Session info
+# Session info 
 ```{r}
 print(sessionInfo())
 ```

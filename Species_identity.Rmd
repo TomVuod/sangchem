@@ -10,6 +10,7 @@ suppressMessages({
   library(stringi)
   library(dplyr)
   library(mixOmics)
+  library(kableExtra)
 })
 
 # load data from the the earlier study
@@ -22,16 +23,15 @@ sanguinea_samples<-as.character(unique(field_colonies$chromatogram_ID)[stri_dete
 # remove outliers
 # sanguinea_samples <- setdiff(sanguinea_samples,c("sangFs2(1)","sangFs5(2)","sangFs26(1)","sangFs26(2)"))
 # fusca_samples <- setdiff(fusca_samples,c("fus9-2(1)", "fus26-3(2)"))
-discrimination_data <- filter(field_colonies,chromatogram_ID %in% c(fusca_samples,sanguinea_samples)) 
-discrimination_data <- filter(discrimination_data, peak_ID<110)
-# peak_prop_unfiltered <- peak_proportions_table(discrimination_data)
+# discrimination_data <- filter(field_colonies,chromatogram_ID %in% c(fusca_samples,sanguinea_samples)) 
+peak_prop_unfiltered <- peak_proportions_table(discrimination_data)
 peak_prop <- peak_proportions_table(discrimination_data)
 # feature selection
-# peak_prop <- freq_abun_QC(peak_prop_unfiltered)
+peak_prop <- freq_abun_QC(peak_prop_unfiltered)
 # re-normalize rows to 1
-# peak_prop <- peak_prop/rowSums(peak_prop)
+peak_prop <- peak_prop/rowSums(peak_prop)
 # remove absent peaks
-# peak_prop <- peak_prop[,apply(peak_prop,2,function(x) sum(x)>0)]
+peak_prop <- peak_prop[,apply(peak_prop,2,function(x) sum(x)>0)]
 # replace zeros with a small number before transformation
 peak_prop[peak_prop==0] <- 10^-16
 # apply central log ratio transformation
@@ -40,6 +40,10 @@ peak_transformed <- t(apply(peak_prop, 1, clr_transformation))
 
 ```{r}
 PCA_species_discr <- prcomp(peak_transformed, scale. = TRUE)
+plot(apply(PCA_callow_discr$x,2,sd))
+n_PCs <- sum(cumsum(apply(PCA_callow_discr$x,2,sd))/sum(apply(PCA_callow_discr$x,2,sd))<0.9)+1
+PCA_species_discr$rotation <- PCA_species_discr$rotation[,1:n_PCs]
+PCA_species_discr$x <- PCA_species_discr$x[,1:n_PCs]
 ```
 
 We also need to define our response variable which the discrimination model will learn to predict.
@@ -60,7 +64,8 @@ plotIndiv(species_discrimination_PC.plsda,group=Y,
 spec_discr_PC.plsda.perf<-perf(species_discrimination_PC.plsda, nrepeat = 10,folds=5,
                             progressBar = FALSE,validation = "Mfold",
                             auc=TRUE, scale=FALSE)
-
+```
+```{r fig.cap="Results of the performance test of the discriminant model with different number of components. For details see the documunetation of R mixOmics package."}
 plot(spec_discr_PC.plsda.perf, sd = TRUE, overlay = 'measure')
 ```
 
@@ -69,17 +74,13 @@ discriminant analysis.
 ```{r}
 selected_n <- spec_discr_PC.plsda.perf$choice.ncom["overall", "max.dist"]
 
-# determine the number of the original variables to be kept in each component (actually
-# here we have only one component)
-spec_discr_PC.splsda <- tune.splsda(PCA_species_discr$x,Y,test.keepX = c(1:dim(PCA_species_discr$x)[2]),ncomp = selected_n, validation="Mfold", progressBar=FALSE, dist="max.dist",
-                                    nrepeat=5, folds=5, measure="BER", scale=FALSE)
-
 # final model
-species_prediction_model <- splsda(PCA_species_discr$x, Y, ncomp=selected_n,
-                           keepX =spec_discr_PC.splsda$choice.keepX, scale=FALSE)
+species_prediction_model <- plsda(PCA_species_discr$x, Y, ncomp=selected_n, scale=FALSE)
+```
+```{r fig.cap = "Projection of the samples in onto two first discriminant analysis components after model tuning."}
 
 # visualize results for the first two components
-plotIndiv(species_prediction_model, group=Y, legend=TRUE, ellipse=TRUE, comp=1:2)
+# plotIndiv(species_prediction_model, group=Y, legend=TRUE, ellipse=TRUE, comp=1:2)
 
 ```
 
@@ -94,8 +95,8 @@ incremented_matrix <- ones_matrix + unit_input
 ones_matrix <- ones_matrix[1,,drop=FALSE]
 ones_matrix <- ones_matrix/ncol(ones_matrix)
 incremented_matrix <- apply(incremented_matrix, 2, function(x) x/sum(x))
-res1 <- calculate_SII(incremented_matrix)
-res2 <- calculate_SII(ones_matrix)
+res1 <- calculate_SII(incremented_matrix, PLS_DA_model=species_prediction_model, PCA_res = PCA_species_discr)
+res2 <- calculate_SII(ones_matrix, PLS_DA_model=species_prediction_model, PCA_res = PCA_species_discr)
 res <- res1
 colnames(res)[1] <- "peak_ID"
 res$predicted_species = res1$predicted_species - res2$predicted_species
@@ -111,10 +112,12 @@ for(peak in res$peak_ID){
 res$compounds = compounds
 res <- res[,c("peak_ID", "compounds", "predicted_species", "sanguinea_marker", "fusca_marker")]
 rownames(res) <- NULL
-print(res)
 ```
-
-The objects `peaks_sang`, `peaks_fusca`, `species_prediction_model` and `PCA_species_discr` are stored in the package folder and can collectively beloaded into the global environment along with the other objects by running `load_globals()`.
+```{r}
+kableExtra::kbl(res, longtable=TRUE, booktabs = TRUE, caption = 'List of the peaks with the species identity score indicating their importance as a marker of \\textit{F. fusca} or \\textit{F. sanguinea} samples.',col.names = c("Peak ID", "Compound", "Marker score", "\\emph{sanguinea} marker", "*fusca* marker")) %>%
+  kable_styling(latex_options = c("repeat_header"))
+```
+The objects `peaks_sang`, `peaks_fusca`, `species_prediction_model` and `PCA_species_discr` are stored in the package folder and can collectively be loaded into the global environment along with the other objects by running `load_globals()`.
 ```{r eval=params$save_globals}
 globals <- readRDS(system.file("globals.rds", package="sangchem"))
 globals[["species_prediction_model"]] <- species_prediction_model
@@ -134,7 +137,7 @@ data("development_data")
 dev_samples <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony")) %>%
   dplyr::select(chromatogram_ID, species, colony, sang_prop, callow, census_date)
 normalized_abundances <- peak_proportions_table(mass_spectra_data[mass_spectra_data$chromatogram_ID %in% dev_samples$chromatogram_ID,])
-species_indices <- calculate_SII(normalized_abundances)
+species_indices <- calculate_SII(normalized_abundances,PLS_DA_model=species_prediction_model, PCA_res = PCA_species_discr)
 dev_samples <- left_join(dev_samples, species_indices)
 ```
 
