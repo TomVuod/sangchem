@@ -43,16 +43,16 @@ select_group_with_control<-function(sample_data,treatment_id){
 
 # calculate distance to the colony which was used as donor of CHCs applicated onto the dummy ants
 # the same is done for corresponding control samples
-calculate_distance_to_donor<-function(treatment_id, sample_data, MS_data, donor_mapping){
-  sample_data<-recognize_groups(sample_data)
-  sample_data<-select_group_with_control(sample_data,treatment_id)
-  treatments<-5:8
+calculate_distance_to_donor <- function(treatment_id, sample_data, MS_data, donor_mapping){
+  sample_data <- recognize_groups(sample_data)
+  sample_data <- select_group_with_control(sample_data,treatment_id)
+  treatments <- 5:8
   species<-rep(c("F. fusca", "F. sanguinea"),each=2)[treatments==treatment_id]
   sample_data$donor_id<-mapply(function(x) determine_donor_chr_ID(x, species,
                                                                   sep_data = sample_data, donor_mapping=donor_mapping), sample_data$chromatogram_ID)
   sample_data <- filter(sample_data, !is.na(donor_id))
   sample_data$distance<-mapply(function(x,y) pair_distance(x,y, MS_data), sample_data$chromatogram_ID, sample_data$donor_id)
-  sample_data %>% group_by(colony,year,group,treatment_id) %>% summarise(mean_dist=mean(distance))
+  sample_data %>% group_by(colony,year,group,treatment) %>% summarise(mean_dist=mean(distance))
 }
 
 peak_proportion <- function(peak_ID, chr_ID, MS_data){
@@ -62,11 +62,12 @@ peak_proportion <- function(peak_ID, chr_ID, MS_data){
 }
 
 calculate_C22_fraction<-function(treatment_id, sample_data, MS_data){
+  sample_data <- recognize_groups(sample_data)
   sample_data<-recognize_groups(sample_data)
   sample_data<-select_group_with_control(sample_data,treatment_id)
   sample_data$C22_prop<-mapply(function(x, y, peak_areas) peak_proportion(y, x, peak_areas),
                                sample_data$chromatogram_ID, MoreArgs = list(y=1, peak_areas=MS_data))
-  sample_data %>% group_by(colony,year,group,treatment_id) %>% summarise(C22_prop=mean(C22_prop))
+  sample_data %>% group_by(colony,year,group,treatment) %>% summarise(C22_prop=mean(C22_prop))
 }
 
 #' Dummny ant effect
@@ -80,21 +81,29 @@ calculate_C22_fraction<-function(treatment_id, sample_data, MS_data){
 #' @param donor_mapping a data frame providing sample ID mapping between control and treatment samples
 #' in the dummy ant experiment
 #' @export
-test_dummy_ant_effect <- function(treatment_id, sample_data, MS_data, donor_mapping){
+test_dummy_ant_effect <- function(treatment_id, sample_data, MS_data, donor_mapping,
+                                  caption=""){
   distances_to_donor<-calculate_distance_to_donor(treatment_id = treatment_id, sample_data = sample_data,
                                                   donor_mapping=donor_mapping, MS_data=MS_data)
-  split_by_treatment <- split(distances_to_donor, distances_to_donor$treatment_id)
-  to_test<-full_join(split_by_treatment[[1]], split_by_treatment[[2]], by=c("group","colony","year"))
-  print(to_test)
+  split_by_treatment <- split(distances_to_donor, distances_to_donor$treatment)
+  to_test <- full_join(split_by_treatment[[2]], split_by_treatment[[1]], by=c("group","colony","year"))
+  to_test <- to_test[,c("colony", "treatment.x", "mean_dist.x", "treatment.y", "mean_dist.y")]
+  args <- list(x=to_test, caption = caption,
+               col.names = c("Colony ID", "Treamtent", "Averaged distance", "Contrast", "Averaged distance"))
   print(wilcox.test(to_test$mean_dist.x,to_test$mean_dist.y,paired = TRUE))
+  return(args)
 }
 
 
 #' @export
-test_C22_proportion <- function(treatment_id, sample_data, MS_data){
+test_C22_proportion <- function(treatment_id, sample_data, MS_data,
+                                caption=""){
   prop_data <- calculate_C22_fraction(treatment_id, sample_data, MS_data)
-  split_by_treatment <- split(prop_data, prop_data$treatment_id)
-  to_test<-full_join(split_by_treatment[[1]], split_by_treatment[[2]], by=c("group","colony","year"))
-  print(to_test)
+  split_by_treatment <- split(prop_data, prop_data$treatment)
+  to_test<-full_join(split_by_treatment[[2]], split_by_treatment[[1]], by=c("group","colony","year"))
+  to_test <- to_test[,c("colony", "treatment.x", "C22_prop.x", "treatment.y", "C22_prop.y")]
+  args <- list(x=to_test, caption = caption,
+               col.names = c("Colony ID", "Treamtent", "Averaged C22 fraction", "Contrast", "Averaged C22 fraction"))
   print(wilcox.test(to_test$C22_prop.x,to_test$C22_prop.y,paired = TRUE))
+  return(args)
 }
