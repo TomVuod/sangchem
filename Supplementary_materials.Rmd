@@ -221,9 +221,9 @@ globals[["peaks_fusca"]] <- peaks_fusca
 saveRDS(globals, system.file("globals.rds", package="sangchem"))
 ```
 
-## Species identity score
+## Species Identity Score
 
-Ants in the mixed colonies exchanged their CHCs to produce a hybrid chemical identity. We developed a method to assign each sample a value measuring similarity to one or the other species. It is based on a discriminant model that predicts the class of new samples using `predict` method from `mixOmics` R package. The input data are processed in the same way as the training set, i.e. central-log transformation is followed by projection into principal component space. In the latter step, the same rotation matrix and scaling vector is applied as those used for the training set are applied. This is achieved by using `predict` method on the object of `prcomp` class.
+Ants in the mixed colonies exchanged their CHC to produce a hybrid chemical identity. We developed a method to assign each sample a value measuring similarity to one or the other species. It is based on a discriminant model that predicts the class of new samples using `predict` method from `mixOmics` R package. The input data are processed in the same way as the training set, i.e. central-log transformation is followed by projection into principal component space. In the latter step, the same rotation matrix and scaling vector is applied as those used for the training set are applied. This is achieved by using `predict` method on the object of `prcomp` class.
 
 ```{r warning=FALSE, message=FALSE}
 data("development_data")
@@ -507,6 +507,15 @@ marker_scores_df <- data.frame(peak_ID = rownames(orig_var_effects), compound = 
                                mature_marker = rownames(orig_var_effects) %in% peaks_mature)
 marker_scores_df <- marker_scores_df[order(marker_scores_df$callow_score, decreasing = TRUE),]
 rownames(marker_scores_df) <- NULL
+
+# new peak IDs
+batch7 <- mass_spectra_data[mass_spectra_data$batch==7 & mass_spectra_data$peak_ID!=0,]
+peaks <- unique(batch7$peak_ID)
+mean_ret_times <- unlist(lapply(peaks, function(x) mean(batch7[batch7$peak_ID==x, "retention_time"])))
+peaks_ordered <- peaks[order(mean_ret_times)]
+
+peak_ID_df <- data.frame(peak_ID = 1:length(peaks_ordered), old_ID = peaks_ordered)
+marker_scores_df$peak_ID <- peak_ID_df$peak_ID[match(marker_scores_df$peak_ID, peak_ID_df$old_ID)]
 ```
 ```{r}
 kableExtra::kbl(marker_scores_df, longtable=TRUE, booktabs = TRUE, caption = 'List of the peaks with the score indicating their importance as a marker of mature \\textit{F. fusca}, mature \\textit{F. sanguinea}, or callow \\textit{F. sanguinea} samples.',col.names = c("Peak ID", "Compound", "Callow score", "Callow marker", "Mature score", "Mature marker")) %>%
@@ -1432,7 +1441,7 @@ do.call(kableExtra::kbl, args) %>% column_spec(c(3,5), width="2cm")
 
 In the publication, CHC amounts are reported relative to the square of head width. To assess whether this measure reliably reflects body size, we measured the planar projection areas of different body parts of *F. sanguinea* and *F. fusca*. The plots below suggest that head width slightly underestimates body surface area in *F. fusca* compared to *F. sanguinea*. As a result, the relative concentration of CHC in *F. fusca* may be overestimated. However, this bias acts in the opposite direction of our findings—*F. sanguinea* exhibits greater CHC concentration on its cuticle. Therefore, the shape-related bias between species is conservative, as it reduces the likelihood of rejecting the null hypothesis  
 
-```{r warning=FALSE, fig.cap="Ratios of the planar projection areas of three body parts (head, thorax dorsal view, thorax lateral view) to the square of head width."}
+```{r warning=FALSE, fig.cap="Ratios of the planar projection areas of three body parts (head, thorax dorsal view, thorax lateral view) to the square of head width.", fig.height=3}
 library(sangchem)
 library(ggplot2)
 data("development_data")
