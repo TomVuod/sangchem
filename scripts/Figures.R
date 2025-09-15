@@ -344,12 +344,17 @@ if(length(missing_peaks)>0)
 age_profiles[[2]]$age = "callow"
 #plot_data <- rbind(age_profiles[[1]], age_profiles[[2]])
 
+# new peak IDs
+batch7 <- mass_spectra_data[mass_spectra_data$batch==7 & mass_spectra_data$peak_ID!=0,]
+peaks <- unique(batch7$peak_ID)
+mean_ret_times <- unlist(lapply(peaks, function(x) mean(batch7[batch7$peak_ID==x, "retention_time"])))
+peaks_ordered <- peaks[order(mean_ret_times)]
 
-devtools::load_all()
-source(system.file("/scripts/peak_ID_publication.R", package="sangchem"))
-age_profiles[[1]]$peak_ID <- match(age_profiles[[1]]$peak_ID,peaks_ordered)
-age_profiles[[2]]$peak_ID <- match(age_profiles[[2]]$peak_ID,peaks_ordered)
-diff_data$peak_ID <- match(diff_data$peak_ID, peaks_ordered)
+peak_ID_df <- data.frame(peak_ID = 1:length(peaks_ordered), old_ID = peaks_ordered)
+marker_scores_df$peak_ID <- peak_ID_df$peak_ID[match(marker_scores_df$peak_ID, peak_ID_df$old_ID)]
+age_profiles[[1]]$peak_ID <-  peak_ID_df$peak_ID[match(age_profiles[[1]]$peak_ID, peak_ID_df$old_ID)]
+age_profiles[[2]]$peak_ID <- peak_ID_df$peak_ID[match(age_profiles[[2]]$peak_ID, peak_ID_df$old_ID)]
+diff_data$peak_ID <- peak_ID_df$peak_ID[match(diff_data$peak_ID, peak_ID_df$old_ID)]
 
 
 library(ggplot2)
