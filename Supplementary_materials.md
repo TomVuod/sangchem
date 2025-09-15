@@ -212,37 +212,37 @@ In the following model specifications $(1|\text{random_factor})$ denotes random 
 
 #### Mature *F. sanguinea*
 $$
-\text{Species_Identity_Score} = \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+\sqrt{\text{Species_Identity_Score}} = \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
 $$
 where $\text{Species_Identity_Score}$ denotes the Species Identity Score of the mature *F. sanguinea* workers.
 
 ```
 ## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
-## Formula: predicted_species ~ sang_prop + (1 | colony:census_date)
+## Formula: I(sqrt(predicted_species)) ~ sang_prop + (1 | colony:census_date)
 ##    Data: model_input
 ## 
-## REML criterion at convergence: 172.4
+## REML criterion at convergence: 21.3
 ## 
 ## Scaled residuals: 
 ##      Min       1Q   Median       3Q      Max 
-## -1.78650 -0.57383  0.07703  0.37293  2.31326 
+## -1.94450 -0.55347  0.05334  0.44781  2.07622 
 ## 
 ## Random effects:
 ##  Groups             Name        Variance Std.Dev.
-##  colony:census_date (Intercept) 0.3703   0.6085  
-##  Residual                       0.4317   0.6570  
-## Number of obs: 68, groups:  colony:census_date, 44
+##  colony:census_date (Intercept) 0.04510  0.2124  
+##  Residual                       0.04203  0.2050  
+## Number of obs: 56, groups:  colony:census_date, 39
 ## 
 ## Fixed effects:
-##             Estimate Std. Error      df t value Pr(>|t|)    
-## (Intercept)  -0.2348     0.2177 44.4936  -1.079    0.287    
-## sang_prop     3.3467     0.4223 43.7641   7.924 5.38e-10 ***
+##             Estimate Std. Error       df t value Pr(>|t|)    
+## (Intercept)  0.68388    0.08465 39.36235   8.079 6.95e-10 ***
+## sang_prop    1.04551    0.15357 36.97695   6.808 5.13e-08 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Correlation of Fixed Effects:
 ##           (Intr)
-## sang_prop -0.824
+## sang_prop -0.852
 ```
 
 ```
@@ -250,7 +250,7 @@ where $\text{Species_Identity_Score}$ denotes the Species Identity Score of the 
 ## 	Shapiro-Wilk normality test
 ## 
 ## data:  residuals(lm_model)
-## W = 0.98454, p-value = 0.563
+## W = 0.98654, p-value = 0.7851
 ```
 
 
@@ -303,7 +303,7 @@ where $\text{Species_Identity_Score}$ denotes the Species Identity Score of the 
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-19-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-19-2} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-19-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-19-2} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-19-3} \end{center}
 
 #### Callow *F. sanguinea*
 $$
@@ -492,73 +492,73 @@ Peak ID & Compound & Callow score & Callow marker & Mature score & Mature marker
 \endfoot
 \bottomrule
 \endlastfoot
-36 & 3,13-diMeC25 & 0.0416903 & TRUE & -0.0178266 & FALSE\\
-29 & 7-MeC25 & 0.0386839 & TRUE & -0.0327207 & FALSE\\
-33 & 5,13-diMeC25 & 0.0348565 & TRUE & -0.0317241 & FALSE\\
-49 & 13-MeC27 & 0.0305096 & TRUE & -0.0234311 & FALSE\\
-37 & 14-; 10-MeC26 + 3,7,11-triMeC25 & 0.0296012 & TRUE & -0.0373441 & FALSE\\
+88 & C31ene; 3-MeC30 & 0.1087104 & TRUE & -0.0818747 & FALSE\\
+106 & C33ene & 0.0658706 & TRUE & -0.0362677 & FALSE\\
+49 & 13-MeC27 & 0.0652571 & TRUE & -0.0266802 & FALSE\\
+37 & 14-; 10-MeC26 + 3,7,11-triMeC25 & 0.0560728 & TRUE & -0.0455017 & FALSE\\
+71 & 15-; 13-; 11-; 9-; 7-MeC29 & 0.0512893 & TRUE & -0.0065270 & FALSE\\
 \addlinespace
-88 & C31ene; 3-MeC30 & 0.0295308 & TRUE & -0.0189449 & FALSE\\
-71 & 15-; 13-; 11-; 9-; 7-MeC29 & 0.0264321 & TRUE & -0.0072612 & FALSE\\
-59 & 14-; 12-; 10-MeC28 & 0.0244925 & TRUE & -0.0172651 & FALSE\\
-27 & 13-; 11-; 9-MeC25 & 0.0241580 & TRUE & -0.0457490 & FALSE\\
-16 & 12-; 11-; 10-; 9-; 8-MeC24 & 0.0235367 & TRUE & -0.0429234 & FALSE\\
+27 & 13-; 11-; 9-MeC25 & 0.0452382 & TRUE & -0.0609777 & FALSE\\
+59 & 14-; 12-; 10-MeC28 & 0.0450478 & TRUE & -0.0241388 & FALSE\\
+51 & 5-MeC27 & 0.0340732 & TRUE & 0.0078654 & FALSE\\
+33 & 5,13-diMeC25 & 0.0331561 & TRUE & -0.0357471 & FALSE\\
+16 & 12-; 11-; 10-; 9-; 8-MeC24 & 0.0276485 & TRUE & -0.0527224 & FALSE\\
 \addlinespace
-12 & 3-MeC23 & 0.0233218 & TRUE & -0.0332150 & FALSE\\
-15 & 3,13-; 3,11-; 3,9-; 3,7-diMeC23 & 0.0217166 & TRUE & -0.0258548 & FALSE\\
-58 & 3,9-; 3,7-diMeC27 & 0.0207065 & FALSE & -0.0121810 & FALSE\\
-32 & 7,11-diMeC25 + 3-MeC25 & 0.0199437 & FALSE & -0.0195216 & FALSE\\
-43 & C27-ene + 6,12-diMeC26 & 0.0184220 & FALSE & 0.0157725 & FALSE\\
+23 & 4,12-diMeC24 & 0.0273377 & TRUE & -0.0536210 & FALSE\\
+43 & C27-ene + 6,12-diMeC26 & 0.0267109 & TRUE & 0.0257430 & FALSE\\
+29 & 7-MeC25 & 0.0266817 & FALSE & -0.0076892 & FALSE\\
+7 & C23 & 0.0243758 & FALSE & -0.0329704 & FALSE\\
+81 & C30 & 0.0239226 & FALSE & -0.0356204 & FALSE\\
 \addlinespace
-23 & 4,12-diMeC24 & 0.0174162 & FALSE & -0.0198991 & FALSE\\
-55 & 7,11-diMeC27 & 0.0161116 & FALSE & -0.0162587 & FALSE\\
-31 & 11,15-; 9,13-diMeC25 & 0.0147629 & FALSE & -0.0161852 & FALSE\\
-8 & 11-Me-C23 + 9-Me-C23 & 0.0145882 & FALSE & -0.0286965 & FALSE\\
-28 & 9-MeC25 & 0.0127650 & FALSE & 0.0068551 & FALSE\\
+41 & 10,16-; 10,14-diMeC26 & 0.0212246 & FALSE & -0.0158178 & FALSE\\
+55 & 7,11-diMeC27 & 0.0199886 & FALSE & -0.0487542 & FALSE\\
+31 & 11,15-; 9,13-diMeC25 & 0.0183322 & FALSE & -0.0286484 & FALSE\\
+58 & 3,9-; 3,7-diMeC27 & 0.0173919 & FALSE & -0.0305792 & FALSE\\
+83 & 14-; 13-; 12-; 11-MeC30 & 0.0161514 & FALSE & -0.0135349 & FALSE\\
 \addlinespace
-9 & 7-Me-C23 & 0.0126559 & FALSE & -0.0155144 & FALSE\\
-53 & 9,17-; 9,15-diMeC27 & 0.0123952 & FALSE & -0.0148502 & FALSE\\
-41 & 10,16-; 10,14-diMeC26 & 0.0111900 & FALSE & -0.0088143 & FALSE\\
-21 & C25-ene & 0.0111205 & FALSE & 0.0258040 & TRUE\\
-63 & 8,12,16-triMeC28 & 0.0073623 & FALSE & -0.0072445 & FALSE\\
+94 & 11,19-; 11,17-; 11,15-diMeC31 & 0.0130304 & FALSE & 0.0493860 & TRUE\\
+76 & 13,17-diMeC29 & 0.0127919 & FALSE & 0.0039670 & FALSE\\
+12 & 3-MeC23 & 0.0112077 & FALSE & -0.0155932 & FALSE\\
+92 & 15-; 13-; 11-; 9-MeC31 & 0.0112060 & FALSE & 0.0246968 & FALSE\\
+36 & 3,13-diMeC25 & 0.0109835 & FALSE & -0.0089581 & FALSE\\
 \addlinespace
-92 & 15-; 13-; 11-; 9-MeC31 & 0.0054970 & FALSE & 0.0234269 & TRUE\\
-5 & C23-ene & 0.0044117 & FALSE & -0.0328012 & FALSE\\
-7 & C23 & 0.0040366 & FALSE & -0.0384879 & FALSE\\
-83 & 14-; 13-; 12-; 11-MeC30 & 0.0035717 & FALSE & 0.0179697 & FALSE\\
-51 & 5-MeC27 & 0.0006637 & FALSE & 0.0242265 & TRUE\\
+53 & 9,17-; 9,15-diMeC27 & 0.0098728 & FALSE & -0.0305881 & FALSE\\
+108 & x-Me\_C32 & 0.0061566 & FALSE & 0.0037245 & FALSE\\
+56 & C28ene & 0.0050023 & FALSE & 0.0311745 & TRUE\\
+68 & C29 & 0.0005271 & FALSE & -0.0389391 & FALSE\\
+101 & x-Me\_C32 & -0.0007951 & FALSE & 0.0001015 & FALSE\\
 \addlinespace
-95 & 13,19-;13,17-diMeC31 & 0.0002333 & FALSE & 0.0133734 & FALSE\\
-76 & 13,17-diMeC29 & -0.0004252 & FALSE & 0.0173024 & FALSE\\
-77 & 7,11-; 7,13-; 7,15-diMeC29 & -0.0024105 & FALSE & 0.0053526 & FALSE\\
-50 & 7-MeC27 & -0.0043353 & FALSE & -0.0217227 & FALSE\\
-101 & x-Me\_C32 & -0.0048799 & FALSE & 0.0234993 & TRUE\\
+8 & 11-Me-C23 + 9-Me-C23 & -0.0022394 & FALSE & -0.0063998 & FALSE\\
+32 & 7,11-diMeC25 + 3-MeC25 & -0.0031582 & FALSE & 0.0406657 & TRUE\\
+107 & x-Me-C32 & -0.0080395 & FALSE & -0.0144481 & FALSE\\
+28 & 9-MeC25 & -0.0099569 & FALSE & 0.0267150 & FALSE\\
+5 & C23-ene & -0.0114823 & FALSE & -0.0390924 & FALSE\\
 \addlinespace
-106 & C33ene & -0.0086063 & FALSE & 0.0217736 & FALSE\\
-56 & C28ene & -0.0108589 & FALSE & 0.0394054 & TRUE\\
-75 & 11,17-diMeC29 & -0.0115280 & FALSE & 0.0183653 & FALSE\\
-85 & (di)MeC30 (mix) & -0.0137091 & FALSE & 0.0378014 & TRUE\\
-102 & 13,17-DiMe\_C32 + x,y-DiMe\_C32 & -0.0141628 & FALSE & 0.0414515 & TRUE\\
+30 & 5-MeC25 & -0.0141592 & FALSE & 0.0564321 & TRUE\\
+77 & 7,11-; 7,13-; 7,15-diMeC29 & -0.0150192 & FALSE & 0.0123666 & FALSE\\
+35 & C26 & -0.0150956 & FALSE & -0.0028435 & FALSE\\
+14 & C24 & -0.0154851 & FALSE & -0.0162197 & FALSE\\
+24 & C25 & -0.0172402 & FALSE & -0.0207323 & FALSE\\
 \addlinespace
-42 & 7,x-; 5,x-; 10,14-diMeC26 & -0.0143395 & FALSE & -0.0207037 & FALSE\\
-57 & C28 + 3,15-diMeC27 & -0.0144112 & FALSE & 0.0029394 & FALSE\\
-108 & x-Me\_C32 & -0.0166740 & FALSE & 0.0323524 & TRUE\\
-54 & 9,13-diMeC27 & -0.0187604 & FALSE & 0.0029709 & FALSE\\
-52 & 11,15-diMeC27 & -0.0188128 & FALSE & 0.0345456 & TRUE\\
+15 & 3,13-; 3,11-; 3,9-; 3,7-diMeC23 & -0.0187089 & FALSE & 0.0127655 & FALSE\\
+54 & 9,13-diMeC27 & -0.0198913 & FALSE & 0.0362540 & TRUE\\
+95 & 13,19-;13,17-diMeC31 & -0.0219664 & FALSE & -0.0015095 & FALSE\\
+57 & C28 + 3,15-diMeC27 & -0.0248747 & FALSE & 0.0186056 & FALSE\\
+75 & 11,17-diMeC29 & -0.0260083 & FALSE & 0.0267627 & FALSE\\
 \addlinespace
-14 & C24 & -0.0194179 & FALSE & -0.0262966 & FALSE\\
-107 & x-Me-C32 & -0.0200349 & FALSE & 0.0050400 & FALSE\\
-68 & C29 & -0.0272272 & FALSE & -0.0143242 & FALSE\\
-81 & C30 & -0.0274913 & FALSE & -0.0042224 & FALSE\\
-109 & 11,21-; 11,19-diMeC33 & -0.0300790 & FALSE & 0.0357923 & TRUE\\
+50 & 7-MeC27 & -0.0287298 & FALSE & -0.0145294 & FALSE\\
+52 & 11,15-diMeC27 & -0.0299602 & FALSE & 0.0699320 & TRUE\\
+109 & 11,21-; 11,19-diMeC33 & -0.0339506 & FALSE & 0.0446574 & TRUE\\
+63 & 8,12,16-triMeC28 & -0.0361913 & FALSE & 0.0533123 & TRUE\\
+9 & 7-Me-C23 & -0.0363853 & FALSE & 0.0074738 & FALSE\\
 \addlinespace
-94 & 11,19-; 11,17-; 11,15-diMeC31 & -0.0324225 & FALSE & 0.0406780 & TRUE\\
-24 & C25 & -0.0341250 & FALSE & -0.0184365 & FALSE\\
-35 & C26 & -0.0342711 & FALSE & 0.0024356 & FALSE\\
-30 & 5-MeC25 & -0.0360842 & FALSE & 0.0417524 & TRUE\\
-90 & C31 & -0.0421607 & FALSE & 0.0033436 & FALSE\\
+85 & (di)MeC30 (mix) & -0.0389767 & FALSE & 0.0621287 & TRUE\\
+42 & 7,x-; 5,x-; 10,14-diMeC26 & -0.0413620 & FALSE & -0.0302976 & FALSE\\
+21 & C25-ene & -0.0415401 & FALSE & 0.0689075 & TRUE\\
+90 & C31 & -0.0587594 & FALSE & 0.0028683 & FALSE\\
+47 & C27 & -0.0637613 & FALSE & 0.0327145 & TRUE\\
 \addlinespace
-47 & C27 & -0.0464208 & FALSE & 0.0009641 & FALSE\\*
+102 & 13,17-DiMe\_C32 + x,y-DiMe\_C32 & -0.0867771 & FALSE & 0.1113618 & TRUE\\*
 \end{longtable}
 
 
@@ -744,7 +744,7 @@ where $\text{CHC_mass_callow}$ denotes the total normalized CHC mass on the body
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-38-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-38-2} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-38-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-38-2} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-38-3} \end{center}
 
 ## Change of the CHCs associated with *F. sanguinea*
 
@@ -1175,28 +1175,28 @@ This section presents the results of Wilcoxon tests comparing features of CHC pr
 ## Formula: log(corrected_mass_part) ~ mean_delta + (1 | colony)
 ##    Data: separation_data
 ## 
-## REML criterion at convergence: 91.5
+## REML criterion at convergence: 87.5
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -2.3229 -0.7788  0.1032  0.6331  2.5936 
+## -2.4578 -0.6710  0.1080  0.5751  2.4611 
 ## 
 ## Random effects:
 ##  Groups   Name        Variance Std.Dev.
-##  colony   (Intercept) 0.1122   0.3349  
-##  Residual             0.1227   0.3503  
+##  colony   (Intercept) 0.08916  0.2986  
+##  Residual             0.11912  0.3451  
 ## Number of obs: 80, groups:  colony, 11
 ## 
 ## Fixed effects:
-##              Estimate Std. Error        df t value Pr(>|t|)  
-## (Intercept) -0.296830   0.118281 13.022925  -2.510   0.0261 *
-## mean_delta  -0.004727   0.003041 68.343277  -1.554   0.1247  
+##              Estimate Std. Error        df t value Pr(>|t|)   
+## (Intercept) -0.370378   0.108556 13.530411  -3.412   0.0044 **
+## mean_delta  -0.002148   0.002994 68.357201  -0.717   0.4755   
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Correlation of Fixed Effects:
 ##            (Intr)
-## mean_delta -0.389
+## mean_delta -0.417
 ```
 
 ```
@@ -1204,7 +1204,7 @@ This section presents the results of Wilcoxon tests comparing features of CHC pr
 ## 	Shapiro-Wilk normality test
 ## 
 ## data:  residuals(lm_model)
-## W = 0.98968, p-value = 0.7747
+## W = 0.99178, p-value = 0.8953
 ```
 
 
@@ -1626,4 +1626,19 @@ W17-1 & 12-15 days + F. sanguinea hydrocarbons & 0.0030204 & 12-15 days (control
 \end{longtable}
 
 <!--chapter:end:Dummy_ants.Rmd-->
+
+# Body surface area of *F. sanguinea* ants and their slaves
+
+In the publication, CHC amounts are reported relative to the square of head width. To assess whether this measure reliably reflects body size, we measured the planar projection areas of different body parts of *F. sanguinea* and *F. fusca*. The plots below suggest that head width slightly underestimates body surface area in *F. fusca* compared to *F. sanguinea*. As a result, the relative concentration of CHC in *F. fusca* may be overestimated. However, this bias acts in the opposite direction of our findings—*F. sanguinea* exhibits greater CHC concentration on its cuticle. Therefore, the shape-related bias between species is conservative, as it reduces the likelihood of rejecting the null hypothesis  
+
+\begin{figure}
+
+{\centering \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-91-1} 
+
+}
+
+\caption{Ratios of the planar projection areas of three body parts (head, thorax dorsal view, thorax lateral view) to the square of head width.}(\#fig:unnamed-chunk-91)
+\end{figure}
+
+<!--chapter:end:Body_surface.Rmd-->
 

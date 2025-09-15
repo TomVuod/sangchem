@@ -1,0 +1,42 @@
+# Body surface area of *F. sanguinea* ants and their slaves
+
+In the publication, CHC amounts are reported relative to the square of head width. To assess whether this measure reliably reflects body size, we measured the planar projection areas of different body parts of *F. sanguinea* and *F. fusca*. The plots below suggest that head width slightly underestimates body surface area in *F. fusca* compared to *F. sanguinea*. As a result, the relative concentration of CHC in *F. fusca* may be overestimated. However, this bias acts in the opposite direction of our findings—*F. sanguinea* exhibits greater CHC concentration on its cuticle. Therefore, the shape-related bias between species is conservative, as it reduces the likelihood of rejecting the null hypothesis  
+
+```{r warning=FALSE, fig.cap="Ratios of the planar projection areas of three body parts (head, thorax dorsal view, thorax lateral view) to the square of head width.", fig.height=3}
+library(sangchem)
+library(ggplot2)
+data("development_data")
+data("separation_experiment_data")
+data("body_surface_area")
+
+# import measurement data
+head_widths <- c()
+species <- c()
+callow <- c()
+for(i in 1:nrow(body_surface_area)){
+  chr_ID <- body_surface_area$ID[i]
+  if(chr_ID %in% development_data$chromatogram_ID){
+    head_widths[i] <- as.numeric(development_data[development_data$chromatogram_ID==chr_ID,"head_width"])
+    species[i] <- development_data[development_data$chromatogram_ID==chr_ID,"species"]
+    callow[i] <- development_data[development_data$chromatogram_ID==chr_ID,"callow"]
+    }
+  else {
+    head_widths[i] <- as.numeric(separation_experiment_data[separation_experiment_data$chromatogram_ID==chr_ID,"head_width"])
+    species[i] <- "F. sanguinea"
+    callow[i] <- NA
+  }
+}
+
+body_surface_area$species <- species
+body_surface_area$head_width <- head_widths/1000
+body_surface_area$normalized_area <- body_surface_area$area/head_widths^2
+
+
+ggplot(body_surface_area, aes(y=normalized_area, x=head_width,color=species))+
+  geom_point()+
+  geom_smooth(method='lm') +
+  facet_wrap(~view)+
+  scale_color_manual(values=c("black", "red"))+
+  xlab("Head width [mm]")+
+  ylab("Area divided by squared head width")
+```
