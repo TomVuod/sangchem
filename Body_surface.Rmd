@@ -1,4 +1,4 @@
-# Body surface area of *F. sanguinea* ants and their slaves
+# Body surface area of *F. sanguinea* ants and their slaves {#surface-area}
 
 In the publication, CHC amounts are reported relative to the square of head width. To assess whether this measure reliably reflects body size, we measured the planar projection areas of different body parts of *F. sanguinea* and *F. fusca*. The plots below suggest that head width slightly underestimates body surface area in *F. fusca* compared to *F. sanguinea*. As a result, the relative concentration of CHC in *F. fusca* may be overestimated. However, this bias acts in the opposite direction of our findings—*F. sanguinea* exhibits greater CHC concentration on its cuticle. Therefore, the shape-related bias between species is conservative, as it reduces the likelihood of rejecting the null hypothesis  
 

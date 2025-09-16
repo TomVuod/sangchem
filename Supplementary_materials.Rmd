@@ -5,7 +5,7 @@ params:
   save_globals: TRUE
 clean: false
 output:
-  bookdown::pdf_document:
+  bookdown::pdf_document2:
     keep_tex: true
 ---
 
@@ -660,9 +660,9 @@ All differences are positive, so the *p*-value is less than 0.001 since the null
 
 <!--chapter:end:Callow_markers.Rmd-->
 
-# Changes of CHCs amount over time
+# Changes of CHC amount over time
 
-This section contains a series of linear (mixed) models fitted to examine how the proportion of *F. sanguinea* workers in a colony is associated with the amount of CHC, analyzed as a whole or in subsets. Included are summary reports, results of the Shapiro-Wilk test of nornalizty of conditional residuals, as well as diagnostic plots and tests generated with the use of `DHARMa` R package[@R-DHARMa]. The response variable often needed to be transformed to meet model assumptions. Random terms with no variance have been dropped. 
+This section contains a series of linear (mixed) models fitted to examine how the proportion of *F. sanguinea* workers in a colony is associated with the amount of CHC, analyzed as a whole or in subsets. Included are summary reports, results of the Shapiro-Wilk test of normality of conditional residuals, as well as diagnostic plots and tests generated with the use of `DHARMa` R package[@R-DHARMa]. The response variable often needed to be transformed to meet model assumptions. Random terms with no variance have been dropped. 
 
 In model specification $(1|\text{random_factor})$ denotes random intercept (separate for each level of the random factor) and $((1|\text{random_factor_1:random_factor_2}))$ denotes random intercepts generated from the combinations of two factors. $\beta_{0}$ and $\epsilon$ denote intercept and error term, respectively. 
 
@@ -682,21 +682,17 @@ dev_samples <- filter(development_data, caste=="worker",!is.na(head_width), !rem
   mutate(corrected_mass=mass/head_width^2*10^6)
 ```
 
-## Change in the total CHCs mass
+## Colony growth and body size
 
-In this series of models the total CHC mass (normalized by assuming head width of 1.3 mm) was regressed on the proportion of *Formica sanguinea* workers in the colony. 
-
-### Mature *F. sanguinea*
+In the analyses below, the normalized CHC amounts were used as a response variable. Since the body shape in both species deviates from isometric growth pattern (see Section \@ref(surface_area)), the CHC amount normalization by the square of head width might bias the calculations. To account for that we first examine the relationship between body size (head width) and proportion of *F. sanguinea* worker in a colony and next we incorporate the square of head width as an explanatory variable to the linear model. 
 
 $$
-\log(\text{CHC_mass_sanguinea}) =  \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+\text{head_width} =  \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID}) + \epsilon,
 $$
-where $\text{CHC_mass_sanguinea}$ denotes the total normalized CHC mass on the body of adult *F. sanguinea* worker.
 
 ```{r}
-set.seed(3453)
 model_input <- dev_samples[dev_samples$species=="F. sanguinea",]
-lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop  + (1|colony) +(1 | colony:census_date), data=model_input)
+lm_model <- lmer(head_width ~ sang_prop  + (1|colony), data=model_input)
 print(summary(lm_model))
 
 # model diagnostics
@@ -706,16 +702,41 @@ simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n = 
 plot(simulationOutput)
 ```
 
+## Change in the total CHCs mass
+
+In this series of models the total CHC mass (normalized by assuming head width of 1.3 mm) was regressed on the proportion of *Formica sanguinea* workers in the colony. 
+
+### Mature *F. sanguinea*
+
+$$
+\log(\text{CHC_mass_sanguinea}) =  \beta_0 + \text{sanguinea_proportion} +(\text{head_width})^2 + (1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+$$
+where $\text{CHC_mass_sanguinea}$ denotes the total normalized CHC mass on the body of adult *F. sanguinea* worker.
+
+```{r}
+set.seed(3453)
+model_input <- dev_samples[dev_samples$species=="F. sanguinea",]
+lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop  + I(head_width^2)+(1|colony) +(1 | colony:census_date), data=model_input)
+print(summary(lm_model))
+
+# model diagnostics
+hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
+print(shapiro.test(residuals(lm_model)))
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n = 10^4)
+plot(simulationOutput)
+```
+The model shows no significant effect of body size on CHC amount in *F. sanguinea*, and this term will therefore be excluded from subsequent models for this species.
+
 ### *F. fusca*
 
 $$
-\log(\text{CHC_mass_fusca}) =  \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID}) + \epsilon,
+\log(\text{CHC_mass_fusca}) =  \beta_0 + \text{sanguinea_proportion}+(\text{head_width})^2 + (1|\text{colony_ID}) + \epsilon,
 $$
 where $\text{CHC_mass_fusca}$ denotes the total normalized CHC mass on the body of adult *F. fusca* worker. 
 
 ```{r}
 model_input <- dev_samples[dev_samples$species=="F. fusca",]
-lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop  + (1|colony), data=model_input)
+lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop  + I(head_width^2)+(1|colony), data=model_input)
 print(summary(lm_model))
 
 # model diagnostics
@@ -737,7 +758,7 @@ model_input <- filter(development_data, caste=="worker",!is.na(head_width), !rem
   dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) %>%
   mutate(corrected_mass=mass/head_width^2*10^6)
 
-lm_model <- lmer(I((corrected_mass)) ~ sang_prop  + (1|colony), data=model_input)
+lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop +I(head_width^2) + (1|colony), data=model_input)
 print(summary(lm_model))
 
 # model diagnostics
@@ -746,6 +767,7 @@ print(shapiro.test(residuals(lm_model)))
 simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n = 10^4)
 plot(simulationOutput)
 ```
+Similarly to mature *F. sanguinea* ants, in callow workers there is negative but not significant relationship between body size and normalized CHC amount.
 
 ## Change of the CHCs associated with *F. sanguinea*
 
@@ -773,14 +795,14 @@ plot(simulationOutput)
 ### *F. fusca* ants
 
 $$
-\sqrt{(\text{CHC_mass_fusca})} =  \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+\sqrt{(\text{CHC_mass_fusca})} =  \beta_0 + \text{sanguinea_proportion} +\text{head_width}^2+ (1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
 $$
 where $\text{CHC_mass_fusca}$ denotes the normalized mass of *F. sanguinea* markers on the body of adult *F. sanguinea* worker.
 
 ```{r}
 model_input <- dev_samples[dev_samples$species=="F. fusca",]
 model_input$corrected_mass <- model_input$corrected_mass*subsample_proportion(peaks_sang, model_input$chromatogram_ID)
-lm_model <- lmer(I(sqrt(corrected_mass)) ~ sang_prop +(1|colony:census_date), data=model_input)
+lm_model <- lmer(I(sqrt(corrected_mass)) ~ sang_prop + I(head_width^2) +(1|colony:census_date), data=model_input)
 print(summary(lm_model))
 
 # model diagnostics
@@ -839,7 +861,7 @@ plot(simulationOutput)
 ### *F. fusca* ants
 
 $$
-\log(\text{CHC_mass_mature}+0.01) =  \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+\log(\text{CHC_mass_mature}+0.01) =  \beta_0 + \text{sanguinea_proportion} + \text{head_width}^2+(1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
 $$
 where $\text{CHC_mass_mature}$ denotes the normalized mass of *F. fusca* markers on the body of *F. fusca* worker.
 
@@ -847,7 +869,7 @@ where $\text{CHC_mass_mature}$ denotes the normalized mass of *F. fusca* markers
 set.seed(1001)
 model_input <- dev_samples[dev_samples$species=="F. fusca",]
 model_input$corrected_mass <- model_input$corrected_mass*subsample_proportion(peaks_fusca, model_input$chromatogram_ID)
-lm_model <- lmer(I(log(corrected_mass+0.01)) ~ sang_prop + (1 | colony)+ (1 | colony:census_date), data=model_input)
+lm_model <- lmer(I(log(corrected_mass+0.01)) ~ sang_prop + I(head_width^2)+ (1 | colony)+ (1 | colony:census_date), data=model_input)
 print(summary(lm_model))
 
 # model diagnostics
@@ -1437,7 +1459,7 @@ do.call(kableExtra::kbl, args) %>% column_spec(c(3,5), width="2cm")
 
 <!--chapter:end:Dummy_ants.Rmd-->
 
-# Body surface area of *F. sanguinea* ants and their slaves
+# Body surface area of *F. sanguinea* ants and their slaves {#surface_area}
 
 In the publication, CHC amounts are reported relative to the square of head width. To assess whether this measure reliably reflects body size, we measured the planar projection areas of different body parts of *F. sanguinea* and *F. fusca*. The plots below suggest that head width slightly underestimates body surface area in *F. fusca* compared to *F. sanguinea*. As a result, the relative concentration of CHC in *F. fusca* may be overestimated. However, this bias acts in the opposite direction of our findings—*F. sanguinea* exhibits greater CHC concentration on its cuticle. Therefore, the shape-related bias between species is conservative, as it reduces the likelihood of rejecting the null hypothesis  
 
