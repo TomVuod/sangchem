@@ -1,5 +1,8 @@
 setwd("/home/t.wlodarczyk/chemical_ecology/sangchem")
-devtools::load_all(".")
+source("./R/transformations.R")
+source("./R/quality_control.R")
+load("./data/development_data.rda")
+load("./data/mass_spectra_data.rda")
 args = commandArgs(trailingOnly=TRUE)
 library(mixOmics)
 library(dplyr)
@@ -58,13 +61,17 @@ Y <- as.numeric(DA_data$callow) + as.numeric(DA_data$species == "F. sanguinea")
 
 peak_prop <- peak_proportions_table(mass_spectra_data[mass_spectra_data$chromatogram_ID %in% DA_data$chromatogram_ID,])
 peak_prop <- peak_prop[match(DA_data$chromatogram_ID, rownames(peak_prop)),]
+peak_prop <- peak_prop[,apply(peak_prop,2,function(x) sum(x)>0)]
+peak_prop <- freq_abun_QC(peak_prop, freq_cutoff = 0.3, abundance_cutoff = 0.005)
 # replace zeros with a small number before transformation
-peak_prop[peak_prop==0] <- 10^-16
+peak_prop[peak_prop==0] <- 10^-5
 # apply central log ratio transformation
 peak_transformed <- t(apply(peak_prop, 1, clr_transformation))
 PCA_callow_discr <- prcomp(peak_transformed, scale. = TRUE)
-PCA_callow_discr$x <- withinVariation(PCA_callow_discr$x, data.frame(DA_data$group))
-file_name <- paste0("random_labels_3_groups_",as.character(args[1]),".rds")
+n_PCs <- sum(cumsum(apply(PCA_callow_discr$x,2,var))/sum(apply(PCA_callow_discr$x,2,var))<0.8)+1
+PCA_callow_discr$rotation <- PCA_callow_discr$rotation[,1:n_PCs]
+PCA_callow_discr$x <- PCA_callow_discr$x[,1:n_PCs]
+file_name <- paste0("./output/random_labels_3_groups_",as.character(args[1]),".rds")
 results <- {if(file.exists(file_name)) readRDS(file_name)
   else {
     results <- list()
@@ -84,42 +91,44 @@ while(TRUE){
   Y <- results$Y
   .Random.seed <- results$random.seed
   Y <- split(Y, DA_data$group) %>% lapply(function(x) {x[x>0]<-sample(x[x>0], length(x[x>0]));x}) %>% unlist()
-  discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,
+  discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y, multilevel = DA_data$group,
                                   ncomp=7, scale = FALSE)
   tryCatch({perf.discr_analysis_callow <- perf(discr_analysis_callow,
-                                     validation = "Mfold",
-                                     folds = 4,
-                                     progressBar = FALSE,
-                                     auc = TRUE,
-                                     nrepeat = 30,
-                                     scale = FALSE,
-                                     cpus=16)
+                                               validation = "Mfold",
+                                               folds = 4,
+                                               progressBar = FALSE,
+                                               auc = TRUE,
+                                               nrepeat = 30,
+                                               scale = FALSE,
+                                               BPPARAM = BiocParallel::MulticoreParam(RNG=sample(9999)))
+  selected_n <- perf.discr_analysis_callow$choice.ncom["overall", "max.dist"]
   discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
-                                                        Y=Y,
-                                                        ncomp = perf.discr_analysis_callow$choice.ncomp[1,1],
-                                                        test.keepX = seq(1:120),
-                                                        validation = 'Mfold',
-                                                        folds = 4, nrepeat = 30,
-                                                        dist = 'max.dist', # use max.dist measure
-                                                        measure = "BER",
-                                                        progressBar = FALSE,
-                                                        scale = FALSE,
-                                                        cpus=16)
+                                              Y=Y,
+                                              ncomp = selected_n,
+                                              test.keepX = seq(1:dim(PCA_callow_discr$x)[2]),
+                                              validation = 'Mfold',
+                                              folds = 4, nrepeat = 30,
+                                              multilevel = DA_data$group,
+                                              dist = 'max.dist', # use max.dist measure
+                                              measure = "BER",
+                                              progressBar = FALSE,
+                                              scale = FALSE,
+                                              BPPARAM = BiocParallel::MulticoreParam(RNG=sample(9999)))
 
-  n_comp <- discr_analysis_callows_tuned$choice.ncomp$ncomp
+  selected_n <- discr_analysis_callows_tuned$choice.ncomp$ncomp
   if(is.null(n_comp)) n_comp <- 1
   discr_analysis_callows_res <- splsda(PCA_callow_discr$x,Y=Y,
-                                       keepX=discr_analysis_callows_tuned$choice.keepX,
-                                       ncomp=n_comp,
+                                       keepX=discr_analysis_callows_tuned$choice.keepX[1:selected_n],
+                                       ncomp=selected_n,multilevel = DA_data$group,
                                        scale = FALSE)
 
   perf.discr_analysis_callows_res <- perf(discr_analysis_callows_res,
-                                     validation = "Mfold",
-                                     folds = 4,
-                                     progressBar = FALSE,
-                                     nrepeat = 1,
-                                     scale = FALSE,
-                                     cpus=16)
+                                          validation = "Mfold",
+                                          folds = 4,
+                                          progressBar = FALSE,
+                                          nrepeat = 1,
+                                          scale = FALSE,
+                                          BPPARAM = BiocParallel::MulticoreParam(RNG=sample(9999)))
 
   curve_data <- calculate_accuracy_metrics(perf.discr_analysis_callows_res$predict[[length(perf.discr_analysis_callows_res$predict)]][,3,1][Y>0], Y[Y>0]==2)
   AUC <- calculate_AUC(curve_data$FPR, curve_data$TPR)
