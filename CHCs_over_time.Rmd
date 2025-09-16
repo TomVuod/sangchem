@@ -17,12 +17,12 @@ data("development_data")
 load_globals()
 dev_samples <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), callow==0) %>%
   dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) %>%
-  mutate(corrected_mass=mass/head_width^2*10^6)
+  mutate(corrected_mass=mass/head_width^2*10^6) %>% mutate(head_width=head_width*1e3)
 ```
 
 ## Colony growth and body size
 
-In the analyses below, the normalized CHC amounts were used as a response variable. Since the body shape in both species deviates from isometric growth pattern (see Section \@ref(surface-area)), the CHC amount normalization by the square of head width might bias the calculations. To account for that we first examine the relationship between body size (head width) and proportion of *F. sanguinea* worker in a colony and next we incorporate the square of head width as an explanatory variable to the linear model. 
+n the analyses below, normalized CHC amounts were used as the response variable. Because body shape in both species deviates from an isometric growth pattern (see Section \@ref(surface-area)), normalizing CHC amounts by the square of head width may introduce bias. To address this, we first examined the relationship between body size (head width) and the proportion of F. sanguinea workers in a colony, and then incorporated the square of head width as an explanatory variable in the linear model.
 
 $$
 \text{head_width} =  \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID}) + \epsilon,

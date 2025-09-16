@@ -1,5 +1,8 @@
 ---
-title: "Supplementary materials"
+title: "Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development"
+author:
+  - Tomasz Włodarczyk^[Faculty of Biology, University of Białystok, Poland, tomwlo@gmail.com, ORCID 0000-0003-1554-9699]
+  - Thomas Schmitt^[Department of Animal Ecology and Tropical Biology, University of Würzburg, Germany, thomas.schmitt@uni-wuerzburg.de, ORCID 0000-0002-6719-8635]
 bibliography: book.bib
 params:
   save_globals: TRUE
@@ -10,7 +13,7 @@ output:
 ---
 
 # Introduction
-This document presents graphical results generated as output from analytic workflows written in *R* language and available in the [public GitHub repository](https://github.com/TomVuod/sangchem).   
+This document presents graphical results generated as output from analytic workflows written in *R* language and available in [the public GitHub repository - https://github.com/TomVuod/sangchem/tree/supp](https://github.com/TomVuod/sangchem/tree/supp).   
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   fig.align = 'center',

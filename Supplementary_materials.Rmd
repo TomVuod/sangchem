@@ -1,5 +1,8 @@
 ---
-title: "Supplementary materials"
+title: "Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development"
+author:
+  - Tomasz Włodarczyk^[Faculty of Biology, University of Białystok, Poland, tomwlo@gmail.com, ORCID 0000-0003-1554-9699]
+  - Thomas Schmitt^[Department of Animal Ecology and Tropical Biology, University of Würzburg, Germany, thomas.schmitt@uni-wuerzburg.de, ORCID 0000-0002-6719-8635]
 bibliography: book.bib
 params:
   save_globals: TRUE
@@ -10,7 +13,7 @@ output:
 ---
 
 # Introduction
-This document presents graphical results generated as output from analytic workflows written in *R* language and available in the [public GitHub repository](https://github.com/TomVuod/sangchem).   
+This document presents graphical results generated as output from analytic workflows written in *R* language and available in [the public GitHub repository - https://github.com/TomVuod/sangchem/tree/supp](https://github.com/TomVuod/sangchem/tree/supp).   
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   fig.align = 'center',
@@ -679,12 +682,12 @@ data("development_data")
 load_globals()
 dev_samples <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), callow==0) %>%
   dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) %>%
-  mutate(corrected_mass=mass/head_width^2*10^6)
+  mutate(corrected_mass=mass/head_width^2*10^6) %>% mutate(head_width=head_width*1e3)
 ```
 
 ## Colony growth and body size
 
-In the analyses below, the normalized CHC amounts were used as a response variable. Since the body shape in both species deviates from isometric growth pattern (see Section \@ref(surface_area)), the CHC amount normalization by the square of head width might bias the calculations. To account for that we first examine the relationship between body size (head width) and proportion of *F. sanguinea* worker in a colony and next we incorporate the square of head width as an explanatory variable to the linear model. 
+n the analyses below, normalized CHC amounts were used as the response variable. Because body shape in both species deviates from an isometric growth pattern (see Section \@ref(surface-area)), normalizing CHC amounts by the square of head width may introduce bias. To address this, we first examined the relationship between body size (head width) and the proportion of F. sanguinea workers in a colony, and then incorporated the square of head width as an explanatory variable in the linear model.
 
 $$
 \text{head_width} =  \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID}) + \epsilon,
@@ -709,7 +712,7 @@ In this series of models the total CHC mass (normalized by assuming head width o
 ### Mature *F. sanguinea*
 
 $$
-\log(\text{CHC_mass_sanguinea}) =  \beta_0 + \text{sanguinea_proportion} +(\text{head_width})^2 + (1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+\log(\text{CHC_mass_sanguinea}) =  \beta_0 + \text{sanguinea_proportion} +(\text{head_width})^2 +\newline (1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
 $$
 where $\text{CHC_mass_sanguinea}$ denotes the total normalized CHC mass on the body of adult *F. sanguinea* worker.
 
@@ -749,7 +752,7 @@ plot(simulationOutput)
 ### Callow *F. sanguinea*
 
 $$
-\log(\text{CHC_mass_callow}) =  \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+\log(\text{CHC_mass_callow}) =  \beta_0 + \text{sanguinea_proportion}+(\text{head_width})^2 + \newline(1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
 $$
 where $\text{CHC_mass_callow}$ denotes the total normalized CHC mass on the body of callow *F. sanguinea* worker.
 
@@ -776,7 +779,7 @@ In this section the subset of peaks were used to calculate normalized CHC mass. 
 ### Mature *F. sanguinea* ants
 
 $$
-\log(\text{CHC_mass_mature}) =  \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+\log(\text{CHC_mass_mature}) =  \beta_0 + \text{sanguinea_proportion} +  \newline(1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
 $$
 where $\text{CHC_mass_mature}$ denotes the normalized mass of *F. sanguinea* markers on the body of adult *F. sanguinea* worker.
 
@@ -795,7 +798,7 @@ plot(simulationOutput)
 ### *F. fusca* ants
 
 $$
-\sqrt{(\text{CHC_mass_fusca})} =  \beta_0 + \text{sanguinea_proportion} +\text{head_width}^2+ (1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+\sqrt{(\text{CHC_mass_fusca})} =  \beta_0 + \text{sanguinea_proportion} +\text{head_width}^2+  \newline(1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
 $$
 where $\text{CHC_mass_fusca}$ denotes the normalized mass of *F. sanguinea* markers on the body of adult *F. sanguinea* worker.
 
@@ -861,7 +864,7 @@ plot(simulationOutput)
 ### *F. fusca* ants
 
 $$
-\log(\text{CHC_mass_mature}+0.01) =  \beta_0 + \text{sanguinea_proportion} + \text{head_width}^2+(1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+\log(\text{CHC_mass_mature}+0.01) =  \beta_0 + \text{sanguinea_proportion} + \text{head_width}^2+ \newline(1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
 $$
 where $\text{CHC_mass_mature}$ denotes the normalized mass of *F. fusca* markers on the body of *F. fusca* worker.
 
@@ -1459,7 +1462,7 @@ do.call(kableExtra::kbl, args) %>% column_spec(c(3,5), width="2cm")
 
 <!--chapter:end:Dummy_ants.Rmd-->
 
-# Body surface area of *F. sanguinea* ants and their slaves {#surface_area}
+# Body surface area of *F. sanguinea* ants and their slaves {#surface-area}
 
 In the publication, CHC amounts are reported relative to the square of head width. To assess whether this measure reliably reflects body size, we measured the planar projection areas of different body parts of *F. sanguinea* and *F. fusca*. The plots below suggest that head width slightly underestimates body surface area in *F. fusca* compared to *F. sanguinea*. As a result, the relative concentration of CHC in *F. fusca* may be overestimated. However, this bias acts in the opposite direction of our findings—*F. sanguinea* exhibits greater CHC concentration on its cuticle. Therefore, the shape-related bias between species is conservative, as it reduces the likelihood of rejecting the null hypothesis  
 
