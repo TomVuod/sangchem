@@ -88,6 +88,7 @@ test_dummy_ant_effect <- function(treatment_id, sample_data, MS_data, donor_mapp
   split_by_treatment <- split(distances_to_donor, distances_to_donor$treatment)
   to_test <- full_join(split_by_treatment[[2]], split_by_treatment[[1]], by=c("group","colony","year"))
   to_test <- to_test[,c("colony", "treatment.x", "mean_dist.x", "treatment.y", "mean_dist.y")]
+  to_test[,c("mean_dist.x", "mean_dist.y")] <- round(to_test[,c("mean_dist.x", "mean_dist.y")], 3)
   args <- list(x=to_test, caption = caption,
                col.names = c("Colony ID", "Treamtent", "Averaged distance", "Contrast", "Averaged distance"))
   print(wilcox.test(to_test$mean_dist.x,to_test$mean_dist.y,paired = TRUE))
@@ -102,6 +103,7 @@ test_C22_proportion <- function(treatment_id, sample_data, MS_data,
   split_by_treatment <- split(prop_data, prop_data$treatment)
   to_test<-full_join(split_by_treatment[[2]], split_by_treatment[[1]], by=c("group","colony","year"))
   to_test <- to_test[,c("colony", "treatment.x", "C22_prop.x", "treatment.y", "C22_prop.y")]
+  to_test[,c("C22_prop.x", "C22_prop.y")] <- round(to_test[,c("C22_prop.x", "C22_prop.y")], 3)
   args <- list(x=to_test, caption = caption,
                col.names = c("Colony ID", "Treamtent", "Averaged C22 fraction", "Contrast", "Averaged C22 fraction"))
   print(wilcox.test(to_test$C22_prop.x,to_test$C22_prop.y,paired = TRUE))
