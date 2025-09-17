@@ -116,7 +116,7 @@ while(TRUE){
                                               BPPARAM = BiocParallel::MulticoreParam(RNG=sample(9999)))
 
   selected_n <- discr_analysis_callows_tuned$choice.ncomp$ncomp
-  if(is.null(n_comp)) n_comp <- 1
+  if(is.null(selected_n)) selected_n <- 1
   discr_analysis_callows_res <- splsda(PCA_callow_discr$x,Y=Y,
                                        keepX=discr_analysis_callows_tuned$choice.keepX[1:selected_n],
                                        ncomp=selected_n,multilevel = DA_data$group,
