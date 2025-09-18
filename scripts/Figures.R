@@ -71,7 +71,7 @@ p1 <- ggplot(aes(x=species, y=proportion , group=species), data=df)+
   theme(axis.title.y=element_text(vjust = 0.5))+
   theme(legend.title=element_text(size=14),
         legend.text=element_text(size=13),
-        legend.position = c(0.28, 0.675),
+        legend.position = c(0.77, 0.81),
         legend.background = element_rect(fill = NA))+
   theme(panel.background = element_rect(fill="white"),
         axis.line = element_line(size = 0.5, linetype = "solid",
