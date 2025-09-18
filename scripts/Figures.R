@@ -78,7 +78,7 @@ p1 <- ggplot(aes(x=species, y=proportion , group=species), data=df)+
                                  colour = "black"))+
   geom_signif(
     y_position = max(df[["proportion"]])*1.1, xmin = 1, xmax = 2,
-    annotation = "NS", tip_length = 0.02)
+    annotation = "0.000214", tip_length = 0.02)
 
 
 df <- paired_observations(list(species = "F. sanguinea", callow = 0),
@@ -109,7 +109,7 @@ p2 <- ggplot(aes(x=species, y=proportion , group=species), data=df)+
                                  colour = "black"))+
   geom_signif(
     y_position = max(df[["proportion"]])*1.1, xmin = 1, xmax = 2,
-    annotation = "NS", tip_length = 0.02)
+    annotation = "0.0131", tip_length = 0.02)
 
 
 
@@ -144,7 +144,7 @@ p3 <- ggplot(aes(x=species, y=mass , group=species), data=df)+
                                  colour = "black"))+
   geom_signif(
     y_position = 5, xmin = 1, xmax = 2,
-    annotation = "0.00214", tip_length = 0.02)
+    annotation = "0.00058", tip_length = 0.02)
 
 
 
@@ -215,7 +215,7 @@ p6 <- ggplot(aes(x=as.numeric(callow), y=proportion , group=mature), data=df)+
                                  colour = "black"))+
   geom_signif(
     y_position = max(df[["proportion"]])*1.1, xmin = 0, xmax = 1,
-    annotation = 0.000153, tip_length = 0.02)
+    annotation = 0.0000305, tip_length = 0.02)
 
 
 
