@@ -252,14 +252,14 @@ In the following model specifications $(1|\text{random_factor})$ denotes random 
 
 #### Mature *F. sanguinea*
 $$
-\sqrt{\text{Species_Identity_Score}} = \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+\sqrt{\text{Species_Identity_Score+1}} = \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
 $$
 where $\text{Species_Identity_Score}$ denotes the Species Identity Score of the mature *F. sanguinea* workers.
 ```{r}
 library(lmerTest)
 library(DHARMa)
 model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==0,]
-lm_model <- lmer(I(sqrt(predicted_species))~sang_prop+(1|colony:census_date), data=model_input)
+lm_model <- lmer(I(sqrt(predicted_species+1))~sang_prop+(1|colony:census_date), data=model_input)
 print(summary(lm_model))
 
 # model diagnostics
@@ -305,7 +305,7 @@ plot(simulationOutput)
 
 ### Difference in Species Identity Score between mature *F. sanguinea* ants and *F. fusca* slaves
 
-Since the linear model does not meet one of diagnostics criteria, a Wilcoxon paired test was applied.
+Since the linear model does not meet one of the diagnostics criteria, Wilcoxon paired test was applied.
 
 ```{r}
 library(ggpubr)
@@ -396,7 +396,7 @@ print(shapiro.test(residuals(lm_model)))
 
 The procedure identifying species markers was also applied to determine peaks characteristic of *F. sanguinea* callow ants. In discriminant analysis, samples were classified into one of the three groups: callow *F. sanguinea*,  adult *F. sanguinea*, or adult *F. fusca*.
 
-## Markers indentification
+## Marker indentification
 ```{r warning=FALSE}
 # devtools::install_github("mixOmicsTeam/mixOmics", ref = "143d31f9629bc83f1f27272ba6b7a2aaef0ee0e8")
 suppressMessages({
@@ -713,7 +713,7 @@ simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n = 
 plot(simulationOutput)
 ```
 
-## Change in the total CHCs mass
+## Change in the total CHC mass
 
 In this series of models the total CHC mass (normalized by assuming head width of 1.3 mm) was regressed on the proportion of *Formica sanguinea* workers in the colony. 
 
@@ -780,7 +780,7 @@ plot(simulationOutput)
 ```
 Similarly to mature *F. sanguinea* ants, in callow workers there is negative but not significant relationship between body size and normalized CHC amount.
 
-## Change of the CHCs characteristic of *F. sanguinea*
+## Change of the CHC characteristic of *F. sanguinea*
 
 In this section the subset of peaks were used to calculate normalized CHC mass. These were peaks identified as *F. sanguinea* markers.
 
@@ -844,7 +844,7 @@ hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
 print(shapiro.test(residuals(lm_model)))
 ```
 
-## Change of the CHCs characteristic of *F. fusca*
+## Change of the CHC characteristic of *F. fusca*
 
 Similarly to the analysis with the use of markers of *F. sanguinea* workers, the procedure was repeated using the mass of *F. fusca* markers as a response variable. 
 
@@ -951,7 +951,9 @@ test_stats <- wilcox_test(test_df, corrected_mass~species, paired=TRUE) %>%
   add_xy_position(x="species", dodge=0.8, fun="max")
 ggboxplot(test_df, x="species", y="corrected_mass")+
   scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
-  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)
+  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
+    xlab("Species")+
+  ylab("Corrected mass")
 ```
 
 ## Difference in the total CHC amount between callow and mature *F. sanguinea*
@@ -971,7 +973,10 @@ test_stats <- wilcox_test(test_df, corrected_mass~callow, paired=TRUE) %>%
   add_xy_position(x="callow", dodge=0.8, fun="max")
 ggboxplot(test_df, x="callow", y="corrected_mass")+
   scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
-  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)
+  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
+  scale_x_discrete(labels = c('Mature','Callow'))+
+    xlab("Age")+
+  ylab("Corrected mass")
 ```
 
 ## Difference in the proportion of CHC characteristic of *F. sanguinea* between mature *F. sanguinea* and *F. fusca*
@@ -993,7 +998,8 @@ test_stats <- wilcox_test(test_df, sang_prop~species, paired=TRUE) %>%
 ggboxplot(test_df, x="species", y="sang_prop")+
   ylab("Proportion of CHC characteristic of F. sanguinea")+
   scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
-  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)
+  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
+  xlab("Species")
 ```
 
 ## Difference in the proportion of CHC characteristic of *F. sanguinea* between mature and callow *F. sanguinea* 
@@ -1014,9 +1020,11 @@ test_stats <- wilcox_test(test_df, sang_prop~callow, paired=TRUE) %>%
   add_significance("p") %>%
   add_xy_position(x="callow", dodge=0.8, fun="max")
 ggboxplot(test_df, x="callow", y="sang_prop")+
-  ylab("Proportion of CHC characteristic of F. sanguinea between mature and callow F. sanguinea")+
+  ylab("Proportion of CHC characteristic of\nF. sanguinea between mature and callow F. sanguinea")+
   scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
-  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)
+  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
+    xlab("Species")+
+  ylab("Corrected mass")
 ```
 
 ## Difference in the proportion of CHC characteristic of callow *F. sanguinea* between mature and callow *F. sanguinea* 
@@ -1037,9 +1045,11 @@ test_stats <- wilcox_test(test_df, sang_prop~callow, paired=TRUE) %>%
   add_significance("p") %>%
   add_xy_position(x="callow", dodge=0.8, fun="max")
 ggboxplot(test_df, x="callow", y="sang_prop")+
-  ylab("Proportion of CHC characteristic of callow F. sanguinea\nbetween mature and callow F. sanguinea")+
+  ylab("Proportion of CHC characteristic of callow F. sanguinea")+
   scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
-  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)
+  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
+  scale_x_discrete(labels = c('Mature','Callow'))+
+  xlab("Age")
 ```
 
 
@@ -1062,9 +1072,11 @@ test_stats <- wilcox_test(test_df, marker_mass~callow, paired=TRUE) %>%
   add_significance("p") %>%
   add_xy_position(x="callow", dodge=0.8, fun="max")
 ggboxplot(test_df, x="callow", y="marker_mass")+
-  ylab(" Difference in the mass of callow markers between callow and mature F. sanguinea")+
+  ylab("Mass of the callow markers")+
   scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
-  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)
+  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
+    scale_x_discrete(labels = c('Mature','Callow'))+
+  xlab("Age")
 ```
 
 ## Difference in the proportion of CHC characteristic of *F. fusca* between mature *F. sanguinea* and *F. fusca*
@@ -1086,7 +1098,9 @@ test_stats <- wilcox_test(test_df, fusca_prop~species, paired=TRUE) %>%
 ggboxplot(test_df, x="species", y="fusca_prop")+
   ylab("Proportion of CHC characteristic of F. fusca")+
   scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
-  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)
+  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
+    scale_x_discrete(labels = c('Mature','Callow'))+
+  xlab("Age")
 ```
 
 ## Difference in the proportion of CHC characteristic of *F. fusca* between mature and callow *F. sanguinea* 
@@ -1107,9 +1121,11 @@ test_stats <- wilcox_test(test_df, fusca_prop~callow, paired=TRUE) %>%
   add_significance("p") %>%
   add_xy_position(x="callow", dodge=0.8, fun="max")
 ggboxplot(test_df, x="callow", y="fusca_prop")+
-  ylab("Proportion of CHC characteristic of F. fusca in mature and callow F. sanguinea")+
+  ylab("Proportion of CHC characteristic of F. fusca")+
   scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
-  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)
+  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
+    stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
+  xlab("Species")
 ```
 
 
@@ -1131,9 +1147,10 @@ test_stats <- wilcox_test(test_df, fusca_prop~species, paired=TRUE) %>%
   add_significance("p") %>%
   add_xy_position(x="species", dodge=0.8, fun="max")
 ggboxplot(test_df, x="species", y="fusca_prop")+
-  ylab("Proportion of CHC characteristic of F. fusca in F. fusca callow F. sanguinea")+
+  ylab("Proportion of CHC characteristic of F. fusca")+
   scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
-  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)
+  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
+  xlab("Species")
 ```
 
 ## Difference in the mass of *n*-alkanes between callow and mature *F. sanguinea*
@@ -1156,9 +1173,11 @@ test_stats <- wilcox_test(test_df, n_alkanes_mass~callow, paired=TRUE) %>%
   add_significance("p") %>%
   add_xy_position(x="callow", dodge=0.8, fun="max")
 ggboxplot(test_df, x="callow", y="n_alkanes_mass")+
-  ylab(" Difference in the mass of n-alkanes between callow and mature F. sanguinea")+
+  ylab("Mass of n-alkanes")+
   scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
-  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)
+  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
+  scale_x_discrete(labels = c('Mature','Callow'))+
+  xlab("Age")
 ```
 
 ## Difference in the proprtion of *n*-alkanes between callow and mature *F. sanguinea*
@@ -1179,9 +1198,11 @@ test_stats <- wilcox_test(test_df, n_alkanes_prop~callow, paired=TRUE) %>%
   add_significance("p") %>%
   add_xy_position(x="callow", dodge=0.8, fun="max")
 ggboxplot(test_df, x="callow", y="n_alkanes_prop")+
-  ylab(" Difference in the proportion of n-alkanes between callow and mature F. sanguinea")+
+  ylab("Proportion of n-alkanes in the total CHC amount")+
   scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
-  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)
+  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
+  scale_x_discrete(labels = c('Mature','Callow'))+
+  xlab("Age")
 ```
 
 <!--chapter:end:Non-parametric_tests.Rmd-->

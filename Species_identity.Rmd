@@ -2,25 +2,28 @@
 To classify the CHC samples collected from mixed colonies, we need a measure which positions a sample between the *F. sanguinea* and *F. fusca* CHC profiles. Therefore, using `mixOmics` R package [@R-mixOmics], we performed a discriminant analysis training the model on the chemical data collected from the filed colonies in the earlier study [@WLODARCZYK201798]. The model was subsequently used to predict identity of new samples.
 
 ## Species markers
-To figure out the importance of each input variable in the prediction of the species identity made by discriminant model we calculated the weights from the following product matrix [@Tenenhaus, @Rohart].
+To figure out the importance of each input variable in the prediction of the species identity made by discriminant model, we calculated the vector of weights using the following formula [@Tenenhaus, @Rohart].
 $$
-\textbf{W}(\textbf{P}^\intercal\textbf{W})^{-1}\textbf{C}
+\textbf{W}(\textbf{P}^\intercal\textbf{W})^{-1}\textbf{c}
 $$
 $$
 \textbf{P}=\textbf{X}\textbf{V}
 $$
 $$
-\textbf{C}=\textbf{Y}\textbf{V},
+\textbf{c}=\textbf{V}^\intercal\textbf{y},
 $$
 where\newline
 $\textbf{W}$ is the matrix of loading vectors with the number of rows corresponding to the number of input variables and the number of columns corresponding to the number of the latent components\newline
 $\textbf{V}$ is the matrix of the coordinates of each observation on latent components\newline 
 $\textbf{X}$ is the input data matrix
+$\textbf{y}$ is the vector of zero-centered one-hot encoded class labels of the samples for a selected class (here, *F. sanguinea* sample)
 
 To project the weights assigned to principal components onto the original variables one has to reverse data transformation. Technically, this is achieved by multiplication by pseudoinverse of the rotation matrix produced by PCA. We use pseudoinverse since the rotation matrix has been reduced by removing principal components with low variance.
+
 $$
-\textbf{R}^{+}\textbf{W}(\textbf{P}^\intercal\textbf{W})^{-1}\textbf{C},
+\textbf{R}^{+}\textbf{W}(\textbf{P}^\intercal\textbf{W})^{-1}\textbf{c},
 $$
+
 where $\textbf{R}^+$ denotes the pseudoinverse of rotation matrix from PCA.
 
 ```{r warning=FALSE, echo=FALSE}
@@ -268,7 +271,7 @@ plot(simulationOutput)
 
 ### Difference in Species Identity Score between mature *F. sanguinea* ants and *F. fusca* slaves
 
-Since the linear model does not meet one of diagnostics criteria, a Wilcoxon paired test was applied.
+Since the linear model does not meet one of the diagnostics criteria, Wilcoxon paired test was applied.
 
 ```{r}
 library(ggpubr)

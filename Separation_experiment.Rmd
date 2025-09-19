@@ -1,9 +1,10 @@
-# Change in the CHC profile in separated callow *F. sanguinea* ants
+# Change in the CHC profile of separated callow *F. sanguinea* ants
 ```{r warning=FALSE}
 suppressMessages({
   library(sangchem)
   library(dplyr)
   library(lmerTest)
+  library(DHARMa)
 })
 
 # load data

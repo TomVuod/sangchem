@@ -40,7 +40,7 @@ simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n = 
 plot(simulationOutput)
 ```
 
-## Change in the total CHCs mass
+## Change in the total CHC mass
 
 In this series of models the total CHC mass (normalized by assuming head width of 1.3 mm) was regressed on the proportion of *Formica sanguinea* workers in the colony. 
 
@@ -107,7 +107,7 @@ plot(simulationOutput)
 ```
 Similarly to mature *F. sanguinea* ants, in callow workers there is negative but not significant relationship between body size and normalized CHC amount.
 
-## Change of the CHCs characteristic of *F. sanguinea*
+## Change of the CHC characteristic of *F. sanguinea*
 
 In this section the subset of peaks were used to calculate normalized CHC mass. These were peaks identified as *F. sanguinea* markers.
 
@@ -171,7 +171,7 @@ hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
 print(shapiro.test(residuals(lm_model)))
 ```
 
-## Change of the CHCs characteristic of *F. fusca*
+## Change of the CHC characteristic of *F. fusca*
 
 Similarly to the analysis with the use of markers of *F. sanguinea* workers, the procedure was repeated using the mass of *F. fusca* markers as a response variable. 
 

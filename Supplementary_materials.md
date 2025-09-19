@@ -55,57 +55,57 @@ where $\textbf{R}^+$ denotes the pseudoinverse of rotation matrix from PCA.
 
 \begin{figure}
 
+{\centering \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-5-1} 
+
+}
+
+\caption{Variance of each principal compnent. Data was fed into the discriminat model to find features separating both species.}(\#fig:unnamed-chunk-5)
+\end{figure}
+
+
+
+
+
+\begin{figure}
+
+{\centering \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-9-1} 
+
+}
+
+\caption{Distribution of the samples projected onto two first latent components before optimizing the number of model paramaters.}(\#fig:unnamed-chunk-9)
+\end{figure}
+
+
+
+\begin{figure}
+
+{\centering \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-11-1} 
+
+}
+
+\caption{Results of the performance test of the discriminant model with different number of the latent components. For details see the documunetation of R mixOmics package.}(\#fig:unnamed-chunk-11)
+\end{figure}
+
+
+
+\begin{figure}
+
 {\centering \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-13-1} 
 
 }
 
-\caption{Variance of each principal compnent. Data was fed into the discriminat model to find features separating both species.}(\#fig:unnamed-chunk-13)
-\end{figure}
-
-
-
-
-
-\begin{figure}
-
-{\centering \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-17-1} 
-
-}
-
-\caption{Distribution of the samples projected onto two first latent components before optimizing the number of model paramaters.}(\#fig:unnamed-chunk-17)
-\end{figure}
-
-
-
-\begin{figure}
-
-{\centering \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-19-1} 
-
-}
-
-\caption{Results of the performance test of the discriminant model with different number of the latent components. For details see the documunetation of R mixOmics package.}(\#fig:unnamed-chunk-19)
-\end{figure}
-
-
-
-\begin{figure}
-
-{\centering \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-21-1} 
-
-}
-
-\caption{Projection of the samples in onto two first discriminant analysis components after model tuning.}(\#fig:unnamed-chunk-21)
+\caption{Projection of the samples in onto two first discriminant analysis components after model tuning.}(\#fig:unnamed-chunk-13)
 \end{figure}
 
 
 
 \begin{longtable}[t]{rlrll}
-\caption{(\#tab:unnamed-chunk-23)List of the peaks with the species identity score indicating their importance as a marker of \textit{F. fusca} or \textit{F. sanguinea} samples.}\\
+\caption{(\#tab:unnamed-chunk-15)List of the peaks with the species identity score indicating their importance as a marker of \textit{F. fusca} or \textit{F. sanguinea} samples.}\\
 \toprule
 Peak ID & Compound & Marker score & fusca marker & sanguinea marker\\
 \midrule
 \endfirsthead
-\caption[]{(\#tab:unnamed-chunk-23)List of the peaks with the species identity score indicating their importance as a marker of \textit{F. fusca} or \textit{F. sanguinea} samples. \textit{(continued)}}\\
+\caption[]{(\#tab:unnamed-chunk-15)List of the peaks with the species identity score indicating their importance as a marker of \textit{F. fusca} or \textit{F. sanguinea} samples. \textit{(continued)}}\\
 \toprule
 Peak ID & Compound & Marker score & fusca marker & sanguinea marker\\
 \midrule
@@ -218,37 +218,37 @@ In the following model specifications $(1|\text{random_factor})$ denotes random 
 
 #### Mature *F. sanguinea*
 $$
-\sqrt{\text{Species_Identity_Score}} = \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+\sqrt{\text{Species_Identity_Score+1}} = \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
 $$
 where $\text{Species_Identity_Score}$ denotes the Species Identity Score of the mature *F. sanguinea* workers.
 
 ```
 ## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
-## Formula: I(sqrt(predicted_species)) ~ sang_prop + (1 | colony:census_date)
+## Formula: I(sqrt(predicted_species + 1)) ~ sang_prop + (1 | colony:census_date)
 ##    Data: model_input
 ## 
-## REML criterion at convergence: 17.8
+## REML criterion at convergence: 22.6
 ## 
 ## Scaled residuals: 
 ##      Min       1Q   Median       3Q      Max 
-## -1.54442 -0.59183  0.04255  0.50809  1.96264 
+## -2.39156 -0.43663  0.06261  0.57841  1.64975 
 ## 
 ## Random effects:
 ##  Groups             Name        Variance Std.Dev.
-##  colony:census_date (Intercept) 0.03824  0.1955  
-##  Residual                       0.04252  0.2062  
-## Number of obs: 55, groups:  colony:census_date, 38
+##  colony:census_date (Intercept) 0.01917  0.1385  
+##  Residual                       0.06029  0.2455  
+## Number of obs: 62, groups:  colony:census_date, 42
 ## 
 ## Fixed effects:
 ##             Estimate Std. Error       df t value Pr(>|t|)    
-## (Intercept)  0.58777    0.08199 39.55360   7.169 1.16e-08 ***
-## sang_prop    1.06062    0.14737 37.25679   7.197 1.49e-08 ***
+## (Intercept)  0.96117    0.07083 42.22312  13.570  < 2e-16 ***
+## sang_prop    1.00289    0.13239 39.12506   7.575 3.46e-09 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Correlation of Fixed Effects:
 ##           (Intr)
-## sang_prop -0.853
+## sang_prop -0.841
 ```
 
 ```
@@ -256,12 +256,12 @@ where $\text{Species_Identity_Score}$ denotes the Species Identity Score of the 
 ## 	Shapiro-Wilk normality test
 ## 
 ## data:  residuals(lm_model)
-## W = 0.98802, p-value = 0.8572
+## W = 0.9752, p-value = 0.2413
 ```
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-26-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-26-2} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-18-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-18-2} \end{center}
 
 #### *F. fusca*
 $$
@@ -309,7 +309,7 @@ where $\text{Species_Identity_Score}$ denotes the Species Identity Score of the 
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-27-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-27-2} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-19-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-19-2} \end{center}
 
 #### Callow *F. sanguinea*
 $$
@@ -356,11 +356,11 @@ where $\text{Species_Identity_Score}$ denotes the Species Identity Score of the 
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-28-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-28-2} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-20-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-20-2} \end{center}
 
 ### Difference in Species Identity Score between mature *F. sanguinea* ants and *F. fusca* slaves
 
-Since the linear model does not meet one of diagnostics criteria, a Wilcoxon paired test was applied.
+Since the linear model does not meet one of the diagnostics criteria, Wilcoxon paired test was applied.
 
 
 ```
@@ -374,7 +374,7 @@ Since the linear model does not meet one of diagnostics criteria, a Wilcoxon pai
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-29-1} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-21-1} \end{center}
 
 ### Difference in Species Identity Score between callow *F. sanguinea* ants and *F. fusca* slaves
 $$
@@ -414,7 +414,7 @@ Since the linear model does not meet one of diagnostics criterion we will apply 
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-30-1} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-22-1} \end{center}
 
 ### Difference in Species Identity Score between callow and mature *F. sanguinea* ants.
 
@@ -450,7 +450,7 @@ Since the linear model does not meet one of diagnostics criterion we will apply 
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-31-1} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-23-1} \end{center}
 
 <!--chapter:end:Species_identity.Rmd-->
 
@@ -458,39 +458,39 @@ Since the linear model does not meet one of diagnostics criterion we will apply 
 
 The procedure identifying species markers was also applied to determine peaks characteristic of *F. sanguinea* callow ants. In discriminant analysis, samples were classified into one of the three groups: callow *F. sanguinea*,  adult *F. sanguinea*, or adult *F. fusca*.
 
-## Markers indentification
+## Marker indentification
 
 
 
 \begin{figure}
 
-{\centering \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-34-1} 
+{\centering \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-26-1} 
 
 }
 
-\caption{Distribution of the samples projected onto two first latent components before optimizing the number of model paramaters.}(\#fig:unnamed-chunk-34)
+\caption{Distribution of the samples projected onto two first latent components before optimizing the number of model paramaters.}(\#fig:unnamed-chunk-26)
 \end{figure}
 
 
 
 \begin{figure}
 
-{\centering \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-36-1} 
+{\centering \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-28-1} 
 
 }
 
-\caption{Projection of the samples in onto two first discriminant analysis components after model tuning.}(\#fig:unnamed-chunk-36)
+\caption{Projection of the samples in onto two first discriminant analysis components after model tuning.}(\#fig:unnamed-chunk-28)
 \end{figure}
 
 
 
 \begin{longtable}[t]{rlrlrl}
-\caption{(\#tab:unnamed-chunk-38)List of the peaks with the score indicating their importance as a marker of mature \textit{F. fusca}, mature \textit{F. sanguinea}, or callow \textit{F. sanguinea} samples.}\\
+\caption{(\#tab:unnamed-chunk-30)List of the peaks with the score indicating their importance as a marker of mature \textit{F. fusca}, mature \textit{F. sanguinea}, or callow \textit{F. sanguinea} samples.}\\
 \toprule
 Peak ID & Compound & Callow score & Callow marker & Mature score & Mature marker\\
 \midrule
 \endfirsthead
-\caption[]{(\#tab:unnamed-chunk-38)List of the peaks with the score indicating their importance as a marker of mature \textit{F. fusca}, mature \textit{F. sanguinea}, or callow \textit{F. sanguinea} samples. \textit{(continued)}}\\
+\caption[]{(\#tab:unnamed-chunk-30)List of the peaks with the score indicating their importance as a marker of mature \textit{F. fusca}, mature \textit{F. sanguinea}, or callow \textit{F. sanguinea} samples. \textit{(continued)}}\\
 \toprule
 Peak ID & Compound & Callow score & Callow marker & Mature score & Mature marker\\
 \midrule
@@ -582,11 +582,11 @@ The p-value is calculated as proportion of differences with value equal to or le
 
 \begin{figure}
 
-{\centering \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-42-1} 
+{\centering \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-34-1} 
 
 }
 
-\caption{Distribution of the differences in the performance of the discriminant models trained on true and permuted data. Age status of \textit{F. sanguinea} ants were shuffled in the null variant.}(\#fig:unnamed-chunk-42)
+\caption{Distribution of the differences in the performance of the discriminant models trained on true and permuted data. Age status of \textit{F. sanguinea} ants were shuffled in the null variant.}(\#fig:unnamed-chunk-34)
 \end{figure}
 
 All differences are positive, so the *p*-value is less than 0.001 since the null distribution consists of 1000 values.
@@ -649,9 +649,9 @@ $$
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-44-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-44-2} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-36-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-36-2} \end{center}
 
-## Change in the total CHCs mass
+## Change in the total CHC mass
 
 In this series of models the total CHC mass (normalized by assuming head width of 1.3 mm) was regressed on the proportion of *Formica sanguinea* workers in the colony. 
 
@@ -706,7 +706,7 @@ where $\text{CHC_mass_sanguinea}$ denotes the total normalized CHC mass on the b
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-45-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-45-2} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-37-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-37-2} \end{center}
 The model shows no significant effect of body size on CHC amount in *F. sanguinea*, and this term will therefore be excluded from subsequent models for this species.
 
 ### *F. fusca*
@@ -758,7 +758,7 @@ where $\text{CHC_mass_fusca}$ denotes the total normalized CHC mass on the body 
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-46-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-46-2} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-38-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-38-2} \end{center}
 
 ### Callow *F. sanguinea*
 
@@ -811,10 +811,10 @@ where $\text{CHC_mass_callow}$ denotes the total normalized CHC mass on the body
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-47-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-47-2} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-39-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-39-2} \end{center}
 Similarly to mature *F. sanguinea* ants, in callow workers there is negative but not significant relationship between body size and normalized CHC amount.
 
-## Change of the CHCs characteristic of *F. sanguinea*
+## Change of the CHC characteristic of *F. sanguinea*
 
 In this section the subset of peaks were used to calculate normalized CHC mass. These were peaks identified as *F. sanguinea* markers.
 
@@ -868,7 +868,7 @@ where $\text{CHC_mass_mature}$ denotes the normalized mass of *F. sanguinea* mar
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-48-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-48-2} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-40-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-40-2} \end{center}
 
 ### *F. fusca* ants
 
@@ -919,7 +919,7 @@ where $\text{CHC_mass_fusca}$ denotes the normalized mass of *F. sanguinea* mark
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-49-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-49-2} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-41-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-41-2} \end{center}
 
 ### Callow *F. sanguinea* ants
 
@@ -960,9 +960,9 @@ where $\text{CHC_mass_mature}$ denotes the normalized mass of *F. sanguinea* mar
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-50-1} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-42-1} \end{center}
 
-## Change of the CHCs characteristic of *F. fusca*
+## Change of the CHC characteristic of *F. fusca*
 
 Similarly to the analysis with the use of markers of *F. sanguinea* workers, the procedure was repeated using the mass of *F. fusca* markers as a response variable. 
 
@@ -1015,7 +1015,7 @@ where $\text{CHC_mass_mature}$ denotes the normalized mass of *F. fusca* markers
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-51-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-51-2} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-43-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-43-2} \end{center}
 
 ### *F. fusca* ants
 
@@ -1070,7 +1070,7 @@ where $\text{CHC_mass_mature}$ denotes the normalized mass of *F. fusca* markers
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-52-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-52-2} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-44-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-44-2} \end{center}
 
 ### Callow *F. sanguinea* ants
 
@@ -1119,7 +1119,7 @@ where $\log(\text{CHC_mass_mature})$ denotes the normalized mass of *F. fusca* m
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-53-1} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-45-1} \end{center}
 
 <!--chapter:end:CHCs_over_time.Rmd-->
 
@@ -1131,49 +1131,49 @@ This section presents the results of Wilcoxon tests comparing features of CHC pr
 
 ## Difference in the total CHC amount between *F. sanguinea* and *F. fusca*
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-55-1} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-47-1} \end{center}
 
 ## Difference in the total CHC amount between callow and mature *F. sanguinea*
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-56-1} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-48-1} \end{center}
 
 ## Difference in the proportion of CHC characteristic of *F. sanguinea* between mature *F. sanguinea* and *F. fusca*
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-57-1} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-49-1} \end{center}
 
 ## Difference in the proportion of CHC characteristic of *F. sanguinea* between mature and callow *F. sanguinea* 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-58-1} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-50-1} \end{center}
 
 ## Difference in the proportion of CHC characteristic of callow *F. sanguinea* between mature and callow *F. sanguinea* 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-59-1} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-51-1} \end{center}
 
 
 ## Difference in the amount of CHC characteristic of callow *F. sanguinea* between mature and callow *F. sanguinea* 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-60-1} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-52-1} \end{center}
 
 ## Difference in the proportion of CHC characteristic of *F. fusca* between mature *F. sanguinea* and *F. fusca*
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-61-1} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-53-1} \end{center}
 
 ## Difference in the proportion of CHC characteristic of *F. fusca* between mature and callow *F. sanguinea* 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-62-1} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-54-1} \end{center}
 
 
 ## Difference in the proportion of CHC characteristic of *F. fusca* between callow *F. sanguinea* and *F. fusca*
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-63-1} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-55-1} \end{center}
 
 ## Difference in the mass of *n*-alkanes between callow and mature *F. sanguinea*
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-64-1} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-56-1} \end{center}
 
 ## Difference in the proprtion of *n*-alkanes between callow and mature *F. sanguinea*
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-65-1} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-57-1} \end{center}
 
 <!--chapter:end:Non-parametric_tests.Rmd-->
 
@@ -1221,7 +1221,7 @@ This section presents the results of Wilcoxon tests comparing features of CHC pr
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-67-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-67-2} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-59-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-59-2} \end{center}
 
 ## Change in the amount of compounds characteristic of callow *F. sanguinea*
 
@@ -1264,7 +1264,7 @@ This section presents the results of Wilcoxon tests comparing features of CHC pr
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-68-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-68-2} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-60-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-60-2} \end{center}
 
 ## Change in the amount of compounds characteristic of *F. sanguinea*
 
@@ -1307,7 +1307,7 @@ This section presents the results of Wilcoxon tests comparing features of CHC pr
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-69-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-69-2} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-61-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-61-2} \end{center}
 
 ## Change in the amount of compounds characteristic of *F. fusca*
 
@@ -1350,7 +1350,7 @@ This section presents the results of Wilcoxon tests comparing features of CHC pr
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-70-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-70-2} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-62-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-62-2} \end{center}
 
 <!--chapter:end:Separation_experiment.Rmd-->
 
@@ -1363,11 +1363,11 @@ We analyzed the impact of *F. fusca* slaves on the CHC profile of callow *F. san
 
 \begin{figure}
 
-{\centering \includegraphics[width=0.8\linewidth]{Supplementary_materials_files/figure-latex/unnamed-chunk-72-1} 
+{\centering \includegraphics[width=0.8\linewidth]{Supplementary_materials_files/figure-latex/unnamed-chunk-64-1} 
 
 }
 
-\caption{Distribution of lifespans of ants used in the experiment. The precise age of individuals could not be determined because ants in pairs were not marked. Therefore, all possible combinations were considered to illustrate the potential range.}(\#fig:unnamed-chunk-72)
+\caption{Distribution of lifespans of ants used in the experiment. The precise age of individuals could not be determined because ants in pairs were not marked. Therefore, all possible combinations were considered to illustrate the potential range.}(\#fig:unnamed-chunk-64)
 \end{figure}
 
 
@@ -1412,7 +1412,7 @@ We analyzed the impact of *F. fusca* slaves on the CHC profile of callow *F. san
 
 \begin{table}
 
-\caption{(\#tab:unnamed-chunk-81)Chemical distance of the isolated \textit{F. sanguinea} ant to \textit{F. fusca} ants realted and unrelated to slaves.}
+\caption{(\#tab:unnamed-chunk-73)Chemical distance of the isolated \textit{F. sanguinea} ant to \textit{F. fusca} ants realted and unrelated to slaves.}
 \centering
 \begin{tabular}[t]{l|>{\raggedleft\arraybackslash}p{4cm}|>{\raggedleft\arraybackslash}p{4cm}}
 \hline
@@ -1478,7 +1478,7 @@ Since naked pupae might have acquired CHC through physical contact with adult an
 
 \begin{table}
 
-\caption{(\#tab:unnamed-chunk-92)Chemical distance of the isolated \textit{F. sanguinea} ant to \textit{F. fusca} ants realted and unrelated to slaves. Isolated ant spun a silky envelope before pupal stage, which prevented CHC transfer from the enviroment.}
+\caption{(\#tab:unnamed-chunk-84)Chemical distance of the isolated \textit{F. sanguinea} ant to \textit{F. fusca} ants realted and unrelated to slaves. Isolated ant spun a silky envelope before pupal stage, which prevented CHC transfer from the enviroment.}
 \centering
 \begin{tabular}[t]{l|>{\raggedleft\arraybackslash}p{4cm}|>{\raggedleft\arraybackslash}p{4cm}}
 \hline
@@ -1521,7 +1521,7 @@ We computed the chemical distance to the CHC profile of ants whose CHC were used
 
 \begin{table}
 
-\caption{(\#tab:unnamed-chunk-96)Chemical distance of separated \textit{F. sanguinea} ants to the CHC profile of \textit{F. fusca} ants from colonies that served as a source of CHC to caot the glass beads. In control variant, glass bead were left clean.}
+\caption{(\#tab:unnamed-chunk-88)Chemical distance of separated \textit{F. sanguinea} ants to the CHC profile of \textit{F. fusca} ants from colonies that served as a source of CHC to caot the glass beads. In control variant, glass bead were left clean.}
 \centering
 \begin{tabular}[t]{l|l|>{\raggedleft\arraybackslash}p{2cm}|l|>{\raggedleft\arraybackslash}p{2cm}}
 \hline
@@ -1560,7 +1560,7 @@ SD20-2 & 12-15 days + F. fusca hydrocarbons & 0.699 & 12-15 days (control) & 0.7
 
 \begin{table}
 
-\caption{(\#tab:unnamed-chunk-97)Chemical distance of separated \textit{F. sanguinea} ants to the CHC profile of \textit{F. sanguinea} ants from colonies that served as a source of CHC to caot the glass beads. In control variant, glass bead were left clean.}
+\caption{(\#tab:unnamed-chunk-89)Chemical distance of separated \textit{F. sanguinea} ants to the CHC profile of \textit{F. sanguinea} ants from colonies that served as a source of CHC to caot the glass beads. In control variant, glass bead were left clean.}
 \centering
 \begin{tabular}[t]{l|l|>{\raggedleft\arraybackslash}p{2cm}|l|>{\raggedleft\arraybackslash}p{2cm}}
 \hline
@@ -1609,7 +1609,7 @@ For the control treatment, glass beads were left uncoated with CHC. In the exper
 
 \begin{table}
 
-\caption{(\#tab:unnamed-chunk-98)Proportion of \textit{n}-docosane in CHC extracted from \textit{F. sanguinea} ants maintained with the glass beads coated with the CHC of \textit{F. fusca} ants and contaminated with \textit{n}-docosane. In control variant, glass bead were left clean.}
+\caption{(\#tab:unnamed-chunk-90)Proportion of \textit{n}-docosane in CHC extracted from \textit{F. sanguinea} ants maintained with the glass beads coated with the CHC of \textit{F. fusca} ants and contaminated with \textit{n}-docosane. In control variant, glass bead were left clean.}
 \centering
 \begin{tabular}[t]{l|l|>{\raggedleft\arraybackslash}p{2cm}|l|>{\raggedleft\arraybackslash}p{2cm}}
 \hline
@@ -1652,7 +1652,7 @@ W17-1 & 12-15 days + F. fusca hydrocarbons & 0.021 & 12-15 days (control) & 0.00
 
 
 \begin{longtable}[t]{l|l|>{\raggedleft\arraybackslash}p{2cm}|l|>{\raggedleft\arraybackslash}p{2cm}}
-\caption{(\#tab:unnamed-chunk-99)Proportion of *n*-docosane in CHC extracted from \textit{F. sanguinea} ants maintained with the glass beads coated with the CHC of \textit{F. sanguinea} ants and contaminated with \textit{n}-docosane. In control variant, glass bead were left clean.}\\
+\caption{(\#tab:unnamed-chunk-91)Proportion of *n*-docosane in CHC extracted from \textit{F. sanguinea} ants maintained with the glass beads coated with the CHC of \textit{F. sanguinea} ants and contaminated with \textit{n}-docosane. In control variant, glass bead were left clean.}\\
 \hline
 Colony ID & Treamtent & Averaged C22 fraction & Contrast & Averaged C22 fraction\\
 \hline
@@ -1688,11 +1688,11 @@ In the publication, CHC amounts are reported relative to the square of head widt
 
 \begin{figure}
 
-{\centering \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-100-1} 
+{\centering \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-92-1} 
 
 }
 
-\caption{Ratios of the planar projection areas of three body parts (head, thorax dorsal view, thorax lateral view) to the square of head width.}(\#fig:unnamed-chunk-100)
+\caption{Ratios of the planar projection areas of three body parts (head, thorax dorsal view, thorax lateral view) to the square of head width.}(\#fig:unnamed-chunk-92)
 \end{figure}
 
 <!--chapter:end:Body_surface.Rmd-->

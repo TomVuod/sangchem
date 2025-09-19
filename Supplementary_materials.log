@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.9.19)  19 SEP 2025 18:41
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.9.19)  19 SEP 2025 20:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -652,10 +652,10 @@ File: bkm-dvipdfm.def 2023-12-10 v1.31 bookmark driver for dvipdfm (HO)
 \BKM@id=\count355
 )) (./Supplementary_materials.aux
 
-LaTeX Warning: Label `tab:unnamed-chunk-23' multiply defined.
+LaTeX Warning: Label `tab:unnamed-chunk-15' multiply defined.
 
 
-LaTeX Warning: Label `tab:unnamed-chunk-38' multiply defined.
+LaTeX Warning: Label `tab:unnamed-chunk-30' multiply defined.
 
 )
 \openout1 = `Supplementary_materials.aux'.
@@ -1003,14 +1003,14 @@ LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 
 
 [2]
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-5-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-5-1.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-9-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-9-1.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-11-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-11-1.pdf>
 File: Supplementary_materials_files/figure-latex/unnamed-chunk-13-1.pdf Graphic file (type pdf)
 <use Supplementary_materials_files/figure-latex/unnamed-chunk-13-1.pdf>
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-17-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-17-1.pdf>
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-19-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-19-1.pdf>
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-21-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-21-1.pdf>
 
 
 [3]
@@ -1022,10 +1022,10 @@ File: Supplementary_materials_files/figure-latex/unnamed-chunk-21-1.pdf Graphic 
 [6] [7]
 
 [8]
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-26-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-26-1.pdf>
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-26-2.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-26-2.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-18-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-18-1.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-18-2.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-18-2.pdf>
 
 
 [9]
@@ -1038,40 +1038,40 @@ Overfull \hbox (2.594pt too wide) detected at line 358
 
 
 [11]
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-27-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-27-1.pdf>
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-27-2.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-27-2.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-19-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-19-1.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-19-2.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-19-2.pdf>
 
 
 [12]
 
 [13]
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-28-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-28-1.pdf>
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-28-2.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-28-2.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-20-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-20-1.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-20-2.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-20-2.pdf>
 
 
 [14]
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-29-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-29-1.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-21-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-21-1.pdf>
 
 
 [15]
 
 [16]
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-30-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-30-1.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-22-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-22-1.pdf>
 
 
 [17]
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-31-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-31-1.pdf>
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-34-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-34-1.pdf>
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-36-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-36-1.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-23-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-23-1.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-26-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-26-1.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-28-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-28-1.pdf>
 
 Overfull \hbox (34.215pt too wide) in alignment at lines 559--564
  [] [] [] [] [] [] 
@@ -1104,17 +1104,17 @@ Overfull \hbox (34.215pt too wide) in alignment at lines 573--641
 [19]
 
 [20] [21]
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-42-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-42-1.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-34-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-34-1.pdf>
 
 
 [22]
 
 [23]
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-44-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-44-1.pdf>
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-44-2.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-44-2.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-36-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-36-1.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-36-2.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-36-2.pdf>
 
 
 [24]
@@ -1127,19 +1127,19 @@ Overfull \hbox (111.75699pt too wide) detected at line 721
 
 
 [26]
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-45-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-45-1.pdf>
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-45-2.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-45-2.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-37-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-37-1.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-37-2.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-37-2.pdf>
 
 
 [27]
 
 [28]
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-46-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-46-1.pdf>
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-46-2.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-46-2.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-38-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-38-1.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-38-2.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-38-2.pdf>
 
 
 [29]
@@ -1150,10 +1150,10 @@ Overfull \hbox (95.857pt too wide) detected at line 821
 
 
 [30]
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-47-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-47-1.pdf>
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-47-2.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-47-2.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-39-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-39-1.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-39-2.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-39-2.pdf>
 
 
 [31]
@@ -1169,10 +1169,10 @@ Overfull \hbox (39.49498pt too wide) in paragraph at lines 910--910
 
 
 [32]
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-48-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-48-1.pdf>
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-48-2.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-48-2.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-40-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-40-1.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-40-2.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-40-2.pdf>
 
 
 [33]
@@ -1188,17 +1188,17 @@ Overfull \hbox (39.49498pt too wide) in paragraph at lines 958--958
 
 
 [34]
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-49-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-49-1.pdf>
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-49-2.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-49-2.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-41-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-41-1.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-41-2.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-41-2.pdf>
 
 
 [35]
 
 [36]
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-50-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-50-1.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-42-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-42-1.pdf>
 
 Overfull \hbox (26.944pt too wide) detected at line 1016
 [][][][] [] [][] [] [] [] [][][][][] [] [][][][][] [] [][]
@@ -1212,10 +1212,10 @@ Overfull \hbox (18.49498pt too wide) in paragraph at lines 1047--1047
 
 
 [37]
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-51-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-51-1.pdf>
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-51-2.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-51-2.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-43-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-43-1.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-43-2.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-43-2.pdf>
 
 
 [38]
@@ -1228,110 +1228,110 @@ Overfull \hbox (117.83699pt too wide) detected at line 1063
 
 
 [40]
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-52-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-52-1.pdf>
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-52-2.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-52-2.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-44-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-44-1.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-44-2.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-44-2.pdf>
 
 
 [41]
 
 [42]
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-45-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-45-1.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-47-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-47-1.pdf>
+
+
+[43]
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-48-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-48-1.pdf>
+
+
+[44]
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-49-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-49-1.pdf>
+
+
+[45]
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-50-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-50-1.pdf>
+
+
+[46]
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-51-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-51-1.pdf>
+
+
+[47]
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-52-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-52-1.pdf>
+
+
+[48]
 File: Supplementary_materials_files/figure-latex/unnamed-chunk-53-1.pdf Graphic file (type pdf)
 <use Supplementary_materials_files/figure-latex/unnamed-chunk-53-1.pdf>
+
+
+[49]
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-54-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-54-1.pdf>
+
+
+[50]
 File: Supplementary_materials_files/figure-latex/unnamed-chunk-55-1.pdf Graphic file (type pdf)
 <use Supplementary_materials_files/figure-latex/unnamed-chunk-55-1.pdf>
 
 
-[43]
+[51]
 File: Supplementary_materials_files/figure-latex/unnamed-chunk-56-1.pdf Graphic file (type pdf)
 <use Supplementary_materials_files/figure-latex/unnamed-chunk-56-1.pdf>
 
 
-[44]
+[52]
 File: Supplementary_materials_files/figure-latex/unnamed-chunk-57-1.pdf Graphic file (type pdf)
 <use Supplementary_materials_files/figure-latex/unnamed-chunk-57-1.pdf>
-
-
-[45]
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-58-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-58-1.pdf>
-
-
-[46]
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-59-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-59-1.pdf>
-
-
-[47]
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-60-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-60-1.pdf>
-
-
-[48]
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-61-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-61-1.pdf>
-
-
-[49]
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-62-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-62-1.pdf>
-
-
-[50]
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-63-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-63-1.pdf>
-
-
-[51]
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-64-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-64-1.pdf>
-
-
-[52]
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-65-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-65-1.pdf>
 
 
 [53]
 
 [54]
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-67-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-67-1.pdf>
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-67-2.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-67-2.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-59-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-59-1.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-59-2.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-59-2.pdf>
 
 
 [55]
 
 [56]
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-68-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-68-1.pdf>
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-68-2.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-68-2.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-60-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-60-1.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-60-2.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-60-2.pdf>
 
 
 [57]
 
 [58]
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-69-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-69-1.pdf>
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-69-2.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-69-2.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-61-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-61-1.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-61-2.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-61-2.pdf>
 
 
 [59]
 
 [60]
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-70-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-70-1.pdf>
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-70-2.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-70-2.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-62-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-62-1.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-62-2.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-62-2.pdf>
 
 
 [61]
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-72-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-72-1.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-64-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-64-1.pdf>
 
 Overfull \hbox (13.24498pt too wide) in paragraph at lines 1388--1388
 []\TU/lmtt/m/n/10 ## Empirical p-value for the chemical distance difference for the ants aged 1-3 days:0.00000[] 
@@ -1391,8 +1391,8 @@ Overfull \hbox (16.80597pt too wide) in alignment at lines 1637--1664
  []
 
 [66]
-File: Supplementary_materials_files/figure-latex/unnamed-chunk-100-1.pdf Graphic file (type pdf)
-<use Supplementary_materials_files/figure-latex/unnamed-chunk-100-1.pdf>
+File: Supplementary_materials_files/figure-latex/unnamed-chunk-92-1.pdf Graphic file (type pdf)
+<use Supplementary_materials_files/figure-latex/unnamed-chunk-92-1.pdf>
 (./Supplementary_materials.bbl
 
 [67])
@@ -1408,8 +1408,8 @@ LaTeX Warning: There were multiply-defined labels.
  ) 
 Here is how much of TeX's memory you used:
  21044 strings out of 470454
- 411346 string characters out of 5491167
- 960260 words of memory out of 5000000
+ 411306 string characters out of 5491167
+ 960253 words of memory out of 5000000
  49014 multiletter control sequences out of 15000+600000
  633422 words of font info for 99 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
