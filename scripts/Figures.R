@@ -57,9 +57,9 @@ df <- paired_observations(list(species = "F. sanguinea", callow = 0),
 df$species <- factor(df$species, levels = c(TRUE, FALSE))
 levels(df$species) <- c("F. sanguinea", "F. fusca")
 p1 <- ggplot(aes(x=species, y=proportion , group=species), data=df)+
-  geom_boxplot(col="#1f4a24",
-               fill="#1f4a2466", width=0.6, lwd=1, outlier.shape=NA)+
-  geom_point(aes(fill=sang_prop), shape=21,cex=3.4,color="black", position = position_jitter(width=0.1))+
+  geom_boxplot(col="#633D0F",
+               fill="#C2C7BD66", width=0.6, lwd=1, outlier.shape=NA)+
+  geom_point(aes(fill=sang_prop), shape=21,cex=2.7,color="black", position = position_jitter(width=0.14))+
   #geom_line(aes(x=callow+point_x_pos, y=proportion, group=ID), col="#444444")+
   #scale_y_continuous(trans="log2", breaks=2^(0:4))+
   scale_fill_gradient("Proportion of\nF. sanguinea ants", low="#555C58", high="#BBEA5E")+
@@ -90,9 +90,9 @@ df <- paired_observations(list(species = "F. sanguinea", callow = 0),
 df$species <- factor(df$species, levels = c(TRUE, FALSE))
 levels(df$species) <- c("F. sanguinea", "F. fusca")
 p2 <- ggplot(aes(x=species, y=proportion , group=species), data=df)+
-  geom_boxplot(col="#1f4a24",
-               fill="#1f4a2466", width=0.6, lwd=1, outlier.shape=NA)+
-  geom_point(aes(fill=sang_prop), shape=21,cex=3.4,color="black", position = position_jitter(width=0.1))+
+  geom_boxplot(col="#633D0F",
+               fill="#C2C7BD66", width=0.6, lwd=1, outlier.shape=NA)+
+  geom_point(aes(fill=sang_prop), shape=21,cex=2.7,color="black", position = position_jitter(width=0.14))+
   #geom_line(aes(x=callow+point_x_pos, y=proportion, group=ID), col="#444444")+
   #scale_y_continuous(trans="log2", breaks=2^(0:4))+
   scale_fill_gradient("Proportion of\nF. sanguinea ants", low="#555C58", high="#BBEA5E")+
@@ -109,7 +109,7 @@ p2 <- ggplot(aes(x=species, y=proportion , group=species), data=df)+
                                  colour = "black"))+
   geom_signif(
     y_position = max(df[["proportion"]])*1.1, xmin = 1, xmax = 2,
-    annotation = "0.0131", tip_length = 0.02)
+    annotation = "0.00269", tip_length = 0.02)
 
 
 
@@ -123,14 +123,14 @@ df$species <- factor(df$species, levels = c(TRUE, FALSE))
 levels(df$species) <- c("F. sanguinea", "F. fusca")
 
 p3 <- ggplot(aes(x=species, y=mass , group=species), data=df)+
-  geom_boxplot(col="#1f4a24",
-               fill="#1f4a2466", width=0.6, lwd=1, outlier.shape=NA)+
-  geom_point(aes(fill=sang_prop), shape=21,cex=3.4,color="black", position = position_jitter(width=0.1))+
+  geom_boxplot(col="#633D0F",
+               fill="#C2C7BD66", width=0.6, lwd=1, outlier.shape=NA)+
+  geom_point(aes(fill=sang_prop), shape=21,cex=2.7,color="black", position = position_jitter(width=0.14))+
   #geom_line(aes(x=callow+point_x_pos, y=proportion, group=ID), col="#444444")+
   #scale_y_continuous(trans="log2", breaks=2^(0:4))+
   scale_fill_gradient("Proportion of\nF. sanguinea ants", low="#555C58", high="#BBEA5E")+
   xlab("Species")+
-  ylab(expression(paste("Mass per individual [",mu,"g]")))+
+  ylab(expression(paste("CHC mass per standard-sized individual [",mu,"g]")))+
   scale_y_continuous(trans="log2", breaks=2^(0:5))+
   theme(axis.text.x = element_text(size = 15))+
   theme(axis.text.y = element_text(size = 15))+
@@ -156,15 +156,15 @@ df <- paired_observations(list(species = "F. sanguinea", callow = 0),
 df$callow <- as.numeric(df$callow)
 
 p4 <- ggplot(aes(x=callow, y=mass, group=callow), data=df)+
-  geom_boxplot(col="#1f4a24",
-               fill="#1f4a2466", width=0.6, lwd=1, outlier.shape=NA)+
-  geom_point(aes(x=callow+point_x_pos, y=mass, fill=sang_prop), shape=21, cex=3.4, color="black")+
+  geom_boxplot(col="#633D0F",
+               fill="#C2C7BD66", width=0.6, lwd=1, outlier.shape=NA)+
+  geom_point(aes(fill=sang_prop), shape=21,cex=2.7,color="black", position = position_jitter(width=0.14))+
   geom_line(aes(x=callow+point_x_pos, y=mass, group=ID), col="#444444")+
   scale_y_continuous(trans="log2", breaks=2^(0:4))+
   scale_x_continuous(breaks = c(0,1), labels = c("callow", "mature"))+
   scale_fill_gradient("Proportion of\nF. sanguinea ants", low="#555C58", high="#BBEA5E")+
   xlab("F. sanguinea - age")+
-  ylab(expression(paste("Mass per individual [",mu,"g]")))+
+  ylab(expression(paste("CHC mass per standard-sized individual [",mu,"g]")))+
   theme(axis.text.x = element_text(size = 15))+
   theme(axis.text.y = element_text(size = 15))+
   theme(axis.title=element_text(size=18))+
@@ -194,9 +194,9 @@ df <- paired_observations(list(species = "F. sanguinea", callow = 0),
 
 df$mature<- as.numeric(df$callow)
 p6 <- ggplot(aes(x=as.numeric(callow), y=proportion , group=mature), data=df)+
-  geom_boxplot(col="#1f4a24",
-               fill="#1f4a2466", width=0.6, lwd=1, outlier.shape=NA)+
-  geom_point(aes(x=as.numeric(callow)+point_x_pos, y=proportion, fill=sang_prop),shape=21,cex=3.4,color="black")+
+  geom_boxplot(col="#633D0F",
+               fill="#C2C7BD66", width=0.6, lwd=1, outlier.shape=NA)+
+  geom_point(aes(fill=sang_prop), shape=21,cex=2.7,color="black", position = position_jitter(width=0.14))+
   #geom_line(aes(x=callow+point_x_pos, y=proportion, group=ID), col="#444444")+
   #scale_y_continuous(trans="log2", breaks=2^(0:4))+
   scale_x_continuous(breaks = c(0,1), labels = c("callow", "mature"))+
