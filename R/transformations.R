@@ -89,3 +89,10 @@ subsample_proportion<-function(peak_IDs, chromatogram_IDs, MS_data=NULL){
   names(res)<-as.character(chromatogram_IDs)
   res
 }
+
+#' @export
+peak_proportion <- function(peak_ID, chr_ID, MS_data){
+  chromatogram_data <- MS_data[MS_data$chromatogram_ID==chr_ID,]
+  if (!peak_ID %in% chromatogram_data$peak_ID) return(0)
+  chromatogram_data[chromatogram_data$peak_ID==peak_ID,"abundance"]/sum(chromatogram_data[chromatogram_data$peak_ID>0,"abundance"])
+}

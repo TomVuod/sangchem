@@ -55,12 +55,6 @@ calculate_distance_to_donor <- function(treatment_id, sample_data, MS_data, dono
   sample_data %>% group_by(colony,year,group,treatment) %>% summarise(mean_dist=mean(distance))
 }
 
-peak_proportion <- function(peak_ID, chr_ID, MS_data){
-  chromatogram_data <- MS_data[MS_data$chromatogram_ID==chr_ID,]
-  if (!peak_ID %in% chromatogram_data$peak_ID) return(0)
-  chromatogram_data[chromatogram_data$peak_ID==peak_ID,"abundance"]/sum(chromatogram_data[chromatogram_data$peak_ID>0,"abundance"])
-}
-
 calculate_C22_fraction<-function(treatment_id, sample_data, MS_data){
   sample_data <- recognize_groups(sample_data)
   sample_data<-recognize_groups(sample_data)
