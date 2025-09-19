@@ -4,7 +4,13 @@
 \alias{test_dummy_ant_effect}
 \title{Dummny ant effect}
 \usage{
-test_dummy_ant_effect(treatment_id, sample_data, MS_data, donor_mapping)
+test_dummy_ant_effect(
+  treatment_id,
+  sample_data,
+  MS_data,
+  donor_mapping,
+  caption = ""
+)
 }
 \arguments{
 \item{treatment_id}{a numeric indicating treatment ID to be tested on the effect of
