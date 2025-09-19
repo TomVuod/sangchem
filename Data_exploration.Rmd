@@ -1,9 +1,9 @@
 # Data exploration
 
-Thi chapter presents general overview of the data with the calculations whose results are presented in the manuscript as summary statistics.
+This chapter presents general overview of the data with the calculations whose results are presented in the manuscript as summary statistics.
 
-## Proportion of the marker CHCs in the total CHC signal
 
+## General results
 ```{r}
 suppressMessages({
   library(sangchem)
@@ -14,10 +14,19 @@ suppressMessages({
 # load data from the the earlier study
 data("field_colonies")
 data("development_data")
+data("mass_spectra_data")
 
+cat(sprintf("Number of peaks: %d\n", length(setdiff(mass_spectra_data$peak_ID, 0:1))))
+```
+
+
+## Proportion of the marker CHCs in the total CHC signal
+```{r}
 # load marker peak IDs
 load_globals()
 
+cat(sprintf("Number of fusca markers: %d\n", length(peaks_fusca)))
+cat(sprintf("Number of sanguinea markers: %d\n", length(peaks_sang)))
 # select samples from F. sanguinea ants and free-living F. fusca ants encoded in chromatogram_ID
 fusca_samples <- as.character(unique(field_colonies$chromatogram_ID)[stri_detect_regex(unique(field_colonies$chromatogram_ID), "fus[0-9].?-[0-9]\\([1-2]\\)")])
 sanguinea_samples<-as.character(unique(field_colonies$chromatogram_ID)[stri_detect_regex(unique(field_colonies$chromatogram_ID),"sangFs[0-9].?\\([0-9]\\)")])

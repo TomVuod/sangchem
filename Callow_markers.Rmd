@@ -2,6 +2,7 @@
 
 The procedure identifying species markers was also applied to determine peaks characteristic of *F. sanguinea* callow ants. In discriminant analysis, samples were classified into one of the three groups: callow *F. sanguinea*,  adult *F. sanguinea*, or adult *F. fusca*.
 
+## Markers indentification
 ```{r warning=FALSE}
 # devtools::install_github("mixOmicsTeam/mixOmics", ref = "143d31f9629bc83f1f27272ba6b7a2aaef0ee0e8")
 suppressMessages({
@@ -59,15 +60,16 @@ perf.discr_analysis_callow <- perf(discr_analysis_callow,
                                 folds = 4, 
                            progressBar = FALSE, 
                            auc = TRUE, 
-                           nrepeat = 30,
+                           nrepeat = 200,
                            scale = FALSE,
-                           BPPARAM = BiocParallel::SerialParam(RNG=7320))
+                           BPPARAM = BiocParallel::SerialParam(RNG=7320),
+                           seed=4367)
 # plot(perf.discr_analysis_callow, col = color.mixo(1:3), sd = TRUE, legend.position = "horizontal")
 selected_n <- perf.discr_analysis_callow$choice.ncom["overall", "max.dist"]
 discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
                                   multilevel = DA_data$group,
                                    Y=Y,
-                                   nrepeat = 30,
+                                   nrepeat = 200,
                                    folds = 4,
                                    ncomp = selected_n,
                                    test.keepX = seq(1:dim(PCA_callow_discr$x)[2]), 
@@ -76,7 +78,8 @@ discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
                                    measure = "BER",
                                    progressBar = FALSE,
                                    scale = FALSE,
-                                  BPPARAM = BiocParallel::SerialParam(RNG=7320)) 
+                                  BPPARAM = BiocParallel::SerialParam(RNG=7320),
+                                  seed=8101) 
 
 selected_n <- discr_analysis_callows_tuned$choice.ncomp$ncomp
 discr_analysis_callows_final <- splsda(PCA_callow_discr$x,Y=Y,

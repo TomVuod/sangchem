@@ -1,5 +1,6 @@
 ---
 title: "Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development"
+subtitle: "Behavioral Ecology and Sociobiology"
 author:
   - Tomasz Włodarczyk^[Faculty of Biology, University of Białystok, Poland, tomwlo@gmail.com, ORCID 0000-0003-1554-9699]
   - Thomas Schmitt^[Department of Animal Ecology and Tropical Biology, University of Würzburg, Germany, thomas.schmitt@uni-wuerzburg.de, ORCID 0000-0002-6719-8635]

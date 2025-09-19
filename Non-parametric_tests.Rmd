@@ -30,7 +30,6 @@ colonies <- intersect(test_data_sang$colony, test_data_fusca$colony)
 test_df <- rbind(test_data_sang, test_data_fusca)
 test_df <- test_df[test_df$colony %in% colonies,]
 test_df <- test_df[order(test_df$colony),]
-wilcox_test(test_df, corrected_mass~species, paired=TRUE)
 test_df$species <- factor(test_df$species)
 test_stats <- wilcox_test(test_df, corrected_mass~species, paired=TRUE) %>%
   add_significance("p") %>%
@@ -51,7 +50,6 @@ colonies <- intersect(test_data_mature$colony, test_data_callow$colony)
 test_df <- rbind(test_data_callow, test_data_mature)
 test_df <- test_df[test_df$colony %in% colonies,]
 test_df <- test_df[order(test_df$colony),]
-wilcox_test(test_df, corrected_mass~callow, paired=TRUE)
 test_df$callow <- factor(test_df$callow)
 test_stats <- wilcox_test(test_df, corrected_mass~callow, paired=TRUE) %>%
   add_significance("p") %>%

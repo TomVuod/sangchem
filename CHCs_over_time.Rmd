@@ -1,4 +1,4 @@
-# Changes of CHC amount over time
+# Changes in CHC amount over time
 
 This section contains a series of linear (mixed) models fitted to examine how the proportion of *F. sanguinea* workers in a colony is associated with the amount of CHC, analyzed as a whole or in subsets. Included are summary reports, results of the Shapiro-Wilk test of normality of conditional residuals, as well as diagnostic plots and tests generated with the use of `DHARMa` R package[@R-DHARMa]. The response variable often needed to be transformed to meet model assumptions. Random terms with no variance have been dropped. 
 
@@ -17,7 +17,7 @@ data("development_data")
 load_globals()
 dev_samples <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), callow==0) %>%
   dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) %>%
-  mutate(corrected_mass=mass/head_width^2*10^6) %>% mutate(head_width=head_width*1e3)
+  mutate(corrected_mass=mass/head_width^2*10^6) %>% mutate(head_width=head_width*1e-3)
 ```
 
 ## Colony growth and body size
@@ -107,7 +107,7 @@ plot(simulationOutput)
 ```
 Similarly to mature *F. sanguinea* ants, in callow workers there is negative but not significant relationship between body size and normalized CHC amount.
 
-## Change of the CHCs associated with *F. sanguinea*
+## Change of the CHCs characteristic of *F. sanguinea*
 
 In this section the subset of peaks were used to calculate normalized CHC mass. These were peaks identified as *F. sanguinea* markers.
 
@@ -171,7 +171,7 @@ hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
 print(shapiro.test(residuals(lm_model)))
 ```
 
-## Change of the CHCs associated with *F. fusca*
+## Change of the CHCs characteristic of *F. fusca*
 
 Similarly to the analysis with the use of markers of *F. sanguinea* workers, the procedure was repeated using the mass of *F. fusca* markers as a response variable. 
 

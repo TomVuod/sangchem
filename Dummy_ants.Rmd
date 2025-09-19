@@ -15,9 +15,9 @@ data("mass_spectra_data")
 data("subject_to_donor_mapping")
 ```
 
-## Distance to the CHC profile of the dummy ants treated by *F. fusca* CHCs
+## Distance to the CHC profile of the dummy ants treated by *F. fusca* CHC
 
-We computed the chemical distance to the CHC profile of ants whose CHCs were used to cover glass beads serving as dummy ants. In the control variant, we used the ants subjected to clean glass beads. 
+We computed the chemical distance to the CHC profile of ants whose CHC were used to cover glass beads serving as dummy ants. In the control variant, we used the ants subjected to clean glass beads. 
 
 ```{r}
 args <- test_dummy_ant_effect(treatment_id=5, separation_experiment_data, mass_spectra_data, subject_to_donor_mapping,caption="Chemical distance of separated \\textit{F. sanguinea} ants to the CHC profile of \\textit{F. fusca} ants from colonies that served as a source of CHC to caot the glass beads. In control variant, glass bead were left clean.")
@@ -28,7 +28,7 @@ args <- test_dummy_ant_effect(treatment_id=5, separation_experiment_data, mass_s
 ```{r}
 do.call(kableExtra::kbl, args) %>% column_spec(c(3,5), width="2cm")
 ```
-## Distance to the CHC profile of the dummy ants treated by *F. sanguinea* CHCs
+## Distance to the CHC profile of the dummy ants treated by *F. sanguinea* CHC
 ```{r}
 args <- test_dummy_ant_effect(treatment_id=7, separation_experiment_data, mass_spectra_data, subject_to_donor_mapping,caption="Chemical distance of separated \\textit{F. sanguinea} ants to the CHC profile of \\textit{F. sanguinea} ants from colonies that served as a source of CHC to caot the glass beads. In control variant, glass bead were left clean.")
 do.call(kableExtra::kbl, args) %>% column_spec(c(3,5), width="2cm")
