@@ -13,6 +13,10 @@ library(dplyr)
 
 load_globals()
 data("development_data")
+
+data("body_surface_area")
+CHC_normalizer <- get_body_area_normalizer(body_surface_area, development_data)
+
 paired_observations <- function(group_1, group_2, values_column, group_var="callow", peak_subset=NULL){
   df <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor",
                                                                                      "aggression target",
@@ -20,7 +24,7 @@ paired_observations <- function(group_1, group_2, values_column, group_var="call
     select(colony, census_date, chromatogram_ID,
            callow, mass, head_width, species, sang_prop)
   if(values_column=="mass")
-    df <- mutate(df, mass=mass/(head_width/1300)^2)
+    df <- mutate(df, mass=mass*CHC_normalizer(species, head_width))
   else
     df$proportion <- subsample_proportion(peak_subset, df$chromatogram_ID)
 
@@ -386,11 +390,11 @@ dev.off()
 
 dev_samples <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), callow==0) %>%
   dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) %>%
-  mutate(corrected_mass=mass/head_width^2*10^6, head_width=head_width*1e-3)
+  mutate(normalized_mass=CHC_normalizer(species, head_width), head_width=head_width*1e-3)
 model_input <- dev_samples[dev_samples$species=="F. sanguinea",]
 # remove outlier
-model_input <- model_input[-which.max(model_input$corrected_mass),]
-lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop  + I(head_width^2)+(1|colony) +(1 | colony:census_date), data=model_input)
+model_input <- model_input[-which.max(model_input$normalized_mass),]
+lm_model <- lmer(I(log(normalized_mass)) ~ sang_prop  + I(head_width^2)+(1|colony) +(1 | colony:census_date), data=model_input)
 x <- seq(0,1,by=0.001)
 model_prediction <- data.frame(sang_prop = x, predicted_mass=exp(predict(lm_model, data.frame(sang_prop=x,head_width=1.3), re.form=NA)),
                                species = "F. sanguinea")
@@ -398,26 +402,26 @@ model_prediction <- data.frame(sang_prop = x, predicted_mass=exp(predict(lm_mode
 
 plot_data <- dev_samples
 # remove outlier
-plot_data <- plot_data[-which.max(plot_data$corrected_mass),]
+plot_data <- plot_data[-which.max(plot_data$normalized_mass),]
 
 model_input <- dev_samples[dev_samples$species=="F. fusca",]
 
-lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop + I(head_width^2) + (1|colony), data=model_input)
+lm_model <- lmer(I(log(normalized_mass)) ~ sang_prop + (1|colony), data=model_input)
 model_prediction <- rbind(model_prediction, data.frame(sang_prop = x, predicted_mass=exp(predict(lm_model, data.frame(sang_prop=x,head_width=1.3), re.form=NA)),
                                                        species = "F. fusca"))
 
 data("CHC_mass_prediction")
 
-plot_data_2 <- data.frame(corrected_mass = CHC_mass_prediction$pred_values_sang, species = "F. sanguinea",
+plot_data_2 <- data.frame(normalized_mass = CHC_mass_prediction$pred_values_sang, species = "F. sanguinea",
                           sang_prop = 1)
-plot_data_2 <- rbind(plot_data_2, data.frame(corrected_mass = CHC_mass_prediction$pred_values_fusca, species = "F. fusca",
+plot_data_2 <- rbind(plot_data_2, data.frame(normalized_mass = CHC_mass_prediction$pred_values_fusca, species = "F. fusca",
                                              sang_prop = 0))
 
 
 
 dev.new()
 pdf("./inst/figures/Fig4.pdf", width = 9, height = 5)
-ggplot(plot_data, aes(x=sang_prop, y=corrected_mass, color=species, fill=species))+
+ggplot(plot_data, aes(x=sang_prop, y=normalized_mass, color=species, fill=species))+
   scale_color_manual(values=c("black", "red"))+
   geom_point(size=2.4, alpha=0.3)+
   xlab("Proportion of the F. sanguinea ants in a colony")+

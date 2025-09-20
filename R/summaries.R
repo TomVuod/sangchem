@@ -74,7 +74,7 @@ sample_averaged<-function(dev_data, MS_data, CHC_amounts){
 #' Calculate mean value for a selected variable per colony
 #'
 #' @export
-colony_weighted_mean <- function(sample_data, var="corrected_mass"){
+colony_weighted_mean <- function(sample_data, var="normalized_mass"){
   if(missing(sample_data)){
     data("development_data", envir = environment())
     sample_data <- development_data
