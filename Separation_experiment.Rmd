@@ -14,8 +14,8 @@ data("mass_spectra_data")
 
 ## Change in the total CHC amount over time
 ```{r}
-separation_data$normalized_mass <- separation_data$normalized_mass*CHC_normalizer("F. sanguinea", separation_data$head_width)
 separation_data <- filter(separation_experiment_data, treatment_id<5)
+separation_data$normalized_mass <- separation_data$mass*CHC_normalizer("F. sanguinea", separation_data$head_width)
 # remove row 74 which is an outlier
 lm_model <- lmer(I(sqrt(normalized_mass))~mean_delta+(1|colony), data = separation_data[-74,])
 print(summary(lm_model))

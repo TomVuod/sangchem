@@ -64,13 +64,16 @@ cat(sprintf("Mean proportion of sanguinea markers in sanguinea workers: %.3f\n",
 The mass is standarized so that it is divided by square of the ratio between true head with and 1.3 mm.
 
 ```{r}
+
 data("development_data")
+data("body_surface_area")
+CHC_normalizer <- get_body_area_normalizer(body_surface_area, development_data)
 sang_samples <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), species=="F. sanguinea") %>%
   dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date,callow) %>%
-  mutate(corrected_standarized_mass=mass/(head_width^2/(1300^2)))
+  mutate(normalized_mass=mass*CHC_normalizer(species, head_width))
 
-cat(sprintf("Mean CHC mass for callow workers: %f, standard deviation: %f\n", mean(filter(sang_samples, callow==1)$corrected_standarized_mass), sd(filter(sang_samples, callow==1)$corrected_standarized_mass)))
-cat(sprintf("Mean CHC mass for mature workers: %f, standard deviation: %f\n", mean(filter(sang_samples, callow==0)$corrected_standarized_mass), sd(filter(sang_samples, callow==0)$corrected_standarized_mass)))
+cat(sprintf("Mean CHC mass for callow workers: %f, standard deviation: %f\n", mean(filter(sang_samples, callow==1)$normalized_mass), sd(filter(sang_samples, callow==1)$normalized_mass)))
+cat(sprintf("Mean CHC mass for mature workers: %f, standard deviation: %f\n", mean(filter(sang_samples, callow==0)$normalized_mass), sd(filter(sang_samples, callow==0)$normalized_mass)))
 ```
 
 

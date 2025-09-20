@@ -18,7 +18,9 @@ merge_chapters = function(files, to, before = NULL, after = NULL, orig = files) 
 }
 
 
-merge_chapters(c("index.Rmd", "Species_identity.Rmd", "Callow_markers.Rmd","CHCs_over_time.Rmd",
+merge_chapters(c("index.Rmd",
+                 #"Species_identity.Rmd",
+                 "Callow_markers.Rmd","CHCs_over_time.Rmd",
                  "Non-parametric_tests.Rmd", "Separation_experiment.Rmd","Slave_impact.Rmd",
                  "Dummy_ants.Rmd", "Body_surface.Rmd"), "Supplementary_materials.Rmd")
 
