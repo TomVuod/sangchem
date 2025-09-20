@@ -386,13 +386,13 @@ dev.off()
 
 dev_samples <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), callow==0) %>%
   dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) %>%
-  mutate(corrected_mass=mass/head_width^2*10^6)
+  mutate(corrected_mass=mass/head_width^2*10^6, head_width=head_width*1e-3)
 model_input <- dev_samples[dev_samples$species=="F. sanguinea",]
 # remove outlier
 model_input <- model_input[-which.max(model_input$corrected_mass),]
-lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop  + (1|colony) +(1 | colony:census_date), data=model_input)
+lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop  + I(head_width^2)+(1|colony) +(1 | colony:census_date), data=model_input)
 x <- seq(0,1,by=0.001)
-model_prediction <- data.frame(sang_prop = x, predicted_mass=exp(predict(lm_model, data.frame(sang_prop=x), re.form=NA)),
+model_prediction <- data.frame(sang_prop = x, predicted_mass=exp(predict(lm_model, data.frame(sang_prop=x,head_width=1.3), re.form=NA)),
                                species = "F. sanguinea")
 
 
@@ -402,8 +402,8 @@ plot_data <- plot_data[-which.max(plot_data$corrected_mass),]
 
 model_input <- dev_samples[dev_samples$species=="F. fusca",]
 
-lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop  + (1|colony), data=model_input)
-model_prediction <- rbind(model_prediction, data.frame(sang_prop = x, predicted_mass=exp(predict(lm_model, data.frame(sang_prop=x), re.form=NA)),
+lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop + I(head_width^2) + (1|colony), data=model_input)
+model_prediction <- rbind(model_prediction, data.frame(sang_prop = x, predicted_mass=exp(predict(lm_model, data.frame(sang_prop=x,head_width=1.3), re.form=NA)),
                                                        species = "F. fusca"))
 
 data("CHC_mass_prediction")
@@ -419,11 +419,12 @@ dev.new()
 pdf("./inst/figures/Fig4.pdf", width = 9, height = 5)
 ggplot(plot_data, aes(x=sang_prop, y=corrected_mass, color=species, fill=species))+
   scale_color_manual(values=c("black", "red"))+
-  geom_point()+
+  geom_point(size=2.4, alpha=0.3)+
   xlab("Proportion of the F. sanguinea ants in a colony")+
-  ylab("Corrected CHC maass")+
+  ylab(expression(paste("Normalized CHC maass [",mu,"g]")))+
   geom_line(aes(y= predicted_mass),data = model_prediction, lwd=.9)+
-  geom_boxplot(data=plot_data_2, aes(x=sang_prop), width = 0.1, fill="#00000000")+
+  geom_boxplot(data=plot_data_2, aes(x=sang_prop), width = 0.1, fill="#00000000",
+               outlier.size = 0.3, outlier.alpha = 1, outlier.shape = 4)+
   scale_x_continuous(limits = c(-0.1, 1.1), breaks = seq(0,1,0.1))+
   scale_y_continuous(limits = c(0, 11.5))+
   theme(axis.title=element_text(size = 16),
