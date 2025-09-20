@@ -39,25 +39,28 @@ options("width"=100)
 To classify the CHC samples collected from mixed colonies, we need a measure which positions a sample between the *F. sanguinea* and *F. fusca* CHC profiles. Therefore, using `mixOmics` R package [@R-mixOmics], we performed a discriminant analysis training the model on the chemical data collected from the filed colonies in the earlier study [@WLODARCZYK201798]. The model was subsequently used to predict identity of new samples.
 
 ## Species markers
-To figure out the importance of each input variable in the prediction of the species identity made by discriminant model we calculated the weights from the following product matrix [@Tenenhaus, @Rohart].
+To figure out the importance of each input variable in the prediction of the species identity made by discriminant model, we calculated the vector of weights using the following formula [@Tenenhaus, @Rohart].
 $$
-\textbf{W}(\textbf{P}^\intercal\textbf{W})^{-1}\textbf{C}
+\textbf{W}(\textbf{P}^\intercal\textbf{W})^{-1}\textbf{c}
 $$
 $$
 \textbf{P}=\textbf{X}\textbf{V}
 $$
 $$
-\textbf{C}=\textbf{Y}\textbf{V},
+\textbf{c}=\textbf{V}^\intercal\textbf{y},
 $$
 where\newline
 $\textbf{W}$ is the matrix of loading vectors with the number of rows corresponding to the number of input variables and the number of columns corresponding to the number of the latent components\newline
 $\textbf{V}$ is the matrix of the coordinates of each observation on latent components\newline 
 $\textbf{X}$ is the input data matrix
+$\textbf{y}$ is the vector of zero-centered one-hot encoded class labels of the samples for a selected class (here, *F. sanguinea* sample)
 
 To project the weights assigned to principal components onto the original variables one has to reverse data transformation. Technically, this is achieved by multiplication by pseudoinverse of the rotation matrix produced by PCA. We use pseudoinverse since the rotation matrix has been reduced by removing principal components with low variance.
+
 $$
-\textbf{R}^{+}\textbf{W}(\textbf{P}^\intercal\textbf{W})^{-1}\textbf{C},
+\textbf{R}^{+}\textbf{W}(\textbf{P}^\intercal\textbf{W})^{-1}\textbf{c},
 $$
+
 where $\textbf{R}^+$ denotes the pseudoinverse of rotation matrix from PCA.
 
 ```{r warning=FALSE, echo=FALSE}
@@ -687,10 +690,12 @@ library(DHARMa)
 })
 # load data
 data("development_data")
+data("body_surface_area")
+CHC_normalizer <- get_body_area_normalizer(body_surface_area, development_data)
 load_globals()
 dev_samples <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), callow==0) %>%
   dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) %>%
-  mutate(corrected_mass=mass/head_width^2*10^6) %>% mutate(head_width=head_width*1e-3)
+  mutate(normalized_mass=mass*CHC_normalizer(species, head_width)) %>% mutate(head_width=head_width*1e-3)
 ```
 
 ## Colony growth and body size
@@ -720,14 +725,14 @@ In this series of models the total CHC mass (normalized by assuming head width o
 ### Mature *F. sanguinea*
 
 $$
-\log(\text{CHC_mass_sanguinea}) =  \beta_0 + \text{sanguinea_proportion} +(\text{head_width})^2 +\newline (1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+\log(\text{CHC_mass_sanguinea}) =  \beta_0 + \text{sanguinea_proportion} +\newline (1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
 $$
 where $\text{CHC_mass_sanguinea}$ denotes the total normalized CHC mass on the body of adult *F. sanguinea* worker.
 
 ```{r}
 set.seed(3453)
 model_input <- dev_samples[dev_samples$species=="F. sanguinea",]
-lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop  + I(head_width^2)+(1|colony) +(1 | colony:census_date), data=model_input)
+lm_model <- lmer(I(log(normalized_mass)) ~ sang_prop  +(1|colony) +(1 | colony:census_date), data=model_input)
 print(summary(lm_model))
 
 # model diagnostics
@@ -741,13 +746,13 @@ The model shows no significant effect of body size on CHC amount in *F. sanguine
 ### *F. fusca*
 
 $$
-\log(\text{CHC_mass_fusca}) =  \beta_0 + \text{sanguinea_proportion}+(\text{head_width})^2 + (1|\text{colony_ID}) + \epsilon,
+\log(\text{CHC_mass_fusca}) =  \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID}) + \epsilon,
 $$
 where $\text{CHC_mass_fusca}$ denotes the total normalized CHC mass on the body of adult *F. fusca* worker. 
 
 ```{r}
 model_input <- dev_samples[dev_samples$species=="F. fusca",]
-lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop  + I(head_width^2)+(1|colony), data=model_input)
+lm_model <- lmer(I(log(normalized_mass)) ~ sang_prop  +(1|colony), data=model_input)
 print(summary(lm_model))
 
 # model diagnostics
@@ -760,16 +765,16 @@ plot(simulationOutput)
 ### Callow *F. sanguinea*
 
 $$
-\log(\text{CHC_mass_callow}) =  \beta_0 + \text{sanguinea_proportion}+(\text{head_width})^2 + \newline(1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+\log(\text{CHC_mass_callow}) =  \beta_0 + \text{sanguinea_proportion} + \newline(1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
 $$
 where $\text{CHC_mass_callow}$ denotes the total normalized CHC mass on the body of callow *F. sanguinea* worker.
 
 ```{r}
 model_input <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), callow==1) %>%
   dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) %>%
-  mutate(corrected_mass=mass/head_width^2*10^6)
+  mutate(normalized_mass=mass*CHC_normalizer(species, head_width))
 
-lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop +I(head_width^2) + (1|colony), data=model_input)
+lm_model <- lmer(I(log(normalized_mass)) ~ sang_prop + (1|colony), data=model_input)
 print(summary(lm_model))
 
 # model diagnostics
@@ -793,8 +798,8 @@ where $\text{CHC_mass_mature}$ denotes the normalized mass of *F. sanguinea* mar
 
 ```{r}
 model_input <- dev_samples[dev_samples$species=="F. sanguinea",]
-model_input$corrected_mass <- model_input$corrected_mass*subsample_proportion(peaks_sang, model_input$chromatogram_ID)
-lm_model <- lmer(I(log(corrected_mass+1)) ~ sang_prop +(1 | colony:census_date) + (1|colony), data=model_input)
+model_input$normalized_mass <- model_input$normalized_mass*subsample_proportion(peaks_sang, model_input$chromatogram_ID)
+lm_model <- lmer(I(log(normalized_mass+1)) ~ sang_prop +(1 | colony:census_date) + (1|colony), data=model_input)
 print(summary(lm_model))
 # model diagnostics
 hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
@@ -806,14 +811,14 @@ plot(simulationOutput)
 ### *F. fusca* ants
 
 $$
-\sqrt{(\text{CHC_mass_fusca})} =  \beta_0 + \text{sanguinea_proportion} +\text{head_width}^2+  \newline(1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+\sqrt{(\text{CHC_mass_fusca})} =  \beta_0 + \text{sanguinea_proportion} +  \newline(1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
 $$
 where $\text{CHC_mass_fusca}$ denotes the normalized mass of *F. sanguinea* markers on the body of adult *F. sanguinea* worker.
 
 ```{r}
 model_input <- dev_samples[dev_samples$species=="F. fusca",]
-model_input$corrected_mass <- model_input$corrected_mass*subsample_proportion(peaks_sang, model_input$chromatogram_ID)
-lm_model <- lmer(I(sqrt(corrected_mass)) ~ sang_prop + I(head_width^2) +(1|colony:census_date), data=model_input)
+model_input$normalized_mass <- model_input$normalized_mass*subsample_proportion(peaks_sang, model_input$chromatogram_ID)
+lm_model <- lmer(I(sqrt(normalized_mass)) ~ sang_prop +(1|colony:census_date), data=model_input)
 print(summary(lm_model))
 
 # model diagnostics
@@ -833,10 +838,10 @@ where $\text{CHC_mass_mature}$ denotes the normalized mass of *F. sanguinea* mar
 ```{r}
 model_input <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), callow==1) %>%
   dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) %>%
-  mutate(corrected_mass=mass/head_width^2*10^6)
+  mutate(normalized_mass=mass*CHC_normalizer(species, head_width))
 # random term dropped because of the model singularity
-model_input$corrected_mass <- model_input$corrected_mass*subsample_proportion(peaks_sang, model_input$chromatogram_ID)
-lm_model <- lm(I((corrected_mass)^(1/3)) ~ sang_prop, data=model_input)
+model_input$normalized_mass <- model_input$normalized_mass*subsample_proportion(peaks_sang, model_input$chromatogram_ID)
+lm_model <- lm(I((normalized_mass)^(1/3)) ~ sang_prop, data=model_input)
 print(summary(lm_model))
 
 # model diagnostics
@@ -858,8 +863,8 @@ where $\text{CHC_mass_mature}$ denotes the normalized mass of *F. fusca* markers
 
 ```{r}
 model_input <- dev_samples[dev_samples$species=="F. sanguinea",]
-model_input$corrected_mass <- model_input$corrected_mass*subsample_proportion(peaks_fusca, model_input$chromatogram_ID)
-lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop +(1 | colony:census_date) + (1 | colony), data=model_input)
+model_input$normalized_mass <- model_input$normalized_mass*subsample_proportion(peaks_fusca, model_input$chromatogram_ID)
+lm_model <- lmer(I(log(normalized_mass)) ~ sang_prop +(1 | colony:census_date) + (1 | colony), data=model_input)
 print(summary(lm_model))
 
 # model diagnostics
@@ -872,15 +877,15 @@ plot(simulationOutput)
 ### *F. fusca* ants
 
 $$
-\log(\text{CHC_mass_mature}+0.01) =  \beta_0 + \text{sanguinea_proportion} + \text{head_width}^2+ \newline(1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+\log(\text{CHC_mass_mature}+0.01) =  \beta_0 + \text{sanguinea_proportion} + \newline(1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
 $$
 where $\text{CHC_mass_mature}$ denotes the normalized mass of *F. fusca* markers on the body of *F. fusca* worker.
 
 ```{r}
 set.seed(1001)
 model_input <- dev_samples[dev_samples$species=="F. fusca",]
-model_input$corrected_mass <- model_input$corrected_mass*subsample_proportion(peaks_fusca, model_input$chromatogram_ID)
-lm_model <- lmer(I(log(corrected_mass+0.01)) ~ sang_prop + I(head_width^2)+ (1 | colony)+ (1 | colony:census_date), data=model_input)
+model_input$normalized_mass <- model_input$normalized_mass*subsample_proportion(peaks_fusca, model_input$chromatogram_ID)
+lm_model <- lmer(I(log(normalized_mass+0.01)) ~ sang_prop + (1 | colony)+ (1 | colony:census_date), data=model_input)
 print(summary(lm_model))
 
 # model diagnostics
@@ -900,10 +905,10 @@ where $\log(\text{CHC_mass_mature})$ denotes the normalized mass of *F. fusca* m
 ```{r}
 model_input <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), callow==1) %>%
   dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) %>%
-  mutate(corrected_mass=mass/head_width^2*10^6)
+  mutate(normalized_mass=mass*CHC_normalizer(species, head_width))
 # random term dropped because of the model singularity
-model_input$corrected_mass <- model_input$corrected_mass*subsample_proportion(peaks_fusca, model_input$chromatogram_ID)
-lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop+(1 | colony), data=model_input)
+model_input$normalized_mass <- model_input$normalized_mass*subsample_proportion(peaks_fusca, model_input$chromatogram_ID)
+lm_model <- lmer(I(log(normalized_mass)) ~ sang_prop+(1 | colony), data=model_input)
 print(summary(lm_model))
 
 # model diagnostics
@@ -929,8 +934,8 @@ suppressMessages({
 data("development_data")
 data("mass_spectra_data")
 development_samples <- filter(development_data, caste=="worker", !remarks %in% c("aggression actor", "aggression target", "queenless colony")) %>% 
-  mutate(corrected_mass=mass/head_width^2*10^6) %>%
-  select(species, census_date, colony, corrected_mass,callow, chromatogram_ID)
+  mutate(normalized_mass=mass*CHC_normalizer(species,head_width)) %>%
+  select(species, census_date, colony, normalized_mass,callow, chromatogram_ID)
 load_globals()
 ```
 
@@ -946,10 +951,10 @@ test_df <- rbind(test_data_sang, test_data_fusca)
 test_df <- test_df[test_df$colony %in% colonies,]
 test_df <- test_df[order(test_df$colony),]
 test_df$species <- factor(test_df$species)
-test_stats <- wilcox_test(test_df, corrected_mass~species, paired=TRUE) %>%
+test_stats <- wilcox_test(test_df, normalized_mass~species, paired=TRUE) %>%
   add_significance("p") %>%
   add_xy_position(x="species", dodge=0.8, fun="max")
-ggboxplot(test_df, x="species", y="corrected_mass")+
+ggboxplot(test_df, x="species", y="normalized_mass")+
   scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
   stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
     xlab("Species")+
@@ -968,10 +973,10 @@ test_df <- rbind(test_data_callow, test_data_mature)
 test_df <- test_df[test_df$colony %in% colonies,]
 test_df <- test_df[order(test_df$colony),]
 test_df$callow <- factor(test_df$callow)
-test_stats <- wilcox_test(test_df, corrected_mass~callow, paired=TRUE) %>%
+test_stats <- wilcox_test(test_df, normalized_mass~callow, paired=TRUE) %>%
   add_significance("p") %>%
   add_xy_position(x="callow", dodge=0.8, fun="max")
-ggboxplot(test_df, x="callow", y="corrected_mass")+
+ggboxplot(test_df, x="callow", y="normalized_mass")+
   scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
   stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
   scale_x_discrete(labels = c('Mature','Callow'))+
@@ -1020,11 +1025,11 @@ test_stats <- wilcox_test(test_df, sang_prop~callow, paired=TRUE) %>%
   add_significance("p") %>%
   add_xy_position(x="callow", dodge=0.8, fun="max")
 ggboxplot(test_df, x="callow", y="sang_prop")+
-  ylab("Proportion of CHC characteristic of\nF. sanguinea between mature and callow F. sanguinea")+
+  ylab("Proportion of CHC characteristic of\nF. sanguinea")+
   scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
   stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
-    xlab("Species")+
-  ylab("Corrected mass")
+    scale_x_discrete(labels = c('Mature','Callow'))+
+  xlab("Age")
 ```
 
 ## Difference in the proportion of CHC characteristic of callow *F. sanguinea* between mature and callow *F. sanguinea* 
@@ -1057,7 +1062,7 @@ ggboxplot(test_df, x="callow", y="sang_prop")+
 ```{r}
 test_data <- filter(development_samples, species == "F. sanguinea")
 test_data$marker_prop <- subsample_proportion(peaks_callow, test_data$chromatogram_ID)
-test_data$marker_mass <- test_data$marker_prop * test_data$corrected_mass
+test_data$marker_mass <- test_data$marker_prop * test_data$normalized_mass
 test_data_mature <- filter(test_data, callow ==  0) %>% 
   colony_weighted_mean(var = "marker_mass")
 test_data_mature$callow <- 0
@@ -1099,8 +1104,7 @@ ggboxplot(test_df, x="species", y="fusca_prop")+
   ylab("Proportion of CHC characteristic of F. fusca")+
   scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
   stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
-    scale_x_discrete(labels = c('Mature','Callow'))+
-  xlab("Age")
+  xlab("Species")
 ```
 
 ## Difference in the proportion of CHC characteristic of *F. fusca* between mature and callow *F. sanguinea* 
@@ -1125,7 +1129,8 @@ ggboxplot(test_df, x="callow", y="fusca_prop")+
   scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
   stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
     stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
-  xlab("Species")
+  scale_x_discrete(labels = c('Mature','Callow'))+
+  xlab("Age")
 ```
 
 
@@ -1158,7 +1163,7 @@ ggboxplot(test_df, x="species", y="fusca_prop")+
 n_alkanes_ID <- unique(mass_spectra_data$peak_ID[grep("^C[0-9]{2}$",mass_spectra_data$identification)])
 test_data <- filter(development_samples, species == "F. sanguinea")
 test_data$n_alkanes_prop <- subsample_proportion(n_alkanes_ID, test_data$chromatogram_ID)
-test_data$n_alkanes_mass <- test_data$n_alkanes_prop * test_data$corrected_mass
+test_data$n_alkanes_mass <- test_data$n_alkanes_prop * test_data$normalized_mass
 test_data_mature <- filter(test_data, callow ==  0) %>% 
   colony_weighted_mean(var = "n_alkanes_mass")
 test_data_mature$callow <- 0
@@ -1207,12 +1212,13 @@ ggboxplot(test_df, x="callow", y="n_alkanes_prop")+
 
 <!--chapter:end:Non-parametric_tests.Rmd-->
 
-# Change in the CHC profile in separated callow *F. sanguinea* ants
+# Change in the CHC profile of separated callow *F. sanguinea* ants
 ```{r warning=FALSE}
 suppressMessages({
   library(sangchem)
   library(dplyr)
   library(lmerTest)
+  library(DHARMa)
 })
 
 # load data
@@ -1222,9 +1228,10 @@ data("mass_spectra_data")
 
 ## Change in the total CHC amount over time
 ```{r}
+separation_data$normalized_mass <- separation_data$normalized_mass*CHC_normalizer("F. sanguinea", separation_data$head_width)
 separation_data <- filter(separation_experiment_data, treatment_id<5)
 # remove row 74 which is an outlier
-lm_model <- lmer(I(sqrt(corrected_mass))~mean_delta+(1|colony), data = separation_data[-74,])
+lm_model <- lmer(I(sqrt(normalized_mass))~mean_delta+(1|colony), data = separation_data[-74,])
 print(summary(lm_model))
 
 # model diagnostics
@@ -1237,8 +1244,8 @@ plot(simulationOutput)
 ## Change in the amount of compounds characteristic of callow *F. sanguinea*
 ```{r}
 load_globals()
-separation_data$corrected_mass_part <- separation_data$corrected_mass * subsample_proportion(peaks_callow, separation_data$chromatogram_ID)
-lm_model <- lmer(log(corrected_mass_part)~mean_delta+(1|colony), data = separation_data)
+separation_data$normalized_mass_part <- separation_data$normalized_mass * subsample_proportion(peaks_callow, separation_data$chromatogram_ID)
+lm_model <- lmer(log(normalized_mass_part)~mean_delta+(1|colony), data = separation_data)
 print(summary(lm_model))
 hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
 shapiro.test(residuals(lm_model))
@@ -1248,8 +1255,8 @@ plot(simulationOutput)
 
 ## Change in the amount of compounds characteristic of *F. sanguinea*
 ```{r}
-separation_data$corrected_mass_part <- separation_data$corrected_mass * subsample_proportion(peaks_sang, separation_data$chromatogram_ID)
-lm_model <- lmer(I(sqrt(corrected_mass_part))~poly(mean_delta,1)+(1|colony), data = separation_data[-c(69, 74),])
+separation_data$normalized_mass_part <- separation_data$normalized_mass * subsample_proportion(peaks_sang, separation_data$chromatogram_ID)
+lm_model <- lmer(I(sqrt(normalized_mass_part))~poly(mean_delta,1)+(1|colony), data = separation_data[-c(69, 74),])
 print(summary(lm_model))
 hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
 shapiro.test(residuals(lm_model))
@@ -1259,8 +1266,8 @@ plot(simulationOutput)
 
 ## Change in the amount of compounds characteristic of *F. fusca*
 ```{r}
-separation_data$corrected_mass_part <- separation_data$corrected_mass * subsample_proportion(peaks_fusca, separation_data$chromatogram_ID)
-lm_model <- lmer(corrected_mass_part~mean_delta+(1|colony), data = separation_data)
+separation_data$normalized_mass_part <- separation_data$normalized_mass * subsample_proportion(peaks_fusca, separation_data$chromatogram_ID)
+lm_model <- lmer(normalized_mass_part~mean_delta+(1|colony), data = separation_data)
 print(summary(lm_model))
 hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
 shapiro.test(residuals(lm_model))
@@ -1270,7 +1277,7 @@ plot(simulationOutput)
 
 <!--chapter:end:Separation_experiment.Rmd-->
 
-# Impact of slave on the development of the *F. sanguinea* CHC profile
+# Impact of slaves on the development of the *F. sanguinea* CHC profile
 
 We analyzed the impact of *F. fusca* slaves on the CHC profile of callow *F. sanguinea* ants. In this experiment, *F. sanguinea* ants were isolated in pairs before eclosion, and their CHC profiles were analyzed at one of four time points marking their adult age. We then tested whether callow *F. sanguinea* ants were chemically more similar to their slave relatives from free-living colonies. Unrelated *F. fusca* ants served as a background group."
 

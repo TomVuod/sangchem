@@ -14,9 +14,10 @@ data("mass_spectra_data")
 
 ## Change in the total CHC amount over time
 ```{r}
+separation_data$normalized_mass <- separation_data$normalized_mass*CHC_normalizer("F. sanguinea", separation_data$head_width)
 separation_data <- filter(separation_experiment_data, treatment_id<5)
 # remove row 74 which is an outlier
-lm_model <- lmer(I(sqrt(corrected_mass))~mean_delta+(1|colony), data = separation_data[-74,])
+lm_model <- lmer(I(sqrt(normalized_mass))~mean_delta+(1|colony), data = separation_data[-74,])
 print(summary(lm_model))
 
 # model diagnostics
@@ -29,8 +30,8 @@ plot(simulationOutput)
 ## Change in the amount of compounds characteristic of callow *F. sanguinea*
 ```{r}
 load_globals()
-separation_data$corrected_mass_part <- separation_data$corrected_mass * subsample_proportion(peaks_callow, separation_data$chromatogram_ID)
-lm_model <- lmer(log(corrected_mass_part)~mean_delta+(1|colony), data = separation_data)
+separation_data$normalized_mass_part <- separation_data$normalized_mass * subsample_proportion(peaks_callow, separation_data$chromatogram_ID)
+lm_model <- lmer(log(normalized_mass_part)~mean_delta+(1|colony), data = separation_data)
 print(summary(lm_model))
 hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
 shapiro.test(residuals(lm_model))
@@ -40,8 +41,8 @@ plot(simulationOutput)
 
 ## Change in the amount of compounds characteristic of *F. sanguinea*
 ```{r}
-separation_data$corrected_mass_part <- separation_data$corrected_mass * subsample_proportion(peaks_sang, separation_data$chromatogram_ID)
-lm_model <- lmer(I(sqrt(corrected_mass_part))~poly(mean_delta,1)+(1|colony), data = separation_data[-c(69, 74),])
+separation_data$normalized_mass_part <- separation_data$normalized_mass * subsample_proportion(peaks_sang, separation_data$chromatogram_ID)
+lm_model <- lmer(I(sqrt(normalized_mass_part))~poly(mean_delta,1)+(1|colony), data = separation_data[-c(69, 74),])
 print(summary(lm_model))
 hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
 shapiro.test(residuals(lm_model))
@@ -51,8 +52,8 @@ plot(simulationOutput)
 
 ## Change in the amount of compounds characteristic of *F. fusca*
 ```{r}
-separation_data$corrected_mass_part <- separation_data$corrected_mass * subsample_proportion(peaks_fusca, separation_data$chromatogram_ID)
-lm_model <- lmer(corrected_mass_part~mean_delta+(1|colony), data = separation_data)
+separation_data$normalized_mass_part <- separation_data$normalized_mass * subsample_proportion(peaks_fusca, separation_data$chromatogram_ID)
+lm_model <- lmer(normalized_mass_part~mean_delta+(1|colony), data = separation_data)
 print(summary(lm_model))
 hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
 shapiro.test(residuals(lm_model))
