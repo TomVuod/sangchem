@@ -28,5 +28,5 @@ lm_model <- lmer(I(log(normalized_mass)) ~ sang_prop  + (1|colony), data=model_i
 pred_values_fusca <- unlist(bplapply(1:1000, predict_values, model = lm_model, sang_prop = 0, BPPARAM = MulticoreParam(RNG=4381)))
 
 res = list(pred_values_sang=pred_values_sang, pred_values_fusca=pred_values_fusca)
-save(res, file= "/home/t.wlodarczyk/chemical_ecology/sangchem/data/CHC_mass_prediction.rda")
+saveRDS(res, file= "/home/t.wlodarczyk/chemical_ecology/sangchem/data/CHC_mass_prediction.rds")
 
