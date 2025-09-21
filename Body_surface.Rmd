@@ -1,6 +1,17 @@
 # Body surface area of *F. sanguinea* ants and their slaves {#surface-area}
 
-In the publication, CHC amounts are reported relative to the square of head width. To assess whether this measure reliably reflects body size, we measured the planar projection areas of different body parts of *F. sanguinea* and *F. fusca*. The plots below suggest that head width slightly underestimates body surface area in *F. fusca* compared to *F. sanguinea*. As a result, the relative concentration of CHC in *F. fusca* may be overestimated. However, this bias acts in the opposite direction of our findings—*F. sanguinea* exhibits greater CHC concentration on its cuticle. Therefore, the shape-related bias between species is conservative, as it reduces the likelihood of rejecting the null hypothesis  
+The areas of planar projection of different body parts were regressed on the head width to get the model which was then used to approximate area for each sample. The following formula has been applied
+
+$$
+\hat{A} = \sum_{i \in I}\beta_{0,i}+\beta_{1,i}w+\beta_{2,i}x^2,
+$$
+where
+$\hat{A}$ denotes estimated body area
+$I$ denotes indices of the body parts for which area of the planar projection was measured
+$w$ denotes head width
+$\beta_{j,i}$ is a coefficient from the linear regression 
+
+These calculations do not reflect the absolute value of body surface area but are transformed into scaling factors by taking their ratio to a standard area (estimated on the same scale). In this way, the unit of measurement is canceled out, and absolute values are converted into dimensionless ratios.
 
 ```{r warning=FALSE}
 library(sangchem)
