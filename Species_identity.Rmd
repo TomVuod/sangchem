@@ -15,10 +15,10 @@ $$
 where\newline
 $\textbf{W}$ is the matrix of loading vectors with the number of rows corresponding to the number of input variables and the number of columns corresponding to the number of the latent components\newline
 $\textbf{V}$ is the matrix of the coordinates of each observation on latent components\newline 
-$\textbf{X}$ is the input data matrix
+$\textbf{X}$ is the input data matrix\newline
 $\textbf{y}$ is the vector of zero-centered one-hot encoded class labels of the samples for a selected class (here, *F. sanguinea* sample)
 
-To project the weights assigned to principal components onto the original variables one has to reverse data transformation. Technically, this is achieved by multiplication by pseudoinverse of the rotation matrix produced by PCA. We use pseudoinverse since the rotation matrix has been reduced by removing principal components with low variance.
+To project the weights assigned to principal components onto the original variables one has to reverse data transformation. Technically, this is achieved by multiplying with the pseudoinverse of the rotation matrix produced by PCA. We use pseudoinverse because the rotation matrix has been reduced by removing principal components with low variance.
 
 $$
 \textbf{R}^{+}\textbf{W}(\textbf{P}^\intercal\textbf{W})^{-1}\textbf{c},

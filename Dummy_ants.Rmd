@@ -21,17 +21,18 @@ We computed the chemical distance to the CHC profile of ants whose CHC were used
 
 ```{r}
 args <- test_dummy_ant_effect(treatment_id=5, separation_experiment_data, mass_spectra_data, subject_to_donor_mapping,caption="Chemical distance of separated \\textit{F. sanguinea} ants to the CHC profile of \\textit{F. fusca} ants from colonies that served as a source of CHC to caot the glass beads. In control variant, glass bead were left clean.")
-
+args$booktabs=TRUE
 ```
 
 
 ```{r}
-do.call(kableExtra::kbl, args) %>% column_spec(c(3,5), width="2cm")
+do.call(kableExtra::kbl, args) %>% column_spec(c(3,5), width="2cm") %>% kable_styling()
 ```
 ## Distance to the CHC profile of the dummy ants treated by *F. sanguinea* CHC
 ```{r}
 args <- test_dummy_ant_effect(treatment_id=7, separation_experiment_data, mass_spectra_data, subject_to_donor_mapping,caption="Chemical distance of separated \\textit{F. sanguinea} ants to the CHC profile of \\textit{F. sanguinea} ants from colonies that served as a source of CHC to caot the glass beads. In control variant, glass bead were left clean.")
-do.call(kableExtra::kbl, args) %>% column_spec(c(3,5), width="2cm")
+args$booktabs=TRUE
+do.call(kableExtra::kbl, args) %>% column_spec(c(3,5), width="2cm") %>% kable_styling()
 ```
 
 
@@ -44,13 +45,15 @@ For the control treatment, glass beads were left uncoated with CHC. In the exper
 
 ```{r}
 args <- test_C22_proportion(5, separation_experiment_data, mass_spectra_data,caption="Proportion of \\textit{n}-docosane in CHC extracted from \\textit{F. sanguinea} ants maintained with the glass beads coated with the CHC of \\textit{F. fusca} ants and contaminated with \\textit{n}-docosane. In control variant, glass bead were left clean.")
-do.call(kableExtra::kbl, args) %>% column_spec(c(3,5), width="2cm")
+args$booktabs=TRUE
+do.call(kableExtra::kbl, args) %>% column_spec(c(3,5), width="2cm") %>% kable_styling()
 ```
 
 ### *F. sanguinea*
 
 ```{r}
-args <- test_C22_proportion(7, separation_experiment_data, mass_spectra_data,caption="Proportion of *n*-docosane in CHC extracted from \\textit{F. sanguinea} ants maintained with the glass beads coated with the CHC of \\textit{F. sanguinea} ants and contaminated with \\textit{n}-docosane. In control variant, glass bead were left clean.")
+args <- test_C22_proportion(7, separation_experiment_data, mass_spectra_data,caption="Proportion of \\textit{n}-docosane in CHC extracted from \\textit{F. sanguinea} ants maintained with the glass beads coated with the CHC of \\textit{F. sanguinea} ants and contaminated with \\textit{n}-docosane. In control variant, glass bead were left clean.")
 args$longtable = TRUE
-do.call(kableExtra::kbl, args) %>% column_spec(c(3,5), width="2cm")
+args$booktabs=TRUE
+do.call(kableExtra::kbl, args) %>% column_spec(c(3,5), width="2cm") %>% kable_styling()
 ```

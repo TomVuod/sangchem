@@ -75,7 +75,8 @@ summary_df <- data.frame(treatment_id=c("1-3 days", "8-10 days", "17-20 days", "
 
 summary_df[,2:3] <- round(summary_df[,2:3],4)
 kableExtra::kbl(summary_df, col.names=c("Adult age", "Chemical distance to slaves' relatives", "Chemical distance to random colonies"),
-                caption="Chemical distance of the isolated \\textit{F. sanguinea} ant to \\textit{F. fusca} ants realted and unrelated to slaves.") %>% column_spec(c(2:3), width="4cm")
+                caption="Chemical distance of the isolated \\textit{F. sanguinea} ant to \\textit{F. fusca} ants realted and unrelated to slaves.",
+                booktabs = TRUE) %>% column_spec(c(2:3), width="4cm") %>% kable_styling()
 ```
 ```{r eval=FALSE}
 
@@ -144,7 +145,7 @@ summary_df <- data.frame(treatment_id=c("1-3 days", "8-10 days", "17-20 days", "
                                                              FUN.VALUE=numeric(1)))
 summary_df[,2:3] <- round(summary_df[,2:3],4)
 kableExtra::kbl(summary_df, col.names=c("Adult age", "Chemical distance to slaves' relatives", "Chemical distance to random colonies"),
-                caption="Chemical distance of the isolated \\textit{F. sanguinea} ant to \\textit{F. fusca} ants realted and unrelated to slaves. Isolated ant spun a silky envelope before pupal stage, which prevented CHC transfer from the enviroment.") %>% column_spec(c(2:3), width="4cm")
+                caption="Chemical distance of the isolated \\textit{F. sanguinea} ant to \\textit{F. fusca} ants realted and unrelated to slaves. Isolated ant spun a silky envelope before pupal stage, which prevented CHC transfer from the enviroment.", booktabs = TRUE) %>% column_spec(c(2:3), width="4cm")%>% kable_styling()
 ```
 ```{r eval=FALSE}
 
