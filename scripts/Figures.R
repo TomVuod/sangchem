@@ -134,7 +134,7 @@ p3 <- ggplot(aes(x=species, y=mass , group=species), data=df)+
   #scale_y_continuous(trans="log2", breaks=2^(0:4))+
   scale_fill_gradient("Proportion of\nF. sanguinea ants", low="#555C58", high="#BBEA5E")+
   xlab("Species")+
-  ylab(expression(paste("CHC mass per standard-sized individual [",mu,"g]")))+
+  ylab(expression(paste("Normalized CHC mass [",mu,"g]")))+
   scale_y_continuous(trans="log2", breaks=2^(0:5))+
   theme(axis.text.x = element_text(size = 15))+
   theme(axis.text.y = element_text(size = 15))+
@@ -168,7 +168,7 @@ p4 <- ggplot(aes(x=callow, y=mass, group=callow), data=df)+
   scale_x_continuous(breaks = c(0,1), labels = c("callow", "mature"))+
   scale_fill_gradient("Proportion of\nF. sanguinea ants", low="#555C58", high="#BBEA5E")+
   xlab("F. sanguinea - age")+
-  ylab(expression(paste("CHC mass per standard-sized individual [",mu,"g]")))+
+  ylab(expression(paste("Normalized CHC mass [",mu,"g]")))+
   theme(axis.text.x = element_text(size = 15))+
   theme(axis.text.y = element_text(size = 15))+
   theme(axis.title=element_text(size=18))+
@@ -390,11 +390,11 @@ dev.off()
 
 dev_samples <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), callow==0) %>%
   dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) %>%
-  mutate(normalized_mass=CHC_normalizer(species, head_width), head_width=head_width*1e-3)
+  mutate(normalized_mass=mass*CHC_normalizer(species, head_width))
 model_input <- dev_samples[dev_samples$species=="F. sanguinea",]
 # remove outlier
 model_input <- model_input[-which.max(model_input$normalized_mass),]
-lm_model <- lmer(I(log(normalized_mass)) ~ sang_prop  + I(head_width^2)+(1|colony) +(1 | colony:census_date), data=model_input)
+lm_model <- lmer(I(log(normalized_mass)) ~ sang_prop+(1|colony) +(1 | colony:census_date), data=model_input)
 x <- seq(0,1,by=0.001)
 model_prediction <- data.frame(sang_prop = x, predicted_mass=exp(predict(lm_model, data.frame(sang_prop=x,head_width=1.3), re.form=NA)),
                                species = "F. sanguinea")
@@ -425,7 +425,7 @@ ggplot(plot_data, aes(x=sang_prop, y=normalized_mass, color=species, fill=specie
   scale_color_manual(values=c("black", "red"))+
   geom_point(size=2.4, alpha=0.3)+
   xlab("Proportion of the F. sanguinea ants in a colony")+
-  ylab(expression(paste("Normalized CHC maass [",mu,"g]")))+
+  ylab(expression(paste("Normalized CHC mass [",mu,"g]")))+
   geom_line(aes(y= predicted_mass),data = model_prediction, lwd=.9)+
   geom_boxplot(data=plot_data_2, aes(x=sang_prop), width = 0.1, fill="#00000000",
                outlier.size = 0.3, outlier.alpha = 1, outlier.shape = 4)+
