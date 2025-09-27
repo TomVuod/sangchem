@@ -225,47 +225,10 @@ p6 <- ggplot(aes(x=as.numeric(callow), y=proportion , group=mature), data=df)+
 
 
 
-pdf("./inst/figures/Fig1.pdf", width = 19, height = 7.5)
+pdf("./inst/figures/Fig2.pdf", width = 19, height = 7.5)
 #dev.new()
 ggarrange(p1, p2, p4, p3, p6, ncol=5, labels=LETTERS[1:5], widths = c(4.5, 4.5, 4, 4, 4))
 dev.off()
-
-
-
-# Figure 2
-
-data("development_data")
-dev_samples <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony")) %>%
-  dplyr::select(chromatogram_ID, species, colony, sang_prop, callow, census_date)
-normalized_abundances <- peak_proportions_table(mass_spectra_data[mass_spectra_data$chromatogram_ID %in% dev_samples$chromatogram_ID,])
-species_indices <- calculate_SII(normalized_abundances)
-dev_samples <- left_join(dev_samples, species_indices)
-model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==1,]
-model_input$SII_difference <- model_input$predicted_species - find_nestmates_SII(model_input$chromatogram_ID, dev_samples, heterospecific = FALSE)
-# no random effect since it captures no variance
-lm_model <- lm(SII_difference~sang_prop, data=model_input)
-x <- seq(0,1,by=0.001)
-model_prediction <- data.frame(sang_prop = x, SII_difference=predict(lm_model, data.frame(sang_prop=x), re.form=NA))
-
-dev.new()
-pdf("./inst/figures/Fig2.pdf", width = 7, height = 4)
-ggplot(model_input, aes(x=sang_prop, y=SII_difference))+
-  geom_point(size = 2)+
-  xlab("Proportion of the F. sanguinea ants in a colony")+
-  ylab("Difference between\nSpecies Identity Indices")+
-  geom_line(data = model_prediction, lwd=1)+
-  scale_color_manual(values = c("black", "red"))+
-  scale_y_continuous(limits = c(-0.44, 0.25))+
-  theme(axis.title=element_text(size = 16),
-        axis.text = element_text(size=13),
-        panel.background = element_blank(),
-        panel.grid.major =  element_line(linewidth = 0.5, linetype = 'solid',
-                                         colour = "grey"),
-        legend.text=element_text(size=14))+
-  geom_hline(aes(yintercept = 0), lwd=1.1, linetype = "dashed", color = "#e15a00")
-dev.off()
-
-
 
 
 # Figure 3
