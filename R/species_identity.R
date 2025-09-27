@@ -10,7 +10,7 @@ calculate_SII <- function(normalized_TIC, PLS_DA_model=species_prediction_model,
   normalized_TIC <- cbind(normalized_TIC, matrix(0, nrow=nrow(normalized_TIC), ncol=length(missing_variables),
                                                    dimnames = list(rownames(normalized_TIC), missing_variables)))
   normalized_TIC <- normalized_TIC[,rownames(PCA_res$rotation),drop=FALSE]
-  normalized_TIC[normalized_TIC==0] <- 10^-16
+  normalized_TIC[normalized_TIC==0] <- 10^-5
   transformed_TIC <- t(apply(normalized_TIC,1,clr_transformation))
   # PCA transformation using data from training set
   transformed_TIC_PC <- predict(PCA_res, transformed_TIC)
