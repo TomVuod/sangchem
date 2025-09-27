@@ -26,7 +26,7 @@ body_surface_area$head_width <- body_surface_area$head_width*1e-3
 
 ```
 ```{r fig.cap="Relation between head width and area of the planar projections of ant body parts.",fig.height=3}
-ggplot(body_surface_area, aes(y=area, x=head_width,color=species, shape = view))+
+ggplot(body_surface_area, aes(y=area, x=head_width,color=species))+
   geom_point()+
   stat_smooth(method='lm', formula=y~poly(x,2,raw = TRUE), se=FALSE) +
   facet_wrap(~view)+
