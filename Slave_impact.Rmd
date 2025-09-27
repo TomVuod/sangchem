@@ -21,7 +21,7 @@ plot_data <- separation_data[separation_data$treatment_id %in% 1:4,]
 plot_data$treatment <- factor(plot_data$treatment, levels = c("1-3 days", "8-10 days", "17-20 days", "35-40 days"))
 ```
 
-```{r fig.cap="Distribution of lifespans of ants used in the experiment. The precise age of individuals could not be determined because ants in pairs were not marked. Therefore, all possible combinations were considered to illustrate the potential range.", out.width="80%"}
+```{r fig.cap="Distribution of lifespans of ants used in the experiment. The precise age of individuals could not be determined because ants within pairs were not marked. Therefore, all possible combinations were considered to illustrate the potential range.", out.width="80%"}
 boxplot(plot_data$mean_delta~plot_data$treatment, main = "Adult lifespan", xlab = "Treatment", ylab = "Separation period after eclosion\n(avegared for a pair of individuals)")
 ```
 
@@ -74,7 +74,7 @@ summary_df <- data.frame(treatment_id=c("1-3 days", "8-10 days", "17-20 days", "
                                                              FUN.VALUE=numeric(1)))
 
 summary_df[,2:3] <- round(summary_df[,2:3],4)
-kableExtra::kbl(summary_df, col.names=c("Adult age", "Chemical distance to slaves' relatives", "Chemical distance to random colonies"),
+kableExtra::kbl(summary_df, col.names=c("Adult age", "Chemical distance to slaves' relatives", "Mean chemical distance to random colonies"),
                 caption="Chemical distance of the isolated \\textit{F. sanguinea} ant to \\textit{F. fusca} ants realted and unrelated to slaves.",
                 booktabs = TRUE) %>% column_spec(c(2:3), width="4cm") %>% kable_styling()
 ```
@@ -88,7 +88,7 @@ distances_to_free_living_fusca$all <- list(treatment_1 = res_1,
 
 ```
 
-## Analysis restricted to the individuals hatched from cocoons
+## Analysis restricted to individuals hatched from cocoons
 
 Since naked pupae might have acquired CHC through physical contact with adult ants after pupation, we subset our data to include only those samples which derived from the ants hatched from cocoons. In this case silky envelop during pupa stage ruled out possibility of the CHC transfer from the environment. 
 
@@ -144,7 +144,7 @@ summary_df <- data.frame(treatment_id=c("1-3 days", "8-10 days", "17-20 days", "
                                                                   res_3[[3]], res_4[[3]]), mean,
                                                              FUN.VALUE=numeric(1)))
 summary_df[,2:3] <- round(summary_df[,2:3],4)
-kableExtra::kbl(summary_df, col.names=c("Adult age", "Chemical distance to slaves' relatives", "Chemical distance to random colonies"),
+kableExtra::kbl(summary_df, col.names=c("Adult age", "Chemical distance to slaves' relatives", "Mean chemical distance to random colonies"),
                 caption="Chemical distance of the isolated \\textit{F. sanguinea} ant to \\textit{F. fusca} ants realted and unrelated to slaves. Isolated ant spun a silky envelope before pupal stage, which prevented CHC transfer from the enviroment.", booktabs = TRUE) %>% column_spec(c(2:3), width="4cm")%>% kable_styling()
 ```
 ```{r eval=FALSE}

@@ -9,7 +9,7 @@ where\newline
 $\hat{A}$ denotes the estimated body area,\newline
 $I$ denotes the set of body parts for which the planar projection area was measured\newline
 $w$ denotes head width\newline
-$\beta_{j,i}$ are coefficients from the polynomial regression\newline
+$\beta_{j,i}$ are coefficients from the polynomial regression.\newline
 
 These calculations do not reflect the absolute value of body surface area but were converted into scaling factors by using them a divisors of a standard area. In this way, the unit of measurement is canceled out, and absolute values are converted into dimensionless ratios. The standard area was calculated by substituting the $w$ = 1.15 mm into the formula above and using coefficients obtained from measurements of *F. sanguinea*. 
 

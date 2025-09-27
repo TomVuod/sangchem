@@ -105,6 +105,16 @@ cat("Proportion of C22 in ants affected by the glass beads with F. sanguinea CHC
 summary(unlist(lapply(control_treatment, function(x) peak_proportion(1, x, mass_spectra_data))))
 ```
 
+## p-value for the difference in CHC amount between F. fusca and F. sanguinea
+
+```{r}
+data("CHC_mass_prediction")
+mass_diff = CHC_mass_prediction$pred_values_sang - CHC_mass_prediction$pred_values_fusca
+print(sum(mass_diff<0)/length(mass_diff))
+print(length(mass_diff))
+library(HDInterval)
+hdi(CHC_mass_prediction$pred_values_sang/CHC_mass_prediction$pred_values_fusca)
+```
 
 ## Session info
 ```{r}

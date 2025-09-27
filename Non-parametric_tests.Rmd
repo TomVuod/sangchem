@@ -1,4 +1,4 @@
-# Comparison of the amount and proportions of CHC between species and age categories
+# Comparisons of CHC amounts and proportions between species and age categories
 
 This section presents the results of Wilcoxon tests comparing features of CHC profiles between callow and mature *F. sanguinea* ants as well as *F. fusca* slaves. Samples from the same colony were averaged before calculation of the final statistics to account for their non-independence.  
 
@@ -19,7 +19,7 @@ development_samples <- filter(development_data, caste=="worker", !remarks %in% c
 load_globals()
 ```
 
-## Difference in the total CHC amount between *F. sanguinea* and *F. fusca*
+## Difference in total CHC amount between *F. sanguinea* and *F. fusca*
 ```{r}
 test_data <- filter(development_samples, callow == 0) 
 test_data_sang <- filter(test_data,  species=="F. sanguinea") %>% colony_weighted_mean()
@@ -41,7 +41,7 @@ ggboxplot(test_df, x="species", y="normalized_mass")+
   ylab("Nomalized mass")
 ```
 
-## Difference in the total CHC amount between callow and mature *F. sanguinea*
+## Difference in total CHC amount between callow and mature *F. sanguinea*
 ```{r}
 test_data <- filter(development_samples, species == "F. sanguinea") 
 test_data_mature <- filter(test_data, callow == 0) %>% colony_weighted_mean()
@@ -265,7 +265,7 @@ ggboxplot(test_df, x="callow", y="n_alkanes_mass")+
   xlab("Age")
 ```
 
-## Difference in the proprtion of *n*-alkanes between callow and mature *F. sanguinea*
+## Difference in the proportion of *n*-alkanes between callow and mature *F. sanguinea*
 ```{r}
 test_data <- filter(development_samples, species == "F. sanguinea")
 test_data$n_alkanes_prop <- subsample_proportion(n_alkanes_ID, test_data$chromatogram_ID)
@@ -283,7 +283,7 @@ test_stats <- wilcox_test(test_df, n_alkanes_prop~callow, paired=TRUE) %>%
   add_significance("p") %>%
   add_xy_position(x="callow", dodge=0.8, fun="max")
 ggboxplot(test_df, x="callow", y="n_alkanes_prop")+
-  ylab("Proportion of n-alkanes in the total CHC amount")+
+  ylab("Proportion of n-alkanes in total CHC amount")+
   scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
   stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
   scale_x_discrete(labels = c('Mature','Callow'))+

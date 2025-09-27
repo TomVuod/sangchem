@@ -1,4 +1,4 @@
-# Finding peaks differentiating callow and mature *F. sanguinea* workers
+# Peaks differentiating callow and mature *F. sanguinea* workers
 
 The procedure identifying species markers was also applied to determine peaks characteristic of *F. sanguinea* callow ants. In discriminant analysis, samples were classified into one of the three groups: callow *F. sanguinea*,  adult *F. sanguinea*, or adult *F. fusca*.
 
@@ -147,7 +147,7 @@ globals[["peaks_callow"]] <- as.numeric(peaks_callow)
 saveRDS(globals, system.file("globals.rds", package="sangchem"))
 ```
 
-## Verifying the performace of the discrimination model
+## Verifying the performance of the discrimination model
 
 The performance of the discriminant model was evaluated by examining the accuracy of its predictions in a cross-validation test, measured as the area under the receiver operating characteristic curve (AUROC). This procedure was repeated $10^3$ times to account for variance resulting from the random splitting of samples into training and validation sets. In a parallel analysis, the model was trained on data with permuted age status of *F. sanguinea* to assess whether the true assignment of samples influenced model performance. Results from both training approaches were paired, and the difference in AUROC was calculated each for pair. The empirical p-value was defined as the proportion of models in which the AUROC after permutation was equal to or greater than the AUROC based on the original data.
 

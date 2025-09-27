@@ -215,43 +215,46 @@ Ants in the mixed colonies exchanged their CHC to produce a hybrid chemical iden
 
 The Species Identity Score was computed for *F. sanguinea* and *F. fusca* samples from mixed colonies and used as a response variable in linear mixed models. As a fixed effect we used the proportion of *F. sanguinea* workers among all workers in a colony. Colony ID and sampling occasion were incorporated as random effects. 
 
-In the following model specifications $(1|\text{random_factor})$ denotes random intercept (separate for each level of the random factor) and $((1|\text{random_factor_1:random_factor_2}))$ denotes random intercepts generated from the combinations of two factors. $\beta_{0}$ and $\epsilon$ denote intercept and error term, respectively. Included are summary reports, results of the Shapiro-Wilk test of nornalizty of conditional residuals, as well as diagnostic plots and tests generated with the use of `DHARMa` R package[@R-DHARMa]. The response variable often needed to be transformed to meet model assumptions. Random terms with no variance have been dropped. 
+In the following model specifications $1|\text{random_factor}$ denotes random intercept (separate for each level of the random factor) and $1|\text{random_factor_1:random_factor_2}$ denotes random intercepts generated from the combinations of two factors. $\beta_{0}$ and $\epsilon$ denote intercept and error term, respectively. Included are summary reports, results of the Shapiro-Wilk test of nornalizty of conditional residuals, as well as diagnostic plots and tests generated with the use of `DHARMa` R package[@R-DHARMa]. The response variable often needed to be transformed to meet model assumptions. Random terms with no variance have been dropped. 
 
 
 
 #### Mature *F. sanguinea*
 $$
-\sqrt{\text{Species_Identity_Score+1}} = \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+\text{Species_Identity_Score} = \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
 $$
 where $\text{Species_Identity_Score}$ denotes the Species Identity Score of the mature *F. sanguinea* workers.
 
 ```
 ## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
-## Formula: I(sqrt(predicted_species + 1)) ~ sang_prop + (1 | colony:census_date)
+## Formula: predicted_species ~ sang_prop + (1 | colony) + (1 | colony:census_date)
 ##    Data: model_input
 ## 
-## REML criterion at convergence: 22.6
+## REML criterion at convergence: -25.7
 ## 
 ## Scaled residuals: 
-##      Min       1Q   Median       3Q      Max 
-## -2.39156 -0.43663  0.06261  0.57841  1.64975 
+##     Min      1Q  Median      3Q     Max 
+## -1.9836 -0.4113  0.1312  0.4203  1.2611 
 ## 
 ## Random effects:
-##  Groups             Name        Variance Std.Dev.
-##  colony:census_date (Intercept) 0.01917  0.1385  
-##  Residual                       0.06029  0.2455  
-## Number of obs: 62, groups:  colony:census_date, 42
+##  Groups             Name        Variance  Std.Dev. 
+##  colony:census_date (Intercept) 2.733e-02 1.653e-01
+##  colony             (Intercept) 1.108e-18 1.053e-09
+##  Residual                       1.642e-02 1.281e-01
+## Number of obs: 68, groups:  colony:census_date, 44; colony, 16
 ## 
 ## Fixed effects:
 ##             Estimate Std. Error       df t value Pr(>|t|)    
-## (Intercept)  0.96117    0.07083 42.22312  13.570  < 2e-16 ***
-## sang_prop    1.00289    0.13239 39.12506   7.575 3.46e-09 ***
+## (Intercept)  0.34707    0.05225 43.49011   6.643 4.03e-08 ***
+## sang_prop    0.98039    0.10153 42.97168   9.657 2.48e-12 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Correlation of Fixed Effects:
 ##           (Intr)
-## sang_prop -0.841
+## sang_prop -0.822
+## optimizer (nloptwrap) convergence code: 0 (OK)
+## boundary (singular) fit: see help('isSingular')
 ```
 
 ```
@@ -259,7 +262,7 @@ where $\text{Species_Identity_Score}$ denotes the Species Identity Score of the 
 ## 	Shapiro-Wilk normality test
 ## 
 ## data:  residuals(lm_model)
-## W = 0.9752, p-value = 0.2413
+## W = 0.96664, p-value = 0.06536
 ```
 
 
@@ -268,38 +271,38 @@ where $\text{Species_Identity_Score}$ denotes the Species Identity Score of the 
 
 #### *F. fusca*
 $$
-\text{Species_Identity_Score}= \beta_0 + \text{sanguinea_proportion} + (1|\text{colony})+(1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+\sqrt{\text{Species_Identity_Score+10}}= \beta_0 + \text{sanguinea_proportion} + (1|\text{colony})+(1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
 $$
 where $\text{Species_Identity_Score}$ denotes the Species Identity Score of the mature *F. fusca* workers.
 
 ```
 ## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
-## Formula: predicted_species ~ sang_prop + (1 | colony) + (1 | colony:census_date)
+## Formula: I(sqrt(predicted_species + 10)) ~ sang_prop + (1 | colony) +      (1 | colony:census_date)
 ##    Data: model_input
 ## 
-## REML criterion at convergence: 240.5
+## REML criterion at convergence: -273.5
 ## 
 ## Scaled residuals: 
 ##      Min       1Q   Median       3Q      Max 
-## -2.73942 -0.41900 -0.07327  0.52549  2.41878 
+## -3.08268 -0.48544  0.01429  0.52547  2.29733 
 ## 
 ## Random effects:
-##  Groups             Name        Variance Std.Dev.
-##  colony:census_date (Intercept) 0.2073   0.4553  
-##  colony             (Intercept) 0.1479   0.3846  
-##  Residual                       0.9773   0.9886  
+##  Groups             Name        Variance  Std.Dev.
+##  colony:census_date (Intercept) 0.0001504 0.01226 
+##  colony             (Intercept) 0.0001920 0.01386 
+##  Residual                       0.0011910 0.03451 
 ## Number of obs: 78, groups:  colony:census_date, 55; colony, 20
 ## 
 ## Fixed effects:
-##             Estimate Std. Error      df t value Pr(>|t|)    
-## (Intercept)  -1.5743     0.2110 42.6506   -7.46 2.93e-09 ***
-## sang_prop     3.3945     0.4606 36.1850    7.37 1.05e-08 ***
+##              Estimate Std. Error        df t value Pr(>|t|)    
+## (Intercept)  3.178268   0.007119 41.999781 446.452  < 2e-16 ***
+## sang_prop    0.137217   0.015334 36.027984   8.949  1.1e-10 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Correlation of Fixed Effects:
 ##           (Intr)
-## sang_prop -0.661
+## sang_prop -0.653
 ```
 
 ```
@@ -307,7 +310,7 @@ where $\text{Species_Identity_Score}$ denotes the Species Identity Score of the 
 ## 	Shapiro-Wilk normality test
 ## 
 ## data:  residuals(lm_model)
-## W = 0.9847, p-value = 0.4753
+## W = 0.97652, p-value = 0.1589
 ```
 
 
@@ -325,28 +328,28 @@ where $\text{Species_Identity_Score}$ denotes the Species Identity Score of the 
 ## Formula: predicted_species ~ sang_prop + (1 | colony)
 ##    Data: model_input
 ## 
-## REML criterion at convergence: 76.3
+## REML criterion at convergence: -15.4
 ## 
 ## Scaled residuals: 
 ##      Min       1Q   Median       3Q      Max 
-## -2.25648 -0.51742 -0.08274  0.69855  1.88538 
+## -2.17977 -0.51143  0.04869  0.71124  1.98671 
 ## 
 ## Random effects:
 ##  Groups   Name        Variance Std.Dev.
-##  colony   (Intercept) 0.01975  0.1406  
-##  Residual             0.62134  0.7883  
+##  colony   (Intercept) 0.003915 0.06257 
+##  Residual             0.026690 0.16337 
 ## Number of obs: 32, groups:  colony, 16
 ## 
 ## Fixed effects:
-##             Estimate Std. Error      df t value Pr(>|t|)    
-## (Intercept)  -0.9408     0.2530 28.3318  -3.719 0.000877 ***
-## sang_prop     2.5681     0.4727 29.6945   5.433 7.07e-06 ***
+##             Estimate Std. Error       df t value Pr(>|t|)    
+## (Intercept)  0.15987    0.05558 29.08701   2.876  0.00746 ** 
+## sang_prop    0.81638    0.10156 28.64556   8.039 7.95e-09 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Correlation of Fixed Effects:
 ##           (Intr)
-## sang_prop -0.821
+## sang_prop -0.798
 ```
 
 ```
@@ -354,7 +357,7 @@ where $\text{Species_Identity_Score}$ denotes the Species Identity Score of the 
 ## 	Shapiro-Wilk normality test
 ## 
 ## data:  residuals(lm_model)
-## W = 0.97706, p-value = 0.7106
+## W = 0.98258, p-value = 0.87
 ```
 
 
@@ -371,7 +374,7 @@ Since the linear model does not meet one of the diagnostics criteria, Wilcoxon p
 ## 	Wilcoxon signed rank test with continuity correction
 ## 
 ## data:  model_input$predicted_species and model_input$slave_species_index
-## V = 1910, p-value = 4.507e-08
+## V = 1993, p-value = 1.831e-09
 ## alternative hypothesis: true location shift is not equal to 0
 ```
 
@@ -388,23 +391,33 @@ where $\text{SIS_diff}$ denotes the difference in Species Identity Score between
 Since the linear model does not meet one of diagnostics criterion we will apply Wilcoxon paired test.
 
 ```
+## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+## Formula: index_diff ~ sang_prop + (1 | colony) + (1 | colony:census_date)
+##    Data: model_input
 ## 
-## Call:
-## lm(formula = index_diff ~ sang_prop, data = model_input)
+## REML criterion at convergence: -3.1
 ## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -2.1745 -0.6534 -0.1962  0.7732  1.9023 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -0.73368 -0.34699 -0.01797  0.30274  1.25653 
 ## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)
-## (Intercept)   0.3914     0.3492   1.121    0.272
-## sang_prop    -0.4235     0.7201  -0.588    0.561
+## Random effects:
+##  Groups             Name        Variance  Std.Dev. 
+##  colony:census_date (Intercept) 3.963e-02 1.991e-01
+##  colony             (Intercept) 2.416e-18 1.554e-09
+##  Residual                       7.598e-03 8.717e-02
+## Number of obs: 30, groups:  colony:census_date, 29; colony, 16
 ## 
-## Residual standard error: 1.065 on 28 degrees of freedom
-##   (2 observations deleted due to missingness)
-## Multiple R-squared:  0.0122,	Adjusted R-squared:  -0.02308 
-## F-statistic: 0.3458 on 1 and 28 DF,  p-value: 0.5612
+## Fixed effects:
+##             Estimate Std. Error       df t value Pr(>|t|)
+## (Intercept) -0.01200    0.07156 27.47645  -0.168    0.868
+## sang_prop    0.02760    0.14696 27.50267   0.188    0.852
+## 
+## Correlation of Fixed Effects:
+##           (Intr)
+## sang_prop -0.826
+## optimizer (nloptwrap) convergence code: 0 (OK)
+## boundary (singular) fit: see help('isSingular')
 ```
 
 ```
@@ -412,35 +425,45 @@ Since the linear model does not meet one of diagnostics criterion we will apply 
 ## 	Shapiro-Wilk normality test
 ## 
 ## data:  residuals(lm_model)
-## W = 0.97627, p-value = 0.7202
+## W = 0.95803, p-value = 0.2756
 ```
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-22-1} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-22-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-22-2} \end{center}
 
 ### Difference in Species Identity Score between callow and mature *F. sanguinea* ants.
 
 ```
+## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+## Formula: index_diff ~ sang_prop + (1 | colony) + (1 | colony:census_date)
+##    Data: model_input
 ## 
-## Call:
-## lm(formula = index_diff ~ sang_prop, data = model_input)
+## REML criterion at convergence: -2
 ## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -2.3512 -0.4805 -0.1439  0.6242  2.1423 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -1.26060 -0.38743  0.05822  0.30720  1.04810 
 ## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)  
-## (Intercept) -0.92662    0.33558  -2.761     0.01 *
-## sang_prop    0.07754    0.61392   0.126     0.90  
+## Random effects:
+##  Groups             Name        Variance  Std.Dev. 
+##  colony:census_date (Intercept) 3.672e-02 1.916e-01
+##  colony             (Intercept) 1.422e-12 1.193e-06
+##  Residual                       1.146e-02 1.070e-01
+## Number of obs: 30, groups:  colony:census_date, 29; colony, 15
+## 
+## Fixed effects:
+##             Estimate Std. Error       df t value Pr(>|t|)   
+## (Intercept) -0.26925    0.07398 26.80062  -3.640  0.00115 **
+## sang_prop   -0.02396    0.13451 26.94954  -0.178  0.85995   
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 1.002 on 28 degrees of freedom
-##   (2 observations deleted due to missingness)
-## Multiple R-squared:  0.0005694,	Adjusted R-squared:  -0.03512 
-## F-statistic: 0.01595 on 1 and 28 DF,  p-value: 0.9004
+## Correlation of Fixed Effects:
+##           (Intr)
+## sang_prop -0.835
+## optimizer (nloptwrap) convergence code: 0 (OK)
+## boundary (singular) fit: see help('isSingular')
 ```
 
 ```
@@ -448,16 +471,16 @@ Since the linear model does not meet one of diagnostics criterion we will apply 
 ## 	Shapiro-Wilk normality test
 ## 
 ## data:  residuals(lm_model)
-## W = 0.99264, p-value = 0.9987
+## W = 0.98418, p-value = 0.9225
 ```
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-23-1} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-23-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-23-2} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-23-3} \end{center}
 
 <!--chapter:end:Species_identity.Rmd-->
 
-# Finding peaks differentiating callow and mature *F. sanguinea* workers
+# Peaks differentiating callow and mature *F. sanguinea* workers
 
 The procedure identifying species markers was also applied to determine peaks characteristic of *F. sanguinea* callow ants. In discriminant analysis, samples were classified into one of the three groups: callow *F. sanguinea*,  adult *F. sanguinea*, or adult *F. fusca*.
 
@@ -572,7 +595,7 @@ Peak ID & Compound & Callow score & Callow marker & Mature score & Mature marker
 \end{longtable}
 
 
-## Verifying the performace of the discrimination model
+## Verifying the performance of the discrimination model
 
 The performance of the discriminant model was evaluated by examining the accuracy of its predictions in a cross-validation test, measured as the area under the receiver operating characteristic curve (AUROC). This procedure was repeated $10^3$ times to account for variance resulting from the random splitting of samples into training and validation sets. In a parallel analysis, the model was trained on data with permuted age status of *F. sanguinea* to assess whether the true assignment of samples influenced model performance. Results from both training approaches were paired, and the difference in AUROC was calculated each for pair. The empirical p-value was defined as the proportion of models in which the AUROC after permutation was equal to or greater than the AUROC based on the original data.
 
@@ -654,7 +677,7 @@ $$
 
 \begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-36-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-36-2} \end{center}
 
-## Change in the total CHC mass
+## Change in total CHC mass
 
 In this series of models the total CHC mass (normalized by assuming head width of 1.3 mm) was regressed on the proportion of *Formica sanguinea* workers in the colony. 
 
@@ -808,7 +831,22 @@ where $\text{CHC_mass_callow}$ denotes the total normalized CHC mass on the body
 \begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-39-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-39-2} \end{center}
 Similarly to mature *F. sanguinea* ants, in callow workers there is negative but not significant relationship between body size and normalized CHC amount.
 
-## Change of the CHC characteristic of *F. sanguinea*
+### Predictions from the linear model
+
+The linear models explaining the change in CHC amounts in relation to the proportion of *F. sanguinea* workers in a colony were used to predict the normalized CHC amounts of workers of both species in pure (monospecific) colonies. The predictions were obtained by sampling the distribution of the response variable with random effects integrated out. The prediction distributions for both species were matched element-wise, and for each pair of values the CHC mass of *F. sanguinea* was divided by the CHC mass of *F. fusca* to generate the distribution of ratios of the predicted normalized mass. 
+
+\begin{figure}
+
+{\centering \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-40-1} 
+
+}
+
+\caption{Ditribution of the ratios (\textit{F. sanguinea}/\textit{F. fusca}) of the predicted CHC mass of workers from pure colonies. The shaded area corresponds to the 95\% highest density interval.}(\#fig:unnamed-chunk-40)
+\end{figure}
+
+
+
+## Change in CHC characteristic of *F. sanguinea*
 
 In this section the subset of peaks were used to calculate normalized CHC mass. These were peaks identified as *F. sanguinea* markers.
 
@@ -862,7 +900,7 @@ where $\text{CHC_mass_mature}$ denotes the normalized mass of *F. sanguinea* mar
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-40-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-40-2} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-41-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-41-2} \end{center}
 
 ### *F. fusca* ants
 
@@ -911,7 +949,7 @@ where $\text{CHC_mass_fusca}$ denotes the normalized mass of *F. sanguinea* mark
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-41-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-41-2} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-42-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-42-2} \end{center}
 
 ### Callow *F. sanguinea* ants
 
@@ -952,9 +990,9 @@ where $\text{CHC_mass_mature}$ denotes the normalized mass of *F. sanguinea* mar
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-42-1} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-43-1} \end{center}
 
-## Change of the CHC characteristic of *F. fusca*
+## Change in CHC characteristic of *F. fusca*
 
 Similarly to the analysis with the use of markers of *F. sanguinea* workers, the procedure was repeated using the mass of *F. fusca* markers as a response variable. 
 
@@ -1007,7 +1045,7 @@ where $\text{CHC_mass_mature}$ denotes the normalized mass of *F. fusca* markers
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-43-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-43-2} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-44-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-44-2} \end{center}
 
 ### *F. fusca* ants
 
@@ -1059,7 +1097,7 @@ where $\text{CHC_mass_mature}$ denotes the normalized mass of *F. fusca* markers
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-44-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-44-2} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-45-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-45-2} \end{center}
 
 ### Callow *F. sanguinea* ants
 
@@ -1108,68 +1146,68 @@ where $\log(\text{CHC_mass_mature})$ denotes the normalized mass of *F. fusca* m
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-45-1} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-46-1} \end{center}
 
 <!--chapter:end:CHCs_over_time.Rmd-->
 
-# Comparison of the amount and proportions of CHC between species and age categories
+# Comparisons of CHC amounts and proportions between species and age categories
 
 This section presents the results of Wilcoxon tests comparing features of CHC profiles between callow and mature *F. sanguinea* ants as well as *F. fusca* slaves. Samples from the same colony were averaged before calculation of the final statistics to account for their non-independence.  
 
 
 
-## Difference in the total CHC amount between *F. sanguinea* and *F. fusca*
-
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-47-1} \end{center}
-
-## Difference in the total CHC amount between callow and mature *F. sanguinea*
+## Difference in total CHC amount between *F. sanguinea* and *F. fusca*
 
 \begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-48-1} \end{center}
 
-## Difference in the proportion of CHC characteristic of *F. sanguinea* between mature *F. sanguinea* and *F. fusca*
+## Difference in total CHC amount between callow and mature *F. sanguinea*
 
 \begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-49-1} \end{center}
 
-## Difference in the proportion of CHC characteristic of *F. sanguinea* between mature and callow *F. sanguinea* 
+## Difference in the proportion of CHC characteristic of *F. sanguinea* between mature *F. sanguinea* and *F. fusca*
 
 \begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-50-1} \end{center}
 
-## Difference in the proportion of CHC characteristic of callow *F. sanguinea* between mature and callow *F. sanguinea* 
+## Difference in the proportion of CHC characteristic of *F. sanguinea* between mature and callow *F. sanguinea* 
 
 \begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-51-1} \end{center}
+
+## Difference in the proportion of CHC characteristic of callow *F. sanguinea* between mature and callow *F. sanguinea* 
+
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-52-1} \end{center}
 
 
 ## Difference in the amount of CHC characteristic of callow *F. sanguinea* between mature and callow *F. sanguinea* 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-52-1} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-53-1} \end{center}
 
 ## Difference in the proportion of CHC characteristic of *F. fusca* between mature *F. sanguinea* and *F. fusca*
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-53-1} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-54-1} \end{center}
 
 ## Difference in the proportion of CHC characteristic of *F. fusca* between mature and callow *F. sanguinea* 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-54-1} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-55-1} \end{center}
 
 
 ## Difference in the proportion of CHC characteristic of *F. fusca* between callow *F. sanguinea* and *F. fusca*
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-55-1} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-56-1} \end{center}
 
 ## Difference in the mass of *n*-alkanes between callow and mature *F. sanguinea*
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-56-1} \end{center}
-
-## Difference in the proprtion of *n*-alkanes between callow and mature *F. sanguinea*
-
 \begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-57-1} \end{center}
+
+## Difference in the proportion of *n*-alkanes between callow and mature *F. sanguinea*
+
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-58-1} \end{center}
 
 <!--chapter:end:Non-parametric_tests.Rmd-->
 
 # Change in the CHC profile of separated callow *F. sanguinea* ants
 
 
-## Change in the total CHC amount over time
+## Change in total CHC amount over time
 
 ```
 ## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
@@ -1210,7 +1248,7 @@ This section presents the results of Wilcoxon tests comparing features of CHC pr
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-59-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-59-2} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-60-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-60-2} \end{center}
 
 ## Change in the amount of compounds characteristic of callow *F. sanguinea*
 
@@ -1251,7 +1289,7 @@ This section presents the results of Wilcoxon tests comparing features of CHC pr
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-60-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-60-2} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-61-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-61-2} \end{center}
 
 ## Change in the amount of compounds characteristic of *F. sanguinea*
 
@@ -1294,7 +1332,7 @@ This section presents the results of Wilcoxon tests comparing features of CHC pr
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-61-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-61-2} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-62-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-62-2} \end{center}
 
 ## Change in the amount of compounds characteristic of *F. fusca*
 
@@ -1337,7 +1375,7 @@ This section presents the results of Wilcoxon tests comparing features of CHC pr
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-62-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-62-2} \end{center}
+\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-63-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-63-2} \end{center}
 
 <!--chapter:end:Separation_experiment.Rmd-->
 
@@ -1350,11 +1388,11 @@ We analyzed the impact of *F. fusca* slaves on the CHC profile of callow *F. san
 
 \begin{figure}
 
-{\centering \includegraphics[width=0.8\linewidth]{Supplementary_materials_files/figure-latex/unnamed-chunk-64-1} 
+{\centering \includegraphics[width=0.8\linewidth]{Supplementary_materials_files/figure-latex/unnamed-chunk-65-1} 
 
 }
 
-\caption{Distribution of lifespans of ants used in the experiment. The precise age of individuals could not be determined because ants in pairs were not marked. Therefore, all possible combinations were considered to illustrate the potential range.}(\#fig:unnamed-chunk-64)
+\caption{Distribution of lifespans of ants used in the experiment. The precise age of individuals could not be determined because ants within pairs were not marked. Therefore, all possible combinations were considered to illustrate the potential range.}(\#fig:unnamed-chunk-65)
 \end{figure}
 
 
@@ -1399,11 +1437,11 @@ We analyzed the impact of *F. fusca* slaves on the CHC profile of callow *F. san
 
 \begin{table}
 \centering
-\caption{(\#tab:unnamed-chunk-73)Chemical distance of the isolated \textit{F. sanguinea} ant to \textit{F. fusca} ants realted and unrelated to slaves.}
+\caption{(\#tab:unnamed-chunk-74)Chemical distance of the isolated \textit{F. sanguinea} ant to \textit{F. fusca} ants realted and unrelated to slaves.}
 \centering
 \begin{tabular}[t]{l>{\raggedleft\arraybackslash}p{4cm}>{\raggedleft\arraybackslash}p{4cm}}
 \toprule
-Adult age & Chemical distance to slaves' relatives & Chemical distance to random colonies\\
+Adult age & Chemical distance to slaves' relatives & Mean chemical distance to random colonies\\
 \midrule
 1-3 days & 0.3332 & 0.4718\\
 8-10 days & 0.3518 & 0.4802\\
@@ -1414,7 +1452,7 @@ Adult age & Chemical distance to slaves' relatives & Chemical distance to random
 \end{table}
 
 
-## Analysis restricted to the individuals hatched from cocoons
+## Analysis restricted to individuals hatched from cocoons
 
 Since naked pupae might have acquired CHC through physical contact with adult ants after pupation, we subset our data to include only those samples which derived from the ants hatched from cocoons. In this case silky envelop during pupa stage ruled out possibility of the CHC transfer from the environment. 
 
@@ -1462,11 +1500,11 @@ Since naked pupae might have acquired CHC through physical contact with adult an
 
 \begin{table}
 \centering
-\caption{(\#tab:unnamed-chunk-84)Chemical distance of the isolated \textit{F. sanguinea} ant to \textit{F. fusca} ants realted and unrelated to slaves. Isolated ant spun a silky envelope before pupal stage, which prevented CHC transfer from the enviroment.}
+\caption{(\#tab:unnamed-chunk-85)Chemical distance of the isolated \textit{F. sanguinea} ant to \textit{F. fusca} ants realted and unrelated to slaves. Isolated ant spun a silky envelope before pupal stage, which prevented CHC transfer from the enviroment.}
 \centering
 \begin{tabular}[t]{l>{\raggedleft\arraybackslash}p{4cm}>{\raggedleft\arraybackslash}p{4cm}}
 \toprule
-Adult age & Chemical distance to slaves' relatives & Chemical distance to random colonies\\
+Adult age & Chemical distance to slaves' relatives & Mean chemical distance to random colonies\\
 \midrule
 1-3 days & 0.3473 & 0.4869\\
 8-10 days & 0.3740 & 0.4932\\
@@ -1485,7 +1523,7 @@ In these experiments, *F. sanguinea* ants released from their cocoon envelopes w
 
 
 
-## Distance to the CHC profile of the dummy ants treated by *F. fusca* CHC
+## Distance to the CHC profile of the dummy ants treated with *F. fusca* CHC
 
 We computed the chemical distance to the CHC profile of ants whose CHC were used to cover glass beads serving as dummy ants. In the control variant, we used the ants subjected to clean glass beads. 
 
@@ -1502,7 +1540,7 @@ We computed the chemical distance to the CHC profile of ants whose CHC were used
 
 \begin{table}
 \centering
-\caption{(\#tab:unnamed-chunk-88)Chemical distance of separated \textit{F. sanguinea} ants to the CHC profile of \textit{F. fusca} ants from colonies that served as a source of CHC to caot the glass beads. In control variant, glass bead were left clean.}
+\caption{(\#tab:unnamed-chunk-89)Chemical distance of separated \textit{F. sanguinea} ants to the CHC profile of \textit{F. fusca} ants from colonies that served as a source of CHC to caot the glass beads. In control variant, glass bead were left clean.}
 \centering
 \begin{tabular}[t]{ll>{\raggedleft\arraybackslash}p{2cm}l>{\raggedleft\arraybackslash}p{2cm}}
 \toprule
@@ -1521,7 +1559,7 @@ SD20-2 & 12-15 days + F. fusca hydrocarbons & 0.699 & 12-15 days (control) & 0.7
 \bottomrule
 \end{tabular}
 \end{table}
-## Distance to the CHC profile of the dummy ants treated by *F. sanguinea* CHC
+## Distance to the CHC profile of the dummy ants treated with *F. sanguinea* CHC
 
 ```
 ## 
@@ -1534,7 +1572,7 @@ SD20-2 & 12-15 days + F. fusca hydrocarbons & 0.699 & 12-15 days (control) & 0.7
 
 \begin{table}
 \centering
-\caption{(\#tab:unnamed-chunk-89)Chemical distance of separated \textit{F. sanguinea} ants to the CHC profile of \textit{F. sanguinea} ants from colonies that served as a source of CHC to caot the glass beads. In control variant, glass bead were left clean.}
+\caption{(\#tab:unnamed-chunk-90)Chemical distance of separated \textit{F. sanguinea} ants to the CHC profile of \textit{F. sanguinea} ants from colonies that served as a source of CHC to caot the glass beads. In control variant, glass bead were left clean.}
 \centering
 \begin{tabular}[t]{ll>{\raggedleft\arraybackslash}p{2cm}l>{\raggedleft\arraybackslash}p{2cm}}
 \toprule
@@ -1575,7 +1613,7 @@ For the control treatment, glass beads were left uncoated with CHC. In the exper
 
 \begin{table}
 \centering
-\caption{(\#tab:unnamed-chunk-90)Proportion of \textit{n}-docosane in CHC extracted from \textit{F. sanguinea} ants maintained with the glass beads coated with the CHC of \textit{F. fusca} ants and contaminated with \textit{n}-docosane. In control variant, glass bead were left clean.}
+\caption{(\#tab:unnamed-chunk-91)Proportion of \textit{n}-docosane in CHC extracted from \textit{F. sanguinea} ants maintained with the glass beads coated with the CHC of \textit{F. fusca} ants and contaminated with \textit{n}-docosane. In control variant, glass bead were left clean.}
 \centering
 \begin{tabular}[t]{ll>{\raggedleft\arraybackslash}p{2cm}l>{\raggedleft\arraybackslash}p{2cm}}
 \toprule
@@ -1610,7 +1648,7 @@ W17-1 & 12-15 days + F. fusca hydrocarbons & 0.021 & 12-15 days (control) & 0.00
 
 
 \begin{longtable}[t]{ll>{\raggedleft\arraybackslash}p{2cm}l>{\raggedleft\arraybackslash}p{2cm}}
-\caption{(\#tab:unnamed-chunk-91)Proportion of \textit{n}-docosane in CHC extracted from \textit{F. sanguinea} ants maintained with the glass beads coated with the CHC of \textit{F. sanguinea} ants and contaminated with \textit{n}-docosane. In control variant, glass bead were left clean.}\\
+\caption{(\#tab:unnamed-chunk-92)Proportion of \textit{n}-docosane in CHC extracted from \textit{F. sanguinea} ants maintained with the glass beads coated with the CHC of \textit{F. sanguinea} ants and contaminated with \textit{n}-docosane. In control variant, glass bead were left clean.}\\
 \toprule
 Colony ID & Treamtent & Averaged C22 fraction & Contrast & Averaged C22 fraction\\
 \midrule
@@ -1643,18 +1681,18 @@ where\newline
 $\hat{A}$ denotes the estimated body area,\newline
 $I$ denotes the set of body parts for which the planar projection area was measured\newline
 $w$ denotes head width\newline
-$\beta_{j,i}$ are coefficients from the polynomial regression\newline
+$\beta_{j,i}$ are coefficients from the polynomial regression.\newline
 
 These calculations do not reflect the absolute value of body surface area but were converted into scaling factors by using them a divisors of a standard area. In this way, the unit of measurement is canceled out, and absolute values are converted into dimensionless ratios. The standard area was calculated by substituting the $w$ = 1.15 mm into the formula above and using coefficients obtained from measurements of *F. sanguinea*. 
 
 
 \begin{figure}
 
-{\centering \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-93-1} 
+{\centering \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-94-1} 
 
 }
 
-\caption{Relation between head width and area of the planar projections of ant body parts.}(\#fig:unnamed-chunk-93)
+\caption{Relation between head width and area of the planar projections of ant body parts.}(\#fig:unnamed-chunk-94)
 \end{figure}
 
 <!--chapter:end:Body_surface.Rmd-->

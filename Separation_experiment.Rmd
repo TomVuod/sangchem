@@ -12,7 +12,7 @@ data("separation_experiment_data")
 data("mass_spectra_data")
 ```
 
-## Change in the total CHC amount over time
+## Change in total CHC amount over time
 ```{r}
 separation_data <- filter(separation_experiment_data, treatment_id<5)
 separation_data$normalized_mass <- separation_data$mass*CHC_normalizer("F. sanguinea", separation_data$head_width)

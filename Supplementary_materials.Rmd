@@ -249,20 +249,20 @@ dev_samples <- left_join(dev_samples, species_indices)
 
 The Species Identity Score was computed for *F. sanguinea* and *F. fusca* samples from mixed colonies and used as a response variable in linear mixed models. As a fixed effect we used the proportion of *F. sanguinea* workers among all workers in a colony. Colony ID and sampling occasion were incorporated as random effects. 
 
-In the following model specifications $(1|\text{random_factor})$ denotes random intercept (separate for each level of the random factor) and $((1|\text{random_factor_1:random_factor_2}))$ denotes random intercepts generated from the combinations of two factors. $\beta_{0}$ and $\epsilon$ denote intercept and error term, respectively. Included are summary reports, results of the Shapiro-Wilk test of nornalizty of conditional residuals, as well as diagnostic plots and tests generated with the use of `DHARMa` R package[@R-DHARMa]. The response variable often needed to be transformed to meet model assumptions. Random terms with no variance have been dropped. 
+In the following model specifications $1|\text{random_factor}$ denotes random intercept (separate for each level of the random factor) and $1|\text{random_factor_1:random_factor_2}$ denotes random intercepts generated from the combinations of two factors. $\beta_{0}$ and $\epsilon$ denote intercept and error term, respectively. Included are summary reports, results of the Shapiro-Wilk test of nornalizty of conditional residuals, as well as diagnostic plots and tests generated with the use of `DHARMa` R package[@R-DHARMa]. The response variable often needed to be transformed to meet model assumptions. Random terms with no variance have been dropped. 
 
 
 
 #### Mature *F. sanguinea*
 $$
-\sqrt{\text{Species_Identity_Score+1}} = \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+\text{Species_Identity_Score} = \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
 $$
 where $\text{Species_Identity_Score}$ denotes the Species Identity Score of the mature *F. sanguinea* workers.
 ```{r}
 library(lmerTest)
 library(DHARMa)
 model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==0,]
-lm_model <- lmer(I(sqrt(predicted_species+1))~sang_prop+(1|colony:census_date), data=model_input)
+lm_model <- lmer(predicted_species~sang_prop+(1|colony)+(1|colony:census_date), data=model_input)
 print(summary(lm_model))
 
 # model diagnostics
@@ -274,12 +274,12 @@ plot(simulationOutput)
 
 #### *F. fusca*
 $$
-\text{Species_Identity_Score}= \beta_0 + \text{sanguinea_proportion} + (1|\text{colony})+(1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+\sqrt{\text{Species_Identity_Score+10}}= \beta_0 + \text{sanguinea_proportion} + (1|\text{colony})+(1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
 $$
 where $\text{Species_Identity_Score}$ denotes the Species Identity Score of the mature *F. fusca* workers.
 ```{r}
 model_input <- dev_samples[dev_samples$species=="F. fusca",]
-lm_model <- lmer(predicted_species~sang_prop+(1|colony)+(1|colony:census_date), data=model_input)
+lm_model <- lmer(I(sqrt(predicted_species+10))~sang_prop+(1|colony)+(1|colony:census_date), data=model_input)
 print(summary(lm_model))
 
 # model diagnostics
@@ -323,7 +323,9 @@ stat_tests <- wilcox_test(df, species_identity_index~species, paired=TRUE) %>%
   add_xy_position(x="species", dodge=0.8, fun="max")
 ggboxplot(df, x="species", y="species_identity_index")+
   scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
-  stat_pvalue_manual(stat_tests, label="p", tip.length = 0, size=3.5)
+  stat_pvalue_manual(stat_tests, label="p", tip.length = 0, size=3.5)+
+  ylab("Species Identity Score")+
+  xlab("Species")
 
 # model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==0,]
 # model_input$index_diff <- model_input$predicted_species - find_nestmates_SII(model_input$chromatogram_ID, dev_samples)
@@ -348,12 +350,14 @@ Since the linear model does not meet one of diagnostics criterion we will apply 
 model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==1,]
 model_input$index_diff <- model_input$predicted_species - find_nestmates_SII(model_input$chromatogram_ID, dev_samples, heterospecific = TRUE)
 # no random effect since it captures no variance
-lm_model <- lm(index_diff~sang_prop, data=model_input)
+lm_model <- lmer(index_diff~sang_prop+(1|colony)+(1|colony:census_date), data=model_input)
 print(summary(lm_model))
 
 # model diagnostics
 hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
 print(shapiro.test(residuals(lm_model)))
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n=1e4)
+plot(simulationOutput)
 
 # model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==1,]
 # model_input$slave_species_index <- find_nestmates_SII(model_input$chromatogram_ID, dev_samples)
@@ -373,12 +377,14 @@ print(shapiro.test(residuals(lm_model)))
 model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==1,]
 model_input$index_diff <- model_input$predicted_species - find_nestmates_SII(model_input$chromatogram_ID, dev_samples, heterospecific = FALSE)
 # no random effect since it captures no variance
-lm_model <- lm(index_diff~sang_prop, data=model_input)
+lm_model <- lmer(index_diff~sang_prop+(1|colony)+(1|colony:census_date), data=model_input)
 print(summary(lm_model))
 
 # model diagnostics
 hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
 print(shapiro.test(residuals(lm_model)))
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n=1e4)
+plot(simulationOutput)
 
 # model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==1,]
 # model_input$mature_ant_index <- find_nestmates_SII(model_input$chromatogram_ID, dev_samples, heterospecific = FALSE)
@@ -395,7 +401,7 @@ print(shapiro.test(residuals(lm_model)))
 
 <!--chapter:end:Species_identity.Rmd-->
 
-# Finding peaks differentiating callow and mature *F. sanguinea* workers
+# Peaks differentiating callow and mature *F. sanguinea* workers
 
 The procedure identifying species markers was also applied to determine peaks characteristic of *F. sanguinea* callow ants. In discriminant analysis, samples were classified into one of the three groups: callow *F. sanguinea*,  adult *F. sanguinea*, or adult *F. fusca*.
 
@@ -544,7 +550,7 @@ globals[["peaks_callow"]] <- as.numeric(peaks_callow)
 saveRDS(globals, system.file("globals.rds", package="sangchem"))
 ```
 
-## Verifying the performace of the discrimination model
+## Verifying the performance of the discrimination model
 
 The performance of the discriminant model was evaluated by examining the accuracy of its predictions in a cross-validation test, measured as the area under the receiver operating characteristic curve (AUROC). This procedure was repeated $10^3$ times to account for variance resulting from the random splitting of samples into training and validation sets. In a parallel analysis, the model was trained on data with permuted age status of *F. sanguinea* to assess whether the true assignment of samples influenced model performance. Results from both training approaches were paired, and the difference in AUROC was calculated each for pair. The empirical p-value was defined as the proportion of models in which the AUROC after permutation was equal to or greater than the AUROC based on the original data.
 
@@ -718,7 +724,7 @@ simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n = 
 plot(simulationOutput)
 ```
 
-## Change in the total CHC mass
+## Change in total CHC mass
 
 In this series of models the total CHC mass (normalized by assuming head width of 1.3 mm) was regressed on the proportion of *Formica sanguinea* workers in the colony. 
 
@@ -785,7 +791,36 @@ plot(simulationOutput)
 ```
 Similarly to mature *F. sanguinea* ants, in callow workers there is negative but not significant relationship between body size and normalized CHC amount.
 
-## Change of the CHC characteristic of *F. sanguinea*
+### Predictions from the linear model
+
+The linear models explaining the change in CHC amounts in relation to the proportion of *F. sanguinea* workers in a colony were used to predict the normalized CHC amounts of workers of both species in pure (monospecific) colonies. The predictions were obtained by sampling the distribution of the response variable with random effects integrated out. The prediction distributions for both species were matched element-wise, and for each pair of values the CHC mass of *F. sanguinea* was divided by the CHC mass of *F. fusca* to generate the distribution of ratios of the predicted normalized mass. 
+
+```{r fig.cap="Ditribution of the ratios (\\textit{F. sanguinea}/\\textit{F. fusca}) of the predicted CHC mass of workers from pure colonies. The shaded area corresponds to the 95% highest density interval."}
+data("CHC_mass_prediction")
+mass_ratios = CHC_mass_prediction$pred_values_sang/CHC_mass_prediction$pred_values_fusca
+library(HDInterval)
+hdi_interval <- hdi(mass_ratios)
+ratio_density <- density(mass_ratios, n=10^3)
+plot_data <- data.frame(x = ratio_density$x, 
+                        y = ratio_density$y,
+                        hdi_mask =ratio_density$x>hdi_interval[1] & ratio_density$x<hdi_interval[2])
+
+ggplot(plot_data, aes(x=x, y=y))+
+  geom_line()+
+  scale_x_continuous(limits = c(1, max(plot_data$x)))+
+  geom_area(aes(x = x, y = y),
+            data = subset(plot_data, hdi_mask), fill = "#aaee99")+
+  ylab("Density")+
+  xlab("Ratio normalized CHC amount")+
+  theme(panel.border = element_rect(color = "black", fill=NA),
+        panel.background = element_rect(color="black", fill = "white"))
+
+
+```
+
+
+
+## Change in CHC characteristic of *F. sanguinea*
 
 In this section the subset of peaks were used to calculate normalized CHC mass. These were peaks identified as *F. sanguinea* markers.
 
@@ -849,7 +884,7 @@ hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
 print(shapiro.test(residuals(lm_model)))
 ```
 
-## Change of the CHC characteristic of *F. fusca*
+## Change in CHC characteristic of *F. fusca*
 
 Similarly to the analysis with the use of markers of *F. sanguinea* workers, the procedure was repeated using the mass of *F. fusca* markers as a response variable. 
 
@@ -918,7 +953,7 @@ print(shapiro.test(residuals(lm_model)))
 
 <!--chapter:end:CHCs_over_time.Rmd-->
 
-# Comparison of the amount and proportions of CHC between species and age categories
+# Comparisons of CHC amounts and proportions between species and age categories
 
 This section presents the results of Wilcoxon tests comparing features of CHC profiles between callow and mature *F. sanguinea* ants as well as *F. fusca* slaves. Samples from the same colony were averaged before calculation of the final statistics to account for their non-independence.  
 
@@ -939,7 +974,7 @@ development_samples <- filter(development_data, caste=="worker", !remarks %in% c
 load_globals()
 ```
 
-## Difference in the total CHC amount between *F. sanguinea* and *F. fusca*
+## Difference in total CHC amount between *F. sanguinea* and *F. fusca*
 ```{r}
 test_data <- filter(development_samples, callow == 0) 
 test_data_sang <- filter(test_data,  species=="F. sanguinea") %>% colony_weighted_mean()
@@ -961,7 +996,7 @@ ggboxplot(test_df, x="species", y="normalized_mass")+
   ylab("Nomalized mass")
 ```
 
-## Difference in the total CHC amount between callow and mature *F. sanguinea*
+## Difference in total CHC amount between callow and mature *F. sanguinea*
 ```{r}
 test_data <- filter(development_samples, species == "F. sanguinea") 
 test_data_mature <- filter(test_data, callow == 0) %>% colony_weighted_mean()
@@ -1185,7 +1220,7 @@ ggboxplot(test_df, x="callow", y="n_alkanes_mass")+
   xlab("Age")
 ```
 
-## Difference in the proprtion of *n*-alkanes between callow and mature *F. sanguinea*
+## Difference in the proportion of *n*-alkanes between callow and mature *F. sanguinea*
 ```{r}
 test_data <- filter(development_samples, species == "F. sanguinea")
 test_data$n_alkanes_prop <- subsample_proportion(n_alkanes_ID, test_data$chromatogram_ID)
@@ -1203,7 +1238,7 @@ test_stats <- wilcox_test(test_df, n_alkanes_prop~callow, paired=TRUE) %>%
   add_significance("p") %>%
   add_xy_position(x="callow", dodge=0.8, fun="max")
 ggboxplot(test_df, x="callow", y="n_alkanes_prop")+
-  ylab("Proportion of n-alkanes in the total CHC amount")+
+  ylab("Proportion of n-alkanes in total CHC amount")+
   scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
   stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
   scale_x_discrete(labels = c('Mature','Callow'))+
@@ -1226,7 +1261,7 @@ data("separation_experiment_data")
 data("mass_spectra_data")
 ```
 
-## Change in the total CHC amount over time
+## Change in total CHC amount over time
 ```{r}
 separation_data <- filter(separation_experiment_data, treatment_id<5)
 separation_data$normalized_mass <- separation_data$mass*CHC_normalizer("F. sanguinea", separation_data$head_width)
@@ -1300,7 +1335,7 @@ plot_data <- separation_data[separation_data$treatment_id %in% 1:4,]
 plot_data$treatment <- factor(plot_data$treatment, levels = c("1-3 days", "8-10 days", "17-20 days", "35-40 days"))
 ```
 
-```{r fig.cap="Distribution of lifespans of ants used in the experiment. The precise age of individuals could not be determined because ants in pairs were not marked. Therefore, all possible combinations were considered to illustrate the potential range.", out.width="80%"}
+```{r fig.cap="Distribution of lifespans of ants used in the experiment. The precise age of individuals could not be determined because ants within pairs were not marked. Therefore, all possible combinations were considered to illustrate the potential range.", out.width="80%"}
 boxplot(plot_data$mean_delta~plot_data$treatment, main = "Adult lifespan", xlab = "Treatment", ylab = "Separation period after eclosion\n(avegared for a pair of individuals)")
 ```
 
@@ -1353,7 +1388,7 @@ summary_df <- data.frame(treatment_id=c("1-3 days", "8-10 days", "17-20 days", "
                                                              FUN.VALUE=numeric(1)))
 
 summary_df[,2:3] <- round(summary_df[,2:3],4)
-kableExtra::kbl(summary_df, col.names=c("Adult age", "Chemical distance to slaves' relatives", "Chemical distance to random colonies"),
+kableExtra::kbl(summary_df, col.names=c("Adult age", "Chemical distance to slaves' relatives", "Mean chemical distance to random colonies"),
                 caption="Chemical distance of the isolated \\textit{F. sanguinea} ant to \\textit{F. fusca} ants realted and unrelated to slaves.",
                 booktabs = TRUE) %>% column_spec(c(2:3), width="4cm") %>% kable_styling()
 ```
@@ -1367,7 +1402,7 @@ distances_to_free_living_fusca$all <- list(treatment_1 = res_1,
 
 ```
 
-## Analysis restricted to the individuals hatched from cocoons
+## Analysis restricted to individuals hatched from cocoons
 
 Since naked pupae might have acquired CHC through physical contact with adult ants after pupation, we subset our data to include only those samples which derived from the ants hatched from cocoons. In this case silky envelop during pupa stage ruled out possibility of the CHC transfer from the environment. 
 
@@ -1423,7 +1458,7 @@ summary_df <- data.frame(treatment_id=c("1-3 days", "8-10 days", "17-20 days", "
                                                                   res_3[[3]], res_4[[3]]), mean,
                                                              FUN.VALUE=numeric(1)))
 summary_df[,2:3] <- round(summary_df[,2:3],4)
-kableExtra::kbl(summary_df, col.names=c("Adult age", "Chemical distance to slaves' relatives", "Chemical distance to random colonies"),
+kableExtra::kbl(summary_df, col.names=c("Adult age", "Chemical distance to slaves' relatives", "Mean chemical distance to random colonies"),
                 caption="Chemical distance of the isolated \\textit{F. sanguinea} ant to \\textit{F. fusca} ants realted and unrelated to slaves. Isolated ant spun a silky envelope before pupal stage, which prevented CHC transfer from the enviroment.", booktabs = TRUE) %>% column_spec(c(2:3), width="4cm")%>% kable_styling()
 ```
 ```{r eval=FALSE}
@@ -1455,7 +1490,7 @@ data("mass_spectra_data")
 data("subject_to_donor_mapping")
 ```
 
-## Distance to the CHC profile of the dummy ants treated by *F. fusca* CHC
+## Distance to the CHC profile of the dummy ants treated with *F. fusca* CHC
 
 We computed the chemical distance to the CHC profile of ants whose CHC were used to cover glass beads serving as dummy ants. In the control variant, we used the ants subjected to clean glass beads. 
 
@@ -1468,7 +1503,7 @@ args$booktabs=TRUE
 ```{r}
 do.call(kableExtra::kbl, args) %>% column_spec(c(3,5), width="2cm") %>% kable_styling()
 ```
-## Distance to the CHC profile of the dummy ants treated by *F. sanguinea* CHC
+## Distance to the CHC profile of the dummy ants treated with *F. sanguinea* CHC
 ```{r}
 args <- test_dummy_ant_effect(treatment_id=7, separation_experiment_data, mass_spectra_data, subject_to_donor_mapping,caption="Chemical distance of separated \\textit{F. sanguinea} ants to the CHC profile of \\textit{F. sanguinea} ants from colonies that served as a source of CHC to caot the glass beads. In control variant, glass bead were left clean.")
 args$booktabs=TRUE
@@ -1511,7 +1546,7 @@ where\newline
 $\hat{A}$ denotes the estimated body area,\newline
 $I$ denotes the set of body parts for which the planar projection area was measured\newline
 $w$ denotes head width\newline
-$\beta_{j,i}$ are coefficients from the polynomial regression\newline
+$\beta_{j,i}$ are coefficients from the polynomial regression.\newline
 
 These calculations do not reflect the absolute value of body surface area but were converted into scaling factors by using them a divisors of a standard area. In this way, the unit of measurement is canceled out, and absolute values are converted into dimensionless ratios. The standard area was calculated by substituting the $w$ = 1.15 mm into the formula above and using coefficients obtained from measurements of *F. sanguinea*. 
 
@@ -1528,7 +1563,7 @@ body_surface_area$head_width <- body_surface_area$head_width*1e-3
 
 ```
 ```{r fig.cap="Relation between head width and area of the planar projections of ant body parts.",fig.height=3}
-ggplot(body_surface_area, aes(y=area, x=head_width,color=species, shape = view))+
+ggplot(body_surface_area, aes(y=area, x=head_width,color=species))+
   geom_point()+
   stat_smooth(method='lm', formula=y~poly(x,2,raw = TRUE), se=FALSE) +
   facet_wrap(~view)+
