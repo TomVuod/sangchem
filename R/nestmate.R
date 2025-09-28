@@ -11,7 +11,7 @@ find_sample_nestmate <- function(chr_ID, heterospecific=TRUE){
   focal_ant <- dplyr::filter(development_data, chromatogram_ID==chr_ID)
   partners <- dplyr::filter(development_data, colony==focal_ant$colony,
                             census_date==focal_ant$census_date, callow==0,
-                            caste=="worker")
+                            caste=="worker", chromatogram_ID!=chr_ID)
   if(heterospecific)
     partners <- dplyr::filter(partners, species!=focal_ant$species)
   else
