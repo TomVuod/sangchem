@@ -35,6 +35,7 @@ pair_distance <- function(chr_ID_1, chr_ID_2, MS_data, distances_registry=NULL,
 distances_to_source_colonies <- function(GCMS_samples, MS_data, colony_to_chrID,
                                       slave_source_colony, randomize=FALSE,
                                       distances_registry=NULL){
+  GCMS_samples <- GCMS_samples[!is.na(colony_to_chrID[slave_source_colony[GCMS_samples$colony]]),]
   GCMS_samples$chr_ID_1 <- GCMS_samples$chromatogram_ID
   if(randomize){
     GCMS_samples$colony <- factor(GCMS_samples$colony)
@@ -42,7 +43,6 @@ distances_to_source_colonies <- function(GCMS_samples, MS_data, colony_to_chrID,
     GCMS_samples$colony <- as.character(GCMS_samples$colony)
   }
   GCMS_samples$chr_ID_2 <- colony_to_chrID[slave_source_colony[GCMS_samples$colony]]
-  GCMS_samples <- GCMS_samples[!is.na(GCMS_samples$chr_ID_2),]
   GCMS_samples$dissimilarity <- purrr::pmap_dbl(GCMS_samples, pair_distance, MS_data=MS_data,
                                                 distances_registry=distances_registry)
   mean(colony_mean_distance(GCMS_samples)$dissimilarity)
