@@ -63,8 +63,9 @@ peak_prop <- peak_proportions_table(mass_spectra_data[mass_spectra_data$chromato
 peak_prop <- peak_prop[match(DA_data$chromatogram_ID, rownames(peak_prop)),]
 peak_prop <- peak_prop[,apply(peak_prop,2,function(x) sum(x)>0)]
 peak_prop <- freq_abun_QC(peak_prop, freq_cutoff = 0.3, abundance_cutoff = 0.005)
-# replace zeros with a small number before transformation
-peak_prop[peak_prop==0] <- 10^-5
+# add small values to avoid log of zero
+peak_prop <- peak_prop + 10^-5
+peak_prop <- peak_prop/rowSums(peak_prop)
 # apply central log ratio transformation
 peak_transformed <- t(apply(peak_prop, 1, clr_transformation))
 PCA_callow_discr <- prcomp(peak_transformed, scale. = TRUE)
