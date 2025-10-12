@@ -409,39 +409,97 @@ dev.off()
 
 # Figure 5
 
-data("distances_to_free_living_fusca")
+library(dplyr)
+library(gridExtra)
+library(grid)
+library(sangchem)
+library(ComplexHeatmap)
+plot_list <- list()
+separation_periods <- c("1-3 days", "8-10 days", "17-20 days", "35-40 days")
+slave_source_colony <- gsub("fus ", "", slave_source_colony)
+sslave_source_colony <- gsub("Kam", "K", slave_source_colony)
+slave_source_colony <- gsub("Chot", "Ch", slave_source_colony)
+names(colony_to_chrID) <- gsub("fus ", "", names(colony_to_chrID))
+names(colony_to_chrID) <- gsub("Kam", "K", names(colony_to_chrID))
+names(colony_to_chrID) <- gsub("Chot", "Ch", names(colony_to_chrID))
 
-#' @importFrom HDInterval hdi
-plot_data <- data.frame()
-for(i in 1:length(distances_to_free_living_fusca$all)){
-  distances <- distances_to_free_living_fusca$all[[i]]$rand_distance
-  dist_density <- density(distances, n=10^3)
-  plot_data_part <- data.frame(x = dist_density$x, y = dist_density$y)
-  interval <- hdi(distances)
-  plot_data_part$treatment <- names(distances_to_free_living_fusca$all)[i]
-  plot_data_part$HDI_mask <- FALSE
-  plot_data_part$true_distance <- distances_to_free_living_fusca$all[[i]]$true_distance
-  plot_data_part$max_y <- max(plot_data_part$y)
-  plot_data_part$HDI_mask[plot_data_part$x>interval[1] & plot_data_part$x<interval[2]] <- TRUE
-  plot_data <- rbind(plot_data, plot_data_part)
+
+for(n in 1:4){
+  treatment_df <- filter(separation_data, treatment_id ==n)
+  treatment_df <- treatment_df[!is.na(colony_to_chrID[slave_source_colony[treatment_df$colony]]),]
+  treatment_df <- arrange(treatment_df, colony)
+  colonies <- sort(unique(treatment_df$colony))
+  source_colonies <- slave_source_colony[colonies]
+  source_colonies <- source_colonies[!duplicated(source_colonies)]
+  sample_pairs <- expand.grid(treatment_df$chromatogram_ID, colony_to_chrID[source_colonies])
+  colnames(sample_pairs) <- c("chr_ID_1", "chr_ID_2")
+  dissimilarities <- purrr::pmap_dbl(sample_pairs, pair_distance, MS_data=mass_spectra_data)
+  sample_colony <- treatment_df$colony
+  sample_colony <- factor(sample_colony, levels = sample_colony[!duplicated(sample_colony)])
+  dissimilarity_matrix <- matrix(dissimilarities, ncol = length(source_colonies))
+  dissimilarity_matrix <- apply(dissimilarity_matrix, 2, function(x) tapply(x, sample_colony, mean))
+  cell_fun = function(j, i, x, y, w, h, fill){
+    source_colony <- slave_source_colony[levels(sample_colony)[i]]
+    fusca_colony <- source_colonies[j]
+    if(source_colony==fusca_colony) {
+      grid.rect(x, y, w, h, gp = gpar(fill = fill, col = "#2cbf51", lwd=5))
+    }
+    else{
+      grid.rect(x, y, w*0.8, h*0.8, gp = gpar(fill = fill, col = NA))
+    }
+    grid.text(round(dissimilarity_matrix[i, j],3), x, y, gp = gpar(fontsize = 10))
+  }
+
+  if(n<4){
+    plot_list[[n]] <- grid.grabExpr(draw(
+      ComplexHeatmap::Heatmap(dissimilarity_matrix,
+                              col = circlize::colorRamp2(c(0.2, 0.55, 0.9), c("#f74002", "white", "#4d7deb")),
+                              name = "Treatment: 1-3 days",
+                              cluster_rows = FALSE,
+                              cluster_columns = FALSE,
+                              column_labels = source_colonies,
+                              row_label=levels(sample_colony),
+                              cell_fun = cell_fun,
+                              row_title=gt_render("<span style='font-size:12pt'>*F. sanguinea* colony ID</span>"),
+                              column_title=gt_render(paste0("<span style='font-size:18pt'>",separation_periods[n],"</span><br>",
+                                                            "<span style='font-size:12pt'>*F. fusca* colony ID</span>"),
+                                                     r = unit(2, "pt"),
+                                                     padding = unit(c(2, 2, 2, 2), "pt")),
+                              row_names_side = "left",
+                              column_names_side = "top",
+                              show_heatmap_legend = FALSE,
+                              column_names_gp = gpar(fontsize = 9),
+                              row_names_gp = gpar(fontsize = 9))
+
+    ))
+
+  }
+  else{
+    plot_list[[n]] <- grid.grabExpr(draw(
+      ComplexHeatmap::Heatmap(dissimilarity_matrix,
+                              col = circlize::colorRamp2(c(0.2, 0.55, 0.9), c("#f74002", "white", "#4d7deb")),
+                              name = "Treatment: 1-3 days",
+                              cluster_rows = FALSE,
+                              cluster_columns = FALSE,
+                              column_labels = source_colonies,
+                              row_label=levels(sample_colony),
+                              cell_fun = cell_fun,
+                              row_title=gt_render("<span style='font-size:12pt'>*F. sanguinea* colony ID</span>"),
+                              column_title=gt_render(paste0("<span style='font-size:18pt'>",separation_periods[n],"</span><br>", "<span style='font-size:12pt'>*F. fusca* colony ID</span>"),  r = unit(2, "pt"),  padding = unit(c(2, 2, 2, 2), "pt")),
+                              row_names_side = "left",
+                              column_names_side = "top",
+                              heatmap_legend_param = list(title = "Chemical\ndistance"),
+                              column_names_gp = gpar(fontsize = 9),
+                              row_names_gp = gpar(fontsize = 9))
+    ))
+
+  }
 }
 
-
 dev.new()
-pdf("./inst/figures/Fig5.pdf", width = 5, height = 7)
-ggplot(plot_data, aes(x=x, y=y))+
-  facet_wrap(~treatment, labeller = labeller(treatment=c(treatment_1 = "1-3 days", treatment_2 = "7-10 days",
-                                                         treatment_3 = "17-20 days", treatment_4 = "35-40 days")),
-             ncol=1)+
-  geom_segment(aes(x = true_distance, y = 0, xend = true_distance, yend = max_y), lwd=1, lty=2, color="#cc0033")+
-  geom_area(aes(x = x, y = y),
-            data = subset(plot_data, HDI_mask), alpha = 0.5, fill = "#11bb22")+
-  geom_line()+
-  ylab("Density")+
-  xlab("Chemical distance")+
-  theme(panel.border = element_rect(color = "black", fill=NA),
-        panel.background = element_rect(color="black", fill = "white"))
+pdf("./inst/figures/Fig5.pdf", width = 8, height = 8)
+gridExtra::grid.arrange(plot_list[[1]],
+                        plot_list[[2]],
+                        plot_list[[3]],
+                        plot_list[[4]],ncol=2)
 dev.off()
-
-
-
