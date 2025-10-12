@@ -10,7 +10,7 @@ for(i in 1:10) AUC_random <- c(AUC_random, readRDS(paste0("./output/random_label
 
 
 discrimination_model_validation <- list(AUC_observed = AUC_basic, AUC_null = AUC_random)
-saveRDS(discrimination_model_validation, "./data/discrimination_model_validation.rda")
+saveRDS(discrimination_model_validation, "./data/discrimination_model_validation.rds")
 
 CHC_mass_prediction <- readRDS("./output/predicted_values.rds")
-saveRDS(CHC_mass_prediction, "./data/CHC_mass_prediction.rda")
+saveRDS(CHC_mass_prediction, "./output/CHC_mass_prediction.rds")
