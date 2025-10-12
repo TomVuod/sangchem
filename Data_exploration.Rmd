@@ -97,12 +97,27 @@ data("mass_spectra_data")
 control_treatment <- separation_experiment_data[separation_experiment_data$treatment_id==9, "chromatogram_ID"]
 cat("Proportion of C22 of intrinsic origin")
 summary(unlist(lapply(control_treatment, function(x) peak_proportion(1, x, mass_spectra_data))))
+cat("SD of the proportion of C22 of intrinsic origin")
+sd(unlist(lapply(control_treatment, function(x) peak_proportion(1, x, mass_spectra_data))))
 control_treatment <- separation_experiment_data[separation_experiment_data$treatment_id==5, "chromatogram_ID"]
 cat("Proportion of C22 in ants affected by the glass beads with F. fusca CHCs")
 summary(unlist(lapply(control_treatment, function(x) peak_proportion(1, x, mass_spectra_data))))
 control_treatment <- separation_experiment_data[separation_experiment_data$treatment_id==7, "chromatogram_ID"]
 cat("Proportion of C22 in ants affected by the glass beads with F. sanguinea CHCs")
 summary(unlist(lapply(control_treatment, function(x) peak_proportion(1, x, mass_spectra_data))))
+
+dev_samples <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), species=="F. sanguinea") %>%
+  dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) %>%
+  mutate(normalized_mass=mass*CHC_normalizer(species, head_width)) %>% mutate(head_width=head_width*1e-3)
+sep_ID <- filter(separation_experiment_data, treatment_id %in% 1:4)$chromatogram_ID
+
+
+cat("Proportion of C22 in the studied F. sanguinea ants")
+summary(unlist(lapply(c(dev_samples$chromatogram_ID, sep_ID), function(x) peak_proportion(1, x, mass_spectra_data))))
+
+cat("SD of the proportion of C22 in the studied F. sanguinea ants")
+sd(unlist(lapply(c(dev_samples$chromatogram_ID, sep_ID), function(x) peak_proportion(1, x, mass_spectra_data))))
+
 ```
 
 ## p-value for the difference in CHC amount between F. fusca and F. sanguinea
