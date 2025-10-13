@@ -8,6 +8,7 @@ library(stringr)
 library(HDInterval)
 library(mixOmics)
 library(dplyr)
+library(lme4)
 
 
 
@@ -82,7 +83,7 @@ p1 <- ggplot(aes(x=species, y=proportion , group=species), data=df)+
                                  colour = "black"))+
   geom_signif(
     y_position = max(df[["proportion"]])*1.1, xmin = 1, xmax = 2,
-    annotation = "0.000214", tip_length = 0.02)
+    annotation = "0.000061", tip_length = 0.02)
 
 
 df <- paired_observations(list(species = "F. sanguinea", callow = 0),
@@ -113,7 +114,7 @@ p2 <- ggplot(aes(x=species, y=proportion , group=species), data=df)+
                                  colour = "black"))+
   geom_signif(
     y_position = max(df[["proportion"]])*1.1, xmin = 1, xmax = 2,
-    annotation = "0.00269", tip_length = 0.02)
+    annotation = "0.000153", tip_length = 0.02)
 
 
 
