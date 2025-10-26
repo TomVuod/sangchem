@@ -1,0 +1,59 @@
+# Effect of dummy ants
+
+In these experiments, *F. sanguinea* ants released from their cocoon envelopes were maintained in Petri dishes along with glass beads coated with CHC extracted from either *F. fusca* or *F. sanguinea* ants. We examined whether the contact with dummy nestmates influenced the development of CHC profile of young *F. sanguinea* workers. In particular, we aimed to determine there there is evidence for active chemical mimicry in *F. sanguinea*. 
+
+```{r warning=FALSE}
+suppressMessages({
+  library(sangchem)
+  library(dplyr)
+  library(kableExtra)
+})
+
+# load data
+data("separation_experiment_data")
+data("mass_spectra_data")
+data("subject_to_donor_mapping")
+```
+
+## Distance to the CHC profile of the dummy ants treated with *F. fusca* CHC
+
+We computed the chemical distance to the CHC profile of ants whose CHC were used to cover glass beads serving as dummy ants. In the control variant, we used the ants subjected to clean glass beads. 
+
+```{r}
+args <- test_dummy_ant_effect(treatment_id=5, separation_experiment_data, mass_spectra_data, subject_to_donor_mapping,caption="Chemical distance of separated \\textit{F. sanguinea} ants to the CHC profile of \\textit{F. fusca} ants from colonies that served as a source of CHC to caot the glass beads. In control variant, glass bead were left clean.")
+args$booktabs=TRUE
+```
+
+
+```{r}
+do.call(kableExtra::kbl, args) %>% column_spec(c(3,5), width="2cm") %>% kable_styling()
+```
+## Distance to the CHC profile of the dummy ants treated with *F. sanguinea* CHC
+```{r}
+args <- test_dummy_ant_effect(treatment_id=7, separation_experiment_data, mass_spectra_data, subject_to_donor_mapping,caption="Chemical distance of separated \\textit{F. sanguinea} ants to the CHC profile of \\textit{F. sanguinea} ants from colonies that served as a source of CHC to caot the glass beads. In control variant, glass bead were left clean.")
+args$booktabs=TRUE
+do.call(kableExtra::kbl, args) %>% column_spec(c(3,5), width="2cm") %>% kable_styling()
+```
+
+
+
+## Fraction of *n*-docosane in the CHC profile
+
+For the control treatment, glass beads were left uncoated with CHC. In the experimental treatments, the CHC used to coat the glass beads were supplemented with *n*-docosane, which served as an internal standard. We examined differences in the proportion of *n*-docosane in the CHC profiles of the tested ants, as these could indicate the acquisition of chemicals from the dummy ants.
+
+### *F. fusca*
+
+```{r}
+args <- test_C22_proportion(5, separation_experiment_data, mass_spectra_data,caption="Proportion of \\textit{n}-docosane in CHC extracted from \\textit{F. sanguinea} ants maintained with the glass beads coated with the CHC of \\textit{F. fusca} ants and contaminated with \\textit{n}-docosane. In control variant, glass bead were left clean.")
+args$booktabs=TRUE
+do.call(kableExtra::kbl, args) %>% column_spec(c(3,5), width="2cm") %>% kable_styling()
+```
+
+### *F. sanguinea*
+
+```{r}
+args <- test_C22_proportion(7, separation_experiment_data, mass_spectra_data,caption="Proportion of \\textit{n}-docosane in CHC extracted from \\textit{F. sanguinea} ants maintained with the glass beads coated with the CHC of \\textit{F. sanguinea} ants and contaminated with \\textit{n}-docosane. In control variant, glass bead were left clean.")
+args$longtable = TRUE
+args$booktabs=TRUE
+do.call(kableExtra::kbl, args) %>% column_spec(c(3,5), width="2cm") %>% kable_styling()
+```

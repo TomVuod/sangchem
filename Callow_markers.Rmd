@@ -1,0 +1,277 @@
+# Peaks differentiating callow and mature *F. sanguinea* workers
+
+The procedure identifying species markers was also applied to determine peaks characteristic of *F. sanguinea* callow ants. In discriminant analysis, samples were classified into one of the three groups: callow *F. sanguinea*,  adult *F. sanguinea*, or adult *F. fusca*.
+
+## Marker indentification
+```{r warning=FALSE}
+# devtools::install_github("mixOmicsTeam/mixOmics", ref = "143d31f9629bc83f1f27272ba6b7a2aaef0ee0e8")
+suppressMessages({
+  library(sangchem)
+  library(dplyr)
+  library(mixOmics)
+})
+
+# load data
+data("development_data")
+data("mass_spectra_data")
+
+DA_data <- dplyr::filter(development_data, caste=="worker", !remarks %in% c("aggression actor", "aggression target", "queenless colony")) %>%
+  dplyr::select(colony, species, callow, census_date, chromatogram_ID, sang_prop) %>%
+  split(list(.$colony, .$census_date), drop=TRUE) %>%
+  lapply(function(x){if(sum(x$callow)==0) return(NULL); x}) %>%
+  {function(x) x[!unlist((lapply(x, is.null)))]}() %>%
+  purrr::map2(seq_along(.), function(x,y){x$group <- y; x}) %>%
+  {function(x) do.call(rbind, x)}()
+
+Y <- (DA_data$callow==1) + (DA_data$species=="F. sanguinea")
+
+peak_prop <- peak_proportions_table(mass_spectra_data[mass_spectra_data$chromatogram_ID %in% DA_data$chromatogram_ID,])
+peak_prop <- peak_prop[match(DA_data$chromatogram_ID, rownames(peak_prop)),]
+# remove absent peaks
+peak_prop <- peak_prop[,apply(peak_prop,2,function(x) sum(x)>0)]
+peak_prop <- freq_abun_QC(peak_prop, freq_cutoff = 0.3, abundance_cutoff = 0.005)
+# replace zeros with a small number before transformation
+peak_prop <- peak_prop + 10^-5
+peak_prop <- peak_prop/rowSums(peak_prop)
+# apply central log ratio transformation
+peak_transformed <- t(apply(peak_prop, 1, clr_transformation))
+PCA_callow_discr <- prcomp(peak_transformed, scale. = TRUE)
+# PCA_callow_discr$x <- withinVariation(PCA_callow_discr$x, data.frame(DA_data$group))
+n_PCs <- sum(cumsum(apply(PCA_callow_discr$x,2,var))/sum(apply(PCA_callow_discr$x,2,var))<0.8)+1
+PCA_callow_discr$rotation <- PCA_callow_discr$rotation[,1:n_PCs]
+PCA_callow_discr$x <- PCA_callow_discr$x[,1:n_PCs]
+```
+```{r}
+set.seed(1342)
+discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,multilevel=DA_data$group, 
+                                ncomp=7, scale = FALSE)
+```
+
+```{r fig.cap="Distribution of the samples projected onto two first latent components before optimizing the number of model paramaters."}
+samples <- Y
+samples[Y==0] = "mature F. fusca"
+samples[Y==1] = "mature F. sanguinea"
+samples[Y==2] = "callow F. sanguinea"
+plotIndiv(discr_analysis_callow, legend=TRUE,ellipse=TRUE,comp=1:2, group=samples)
+```
+
+```{r}
+perf.discr_analysis_callow <- perf(discr_analysis_callow, 
+                                validation = "Mfold", 
+                                folds = 4, 
+                           progressBar = FALSE, 
+                           auc = TRUE, 
+                           nrepeat = 200,
+                           scale = FALSE,
+                           BPPARAM = BiocParallel::SerialParam(RNG=7320),
+                           seed=4367)
+# plot(perf.discr_analysis_callow, col = color.mixo(1:3), sd = TRUE, legend.position = "horizontal")
+selected_n <- perf.discr_analysis_callow$choice.ncom["overall", "max.dist"]
+discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
+                                  multilevel = DA_data$group,
+                                   Y=Y,
+                                   nrepeat = 200,
+                                   folds = 4,
+                                   ncomp = selected_n,
+                                   test.keepX = seq(1:dim(PCA_callow_discr$x)[2]), 
+                                   dist = 'max.dist',
+                                   validation = 'Mfold',
+                                   measure = "BER",
+                                   progressBar = FALSE,
+                                   scale = FALSE,
+                                  BPPARAM = BiocParallel::SerialParam(RNG=7320),
+                                  seed=8101) 
+
+selected_n <- discr_analysis_callows_tuned$choice.ncomp$ncomp
+discr_analysis_callows_final <- splsda(PCA_callow_discr$x,Y=Y,
+                      multilevel= DA_data$group,
+                      keepX=discr_analysis_callows_tuned$choice.keepX[1:selected_n],
+                      ncomp=selected_n,
+                      scale = FALSE)
+```
+
+```{r fig.cap = "Projection of the samples in onto two first discriminant analysis components after model tuning."}
+plotIndiv(discr_analysis_callows_final,
+          legend=TRUE, ellipse=TRUE, comp=1:2, group = samples)
+```
+
+```{r}
+rot_m <- PCA_callow_discr$rotation
+
+Y.factor=discr_analysis_callows_final$Y
+Y=discr_analysis_callows_final$ind.mat
+
+X=list(X=discr_analysis_callows_final$X)
+variatesX = discr_analysis_callows_final$variates$X
+loadingsX = discr_analysis_callows_final$loadings$X
+
+# Estimation matrix W, P and C
+Pmat = crossprod(X[[1]], variatesX)
+Cmat = crossprod(Y, variatesX)
+Wmat = loadingsX
+
+transf_matr = Wmat %*% solve(t(Pmat) %*% Wmat) %*% t(Cmat)
+
+orig_var_effects <- t(t(transf_matr) %*% ginv(rot_m))
+rownames(orig_var_effects) <- rownames(rot_m)
+
+peaks_callow <- as.numeric(rownames(orig_var_effects)[orig_var_effects[,3]>=quantile(orig_var_effects[,3], 0.8)])
+peaks_mature <- as.numeric(rownames(orig_var_effects)[orig_var_effects[,2]>=quantile(orig_var_effects[,2], 0.8)])
+compounds <- c()
+for(peak in rownames(orig_var_effects)){
+  compounds <- c(compounds, mass_spectra_data[mass_spectra_data$peak_ID==peak,"identification"][1])
+}
+marker_scores_df <- data.frame(peak_ID = rownames(orig_var_effects), compound = compounds, callow_score = orig_var_effects[,3], callow_marker = rownames(orig_var_effects) %in% peaks_callow, mature_score=orig_var_effects[,2],
+                               mature_marker = rownames(orig_var_effects) %in% peaks_mature)
+marker_scores_df <- marker_scores_df[order(marker_scores_df$callow_score, decreasing = TRUE),]
+rownames(marker_scores_df) <- NULL
+
+# new peak IDs
+batch7 <- mass_spectra_data[mass_spectra_data$batch==7 & mass_spectra_data$peak_ID!=0,]
+peaks <- unique(batch7$peak_ID)
+mean_ret_times <- unlist(lapply(peaks, function(x) mean(batch7[batch7$peak_ID==x, "retention_time"])))
+peaks_ordered <- peaks[order(mean_ret_times)]
+
+peak_ID_df <- data.frame(peak_ID = 1:length(peaks_ordered), old_ID = peaks_ordered)
+marker_scores_df$peak_ID <- peak_ID_df$peak_ID[match(marker_scores_df$peak_ID, peak_ID_df$old_ID)]
+```
+```{r}
+kableExtra::kbl(marker_scores_df, longtable=TRUE, booktabs = TRUE, caption = 'List of the peaks with the score indicating their importance as a marker of mature \\textit{F. fusca}, mature \\textit{F. sanguinea}, or callow \\textit{F. sanguinea} samples.',col.names = c("Peak ID", "Compound", "Callow score", "Callow marker", "Mature score", "Mature marker")) %>%
+  kable_styling(latex_options = c("repeat_header"))
+```
+```{r eval=params$save_globals}
+globals <- readRDS(system.file("globals.rds", package="sangchem"))
+globals[["discr_analysis_callows_final"]] <- discr_analysis_callows_final
+globals[["PCA_callow_discr"]] <- PCA_callow_discr
+globals[["peaks_mature"]] <- as.numeric(peaks_mature)
+globals[["peaks_callow"]] <- as.numeric(peaks_callow)
+saveRDS(globals, system.file("globals.rds", package="sangchem"))
+```
+
+## Verifying the performance of the discrimination model
+
+The performance of the discriminant model was evaluated by examining the accuracy of its predictions in a cross-validation test, measured as the area under the receiver operating characteristic curve (AUROC). This procedure was repeated $10^3$ times to account for variance resulting from the random splitting of samples into training and validation sets. In a parallel analysis, the model was trained on data with permuted age status of *F. sanguinea* to assess whether the true assignment of samples influenced model performance. Results from both training approaches were paired, and the difference in AUROC was calculated each for pair. The empirical p-value was defined as the proportion of models in which the AUROC after permutation was equal to or greater than the AUROC based on the original data.
+
+```{r eval = FALSE}
+# running basic model 
+set.seed(1342)
+results_basic <- c()
+while(length(results_basic)<1000){
+  message(counter)
+  .Random.seed <- results$random.seed
+  discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,
+                                  ncomp=7, scale = FALSE)
+  tryCatch({perf.discr_analysis_callow <- perf(discr_analysis_callow,
+                                               validation = "Mfold",
+                                               folds = 4,
+                                               progressBar = FALSE,
+                                               auc = TRUE,
+                                               nrepeat = 30,
+                                               scale = FALSE,
+                                               cpus=16)
+  
+  selected_n <- perf.discr_analysis_callow$choice.ncom["overall", "max.dist"]
+  discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
+                                              Y=Y,
+                                              ncomp = selected_n,
+                                              test.keepX = seq(1:120),
+                                              validation = 'Mfold',
+                                              folds = 4, 
+                                              nrepeat = 30,
+                                              dist = 'max.dist', # use max.dist measure
+                                              measure = "BER",
+                                              progressBar = FALSE,
+                                              scale = FALSE)
+  
+  n_comp <- discr_analysis_callows_tuned$choice.ncomp$ncomp
+  if(is.null(n_comp)) n_comp <- 1
+  discr_analysis_callows_res <- splsda(PCA_callow_discr$x,Y=Y,
+                                       keepX=discr_analysis_callows_tuned$choice.keepX,
+                                       ncomp=n_comp,
+                                       scale = FALSE)
+  
+  perf.discr_analysis_callows_res <- perf(discr_analysis_callows_res,
+                                          validation = "Mfold",
+                                          folds = 4,
+                                          progressBar = FALSE,
+                                          nrepeat = 1,
+                                          scale = FALSE,
+                                          cpus=16)
+  
+  curve_data <- calculate_accuracy_metrics(perf.discr_analysis_callows_res$predict[[length(perf.discr_analysis_callows_res$predict)]][,3,1][Y>0], Y[Y>0]==2)
+  AUC <- calculate_AUC(curve_data$FPR, curve_data$TPR)
+  results_basic <- c(results_basic, AUC)}, 
+  error=function(cond) message(cond))
+}
+
+
+# running null models
+set.seed(1342)
+results_null <- c()
+while(length(results_null)<1000){
+  # shuffle categories 1 (mature F. sanguinea) and 2 (callow F. sanguinea)
+  Y <- split(Y, DA_data$group) %>% lapply(function(x) {x[x>0]<-sample(x[x>0], length(x[x>0]));x}) %>% unlist()
+  discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,
+                                  ncomp=7, scale = FALSE)
+  tryCatch({perf.discr_analysis_callow <- perf(discr_analysis_callow,
+                                               validation = "Mfold",
+                                               folds = 4,
+                                               progressBar = FALSE,
+                                               auc = TRUE,
+                                               nrepeat = 30,
+                                               scale = FALSE,
+                                               cpus=16)
+  
+  selected_n <- perf.discr_analysis_callow$choice.ncom["overall", "max.dist"]
+  discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
+                                              Y=Y,
+                                              ncomp = selected_n,
+                                              test.keepX = seq(1:120),
+                                              validation = 'Mfold',
+                                              folds = 4, 
+                                              nrepeat = 30,
+                                              dist = 'max.dist', # use max.dist measure
+                                              measure = "BER",
+                                              progressBar = FALSE,
+                                              scale = FALSE,
+                                              cpus=16)
+  
+  n_comp <- discr_analysis_callows_tuned$choice.ncomp$ncomp
+  if(is.null(n_comp)) n_comp <- 1
+  discr_analysis_callows_res <- splsda(PCA_callow_discr$x,Y=Y,
+                                       keepX=discr_analysis_callows_tuned$choice.keepX,
+                                       ncomp=n_comp,
+                                       scale = FALSE)
+  
+  perf.discr_analysis_callows_res <- perf(discr_analysis_callows_res,
+                                          validation = "Mfold",
+                                          folds = 4,
+                                          progressBar = FALSE,
+                                          nrepeat = 1,
+                                          scale = FALSE,
+                                          cpus=16)
+  
+  curve_data <- calculate_accuracy_metrics(perf.discr_analysis_callows_res$predict[[length(perf.discr_analysis_callows_res$predict)]][,3,1][Y>0], Y[Y>0]==2)
+  AUC <- calculate_AUC(curve_data$FPR, curve_data$TPR)
+  results_null <- c(results_null, AUC)}, 
+  error=function(cond) message(cond))
+}
+```
+
+The p-value is calculated as proportion of differences with value equal to or less than zero.
+
+```{r eval=FALSE}
+summary(results_basic-results_null)
+hist(results_basic-results_null, breaks=15, xlab = "Difference in AUROC", 
+     main = "Basic vs. null models")
+```
+
+
+```{r echo=FALSE, fig.cap="Distribution of the differences in the performance of the discriminant models trained on true and permuted data. Age status of \\textit{F. sanguinea} ants were shuffled in the null variant."}
+data("discrimination_model_validation")
+# summary(discrimination_model_validation[[1]] - discrimination_model_validation[[2]])
+hist(discrimination_model_validation[[1]]-discrimination_model_validation[[2]], breaks=15, xlab = "Difference in AUROC",
+     main = "Basic vs. null models")
+```
+
+All differences are positive, so the *p*-value is less than 0.001 since the null distribution consists of 1000 values.

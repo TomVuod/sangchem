@@ -1,0 +1,38 @@
+# Body surface area of *F. sanguinea* ants and their slaves {#surface-area}
+
+The areas of planar projection of different body parts were regressed on the head width to obtain a model which was subsequently used to approximate the area for each sample. The regression was performed separately for each species. The following formula was applied:
+
+$$
+\hat{A} = \sum_{i \in I}\beta_{0,i}+\beta_{1,i}w+\beta_{2,i}w^2,
+$$
+where\newline
+$\hat{A}$ denotes the estimated body area,\newline
+$I$ denotes the set of body parts for which the planar projection area was measured\newline
+$w$ denotes head width\newline
+$\beta_{j,i}$ are coefficients from the polynomial regression.\newline
+
+These calculations do not reflect the absolute value of body surface area but were converted into scaling factors by using them a divisors of a standard area. In this way, the unit of measurement is canceled out, and absolute values are converted into dimensionless ratios. The standard area was calculated by substituting the $w$ = 1.15 mm into the formula above and using coefficients obtained from measurements of *F. sanguinea*. 
+
+```{r warning=FALSE}
+library(sangchem)
+library(ggplot2)
+data("development_data")
+data("separation_experiment_data")
+data("body_surface_area")
+
+body_surface_area$species <- development_data$species[match(body_surface_area$ID, development_data$chromatogram_ID)]
+body_surface_area$head_width <- development_data$head_width[match(body_surface_area$ID, development_data$chromatogram_ID)]
+body_surface_area$head_width <- body_surface_area$head_width*1e-3
+
+```
+```{r fig.cap="Relation between head width and area of the planar projections of ant body parts.",fig.height=3}
+ggplot(body_surface_area, aes(y=area, x=head_width,color=species))+
+  geom_point()+
+  stat_smooth(method='lm', formula=y~poly(x,2,raw = TRUE), se=FALSE) +
+  facet_wrap(~view)+
+  scale_color_manual(values=c("black", "red"))+
+  xlab("Head width [mm]")+
+  ylab("Area of the planar projection [pixels]")+
+  theme_light()+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```

@@ -1,0 +1,137 @@
+# Data exploration
+
+This chapter presents general overview of the data with the calculations whose results are presented in the manuscript as summary statistics.
+
+
+## General results
+```{r}
+suppressMessages({
+  library(sangchem)
+  library(dplyr)
+  library(stringi)
+})
+
+# load data from the the earlier study
+data("field_colonies")
+data("development_data")
+data("mass_spectra_data")
+
+cat(sprintf("Number of peaks: %d\n", length(setdiff(mass_spectra_data$peak_ID, 0:1))))
+```
+
+
+## Proportion of the marker CHCs in the total CHC signal
+```{r}
+# load marker peak IDs
+load_globals()
+
+cat(sprintf("Number of fusca markers: %d\n", length(peaks_fusca)))
+cat(sprintf("Number of sanguinea markers: %d\n", length(peaks_sang)))
+# select samples from F. sanguinea ants and free-living F. fusca ants encoded in chromatogram_ID
+fusca_samples <- as.character(unique(field_colonies$chromatogram_ID)[stri_detect_regex(unique(field_colonies$chromatogram_ID), "fus[0-9].?-[0-9]\\([1-2]\\)")])
+sanguinea_samples<-as.character(unique(field_colonies$chromatogram_ID)[stri_detect_regex(unique(field_colonies$chromatogram_ID),"sangFs[0-9].?\\([0-9]\\)")])
+
+# remove outliers
+sanguinea_samples <- setdiff(sanguinea_samples,c("sangFs2(1)","sangFs5(2)","sangFs26(1)","sangFs26(2)"))
+fusca_samples <- setdiff(fusca_samples,c("fus9-2(1)", "fus26-3(2)"))
+
+sang_markers_in_fusca <- c()
+fus_markers_in_fusca <- c()
+for(fus_sample in fusca_samples){
+  sample_data <- field_colonies[field_colonies$chromatogram_ID==fus_sample,]
+  total_signal <- sum(sample_data[sample_data$peak_ID > 1, "abundance"])
+  sang_markers_in_fusca <- c(sang_markers_in_fusca, sum(sample_data[sample_data$peak_ID %in% peaks_sang, "abundance"])/total_signal)
+  fus_markers_in_fusca <- c(fus_markers_in_fusca, sum(sample_data[sample_data$peak_ID %in% peaks_fusca, "abundance"])/total_signal)
+}
+cat(sprintf("Mean proportion of fusca markers in fusca workers: %.3f\n", round(mean(fus_markers_in_fusca), digits = 3)))
+cat(sprintf("Mean proportion of sanguinea markers in fusca workers: %.3f\n", round(mean(sang_markers_in_fusca), digits = 3)))
+
+sang_markers_in_sanguinea <- c()
+fus_markers_in_sanguinea <- c()
+for(sang_sample in sanguinea_samples){
+  sample_data <- field_colonies[field_colonies$chromatogram_ID==sang_sample,]
+  total_signal <- sum(sample_data[sample_data$peak_ID > 1, "abundance"])
+  sang_markers_in_sanguinea <- c(sang_markers_in_sanguinea, sum(sample_data[sample_data$peak_ID %in% peaks_sang, "abundance"])/total_signal)
+  fus_markers_in_sanguinea <- c(fus_markers_in_sanguinea, sum(sample_data[sample_data$peak_ID %in% peaks_fusca, "abundance"])/total_signal)
+}
+cat(sprintf("Mean proportion of fusca markers in sanguinea workers: %.3f\n", round(mean(fus_markers_in_sanguinea), digits = 3)))
+cat(sprintf("Mean proportion of sanguinea markers in sanguinea workers: %.3f\n", round(mean(sang_markers_in_sanguinea), digits = 3)))
+
+```
+
+## CHCs mean absolute amount
+
+The mass is standarized so that it is divided by square of the ratio between true head with and 1.3 mm.
+
+```{r}
+
+data("development_data")
+data("body_surface_area")
+CHC_normalizer <- get_body_area_normalizer(body_surface_area, development_data)
+sang_samples <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), species=="F. sanguinea") %>%
+  dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date,callow) %>%
+  mutate(normalized_mass=mass*CHC_normalizer(species, head_width))
+
+cat(sprintf("Mean CHC mass for callow workers: %f, standard deviation: %f\n", mean(filter(sang_samples, callow==1)$normalized_mass), sd(filter(sang_samples, callow==1)$normalized_mass)))
+cat(sprintf("Mean CHC mass for mature workers: %f, standard deviation: %f\n", mean(filter(sang_samples, callow==0)$normalized_mass), sd(filter(sang_samples, callow==0)$normalized_mass)))
+```
+
+
+## Numbers of samples
+```{r}
+dev_samples <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony")) %>%
+  dplyr::select(species, colony, census_date,callow, sang_prop) 
+cat(sprintf("The number of samples representing F. sanguinea mature ants: %d\n", nrow(filter(dev_samples, species == "F. sanguinea", callow == 0))))
+cat(sprintf("The number of samples representing F. sanguinea callow ants: %d\n", nrow(filter(dev_samples, species == "F. sanguinea", callow == 1))))
+cat(sprintf("The number of samples representing F. fusca ants: %d\n", nrow(filter(dev_samples, species == "F. fusca"))))
+cat(sprintf("The range of F. sanguinea proportions: %s\n", paste(as.character(range(dev_samples$sang_prop)), collapse = "-")))
+cat(sprintf("Number of samples from colonies with no slave-maker workers: %d\n", nrow(filter(dev_samples, sang_prop == 0))))
+cat(sprintf("Number of samples from colonies with no slaves: %d\n", nrow(filter(dev_samples, sang_prop == 1))))
+```
+
+
+## Proportion of docosane
+```{r}
+data("separation_experiment_data")
+data("mass_spectra_data")
+control_treatment <- separation_experiment_data[separation_experiment_data$treatment_id==9, "chromatogram_ID"]
+cat("Proportion of C22 of intrinsic origin")
+summary(unlist(lapply(control_treatment, function(x) peak_proportion(1, x, mass_spectra_data))))
+cat("SD of the proportion of C22 of intrinsic origin")
+sd(unlist(lapply(control_treatment, function(x) peak_proportion(1, x, mass_spectra_data))))
+control_treatment <- separation_experiment_data[separation_experiment_data$treatment_id==5, "chromatogram_ID"]
+cat("Proportion of C22 in ants affected by the glass beads with F. fusca CHCs")
+summary(unlist(lapply(control_treatment, function(x) peak_proportion(1, x, mass_spectra_data))))
+control_treatment <- separation_experiment_data[separation_experiment_data$treatment_id==7, "chromatogram_ID"]
+cat("Proportion of C22 in ants affected by the glass beads with F. sanguinea CHCs")
+summary(unlist(lapply(control_treatment, function(x) peak_proportion(1, x, mass_spectra_data))))
+
+dev_samples <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), species=="F. sanguinea") %>%
+  dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) %>%
+  mutate(normalized_mass=mass*CHC_normalizer(species, head_width)) %>% mutate(head_width=head_width*1e-3)
+sep_ID <- filter(separation_experiment_data, treatment_id %in% 1:4)$chromatogram_ID
+
+
+cat("Proportion of C22 in the studied F. sanguinea ants")
+summary(unlist(lapply(c(dev_samples$chromatogram_ID, sep_ID), function(x) peak_proportion(1, x, mass_spectra_data))))
+
+cat("SD of the proportion of C22 in the studied F. sanguinea ants")
+sd(unlist(lapply(c(dev_samples$chromatogram_ID, sep_ID), function(x) peak_proportion(1, x, mass_spectra_data))))
+
+```
+
+## p-value for the difference in CHC amount between F. fusca and F. sanguinea
+
+```{r}
+data("CHC_mass_prediction")
+mass_diff = CHC_mass_prediction$pred_values_sang - CHC_mass_prediction$pred_values_fusca
+print(sum(mass_diff<0)/length(mass_diff))
+print(length(mass_diff))
+library(HDInterval)
+hdi(CHC_mass_prediction$pred_values_sang/CHC_mass_prediction$pred_values_fusca)
+```
+
+## Session info
+```{r}
+print(sessionInfo())
+```

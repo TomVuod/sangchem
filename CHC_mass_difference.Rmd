@@ -1,0 +1,74 @@
+# Difference in the total mass between the species
+```{r warning=FALSE}
+suppressMessages({
+  library(sangchem)
+  library(dplyr)
+  library(lme4)
+  library(lmerTest)
+  library(rstatix)
+  library(ggpubr)
+})
+
+# load data
+data("development_data")
+```
+## Difference in the total CHC amount between mature *F. sanguinea* and *F. fusca* 
+
+### CHC mass difference between heterospecific nestmates
+```{r}
+development_samples <- filter(development_data, caste=="worker", !remarks %in% c("aggression actor", "aggression target", "queenless colony")) %>% 
+  mutate(corrected_mass=mass/head_width^2*10^6) %>%
+  select(species, census_date, colony, corrected_mass,callow, chromatogram_ID)
+test_data <- filter(development_samples,callow == 0) 
+test_data_sang <- filter(test_data, species == "F. sanguinea") %>% colony_weighted_mean()
+test_data_sang$species <- "F. sanguinea"
+test_data_fusca <- filter(test_data, species == "F. fusca") %>% colony_weighted_mean()
+test_data_fusca$species <- "F. fusca"
+colonies <- intersect(test_data_sang$colony, test_data_fusca$colony)
+test_df <- rbind(test_data_sang, test_data_fusca)
+test_df <- test_df[test_df$colony %in% colonies,]
+test_df <- test_df[order(test_df$colony),]
+
+test_df$species <- factor(test_df$species)
+test_stats <- wilcox_test(test_df, corrected_mass~species, paired=TRUE) %>%
+  add_significance("p") %>%
+  add_xy_position(x="species", dodge=0.8, fun="max")
+ggboxplot(test_df, x="species", y="corrected_mass")+
+  ylab("Corrected CHC mass in F. sanguinea and their F. fusca slaves")+
+  scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
+  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)
+
+```
+
+### Difference in CHC mass predicted by linear model
+
+The bootMer function enebales sampling predicted values based on the linear model. Here we will set F. sagnuinea proportion at 0 or 1 to predict CHC mass for pure F. fusca and F. sanguinea colonies, respecitvely. Then we shall calculate sapling distribution of the differences between 
+```{r eval = FALSE}
+# load data
+dev_samples <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), callow==0) %>%
+  dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) %>%
+  mutate(corrected_mass=mass/head_width^2*10^6)
+
+model_input <- dev_samples[dev_samples$species=="F. sanguinea",]
+lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop  + (1|colony) +(1 | colony:census_date), data=model_input)
+
+simulation_number=10^6
+set.seed(4512)
+sang_fam_simulated<-bootMer(lm_model,function(x) predict(x,data.frame(sang_prop=1),re.form=NA),nsim=simulation_number)$t
+pred_values_sang <- exp(sang_fam_simulated)
+
+
+model_input <- dev_samples[dev_samples$species=="F. fusca",]
+lm_model <- lmer(I(log(corrected_mass)) ~ sang_prop  + (1|colony), data=model_input)
+fus_fam_simulated<-bootMer(lm_model,function(x) predict(x,data.frame(sang_prop=0),re.form=NA),nsim=simulation_number)$t
+pred_values_fusca <- exp(fus_fam_simulated)
+```
+```{r echo=FALSE}
+data("predicted_CHC_mass")
+pred_values_sang <- predicted_CHC_mass[[1]]
+pred_values_fusca <- predicted_CHC_mass[[2]]
+```
+```{r}
+summary(pred_values_sang-pred_values_fusca)
+```
+

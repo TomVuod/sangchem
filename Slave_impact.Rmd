@@ -1,0 +1,135 @@
+# Impact of slaves on the development of the *F. sanguinea* CHC profile
+
+We analyzed the impact of *F. fusca* slaves on the CHC profile of callow *F. sanguinea* ants. In this experiment, *F. sanguinea* ants were isolated in pairs before eclosion, and their CHC profiles were analyzed at one of four time points marking their adult age. We then tested whether callow *F. sanguinea* ants were chemically more similar to their slave relatives from free-living colonies. Unrelated *F. fusca* ants served as a background group."
+
+## Analysis based on all samples
+
+```{r}
+library(dplyr)
+library(sangchem)
+set.seed(3810)
+dist_matr <- sangchem:::global_distances_matrix()
+n_rep = 1e3
+test_stats <- list()
+for(n in 1:4){
+  test_stats[[n]] <- list(V=c(), p_val=c())
+  treatment_df <- filter(separation_experiment_data, treatment_id ==n)
+  treatment_df <- treatment_df[!is.na(colony_to_chrID[slave_source_colony[treatment_df$colony]]),]
+  colonies <- sort(unique(treatment_df$colony))
+  source_colonies <- unique(slave_source_colony[colonies])
+  for(i in seq_len(n_rep)){
+    distance_df <- data.frame()
+    for(sang_colony in colonies){
+      source_colony_id = slave_source_colony[sang_colony]
+      other_colony_id <- sample(setdiff(source_colonies, source_colony_id),1)
+      chr_IDs <- treatment_df[treatment_df$colony==sang_colony,"chromatogram_ID"]
+      distance_to_related <- c()
+      distance_to_unrelated <- c()
+      for(chr_ID in chr_IDs){
+        distance_to_related <- c(distance_to_related, pair_distance(chr_ID_1 = chr_ID, 
+                                             chr_ID_2 = colony_to_chrID[source_colony_id],
+                                             MS_data = mass_spectra_data,
+                                             distances_registry = dist_matr))
+        distance_to_unrelated <- c(distance_to_related, pair_distance(chr_ID_1 = chr_ID, 
+                                             chr_ID_2 = colony_to_chrID[other_colony_id],
+                                             MS_data = mass_spectra_data,
+                                             distances_registry = dist_matr))
+        distance_df <- rbind(distance_df, data.frame(d_related=mean(distance_to_related),
+                                                     d_unrelated=mean(distance_to_unrelated)))
+      }
+    }
+    res <- wilcox.test(distance_df$d_related, distance_df$d_unrelated, paired = TRUE)
+    test_stats[[n]]$V <- c(test_stats[[n]]$V, res$statistic)
+    test_stats[[n]]$p_val <- c(test_stats[[n]]$p_val, res$p.value)
+  }
+
+}
+
+```
+
+Distribution of p-values for the separation period of 1-3 days:
+```{r}
+summary(test_stats[[1]]$p_val)
+```
+
+Distribution of p-values for the separation period of 8-10 days:
+```{r}
+summary(test_stats[[2]]$p_val)
+```
+
+Distribution of p-values for the separation period of 17-20 days:
+```{r}
+summary(test_stats[[3]]$p_val)
+```
+
+Distribution of p-values for the separation period of 35-40 days:
+```{r}
+summary(test_stats[[4]]$p_val)
+```
+
+## Analysis restricted to individuals hatched from cocoons
+
+```{r}
+library(dplyr)
+library(sangchem)
+separation_data$cocoon_1 <- as.numeric(separation_data$cocoon_1)
+separation_data$cocoon_2 <- as.numeric(separation_data$cocoon_2)
+set.seed(3810)
+dist_matr <- sangchem:::global_distances_matrix()
+n_rep = 1e3
+test_stats_c <- list()
+separation_data_cocoons <- separation_experiment_data[apply(separation_experiment_data[c("cocoon_1", "cocoon_2")], 1, function(x) sum(as.numeric(x))==2),]
+for(n in 1:4){
+  test_stats_c[[n]] <- list(V=c(), p_val=c())
+  treatment_df <- filter(separation_data_cocoons, treatment_id ==n)
+  treatment_df <- treatment_df[!is.na(colony_to_chrID[slave_source_colony[treatment_df$colony]]),]
+  colonies <- sort(unique(treatment_df$colony))
+  source_colonies <- unique(slave_source_colony[colonies])
+  for(i in seq_len(n_rep)){
+    distance_df <- data.frame()
+    for(sang_colony in colonies){
+      source_colony_id = slave_source_colony[sang_colony]
+      other_colony_id <- sample(setdiff(source_colonies, source_colony_id),1)
+      chr_IDs <- treatment_df[treatment_df$colony==sang_colony,"chromatogram_ID"]
+      distance_to_related <- c()
+      distance_to_unrelated <- c()
+      for(chr_ID in chr_IDs){
+        distance_to_related <- c(distance_to_related, pair_distance(chr_ID_1 = chr_ID, 
+                                             chr_ID_2 = colony_to_chrID[source_colony_id],
+                                             MS_data = mass_spectra_data,
+                                             distances_registry = dist_matr))
+        distance_to_unrelated <- c(distance_to_related, pair_distance(chr_ID_1 = chr_ID, 
+                                             chr_ID_2 = colony_to_chrID[other_colony_id],
+                                             MS_data = mass_spectra_data,
+                                             distances_registry = dist_matr))
+        distance_df <- rbind(distance_df, data.frame(d_related=mean(distance_to_related),
+                                                     d_unrelated=mean(distance_to_unrelated)))
+      }
+    }
+    res <- wilcox.test(distance_df$d_related, distance_df$d_unrelated, paired = TRUE)
+    test_stats_c[[n]]$V <- c(test_stats[[n]]$V, res$statistic)
+    test_stats_c[[n]]$p_val <- c(test_stats[[n]]$p_val, res$p.value)
+  }
+
+}
+```
+
+Distribution of p-values for the separation period of 1-3 days:
+```{r}
+summary(test_stats_c[[1]]$p_val)
+```
+
+Distribution of p-values for the separation period of 8-10 days:
+```{r}
+summary(test_stats_c[[2]]$p_val)
+```
+
+Distribution of p-values for the separation period of 17-20 days:
+```{r}
+summary(test_stats_c[[3]]$p_val)
+```
+
+Distribution of p-values for the separation period of 35-40 days:
+```{r}
+summary(test_stats_c[[4]]$p_val)
+```
