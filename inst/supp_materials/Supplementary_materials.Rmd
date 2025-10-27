@@ -1,0 +1,1567 @@
+---
+title: "Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development"
+subtitle: "Behavioral Ecology and Sociobiology"
+author:
+  - Tomasz Włodarczyk^[Faculty of Biology, University of Białystok, Poland, tomwlo@gmail.com, ORCID 0000-0003-1554-9699]
+  - Thomas Schmitt^[Department of Animal Ecology and Tropical Biology, University of Würzburg, Germany, thomas.schmitt@uni-wuerzburg.de, ORCID 0000-0002-6719-8635]
+bibliography: book.bib
+params:
+  save_globals: FALSE
+clean: false
+output:
+  bookdown::pdf_document2:
+    keep_tex: true
+---
+
+# Introduction
+This document presents graphical results generated as output from analytic workflows written in *R* language and available in [the public GitHub repository - https://github.com/TomVuod/sangchem](https://github.com/TomVuod/sangchem).   
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  fig.align = 'center',
+  width = 100,
+  echo=FALSE,
+  fig.show='hold', 
+  fig.keep='all',
+  message = FALSE,
+  warning = FALSE
+#  cache=TRUE
+)
+```
+```{r echo=FALSE}
+options("width"=100)
+```
+
+
+
+<!--chapter:end:/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/inst/supp_materials/index.Rmd-->
+
+# Species discrimination and prediction
+To classify the CHC samples collected from mixed colonies, we need a measure which positions a sample between the *F. sanguinea* and *F. fusca* CHC profiles. Therefore, using `mixOmics` R package [@R-mixOmics], we performed a discriminant analysis training the model on the chemical data collected from the filed colonies in the earlier study [@WLODARCZYK201798]. The model was subsequently used to predict identity of new samples.
+
+## Species markers
+To figure out the importance of each input variable in the prediction of the species identity made by discriminant model, we calculated the vector of weights using the following formula [@Tenenhaus, @Rohart].
+$$
+\textbf{W}(\textbf{P}^\intercal\textbf{W})^{-1}\textbf{c}
+$$
+$$
+\textbf{P}=\textbf{X}\textbf{V}
+$$
+$$
+\textbf{c}=\textbf{V}^\intercal\textbf{y},
+$$
+where\newline
+$\textbf{W}$ is the matrix of loading vectors with the number of rows corresponding to the number of input variables and the number of columns corresponding to the number of the latent components\newline
+$\textbf{V}$ is the matrix of the coordinates of each observation on latent components\newline 
+$\textbf{X}$ is the input data matrix\newline
+$\textbf{y}$ is the vector of zero-centered one-hot encoded class labels of the samples for a selected class (here, *F. sanguinea* sample)
+
+To project the weights assigned to principal components onto the original variables one has to reverse data transformation. Technically, this is achieved by multiplying with the pseudoinverse of the rotation matrix produced by PCA. We use pseudoinverse because the rotation matrix has been reduced by removing principal components with low variance.
+
+$$
+\textbf{R}^{+}\textbf{W}(\textbf{P}^\intercal\textbf{W})^{-1}\textbf{c},
+$$
+
+where $\textbf{R}^+$ denotes the pseudoinverse of rotation matrix from PCA.
+
+```{r warning=FALSE, echo=FALSE}
+suppressMessages({
+  library(sangchem)
+  library(stringi)
+  library(dplyr)
+  library(mixOmics)
+  library(kableExtra)
+})
+
+# load data from the the earlier study
+data("field_colonies")
+data("mass_spectra_data")
+
+# select samples from F. sanguinea ants and free-living F. fusca ants encoded in chromatogram_ID
+fusca_samples <- as.character(unique(field_colonies$chromatogram_ID)[stri_detect_regex(unique(field_colonies$chromatogram_ID), "fus[0-9].?-[0-9]\\([1-2]\\)")])
+sanguinea_samples<-as.character(unique(field_colonies$chromatogram_ID)[stri_detect_regex(unique(field_colonies$chromatogram_ID),"sangFs[0-9].?\\([0-9]\\)")])
+
+
+# "sangFs[0-9].?(pocz|)\\([0-9]\\)"
+
+# remove outliers
+# sanguinea_samples <- setdiff(sanguinea_samples,c("sangFs2(1)","sangFs5(2)","sangFs26(1)","sangFs26(2)"))
+# fusca_samples <- setdiff(fusca_samples,c("fus9-2(1)", "fus26-3(2)"))
+discrimination_data <- filter(field_colonies,chromatogram_ID %in% c(fusca_samples,sanguinea_samples),
+                              peak_ID %in% mass_spectra_data$peak_ID) 
+peak_prop <- peak_proportions_table(discrimination_data)
+# remove absent peaks
+peak_prop <- peak_prop[,apply(peak_prop,2,function(x) sum(x)>0)]
+# replace zeros with a small number before transformation
+peak_prop <- peak_prop + 10^-5
+peak_prop <- peak_prop/rowSums(peak_prop)
+# apply central log ratio transformation
+peak_transformed <- t(apply(peak_prop, 1, clr_transformation))
+```
+
+```{r}
+PCA_species_discr <- prcomp(peak_transformed, scale. = TRUE)
+```
+
+```{r echo=FALSE}
+PC_var = apply(PCA_species_discr$x,2,var)
+```
+
+```{r fig.cap="Variance of each principal compnent. Data was fed into the discriminat model to find features separating both species.", fig.show="asis", echo=FALSE}
+plot(PC_var, xlab="Principal components", ylab="Variance")
+```
+
+```{r eval=TRUE}
+n_PCs <- sum(cumsum(apply(PCA_species_discr$x,2,var))/sum(apply(PCA_species_discr$x,2,var))<0.8)+1
+PCA_species_discr$rotation <- PCA_species_discr$rotation[,1:n_PCs]
+PCA_species_discr$x <- PCA_species_discr$x[,1:n_PCs]
+```
+```{r}
+#define groups to be compared
+Y <- rownames(PCA_species_discr$x) %in% sanguinea_samples
+```
+```{r}
+set.seed(9230)
+# run the main model
+species_discrimination_PC.splsda <- splsda(PCA_species_discr$x, Y, ncomp=10, scale=FALSE)
+```
+
+```{r fig.cap="Distribution of the samples projected onto two first latent components before optimizing the number of model paramaters."}
+species <- as.numeric(Y)
+species[species==0] <- "F. fusca"
+species[species==1] <- "F. sanguinea"
+plotIndiv(species_discrimination_PC.splsda,group=species,
+          legend=TRUE,ellipse=TRUE,comp=1:2)
+```
+
+```{r}
+# determine the optimal number of components used in the model
+spec_discr_PC.splsda.perf <- perf(species_discrimination_PC.splsda, nrepeat=200, folds=5,
+                            progressBar=FALSE, validation="Mfold",
+                            auc=TRUE, scale=FALSE, BPPARAM = BiocParallel::SerialParam(RNG=7320),
+                            seed=4401)
+```
+
+```{r fig.cap="Results of the performance test of the discriminant model with different number of the latent components. For details see the documunetation of R mixOmics package.", echo=FALSE, fig.align='center'}
+plot(spec_discr_PC.splsda.perf, sd = TRUE, overlay = 'measure') 
+```
+
+```{r warning=FALSE, message=FALSE}
+selected_n <- spec_discr_PC.splsda.perf$choice.ncom["overall", "max.dist"]
+if(is.null(selected_n)) selected_n <- 1
+
+# determine the number of the original variables to be kept in each component (actually
+# here we have only one component)
+spec_discr_PC.splsda <- tune.splsda(PCA_species_discr$x,Y,test.keepX = c(1:dim(PCA_species_discr$x)[2]),ncomp = selected_n, validation="Mfold", progressBar=FALSE, dist="max.dist",
+                                    nrepeat=200, folds=5, measure="BER", scale=FALSE,
+                                    BPPARAM = BiocParallel::SerialParam(RNG=7320),
+                                    seed=8801)
+
+selected_n <- spec_discr_PC.splsda$choice.ncomp$ncomp
+if(is.null(selected_n)) selected_n <- 1
+# final model
+species_prediction_model <- splsda(PCA_species_discr$x, Y, ncomp=selected_n,
+                          keepX =spec_discr_PC.splsda$choice.keepX[1:selected_n], scale=FALSE)
+#species_prediction_model <- splsda(PCA_species_discr$x, Y, ncomp=3,
+#                          keepX =spec_discr_PC.splsda$choice.keepX, scale=FALSE)
+plot_lat_comp <- selected_n>1
+```
+
+```{r fig.cap = "Projection of the samples in onto two first discriminant analysis components after model tuning.", eval=plot_lat_comp, echo=FALSE}
+
+#visualize results for the first two components
+species <- as.numeric(Y)
+species[species==0] <- "F. fusca"
+species[species==1] <- "F. sanguinea"
+plotIndiv(species_prediction_model, group=species, legend=TRUE, ellipse=TRUE, comp=1:2)
+
+```
+
+```{r message=FALSE, echo=FALSE}
+rot_m <- PCA_species_discr$rotation
+
+Y.factor=species_prediction_model$Y
+Y=species_prediction_model$ind.mat
+
+X=list(X=species_prediction_model$X)
+variatesX = species_prediction_model$variates$X
+loadingsX = species_prediction_model$loadings$X
+
+# Estimation matrix W, P and C
+Pmat = crossprod(X[[1]], variatesX)
+Cmat = crossprod(Y, variatesX)
+Wmat = loadingsX
+
+transf_matr = Wmat %*% solve(t(Pmat) %*% Wmat) %*% t(Cmat)
+
+orig_var_effects <- t(t(transf_matr) %*% ginv(rot_m)) 
+orig_var_effects <- orig_var_effects 
+rownames(orig_var_effects) <- rownames(rot_m)
+
+peaks_fusca <- as.numeric(rownames(orig_var_effects)[orig_var_effects[,2]<=quantile(orig_var_effects[,2], 0.2)])
+peaks_sang <- as.numeric(rownames(orig_var_effects)[orig_var_effects[,2]>=quantile(orig_var_effects[,2], 0.8)])
+# peaks_fusca <- as.numeric(rownames(orig_var_effects)[orig_var_effects[,2]<=-0.015])
+# peaks_sang <- as.numeric(rownames(orig_var_effects)[orig_var_effects[,2]>=0.015])
+
+
+compounds <- c()
+for(peak in rownames(orig_var_effects)){
+  compounds <- c(compounds, mass_spectra_data[mass_spectra_data$peak_ID==peak,"identification"][1])
+}
+marker_scores_df <- data.frame(peak_ID = rownames(orig_var_effects), compound = compounds, score = orig_var_effects[,2], fusca_marker = as.numeric(rownames(orig_var_effects)) %in% peaks_fusca, sanguinea_markers = as.numeric(rownames(orig_var_effects)) %in% peaks_sang)
+marker_scores_df <- marker_scores_df[order(marker_scores_df$score),]
+rownames(marker_scores_df) <- NULL
+
+# new peak IDs
+batch7 <- mass_spectra_data[mass_spectra_data$batch==7 & mass_spectra_data$peak_ID!=0,]
+peaks <- unique(batch7$peak_ID)
+mean_ret_times <- unlist(lapply(peaks, function(x) mean(batch7[batch7$peak_ID==x, "retention_time"])))
+peaks_ordered <- peaks[order(mean_ret_times)]
+
+peak_ID_df <- data.frame(peak_ID = 1:length(peaks_ordered), old_ID = peaks_ordered)
+marker_scores_df$peak_ID <- peak_ID_df$peak_ID[match(marker_scores_df$peak_ID, peak_ID_df$old_ID)]
+```
+```{r}
+kableExtra::kbl(marker_scores_df, longtable=TRUE, booktabs = TRUE, caption = 'List of the peaks with the species identity score indicating their importance as a marker of \\textit{F. fusca} or \\textit{F. sanguinea} samples.',col.names = c("Peak ID", "Compound", "Marker score", "fusca marker", "sanguinea marker")) %>%
+  kable_styling(latex_options = c("repeat_header"))
+```
+```{r eval=params$save_globals}
+globals <- readRDS(system.file("globals.rds", package="sangchem"))
+globals[["species_prediction_model"]] <- species_prediction_model
+globals[["PCA_species_discr"]] <- PCA_species_discr
+globals[["peaks_sang"]] <- peaks_sang
+globals[["peaks_fusca"]] <- peaks_fusca
+saveRDS(globals, system.file("globals.rds", package="sangchem"))
+```
+
+## Species Identity Score
+
+Ants in the mixed colonies exchanged their CHC to produce a hybrid chemical identity. We developed a method to assign each sample a value measuring similarity to one or the other species. It is based on a discriminant model that predicts the class of new samples using `predict` method from `mixOmics` R package. The input data are processed in the same way as the training set, i.e. central-log transformation is followed by projection into principal component space. In the latter step, the same rotation matrix and scaling vector is applied as those used for the training set are applied. This is achieved by using `predict` method on the object of `prcomp` class.
+
+```{r warning=FALSE, message=FALSE}
+data("development_data")
+dev_samples <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony")) %>%
+  dplyr::select(chromatogram_ID, species, colony, sang_prop, callow, census_date)
+normalized_abundances <- peak_proportions_table(mass_spectra_data[mass_spectra_data$chromatogram_ID %in% dev_samples$chromatogram_ID,])
+species_indices <- calculate_SII(normalized_abundances,PLS_DA_model=species_prediction_model, PCA_res = PCA_species_discr)
+dev_samples <- left_join(dev_samples, species_indices)
+```
+
+### Predicted species of different categories of ants as a function of the proportion of *F. sanguinea* ants in a colony
+
+The Species Identity Score was computed for *F. sanguinea* and *F. fusca* samples from mixed colonies and used as a response variable in linear mixed models. As a fixed effect we used the proportion of *F. sanguinea* workers among all workers in a colony. Colony ID and sampling occasion were incorporated as random effects. 
+
+In the following model specifications $1|\text{random_factor}$ denotes random intercept (separate for each level of the random factor) and $1|\text{random_factor_1:random_factor_2}$ denotes random intercepts generated from the combinations of two factors. $\beta_{0}$ and $\epsilon$ denote intercept and error term, respectively. Included are summary reports, results of the Shapiro-Wilk test of nornalizty of conditional residuals, as well as diagnostic plots and tests generated with the use of `DHARMa` R package[@R-DHARMa]. The response variable often needed to be transformed to meet model assumptions. Random terms with no variance have been dropped. 
+
+
+
+#### Mature *F. sanguinea*
+$$
+\text{Species_Identity_Score} = \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+$$
+where $\text{Species_Identity_Score}$ denotes the Species Identity Score of the mature *F. sanguinea* workers.
+```{r}
+library(lmerTest)
+library(DHARMa)
+model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==0,]
+lm_model <- lmer(predicted_species~sang_prop+(1|colony)+(1|colony:census_date), data=model_input)
+print(summary(lm_model))
+
+# model diagnostics
+hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
+print(shapiro.test(residuals(lm_model)))
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n=1e4)
+plot(simulationOutput)
+```
+
+#### *F. fusca*
+$$
+\sqrt{\text{Species_Identity_Score+10}}= \beta_0 + \text{sanguinea_proportion} + (1|\text{colony})+(1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+$$
+where $\text{Species_Identity_Score}$ denotes the Species Identity Score of the mature *F. fusca* workers.
+```{r}
+model_input <- dev_samples[dev_samples$species=="F. fusca",]
+lm_model <- lmer(I(sqrt(predicted_species+10))~sang_prop+(1|colony)+(1|colony:census_date), data=model_input)
+print(summary(lm_model))
+
+# model diagnostics
+hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
+print(shapiro.test(residuals(lm_model)))
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n=1e4)
+plot(simulationOutput)
+```
+
+#### Callow *F. sanguinea*
+$$
+\text{Species_Identity_Score}= \beta_0 + \text{sanguinea_proportion} + (1|\text{colony}) + \epsilon,
+$$
+where $\text{Species_Identity_Score}$ denotes the Species Identity Score of the callow *F. sanguinea* workers.
+```{r}
+model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==1,]
+lm_model <- lmer(predicted_species~sang_prop+(1|colony), data=model_input)
+print(summary(lm_model))
+
+# model diagnostics
+hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
+print(shapiro.test(residuals(lm_model)))
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n=1e4)
+plot(simulationOutput)
+```
+
+### Difference in Species Identity Score between mature *F. sanguinea* ants and *F. fusca* slaves
+
+Since the linear model does not meet one of the diagnostics criteria, Wilcoxon paired test was applied.
+
+```{r}
+library(ggpubr)
+library(rstatix)
+model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==0,]
+model_input$slave_species_index <- find_nestmates_SII(model_input$chromatogram_ID, dev_samples)
+print(wilcox.test(model_input$predicted_species, model_input$slave_species_index, paired=TRUE))
+df <- data.frame(species_identity_index=c(model_input$predicted_species, model_input$slave_species_index), species="F. fusca")
+df$species[1:nrow(model_input)] <- "mature F. sanguinea"
+stat_tests <- wilcox_test(df, species_identity_index~species, paired=TRUE) %>%
+  add_significance("p") %>%
+  add_xy_position(x="species", dodge=0.8, fun="max")
+ggboxplot(df, x="species", y="species_identity_index")+
+  scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
+  stat_pvalue_manual(stat_tests, label="p", tip.length = 0, size=3.5)+
+  ylab("Species Identity Score")+
+  xlab("Species")
+
+# model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==0,]
+# model_input$index_diff <- model_input$predicted_species - find_nestmates_SII(model_input$chromatogram_ID, dev_samples)
+# lm_model <- lmer(index_diff~sang_prop+(1|colony)+(1|colony:census_date), data=model_input)
+# print(summary(lm_model))
+# 
+# # model diagnostics
+# hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
+# print(shapiro.test(residuals(lm_model)))
+# simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n=1e4)
+# plot(simulationOutput)
+```
+
+### Difference in Species Identity Score between callow *F. sanguinea* ants and *F. fusca* slaves
+$$
+\text{SIS_diff}= \beta_0 + \text{sanguinea_proportion} + (1|\text{colony}) + \epsilon,
+$$
+where $\text{SIS_diff}$ denotes the difference in Species Identity Score between the mature *F. sanguinea* and *F. fusca* sampled at the same time and from the same colony. Replicated samples were averaged before the calculations.
+
+Since the linear model does not meet one of diagnostics criterion we will apply Wilcoxon paired test.
+```{r message=FALSE}
+model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==1,]
+model_input$index_diff <- model_input$predicted_species - find_nestmates_SII(model_input$chromatogram_ID, dev_samples, heterospecific = TRUE)
+# no random effect since it captures no variance
+lm_model <- lmer(index_diff~sang_prop+(1|colony)+(1|colony:census_date), data=model_input)
+print(summary(lm_model))
+
+# model diagnostics
+hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
+print(shapiro.test(residuals(lm_model)))
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n=1e4)
+plot(simulationOutput)
+
+# model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==1,]
+# model_input$slave_species_index <- find_nestmates_SII(model_input$chromatogram_ID, dev_samples)
+# print(wilcox.test(model_input$predicted_species, model_input$slave_species_index, paired=TRUE))
+# df <- data.frame(species_identity_index=c(model_input$predicted_species, model_input$slave_species_index), species="F. fusca")
+# df$species[1:nrow(model_input)] <- "callow F. sanguinea"
+# stat_tests <- wilcox_test(df, species_identity_index~species, paired=TRUE) %>%
+#   add_significance("p") %>%
+#   add_xy_position(x="species", dodge=0.8, fun="max")
+# ggboxplot(df, x="species", y="species_identity_index")+
+#   scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
+#   stat_pvalue_manual(stat_tests, label="p", tip.length = 0, size=3.5)
+```
+
+### Difference in Species Identity Score between callow and mature *F. sanguinea* ants
+```{r}
+model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==1,]
+model_input$index_diff <- model_input$predicted_species - find_nestmates_SII(model_input$chromatogram_ID, dev_samples, heterospecific = FALSE)
+# no random effect since it captures no variance
+lm_model <- lmer(index_diff~sang_prop+(1|colony)+(1|colony:census_date), data=model_input)
+print(summary(lm_model))
+
+# model diagnostics
+hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
+print(shapiro.test(residuals(lm_model)))
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n=1e4)
+plot(simulationOutput)
+
+# model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==1,]
+# model_input$mature_ant_index <- find_nestmates_SII(model_input$chromatogram_ID, dev_samples, heterospecific = FALSE)
+# print(wilcox.test(model_input$predicted_species, model_input$mature_ant_index, paired=TRUE))
+# df <- data.frame(species_identity_index=c(model_input$predicted_species, model_input$mature_ant_index), age="mature")
+# df$age[1:nrow(model_input)] <- "callow"
+# stat_tests <- wilcox_test(df, species_identity_index~age, paired=TRUE) %>%
+#   add_significance("p") %>%
+#   add_xy_position(x="age", dodge=0.8, fun="max")
+# ggboxplot(df, x="age", y="species_identity_index")+
+#   scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
+#   stat_pvalue_manual(stat_tests, label="p", tip.length = 0, size=3.5)
+```
+
+<!--chapter:end:/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/inst/supp_materials/Species_identity.Rmd-->
+
+# Peaks differentiating callow and mature *F. sanguinea* workers
+
+The procedure identifying species markers was also applied to determine peaks characteristic of *F. sanguinea* callow ants. In discriminant analysis, samples were classified into one of the three groups: callow *F. sanguinea*,  adult *F. sanguinea*, or adult *F. fusca*.
+
+## Marker indentification
+```{r warning=FALSE}
+# devtools::install_github("mixOmicsTeam/mixOmics", ref = "143d31f9629bc83f1f27272ba6b7a2aaef0ee0e8")
+suppressMessages({
+  library(sangchem)
+  library(dplyr)
+  library(mixOmics)
+})
+
+# load data
+data("development_data")
+data("mass_spectra_data")
+
+DA_data <- dplyr::filter(development_data, caste=="worker", !remarks %in% c("aggression actor", "aggression target", "queenless colony")) %>%
+  dplyr::select(colony, species, callow, census_date, chromatogram_ID, sang_prop) %>%
+  split(list(.$colony, .$census_date), drop=TRUE) %>%
+  lapply(function(x){if(sum(x$callow)==0) return(NULL); x}) %>%
+  {function(x) x[!unlist((lapply(x, is.null)))]}() %>%
+  purrr::map2(seq_along(.), function(x,y){x$group <- y; x}) %>%
+  {function(x) do.call(rbind, x)}()
+
+Y <- (DA_data$callow==1) + (DA_data$species=="F. sanguinea")
+
+peak_prop <- peak_proportions_table(mass_spectra_data[mass_spectra_data$chromatogram_ID %in% DA_data$chromatogram_ID,])
+peak_prop <- peak_prop[match(DA_data$chromatogram_ID, rownames(peak_prop)),]
+# remove absent peaks
+peak_prop <- peak_prop[,apply(peak_prop,2,function(x) sum(x)>0)]
+peak_prop <- freq_abun_QC(peak_prop, freq_cutoff = 0.3, abundance_cutoff = 0.005)
+# replace zeros with a small number before transformation
+peak_prop <- peak_prop + 10^-5
+peak_prop <- peak_prop/rowSums(peak_prop)
+# apply central log ratio transformation
+peak_transformed <- t(apply(peak_prop, 1, clr_transformation))
+PCA_callow_discr <- prcomp(peak_transformed, scale. = TRUE)
+# PCA_callow_discr$x <- withinVariation(PCA_callow_discr$x, data.frame(DA_data$group))
+n_PCs <- sum(cumsum(apply(PCA_callow_discr$x,2,var))/sum(apply(PCA_callow_discr$x,2,var))<0.8)+1
+PCA_callow_discr$rotation <- PCA_callow_discr$rotation[,1:n_PCs]
+PCA_callow_discr$x <- PCA_callow_discr$x[,1:n_PCs]
+```
+```{r}
+set.seed(1342)
+discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,multilevel=DA_data$group, 
+                                ncomp=7, scale = FALSE)
+```
+
+```{r fig.cap="Distribution of the samples projected onto two first latent components before optimizing the number of model paramaters."}
+samples <- Y
+samples[Y==0] = "mature F. fusca"
+samples[Y==1] = "mature F. sanguinea"
+samples[Y==2] = "callow F. sanguinea"
+plotIndiv(discr_analysis_callow, legend=TRUE,ellipse=TRUE,comp=1:2, group=samples)
+```
+
+```{r}
+perf.discr_analysis_callow <- perf(discr_analysis_callow, 
+                                validation = "Mfold", 
+                                folds = 4, 
+                           progressBar = FALSE, 
+                           auc = TRUE, 
+                           nrepeat = 200,
+                           scale = FALSE,
+                           BPPARAM = BiocParallel::SerialParam(RNG=7320),
+                           seed=4367)
+# plot(perf.discr_analysis_callow, col = color.mixo(1:3), sd = TRUE, legend.position = "horizontal")
+selected_n <- perf.discr_analysis_callow$choice.ncom["overall", "max.dist"]
+discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
+                                  multilevel = DA_data$group,
+                                   Y=Y,
+                                   nrepeat = 200,
+                                   folds = 4,
+                                   ncomp = selected_n,
+                                   test.keepX = seq(1:dim(PCA_callow_discr$x)[2]), 
+                                   dist = 'max.dist',
+                                   validation = 'Mfold',
+                                   measure = "BER",
+                                   progressBar = FALSE,
+                                   scale = FALSE,
+                                  BPPARAM = BiocParallel::SerialParam(RNG=7320),
+                                  seed=8101) 
+
+selected_n <- discr_analysis_callows_tuned$choice.ncomp$ncomp
+discr_analysis_callows_final <- splsda(PCA_callow_discr$x,Y=Y,
+                      multilevel= DA_data$group,
+                      keepX=discr_analysis_callows_tuned$choice.keepX[1:selected_n],
+                      ncomp=selected_n,
+                      scale = FALSE)
+```
+
+```{r fig.cap = "Projection of the samples in onto two first discriminant analysis components after model tuning."}
+plotIndiv(discr_analysis_callows_final,
+          legend=TRUE, ellipse=TRUE, comp=1:2, group = samples)
+```
+
+```{r}
+rot_m <- PCA_callow_discr$rotation
+
+Y.factor=discr_analysis_callows_final$Y
+Y=discr_analysis_callows_final$ind.mat
+
+X=list(X=discr_analysis_callows_final$X)
+variatesX = discr_analysis_callows_final$variates$X
+loadingsX = discr_analysis_callows_final$loadings$X
+
+# Estimation matrix W, P and C
+Pmat = crossprod(X[[1]], variatesX)
+Cmat = crossprod(Y, variatesX)
+Wmat = loadingsX
+
+transf_matr = Wmat %*% solve(t(Pmat) %*% Wmat) %*% t(Cmat)
+
+orig_var_effects <- t(t(transf_matr) %*% ginv(rot_m))
+rownames(orig_var_effects) <- rownames(rot_m)
+
+peaks_callow <- as.numeric(rownames(orig_var_effects)[orig_var_effects[,3]>=quantile(orig_var_effects[,3], 0.8)])
+peaks_mature <- as.numeric(rownames(orig_var_effects)[orig_var_effects[,2]>=quantile(orig_var_effects[,2], 0.8)])
+compounds <- c()
+for(peak in rownames(orig_var_effects)){
+  compounds <- c(compounds, mass_spectra_data[mass_spectra_data$peak_ID==peak,"identification"][1])
+}
+marker_scores_df <- data.frame(peak_ID = rownames(orig_var_effects), compound = compounds, callow_score = orig_var_effects[,3], callow_marker = rownames(orig_var_effects) %in% peaks_callow, mature_score=orig_var_effects[,2],
+                               mature_marker = rownames(orig_var_effects) %in% peaks_mature)
+marker_scores_df <- marker_scores_df[order(marker_scores_df$callow_score, decreasing = TRUE),]
+rownames(marker_scores_df) <- NULL
+
+# new peak IDs
+batch7 <- mass_spectra_data[mass_spectra_data$batch==7 & mass_spectra_data$peak_ID!=0,]
+peaks <- unique(batch7$peak_ID)
+mean_ret_times <- unlist(lapply(peaks, function(x) mean(batch7[batch7$peak_ID==x, "retention_time"])))
+peaks_ordered <- peaks[order(mean_ret_times)]
+
+peak_ID_df <- data.frame(peak_ID = 1:length(peaks_ordered), old_ID = peaks_ordered)
+marker_scores_df$peak_ID <- peak_ID_df$peak_ID[match(marker_scores_df$peak_ID, peak_ID_df$old_ID)]
+```
+```{r}
+kableExtra::kbl(marker_scores_df, longtable=TRUE, booktabs = TRUE, caption = 'List of the peaks with the score indicating their importance as a marker of mature \\textit{F. fusca}, mature \\textit{F. sanguinea}, or callow \\textit{F. sanguinea} samples.',col.names = c("Peak ID", "Compound", "Callow score", "Callow marker", "Mature score", "Mature marker")) %>%
+  kable_styling(latex_options = c("repeat_header"))
+```
+```{r eval=params$save_globals}
+globals <- readRDS(system.file("globals.rds", package="sangchem"))
+globals[["discr_analysis_callows_final"]] <- discr_analysis_callows_final
+globals[["PCA_callow_discr"]] <- PCA_callow_discr
+globals[["peaks_mature"]] <- as.numeric(peaks_mature)
+globals[["peaks_callow"]] <- as.numeric(peaks_callow)
+saveRDS(globals, system.file("globals.rds", package="sangchem"))
+```
+
+## Verifying the performance of the discrimination model
+
+The performance of the discriminant model was evaluated by examining the accuracy of its predictions in a cross-validation test, measured as the area under the receiver operating characteristic curve (AUROC). This procedure was repeated $10^3$ times to account for variance resulting from the random splitting of samples into training and validation sets. In a parallel analysis, the model was trained on data with permuted age status of *F. sanguinea* to assess whether the true assignment of samples influenced model performance. Results from both training approaches were paired, and the difference in AUROC was calculated each for pair. The empirical p-value was defined as the proportion of models in which the AUROC after permutation was equal to or greater than the AUROC based on the original data.
+
+```{r eval = FALSE}
+# running basic model 
+set.seed(1342)
+results_basic <- c()
+while(length(results_basic)<1000){
+  message(counter)
+  .Random.seed <- results$random.seed
+  discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,
+                                  ncomp=7, scale = FALSE)
+  tryCatch({perf.discr_analysis_callow <- perf(discr_analysis_callow,
+                                               validation = "Mfold",
+                                               folds = 4,
+                                               progressBar = FALSE,
+                                               auc = TRUE,
+                                               nrepeat = 30,
+                                               scale = FALSE,
+                                               cpus=16)
+  
+  selected_n <- perf.discr_analysis_callow$choice.ncom["overall", "max.dist"]
+  discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
+                                              Y=Y,
+                                              ncomp = selected_n,
+                                              test.keepX = seq(1:120),
+                                              validation = 'Mfold',
+                                              folds = 4, 
+                                              nrepeat = 30,
+                                              dist = 'max.dist', # use max.dist measure
+                                              measure = "BER",
+                                              progressBar = FALSE,
+                                              scale = FALSE)
+  
+  n_comp <- discr_analysis_callows_tuned$choice.ncomp$ncomp
+  if(is.null(n_comp)) n_comp <- 1
+  discr_analysis_callows_res <- splsda(PCA_callow_discr$x,Y=Y,
+                                       keepX=discr_analysis_callows_tuned$choice.keepX,
+                                       ncomp=n_comp,
+                                       scale = FALSE)
+  
+  perf.discr_analysis_callows_res <- perf(discr_analysis_callows_res,
+                                          validation = "Mfold",
+                                          folds = 4,
+                                          progressBar = FALSE,
+                                          nrepeat = 1,
+                                          scale = FALSE,
+                                          cpus=16)
+  
+  curve_data <- calculate_accuracy_metrics(perf.discr_analysis_callows_res$predict[[length(perf.discr_analysis_callows_res$predict)]][,3,1][Y>0], Y[Y>0]==2)
+  AUC <- calculate_AUC(curve_data$FPR, curve_data$TPR)
+  results_basic <- c(results_basic, AUC)}, 
+  error=function(cond) message(cond))
+}
+
+
+# running null models
+set.seed(1342)
+results_null <- c()
+while(length(results_null)<1000){
+  # shuffle categories 1 (mature F. sanguinea) and 2 (callow F. sanguinea)
+  Y <- split(Y, DA_data$group) %>% lapply(function(x) {x[x>0]<-sample(x[x>0], length(x[x>0]));x}) %>% unlist()
+  discr_analysis_callow <- splsda(PCA_callow_discr$x, Y=Y ,
+                                  ncomp=7, scale = FALSE)
+  tryCatch({perf.discr_analysis_callow <- perf(discr_analysis_callow,
+                                               validation = "Mfold",
+                                               folds = 4,
+                                               progressBar = FALSE,
+                                               auc = TRUE,
+                                               nrepeat = 30,
+                                               scale = FALSE,
+                                               cpus=16)
+  
+  selected_n <- perf.discr_analysis_callow$choice.ncom["overall", "max.dist"]
+  discr_analysis_callows_tuned <- tune.splsda(PCA_callow_discr$x,
+                                              Y=Y,
+                                              ncomp = selected_n,
+                                              test.keepX = seq(1:120),
+                                              validation = 'Mfold',
+                                              folds = 4, 
+                                              nrepeat = 30,
+                                              dist = 'max.dist', # use max.dist measure
+                                              measure = "BER",
+                                              progressBar = FALSE,
+                                              scale = FALSE,
+                                              cpus=16)
+  
+  n_comp <- discr_analysis_callows_tuned$choice.ncomp$ncomp
+  if(is.null(n_comp)) n_comp <- 1
+  discr_analysis_callows_res <- splsda(PCA_callow_discr$x,Y=Y,
+                                       keepX=discr_analysis_callows_tuned$choice.keepX,
+                                       ncomp=n_comp,
+                                       scale = FALSE)
+  
+  perf.discr_analysis_callows_res <- perf(discr_analysis_callows_res,
+                                          validation = "Mfold",
+                                          folds = 4,
+                                          progressBar = FALSE,
+                                          nrepeat = 1,
+                                          scale = FALSE,
+                                          cpus=16)
+  
+  curve_data <- calculate_accuracy_metrics(perf.discr_analysis_callows_res$predict[[length(perf.discr_analysis_callows_res$predict)]][,3,1][Y>0], Y[Y>0]==2)
+  AUC <- calculate_AUC(curve_data$FPR, curve_data$TPR)
+  results_null <- c(results_null, AUC)}, 
+  error=function(cond) message(cond))
+}
+```
+
+The p-value is calculated as proportion of differences with value equal to or less than zero.
+
+```{r eval=FALSE}
+summary(results_basic-results_null)
+hist(results_basic-results_null, breaks=15, xlab = "Difference in AUROC", 
+     main = "Basic vs. null models")
+```
+
+
+```{r echo=FALSE, fig.cap="Distribution of the differences in the performance of the discriminant models trained on true and permuted data. Age status of \\textit{F. sanguinea} ants were shuffled in the null variant."}
+data("discrimination_model_validation")
+# summary(discrimination_model_validation[[1]] - discrimination_model_validation[[2]])
+hist(discrimination_model_validation[[1]]-discrimination_model_validation[[2]], breaks=15, xlab = "Difference in AUROC",
+     main = "Basic vs. null models")
+```
+
+All differences are positive, so the *p*-value is less than 0.001 since the null distribution consists of 1000 values.
+
+<!--chapter:end:/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/inst/supp_materials/Callow_markers.Rmd-->
+
+# Changes in CHC amount over time
+
+This section contains a series of linear (mixed) models fitted to examine how the proportion of *F. sanguinea* workers in a colony is associated with the amount of CHC, analyzed as a whole or in subsets. Included are summary reports, results of the Shapiro-Wilk test of normality of conditional residuals, as well as diagnostic plots and tests generated with the use of `DHARMa` R package[@R-DHARMa]. The response variable often needed to be transformed to meet model assumptions. Random terms with no variance have been dropped. 
+
+In model specification $(1|\text{random_factor})$ denotes random intercept (separate for each level of the random factor) and $((1|\text{random_factor_1:random_factor_2}))$ denotes random intercepts generated from the combinations of two factors. $\beta_{0}$ and $\epsilon$ denote intercept and error term, respectively. 
+
+```{r}
+suppressMessages({
+library(sangchem)
+library(dplyr)
+library(lme4)
+library(lmerTest)
+library(DHARMa)
+library(ggplot2)
+})
+# load data
+data("development_data")
+data("body_surface_area")
+CHC_normalizer <- get_body_area_normalizer(body_surface_area, development_data)
+load_globals()
+dev_samples <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), callow==0) %>%
+  dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) %>%
+  mutate(normalized_mass=mass*CHC_normalizer(species, head_width)) %>% mutate(head_width=head_width*1e-3)
+```
+
+## Colony growth and body size
+
+n the analyses below, normalized CHC amounts were used as the response variable. Because body shape in both species deviates from an isometric growth pattern (see Section \@ref(surface-area)), normalizing CHC amounts by the square of head width may introduce bias. To address this, we first examined the relationship between body size (head width) and the proportion of F. sanguinea workers in a colony, and then incorporated the square of head width as an explanatory variable in the linear model.
+
+$$
+\text{head_width} =  \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID}) + \epsilon,
+$$
+
+```{r}
+model_input <- dev_samples[dev_samples$species=="F. sanguinea",]
+lm_model <- lmer(head_width ~ sang_prop  + (1|colony), data=model_input)
+print(summary(lm_model))
+
+# model diagnostics
+hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
+print(shapiro.test(residuals(lm_model)))
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n = 10^4)
+plot(simulationOutput)
+```
+
+## Change in total CHC mass
+
+In this series of models the total CHC mass (normalized by assuming head width of 1.3 mm) was regressed on the proportion of *Formica sanguinea* workers in the colony. 
+
+### Mature *F. sanguinea*
+
+$$
+\log(\text{CHC_mass_sanguinea}) =  \beta_0 + \text{sanguinea_proportion} +\newline (1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+$$
+where $\text{CHC_mass_sanguinea}$ denotes the total normalized CHC mass on the body of adult *F. sanguinea* worker.
+
+```{r}
+set.seed(3453)
+model_input <- dev_samples[dev_samples$species=="F. sanguinea",]
+lm_model <- lmer(I(log(normalized_mass)) ~ sang_prop  +(1|colony) +(1 | colony:census_date), data=model_input)
+print(summary(lm_model))
+
+# model diagnostics
+hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
+print(shapiro.test(residuals(lm_model)))
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n = 10^4)
+plot(simulationOutput)
+```
+The model shows no significant effect of body size on CHC amount in *F. sanguinea*, and this term will therefore be excluded from subsequent models for this species.
+
+### *F. fusca*
+
+$$
+\log(\text{CHC_mass_fusca}) =  \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID}) + \epsilon,
+$$
+where $\text{CHC_mass_fusca}$ denotes the total normalized CHC mass on the body of adult *F. fusca* worker. 
+
+```{r}
+model_input <- dev_samples[dev_samples$species=="F. fusca",]
+lm_model <- lmer(I(log(normalized_mass)) ~ sang_prop  +(1|colony), data=model_input)
+print(summary(lm_model))
+
+# model diagnostics
+hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
+print(shapiro.test(residuals(lm_model)))
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n = 10^4)
+plot(simulationOutput)
+```
+
+### Callow *F. sanguinea*
+
+$$
+\log(\text{CHC_mass_callow}) =  \beta_0 + \text{sanguinea_proportion} + \newline(1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+$$
+where $\text{CHC_mass_callow}$ denotes the total normalized CHC mass on the body of callow *F. sanguinea* worker.
+
+```{r}
+model_input <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), callow==1) %>%
+  dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) %>%
+  mutate(normalized_mass=mass*CHC_normalizer(species, head_width))
+
+lm_model <- lmer(I(log(normalized_mass)) ~ sang_prop + (1|colony), data=model_input)
+print(summary(lm_model))
+
+# model diagnostics
+hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
+print(shapiro.test(residuals(lm_model)))
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n = 10^4)
+plot(simulationOutput)
+```
+Similarly to mature *F. sanguinea* ants, in callow workers there is negative but not significant relationship between body size and normalized CHC amount.
+
+### Predictions from the linear model
+
+The linear models explaining the change in CHC amounts in relation to the proportion of *F. sanguinea* workers in a colony were used to predict the normalized CHC amounts of workers of both species in pure (monospecific) colonies. The predictions were obtained by sampling the distribution of the response variable with random effects integrated out. The prediction distributions for both species were matched element-wise, and for each pair of values the CHC mass of *F. sanguinea* was divided by the CHC mass of *F. fusca* to generate the distribution of ratios of the predicted normalized mass. 
+
+```{r}
+data("CHC_mass_prediction")
+mass_ratios = CHC_mass_prediction$pred_values_sang/CHC_mass_prediction$pred_values_fusca
+library(HDInterval)
+hdi_interval <- hdi(mass_ratios)
+ratio_density <- density(mass_ratios, n=10^3)
+plot_data <- data.frame(x = ratio_density$x, 
+                        y = ratio_density$y,
+                        hdi_mask =ratio_density$x>hdi_interval[1] & ratio_density$x<hdi_interval[2])
+```
+```{r fig.cap="Ditribution of the ratios (\\textit{F. sanguinea}/\\textit{F. fusca}) of the predicted CHC mass of workers from pure colonies. The shaded area corresponds to the 95% highest density interval."}
+ggplot(plot_data, aes(x=x, y=y))+
+  geom_line()+
+  scale_x_continuous(limits = c(1, max(plot_data$x)))+
+  geom_area(aes(x = x, y = y),
+            data = subset(plot_data, hdi_mask), fill = "#aaee99")+
+  ylab("Density")+
+  xlab("Ratio of the normalized CHC amount")+
+  theme(panel.border = element_rect(color = "black", fill=NA),
+        panel.background = element_rect(color="black", fill = "white"))
+```
+
+
+
+## Change in CHC characteristic of *F. sanguinea*
+
+In this section the subset of peaks were used to calculate normalized CHC mass. These were peaks identified as *F. sanguinea* markers.
+
+### Mature *F. sanguinea* ants
+
+$$
+\log(\text{CHC_mass_mature}) =  \beta_0 + \text{sanguinea_proportion} +  \newline(1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+$$
+where $\text{CHC_mass_mature}$ denotes the normalized mass of *F. sanguinea* markers on the body of adult *F. sanguinea* worker.
+
+```{r}
+model_input <- dev_samples[dev_samples$species=="F. sanguinea",]
+model_input$normalized_mass <- model_input$normalized_mass*subsample_proportion(peaks_sang, model_input$chromatogram_ID)
+lm_model <- lmer(I(log(normalized_mass+1)) ~ sang_prop +(1 | colony:census_date) + (1|colony), data=model_input)
+print(summary(lm_model))
+# model diagnostics
+hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
+print(shapiro.test(residuals(lm_model)))
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n = 10^4)
+plot(simulationOutput)
+```
+
+### *F. fusca* ants
+
+$$
+\sqrt{(\text{CHC_mass_fusca})} =  \beta_0 + \text{sanguinea_proportion} +  \newline(1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+$$
+where $\text{CHC_mass_fusca}$ denotes the normalized mass of *F. sanguinea* markers on the body of adult *F. sanguinea* worker.
+
+```{r}
+model_input <- dev_samples[dev_samples$species=="F. fusca",]
+model_input$normalized_mass <- model_input$normalized_mass*subsample_proportion(peaks_sang, model_input$chromatogram_ID)
+lm_model <- lmer(I(sqrt(normalized_mass)) ~ sang_prop +(1|colony:census_date), data=model_input)
+print(summary(lm_model))
+
+# model diagnostics
+hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
+print(shapiro.test(residuals(lm_model)))
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n = 10^4)
+plot(simulationOutput)
+```
+
+### Callow *F. sanguinea* ants
+
+$$
+\sqrt[3]{(\text{CHC_mass_mature})} = \beta_0 + \text{sanguinea_proportion} + \epsilon,
+$$
+where $\text{CHC_mass_mature}$ denotes the normalized mass of *F. sanguinea* markers on the body of callow *F. sanguinea* worker.
+
+```{r}
+model_input <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), callow==1) %>%
+  dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) %>%
+  mutate(normalized_mass=mass*CHC_normalizer(species, head_width))
+# random term dropped because of the model singularity
+model_input$normalized_mass <- model_input$normalized_mass*subsample_proportion(peaks_sang, model_input$chromatogram_ID)
+lm_model <- lm(I((normalized_mass)^(1/3)) ~ sang_prop, data=model_input)
+print(summary(lm_model))
+
+# model diagnostics
+hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
+print(shapiro.test(residuals(lm_model)))
+```
+
+## Change in CHC characteristic of *F. fusca*
+
+Similarly to the analysis with the use of markers of *F. sanguinea* workers, the procedure was repeated using the mass of *F. fusca* markers as a response variable. 
+
+### Mature *F. sanguinea* ants
+
+$$
+\log(\text{CHC_mass_mature}) =  \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+$$
+where $\text{CHC_mass_mature}$ denotes the normalized mass of *F. fusca* markers on the body of adult *F. sanguinea* worker.
+
+
+```{r}
+model_input <- dev_samples[dev_samples$species=="F. sanguinea",]
+model_input$normalized_mass <- model_input$normalized_mass*subsample_proportion(peaks_fusca, model_input$chromatogram_ID)
+lm_model <- lmer(I(log(normalized_mass)) ~ sang_prop +(1 | colony:census_date) + (1 | colony), data=model_input)
+print(summary(lm_model))
+
+# model diagnostics
+hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
+print(shapiro.test(residuals(lm_model)))
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n=1e4)
+plot(simulationOutput)
+```
+
+### *F. fusca* ants
+
+$$
+\log(\text{CHC_mass_mature}+0.01) =  \beta_0 + \text{sanguinea_proportion} + \newline(1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+$$
+where $\text{CHC_mass_mature}$ denotes the normalized mass of *F. fusca* markers on the body of *F. fusca* worker.
+
+```{r}
+set.seed(1001)
+model_input <- dev_samples[dev_samples$species=="F. fusca",]
+model_input$normalized_mass <- model_input$normalized_mass*subsample_proportion(peaks_fusca, model_input$chromatogram_ID)
+lm_model <- lmer(I(log(normalized_mass+0.01)) ~ sang_prop + (1 | colony)+ (1 | colony:census_date), data=model_input)
+print(summary(lm_model))
+
+# model diagnostics
+hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
+print(shapiro.test(residuals(lm_model)))
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n=1e4)
+plot(simulationOutput)
+```
+
+### Callow *F. sanguinea* ants
+
+$$
+\log(\text{CHC_mass_mature}) = \beta_0 + \text{sanguinea_proportion} + (1|\text{colony_ID}) + \epsilon,
+$$
+where $\log(\text{CHC_mass_mature})$ denotes the normalized mass of *F. fusca* markers on the body of callow *F. sanguinea* worker.
+
+```{r}
+model_input <- filter(development_data, caste=="worker",!is.na(head_width), !remarks %in% c("aggression actor", "aggression target", "queenless colony"), callow==1) %>%
+  dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) %>%
+  mutate(normalized_mass=mass*CHC_normalizer(species, head_width))
+# random term dropped because of the model singularity
+model_input$normalized_mass <- model_input$normalized_mass*subsample_proportion(peaks_fusca, model_input$chromatogram_ID)
+lm_model <- lmer(I(log(normalized_mass)) ~ sang_prop+(1 | colony), data=model_input)
+print(summary(lm_model))
+
+# model diagnostics
+hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
+print(shapiro.test(residuals(lm_model)))
+```
+
+<!--chapter:end:/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/inst/supp_materials/CHCs_over_time.Rmd-->
+
+# Comparisons of CHC amounts and proportions between species and age categories
+
+This section presents the results of Wilcoxon tests comparing features of CHC profiles between callow and mature *F. sanguinea* ants as well as *F. fusca* slaves. Samples from the same colony were averaged before calculation of the final statistics to account for their non-independence.  
+
+```{r warning=FALSE}
+suppressMessages({
+  library(sangchem)
+  library(dplyr)
+  library(ggpubr)
+  library(rstatix)
+})
+
+# load data
+data("development_data")
+data("mass_spectra_data")
+development_samples <- filter(development_data, caste=="worker", !remarks %in% c("aggression actor", "aggression target", "queenless colony")) %>% 
+  mutate(normalized_mass=mass*CHC_normalizer(species,head_width)) %>%
+  select(species, census_date, colony, normalized_mass,callow, chromatogram_ID)
+load_globals()
+```
+
+## Difference in total CHC amount between *F. sanguinea* and *F. fusca*
+```{r}
+test_data <- filter(development_samples, callow == 0) 
+test_data_sang <- filter(test_data,  species=="F. sanguinea") %>% colony_weighted_mean()
+test_data_sang$species <- "F. sanginea"
+test_data_fusca <- filter(test_data, species == "F. fusca") %>% colony_weighted_mean()
+test_data_fusca$species <- "F. fusca"
+colonies <- intersect(test_data_sang$colony, test_data_fusca$colony)
+test_df <- rbind(test_data_sang, test_data_fusca)
+test_df <- test_df[test_df$colony %in% colonies,]
+test_df <- test_df[order(test_df$colony),]
+test_df$species <- factor(test_df$species)
+test_stats <- wilcox_test(test_df, normalized_mass~species, paired=TRUE) %>%
+  add_significance("p") %>%
+  add_xy_position(x="species", dodge=0.8, fun="max")
+ggboxplot(test_df, x="species", y="normalized_mass")+
+  scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
+  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
+    xlab("Species")+
+  ylab("Nomalized mass")
+```
+
+## Difference in total CHC amount between callow and mature *F. sanguinea*
+```{r}
+test_data <- filter(development_samples, species == "F. sanguinea") 
+test_data_mature <- filter(test_data, callow == 0) %>% colony_weighted_mean()
+test_data_mature$callow <- 0
+test_data_callow <- filter(test_data, callow == 1) %>% colony_weighted_mean()
+test_data_callow $callow <- 1
+colonies <- intersect(test_data_mature$colony, test_data_callow$colony)
+test_df <- rbind(test_data_callow, test_data_mature)
+test_df <- test_df[test_df$colony %in% colonies,]
+test_df <- test_df[order(test_df$colony),]
+test_df$callow <- factor(test_df$callow)
+test_stats <- wilcox_test(test_df, normalized_mass~callow, paired=TRUE) %>%
+  add_significance("p") %>%
+  add_xy_position(x="callow", dodge=0.8, fun="max")
+ggboxplot(test_df, x="callow", y="normalized_mass")+
+  scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
+  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
+  scale_x_discrete(labels = c('Mature','Callow'))+
+    xlab("Age")+
+  ylab("Nomalized mass")
+```
+
+## Difference in the proportion of CHC characteristic of *F. sanguinea* between mature *F. sanguinea* and *F. fusca*
+```{r}
+test_data <- development_samples
+test_data$sang_prop <- subsample_proportion(peaks_sang, test_data$chromatogram_ID)
+test_data_sang <- filter(test_data, species == "F. sanguinea", callow ==  0) %>% colony_weighted_mean(var = "sang_prop")
+test_data_sang$species <- "F. sanguinea"
+test_data_fusca <- filter(test_data, species == "F. fusca") %>% colony_weighted_mean(var = "sang_prop")
+test_data_fusca$species <- "F. fusca"
+colonies <- intersect(test_data_sang$colony, test_data_fusca$colony)
+test_df <- rbind(test_data_fusca, test_data_sang)
+test_df <- test_df[test_df$colony %in% colonies,]
+test_df <- test_df[order(test_df$colony),]
+test_df$species <- factor(test_df$species)
+test_stats <- wilcox_test(test_df, sang_prop~species, paired=TRUE) %>%
+  add_significance("p") %>%
+  add_xy_position(x="species", dodge=0.8, fun="max")
+ggboxplot(test_df, x="species", y="sang_prop")+
+  ylab("Proportion of CHC characteristic of F. sanguinea")+
+  scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
+  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
+  xlab("Species")
+```
+
+## Difference in the proportion of CHC characteristic of *F. sanguinea* between mature and callow *F. sanguinea* 
+```{r}
+test_data <- filter(development_samples, species == "F. sanguinea")
+test_data$sang_prop <- subsample_proportion(peaks_sang, test_data$chromatogram_ID)
+test_data_mature <- filter(test_data, callow ==  0) %>% 
+  colony_weighted_mean(var = "sang_prop")
+test_data_mature$callow <- 0
+test_data_callow <- filter(test_data,callow == 1) %>% colony_weighted_mean(var = "sang_prop")
+test_data_callow$callow <- 1
+colonies <- intersect(test_data_mature$colony, test_data_callow$colony)
+test_df <- rbind(test_data_mature, test_data_callow)
+test_df <- test_df[test_df$colony %in% colonies,]
+test_df <- test_df[order(test_df$colony),]
+test_df$callow <- factor(test_df$callow)
+test_stats <- wilcox_test(test_df, sang_prop~callow, paired=TRUE) %>%
+  add_significance("p") %>%
+  add_xy_position(x="callow", dodge=0.8, fun="max")
+ggboxplot(test_df, x="callow", y="sang_prop")+
+  ylab("Proportion of CHC characteristic of\nF. sanguinea")+
+  scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
+  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
+    scale_x_discrete(labels = c('Mature','Callow'))+
+  xlab("Age")
+```
+
+## Difference in the proportion of CHC characteristic of callow *F. sanguinea* between mature and callow *F. sanguinea* 
+```{r}
+test_data <- filter(development_samples, species == "F. sanguinea")
+test_data$sang_prop <- subsample_proportion(peaks_callow, test_data$chromatogram_ID)
+test_data_mature <- filter(test_data, callow ==  0) %>% 
+  colony_weighted_mean(var = "sang_prop")
+test_data_mature$callow <- 0
+test_data_callow <- filter(test_data,callow == 1) %>% colony_weighted_mean(var = "sang_prop")
+test_data_callow$callow <- 1
+colonies <- intersect(test_data_mature$colony, test_data_callow$colony)
+test_df <- rbind(test_data_mature, test_data_callow)
+test_df <- test_df[test_df$colony %in% colonies,]
+test_df <- test_df[order(test_df$colony),]
+test_df$callow <- factor(test_df$callow)
+test_stats <- wilcox_test(test_df, sang_prop~callow, paired=TRUE) %>%
+  add_significance("p") %>%
+  add_xy_position(x="callow", dodge=0.8, fun="max")
+ggboxplot(test_df, x="callow", y="sang_prop")+
+  ylab("Proportion of CHC characteristic of callow F. sanguinea")+
+  scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
+  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
+  scale_x_discrete(labels = c('Mature','Callow'))+
+  xlab("Age")
+```
+
+
+## Difference in the amount of CHC characteristic of callow *F. sanguinea* between mature and callow *F. sanguinea* 
+```{r}
+test_data <- filter(development_samples, species == "F. sanguinea")
+test_data$marker_prop <- subsample_proportion(peaks_callow, test_data$chromatogram_ID)
+test_data$marker_mass <- test_data$marker_prop * test_data$normalized_mass
+test_data_mature <- filter(test_data, callow ==  0) %>% 
+  colony_weighted_mean(var = "marker_mass")
+test_data_mature$callow <- 0
+test_data_callow<- filter(test_data, callow == 1) %>% colony_weighted_mean(var = "marker_mass")
+test_data_callow$callow <- 1
+colonies <- intersect(test_data_mature$colony, test_data_callow$colony)
+test_df <- rbind(test_data_mature, test_data_callow)
+test_df <- test_df[test_df$colony %in% colonies,]
+test_df <- test_df[order(test_df$colony),]
+test_df$callow <- factor(test_df$callow)
+test_stats <- wilcox_test(test_df, marker_mass~callow, paired=TRUE) %>%
+  add_significance("p") %>%
+  add_xy_position(x="callow", dodge=0.8, fun="max")
+ggboxplot(test_df, x="callow", y="marker_mass")+
+  ylab("Mass of the callow markers")+
+  scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
+  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
+    scale_x_discrete(labels = c('Mature','Callow'))+
+  xlab("Age")
+```
+
+## Difference in the proportion of CHC characteristic of *F. fusca* between mature *F. sanguinea* and *F. fusca*
+```{r}
+test_data <- development_samples
+test_data$fusca_prop <- subsample_proportion(peaks_fusca, test_data$chromatogram_ID)
+test_data_sang <- filter(test_data, species == "F. sanguinea", callow ==  0) %>% colony_weighted_mean(var = "fusca_prop")
+test_data_sang$species <- "F. sanguinea"
+test_data_fusca <- filter(test_data, species == "F. fusca") %>% colony_weighted_mean(var = "fusca_prop")
+test_data_fusca$species <- "F. fusca"
+colonies <- intersect(test_data_sang$colony, test_data_fusca$colony)
+test_df <- rbind(test_data_fusca, test_data_sang)
+test_df <- test_df[test_df$colony %in% colonies,]
+test_df <- test_df[order(test_df$colony),]
+test_df$species <- factor(test_df$species)
+test_stats <- wilcox_test(test_df, fusca_prop~species, paired=TRUE) %>%
+  add_significance("p") %>%
+  add_xy_position(x="species", dodge=0.8, fun="max")
+ggboxplot(test_df, x="species", y="fusca_prop")+
+  ylab("Proportion of CHC characteristic of F. fusca")+
+  scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
+  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
+  xlab("Species")
+```
+
+## Difference in the proportion of CHC characteristic of *F. fusca* between mature and callow *F. sanguinea* 
+```{r}
+test_data <- filter(development_samples, species == "F. sanguinea")
+test_data$fusca_prop <- subsample_proportion(peaks_fusca, test_data$chromatogram_ID)
+test_data_mature <- filter(test_data, callow ==  0) %>% 
+  colony_weighted_mean(var = "fusca_prop")
+test_data_mature$callow <- 0
+test_data_callow <- filter(test_data,callow == 1) %>% colony_weighted_mean(var = "fusca_prop")
+test_data_callow$callow <- 1
+colonies <- intersect(test_data_mature$colony, test_data_callow$colony)
+test_df <- rbind(test_data_mature, test_data_callow)
+test_df <- test_df[test_df$colony %in% colonies,]
+test_df <- test_df[order(test_df$colony),]
+test_df$callow <- factor(test_df$callow)
+test_stats <- wilcox_test(test_df, fusca_prop~callow, paired=TRUE) %>%
+  add_significance("p") %>%
+  add_xy_position(x="callow", dodge=0.8, fun="max")
+ggboxplot(test_df, x="callow", y="fusca_prop")+
+  ylab("Proportion of CHC characteristic of F. fusca")+
+  scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
+  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
+    stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
+  scale_x_discrete(labels = c('Mature','Callow'))+
+  xlab("Age")
+```
+
+
+## Difference in the proportion of CHC characteristic of *F. fusca* between callow *F. sanguinea* and *F. fusca*
+```{r}
+test_data <- filter(development_samples)
+test_data$fusca_prop <- subsample_proportion(peaks_fusca, test_data$chromatogram_ID)
+test_data_sang <- filter(test_data, callow ==  1, species =="F. sanguinea") %>% 
+  colony_weighted_mean(var = "fusca_prop")
+test_data_sang$species <- "F. sanguinea"
+test_data_fusca <- filter(test_data,species == "F. fusca") %>% colony_weighted_mean(var = "fusca_prop")
+test_data_fusca$species <- "F. fusca"
+colonies <- intersect(test_data_fusca$colony, test_data_sang$colony)
+test_df <- rbind(test_data_sang, test_data_fusca)
+test_df <- test_df[test_df$colony %in% colonies,]
+test_df <- test_df[order(test_df$colony),]
+test_df$species <- factor(test_df$species)
+test_stats <- wilcox_test(test_df, fusca_prop~species, paired=TRUE) %>%
+  add_significance("p") %>%
+  add_xy_position(x="species", dodge=0.8, fun="max")
+ggboxplot(test_df, x="species", y="fusca_prop")+
+  ylab("Proportion of CHC characteristic of F. fusca")+
+  scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
+  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
+  xlab("Species")
+```
+
+## Difference in the mass of *n*-alkanes between callow and mature *F. sanguinea*
+```{r}
+n_alkanes_ID <- unique(mass_spectra_data$peak_ID[grep("^C[0-9]{2}$",mass_spectra_data$identification)])
+test_data <- filter(development_samples, species == "F. sanguinea")
+test_data$n_alkanes_prop <- subsample_proportion(n_alkanes_ID, test_data$chromatogram_ID)
+test_data$n_alkanes_mass <- test_data$n_alkanes_prop * test_data$normalized_mass
+test_data_mature <- filter(test_data, callow ==  0) %>% 
+  colony_weighted_mean(var = "n_alkanes_mass")
+test_data_mature$callow <- 0
+test_data_callow<- filter(test_data, callow == 1) %>% colony_weighted_mean(var = "n_alkanes_mass")
+test_data_callow$callow <- 1
+colonies <- intersect(test_data_mature$colony, test_data_callow$colony)
+test_df <- rbind(test_data_mature, test_data_callow)
+test_df <- test_df[test_df$colony %in% colonies,]
+test_df <- test_df[order(test_df$colony),]
+test_df$callow <- factor(test_df$callow)
+test_stats <- wilcox_test(test_df, n_alkanes_mass~callow, paired=TRUE) %>%
+  add_significance("p") %>%
+  add_xy_position(x="callow", dodge=0.8, fun="max")
+ggboxplot(test_df, x="callow", y="n_alkanes_mass")+
+  ylab("Mass of n-alkanes")+
+  scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
+  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
+  scale_x_discrete(labels = c('Mature','Callow'))+
+  xlab("Age")
+```
+
+## Difference in the proportion of *n*-alkanes between callow and mature *F. sanguinea*
+```{r}
+test_data <- filter(development_samples, species == "F. sanguinea")
+test_data$n_alkanes_prop <- subsample_proportion(n_alkanes_ID, test_data$chromatogram_ID)
+test_data_mature <- filter(test_data, callow ==  0) %>% 
+  colony_weighted_mean(var = "n_alkanes_prop")
+test_data_mature$callow <- 0
+test_data_callow<- filter(test_data, callow == 1) %>% colony_weighted_mean(var = "n_alkanes_prop")
+test_data_callow$callow <- 1
+colonies <- intersect(test_data_mature$colony, test_data_callow$colony)
+test_df <- rbind(test_data_mature, test_data_callow)
+test_df <- test_df[test_df$colony %in% colonies,]
+test_df <- test_df[order(test_df$colony),]
+test_df$callow <- factor(test_df$callow)
+test_stats <- wilcox_test(test_df, n_alkanes_prop~callow, paired=TRUE) %>%
+  add_significance("p") %>%
+  add_xy_position(x="callow", dodge=0.8, fun="max")
+ggboxplot(test_df, x="callow", y="n_alkanes_prop")+
+  ylab("Proportion of n-alkanes in total CHC amount")+
+  scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
+  stat_pvalue_manual(test_stats, label="p", tip.length = 0, size=3.5)+
+  scale_x_discrete(labels = c('Mature','Callow'))+
+  xlab("Age")
+```
+
+<!--chapter:end:/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/inst/supp_materials/Non-parametric_tests.Rmd-->
+
+# Change in the CHC profile of separated callow *F. sanguinea* ants
+```{r warning=FALSE}
+suppressMessages({
+  library(sangchem)
+  library(dplyr)
+  library(lmerTest)
+  library(DHARMa)
+})
+
+# load data
+data("separation_experiment_data")
+data("mass_spectra_data")
+```
+
+## Change in total CHC amount over time
+```{r}
+separation_data <- filter(separation_experiment_data, treatment_id<5)
+separation_data$normalized_mass <- separation_data$mass*CHC_normalizer("F. sanguinea", separation_data$head_width)
+# remove row 74 which is an outlier
+lm_model <- lmer(I(sqrt(normalized_mass))~mean_delta+(1|colony), data = separation_data[-74,])
+print(summary(lm_model))
+
+# model diagnostics
+hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
+shapiro.test(residuals(lm_model))
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n=1e4)
+plot(simulationOutput)
+```
+
+## Change in the amount of compounds characteristic of callow *F. sanguinea*
+```{r}
+load_globals()
+separation_data$normalized_mass_part <- separation_data$normalized_mass * subsample_proportion(peaks_callow, separation_data$chromatogram_ID)
+lm_model <- lmer(log(normalized_mass_part)~mean_delta+(1|colony), data = separation_data)
+print(summary(lm_model))
+hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
+shapiro.test(residuals(lm_model))
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n=1e4)
+plot(simulationOutput)
+```
+
+## Change in the amount of compounds characteristic of *F. sanguinea*
+```{r}
+separation_data$normalized_mass_part <- separation_data$normalized_mass * subsample_proportion(peaks_sang, separation_data$chromatogram_ID)
+lm_model <- lmer(I(sqrt(normalized_mass_part))~poly(mean_delta,1)+(1|colony), data = separation_data[-c(69, 74),])
+print(summary(lm_model))
+hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
+shapiro.test(residuals(lm_model))
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n=1e4)
+plot(simulationOutput)
+```
+
+## Change in the amount of compounds characteristic of *F. fusca*
+```{r}
+separation_data$normalized_mass_part <- separation_data$normalized_mass * subsample_proportion(peaks_fusca, separation_data$chromatogram_ID)
+lm_model <- lmer(normalized_mass_part~mean_delta+(1|colony), data = separation_data)
+print(summary(lm_model))
+hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
+shapiro.test(residuals(lm_model))
+simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n=1e4)
+plot(simulationOutput)
+```
+
+<!--chapter:end:/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/inst/supp_materials/Separation_experiment.Rmd-->
+
+# Impact of slaves on the development of the *F. sanguinea* CHC profile
+
+We analyzed the impact of *F. fusca* slaves on the CHC profile of callow *F. sanguinea* ants. In this experiment, *F. sanguinea* ants were isolated in pairs before eclosion, and their CHC profiles were analyzed at one of four time points marking their adult age. We then tested whether callow *F. sanguinea* ants were chemically more similar to their slave relatives from free-living colonies. Unrelated *F. fusca* ants served as a background group."
+
+## Analysis based on all samples
+
+```{r}
+library(dplyr)
+library(sangchem)
+set.seed(3810)
+dist_matr <- sangchem:::global_distances_matrix()
+n_rep = 1e3
+test_stats <- list()
+for(n in 1:4){
+  test_stats[[n]] <- list(V=c(), p_val=c())
+  treatment_df <- filter(separation_experiment_data, treatment_id ==n)
+  treatment_df <- treatment_df[!is.na(colony_to_chrID[slave_source_colony[treatment_df$colony]]),]
+  colonies <- sort(unique(treatment_df$colony))
+  source_colonies <- unique(slave_source_colony[colonies])
+  for(i in seq_len(n_rep)){
+    distance_df <- data.frame()
+    for(sang_colony in colonies){
+      source_colony_id = slave_source_colony[sang_colony]
+      other_colony_id <- sample(setdiff(source_colonies, source_colony_id),1)
+      chr_IDs <- treatment_df[treatment_df$colony==sang_colony,"chromatogram_ID"]
+      distance_to_related <- c()
+      distance_to_unrelated <- c()
+      for(chr_ID in chr_IDs){
+        distance_to_related <- c(distance_to_related, pair_distance(chr_ID_1 = chr_ID, 
+                                             chr_ID_2 = colony_to_chrID[source_colony_id],
+                                             MS_data = mass_spectra_data,
+                                             distances_registry = dist_matr))
+        distance_to_unrelated <- c(distance_to_related, pair_distance(chr_ID_1 = chr_ID, 
+                                             chr_ID_2 = colony_to_chrID[other_colony_id],
+                                             MS_data = mass_spectra_data,
+                                             distances_registry = dist_matr))
+        distance_df <- rbind(distance_df, data.frame(d_related=mean(distance_to_related),
+                                                     d_unrelated=mean(distance_to_unrelated)))
+      }
+    }
+    res <- wilcox.test(distance_df$d_related, distance_df$d_unrelated, paired = TRUE)
+    test_stats[[n]]$V <- c(test_stats[[n]]$V, res$statistic)
+    test_stats[[n]]$p_val <- c(test_stats[[n]]$p_val, res$p.value)
+  }
+
+}
+
+```
+
+Distribution of p-values for the separation period of 1-3 days:
+```{r}
+summary(test_stats[[1]]$p_val)
+```
+
+Distribution of p-values for the separation period of 8-10 days:
+```{r}
+summary(test_stats[[2]]$p_val)
+```
+
+Distribution of p-values for the separation period of 17-20 days:
+```{r}
+summary(test_stats[[3]]$p_val)
+```
+
+Distribution of p-values for the separation period of 35-40 days:
+```{r}
+summary(test_stats[[4]]$p_val)
+```
+
+## Analysis restricted to individuals hatched from cocoons
+
+```{r}
+library(dplyr)
+library(sangchem)
+separation_data$cocoon_1 <- as.numeric(separation_data$cocoon_1)
+separation_data$cocoon_2 <- as.numeric(separation_data$cocoon_2)
+set.seed(3810)
+dist_matr <- sangchem:::global_distances_matrix()
+n_rep = 1e3
+test_stats_c <- list()
+separation_data_cocoons <- separation_experiment_data[apply(separation_experiment_data[c("cocoon_1", "cocoon_2")], 1, function(x) sum(as.numeric(x))==2),]
+for(n in 1:4){
+  test_stats_c[[n]] <- list(V=c(), p_val=c())
+  treatment_df <- filter(separation_data_cocoons, treatment_id ==n)
+  treatment_df <- treatment_df[!is.na(colony_to_chrID[slave_source_colony[treatment_df$colony]]),]
+  colonies <- sort(unique(treatment_df$colony))
+  source_colonies <- unique(slave_source_colony[colonies])
+  for(i in seq_len(n_rep)){
+    distance_df <- data.frame()
+    for(sang_colony in colonies){
+      source_colony_id = slave_source_colony[sang_colony]
+      other_colony_id <- sample(setdiff(source_colonies, source_colony_id),1)
+      chr_IDs <- treatment_df[treatment_df$colony==sang_colony,"chromatogram_ID"]
+      distance_to_related <- c()
+      distance_to_unrelated <- c()
+      for(chr_ID in chr_IDs){
+        distance_to_related <- c(distance_to_related, pair_distance(chr_ID_1 = chr_ID, 
+                                             chr_ID_2 = colony_to_chrID[source_colony_id],
+                                             MS_data = mass_spectra_data,
+                                             distances_registry = dist_matr))
+        distance_to_unrelated <- c(distance_to_related, pair_distance(chr_ID_1 = chr_ID, 
+                                             chr_ID_2 = colony_to_chrID[other_colony_id],
+                                             MS_data = mass_spectra_data,
+                                             distances_registry = dist_matr))
+        distance_df <- rbind(distance_df, data.frame(d_related=mean(distance_to_related),
+                                                     d_unrelated=mean(distance_to_unrelated)))
+      }
+    }
+    res <- wilcox.test(distance_df$d_related, distance_df$d_unrelated, paired = TRUE)
+    test_stats_c[[n]]$V <- c(test_stats[[n]]$V, res$statistic)
+    test_stats_c[[n]]$p_val <- c(test_stats[[n]]$p_val, res$p.value)
+  }
+
+}
+```
+
+Distribution of p-values for the separation period of 1-3 days:
+```{r}
+summary(test_stats_c[[1]]$p_val)
+```
+
+Distribution of p-values for the separation period of 8-10 days:
+```{r}
+summary(test_stats_c[[2]]$p_val)
+```
+
+Distribution of p-values for the separation period of 17-20 days:
+```{r}
+summary(test_stats_c[[3]]$p_val)
+```
+
+Distribution of p-values for the separation period of 35-40 days:
+```{r}
+summary(test_stats_c[[4]]$p_val)
+```
+
+<!--chapter:end:/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/inst/supp_materials/Slave_impact.Rmd-->
+
+# Effect of dummy ants
+
+In these experiments, *F. sanguinea* ants released from their cocoon envelopes were maintained in Petri dishes along with glass beads coated with CHC extracted from either *F. fusca* or *F. sanguinea* ants. We examined whether the contact with dummy nestmates influenced the development of CHC profile of young *F. sanguinea* workers. In particular, we aimed to determine there there is evidence for active chemical mimicry in *F. sanguinea*. 
+
+```{r warning=FALSE}
+suppressMessages({
+  library(sangchem)
+  library(dplyr)
+  library(kableExtra)
+})
+
+# load data
+data("separation_experiment_data")
+data("mass_spectra_data")
+data("subject_to_donor_mapping")
+```
+
+## Distance to the CHC profile of the dummy ants treated with *F. fusca* CHC
+
+We computed the chemical distance to the CHC profile of ants whose CHC were used to cover glass beads serving as dummy ants. In the control variant, we used the ants subjected to clean glass beads. 
+
+```{r}
+args <- test_dummy_ant_effect(treatment_id=5, separation_experiment_data, mass_spectra_data, subject_to_donor_mapping,caption="Chemical distance of separated \\textit{F. sanguinea} ants to the CHC profile of \\textit{F. fusca} ants from colonies that served as a source of CHC to caot the glass beads. In control variant, glass bead were left clean.")
+args$booktabs=TRUE
+```
+
+
+```{r}
+do.call(kableExtra::kbl, args) %>% column_spec(c(3,5), width="2cm") %>% kable_styling()
+```
+## Distance to the CHC profile of the dummy ants treated with *F. sanguinea* CHC
+```{r}
+args <- test_dummy_ant_effect(treatment_id=7, separation_experiment_data, mass_spectra_data, subject_to_donor_mapping,caption="Chemical distance of separated \\textit{F. sanguinea} ants to the CHC profile of \\textit{F. sanguinea} ants from colonies that served as a source of CHC to caot the glass beads. In control variant, glass bead were left clean.")
+args$booktabs=TRUE
+do.call(kableExtra::kbl, args) %>% column_spec(c(3,5), width="2cm") %>% kable_styling()
+```
+
+
+
+## Fraction of *n*-docosane in the CHC profile
+
+For the control treatment, glass beads were left uncoated with CHC. In the experimental treatments, the CHC used to coat the glass beads were supplemented with *n*-docosane, which served as an internal standard. We examined differences in the proportion of *n*-docosane in the CHC profiles of the tested ants, as these could indicate the acquisition of chemicals from the dummy ants.
+
+### *F. fusca*
+
+```{r}
+args <- test_C22_proportion(5, separation_experiment_data, mass_spectra_data,caption="Proportion of \\textit{n}-docosane in CHC extracted from \\textit{F. sanguinea} ants maintained with the glass beads coated with the CHC of \\textit{F. fusca} ants and contaminated with \\textit{n}-docosane. In control variant, glass bead were left clean.")
+args$booktabs=TRUE
+do.call(kableExtra::kbl, args) %>% column_spec(c(3,5), width="2cm") %>% kable_styling()
+```
+
+### *F. sanguinea*
+
+```{r}
+args <- test_C22_proportion(7, separation_experiment_data, mass_spectra_data,caption="Proportion of \\textit{n}-docosane in CHC extracted from \\textit{F. sanguinea} ants maintained with the glass beads coated with the CHC of \\textit{F. sanguinea} ants and contaminated with \\textit{n}-docosane. In control variant, glass bead were left clean.")
+args$longtable = TRUE
+args$booktabs=TRUE
+do.call(kableExtra::kbl, args) %>% column_spec(c(3,5), width="2cm") %>% kable_styling()
+```
+
+<!--chapter:end:/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/inst/supp_materials/Dummy_ants.Rmd-->
+
+# Body surface area of *F. sanguinea* ants and their slaves {#surface-area}
+
+The areas of planar projection of different body parts were regressed on the head width to obtain a model which was subsequently used to approximate the area for each sample. The regression was performed separately for each species. The following formula was applied:
+
+$$
+\hat{A} = \sum_{i \in I}\beta_{0,i}+\beta_{1,i}w+\beta_{2,i}w^2,
+$$
+where\newline
+$\hat{A}$ denotes the estimated body area,\newline
+$I$ denotes the set of body parts for which the planar projection area was measured\newline
+$w$ denotes head width\newline
+$\beta_{j,i}$ are coefficients from the polynomial regression.\newline
+
+These calculations do not reflect the absolute value of body surface area but were converted into scaling factors by using them a divisors of a standard area. In this way, the unit of measurement is canceled out, and absolute values are converted into dimensionless ratios. The standard area was calculated by substituting the $w$ = 1.15 mm into the formula above and using coefficients obtained from measurements of *F. sanguinea*. 
+
+```{r warning=FALSE}
+library(sangchem)
+library(ggplot2)
+data("development_data")
+data("separation_experiment_data")
+data("body_surface_area")
+
+body_surface_area$species <- development_data$species[match(body_surface_area$ID, development_data$chromatogram_ID)]
+body_surface_area$head_width <- development_data$head_width[match(body_surface_area$ID, development_data$chromatogram_ID)]
+body_surface_area$head_width <- body_surface_area$head_width*1e-3
+
+```
+```{r fig.cap="Relation between head width and area of the planar projections of ant body parts.",fig.height=3}
+ggplot(body_surface_area, aes(y=area, x=head_width,color=species))+
+  geom_point()+
+  stat_smooth(method='lm', formula=y~poly(x,2,raw = TRUE), se=FALSE) +
+  facet_wrap(~view)+
+  scale_color_manual(values=c("black", "red"))+
+  xlab("Head width [mm]")+
+  ylab("Area of the planar projection [pixels]")+
+  theme_light()+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+
+<!--chapter:end:/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/inst/supp_materials/Body_surface.Rmd-->
+
+# Session info 
+
+This section lists the R session information, including package versions, that were used to generate this report.
+
+```{r}
+print(sessionInfo())
+```
+
+<!--chapter:end:/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/inst/supp_materials/Session_info.Rmd-->
+

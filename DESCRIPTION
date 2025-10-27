@@ -19,9 +19,13 @@ Imports:
     DHARMa,
     rlang,
     vegan,
-    HDInterval
+    HDInterval,
+    bookdown,
+    ggplot2,
+    ggpubr,
+    rstatix,
+    kableExtra
 Suggests:
     stringi,
-    Hmisc,
-    ggpubr
+    Hmisc
 RoxygenNote: 7.3.2

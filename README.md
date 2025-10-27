@@ -1,5 +1,19 @@
-This are the materials supporting the manuscript:
+This is the R package containing the code used to process the data supporting the following manuscript:
 
-Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development
+Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development.
 
-generated using [`sangchem`](https://github.com/TomVuod/sangchem) R package.
+
+# Usage
+Installation
+```
+if(!require(devtools)) install.packages("devtools")
+devtools::install_github("TomVuod/fusca_counteradaptation", build_vignette = TRUE)
+```
+Loading
+```
+library(fusca.defence)
+```
+Generating supplementary materials (by default in the current working directory)
+```
+render_supp_materials()
+```

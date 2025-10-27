@@ -6,7 +6,7 @@ author:
   - Thomas Schmitt^[Department of Animal Ecology and Tropical Biology, University of Würzburg, Germany, thomas.schmitt@uni-wuerzburg.de, ORCID 0000-0002-6719-8635]
 bibliography: book.bib
 params:
-  save_globals: TRUE
+  save_globals: FALSE
 clean: false
 output:
   bookdown::pdf_document2:
@@ -14,13 +14,13 @@ output:
 ---
 
 # Introduction
-This document presents graphical results generated as output from analytic workflows written in *R* language and available in [the public GitHub repository - https://github.com/TomVuod/sangchem/tree/supp](https://github.com/TomVuod/sangchem/tree/supp).   
+This document presents graphical results generated as output from analytic workflows written in *R* language and available in [the public GitHub repository - https://github.com/TomVuod/sangchem](https://github.com/TomVuod/sangchem).   
 
 
 
 
 
-<!--chapter:end:index.Rmd-->
+<!--chapter:end:/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/inst/supp_materials/index.Rmd-->
 
 # Species discrimination and prediction
 To classify the CHC samples collected from mixed colonies, we need a measure which positions a sample between the *F. sanguinea* and *F. fusca* CHC profiles. Therefore, using `mixOmics` R package [@R-mixOmics], we performed a discriminant analysis training the model on the chemical data collected from the filed colonies in the earlier study [@WLODARCZYK201798]. The model was subsequently used to predict identity of new samples.
@@ -58,11 +58,11 @@ where $\textbf{R}^+$ denotes the pseudoinverse of rotation matrix from PCA.
 
 \begin{figure}
 
-{\centering \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-10-1} 
+{\centering \includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-5-1} 
 
 }
 
-\caption{Variance of each principal compnent. Data was fed into the discriminat model to find features separating both species.}(\#fig:unnamed-chunk-10)
+\caption{Variance of each principal compnent. Data was fed into the discriminat model to find features separating both species.}(\#fig:unnamed-chunk-5)
 \end{figure}
 
 
@@ -71,44 +71,44 @@ where $\textbf{R}^+$ denotes the pseudoinverse of rotation matrix from PCA.
 
 \begin{figure}
 
-{\centering \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-14-1} 
+{\centering \includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-9-1} 
 
 }
 
-\caption{Distribution of the samples projected onto two first latent components before optimizing the number of model paramaters.}(\#fig:unnamed-chunk-14)
+\caption{Distribution of the samples projected onto two first latent components before optimizing the number of model paramaters.}(\#fig:unnamed-chunk-9)
 \end{figure}
 
 
 
 \begin{figure}
 
-{\centering \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-16-1} 
+{\centering \includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-11-1} 
 
 }
 
-\caption{Results of the performance test of the discriminant model with different number of the latent components. For details see the documunetation of R mixOmics package.}(\#fig:unnamed-chunk-16)
+\caption{Results of the performance test of the discriminant model with different number of the latent components. For details see the documunetation of R mixOmics package.}(\#fig:unnamed-chunk-11)
 \end{figure}
 
 
 
 \begin{figure}
 
-{\centering \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-18-1} 
+{\centering \includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-13-1} 
 
 }
 
-\caption{Projection of the samples in onto two first discriminant analysis components after model tuning.}(\#fig:unnamed-chunk-18)
+\caption{Projection of the samples in onto two first discriminant analysis components after model tuning.}(\#fig:unnamed-chunk-13)
 \end{figure}
 
 
 
 \begin{longtable}[t]{rlrll}
-\caption{(\#tab:unnamed-chunk-20)List of the peaks with the species identity score indicating their importance as a marker of \textit{F. fusca} or \textit{F. sanguinea} samples.}\\
+\caption{(\#tab:unnamed-chunk-15)List of the peaks with the species identity score indicating their importance as a marker of \textit{F. fusca} or \textit{F. sanguinea} samples.}\\
 \toprule
 Peak ID & Compound & Marker score & fusca marker & sanguinea marker\\
 \midrule
 \endfirsthead
-\caption[]{(\#tab:unnamed-chunk-20)List of the peaks with the species identity score indicating their importance as a marker of \textit{F. fusca} or \textit{F. sanguinea} samples. \textit{(continued)}}\\
+\caption[]{(\#tab:unnamed-chunk-15)List of the peaks with the species identity score indicating their importance as a marker of \textit{F. fusca} or \textit{F. sanguinea} samples. \textit{(continued)}}\\
 \toprule
 Peak ID & Compound & Marker score & fusca marker & sanguinea marker\\
 \midrule
@@ -267,7 +267,7 @@ where $\text{Species_Identity_Score}$ denotes the Species Identity Score of the 
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-23-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-23-2} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-18-1} \includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-18-2} \end{center}
 
 #### *F. fusca*
 $$
@@ -315,7 +315,7 @@ where $\text{Species_Identity_Score}$ denotes the Species Identity Score of the 
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-24-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-24-2} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-19-1} \includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-19-2} \end{center}
 
 #### Callow *F. sanguinea*
 $$
@@ -362,7 +362,7 @@ where $\text{Species_Identity_Score}$ denotes the Species Identity Score of the 
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-25-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-25-2} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-20-1} \includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-20-2} \end{center}
 
 ### Difference in Species Identity Score between mature *F. sanguinea* ants and *F. fusca* slaves
 
@@ -380,7 +380,7 @@ Since the linear model does not meet one of the diagnostics criteria, Wilcoxon p
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-26-1} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-21-1} \end{center}
 
 ### Difference in Species Identity Score between callow *F. sanguinea* ants and *F. fusca* slaves
 $$
@@ -430,7 +430,7 @@ Since the linear model does not meet one of diagnostics criterion we will apply 
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-27-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-27-2} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-22-1} \includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-22-2} \end{center}
 
 ### Difference in Species Identity Score between callow and mature *F. sanguinea* ants
 
@@ -476,9 +476,9 @@ Since the linear model does not meet one of diagnostics criterion we will apply 
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-28-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-28-2} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-23-1} \includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-23-2} \end{center}
 
-<!--chapter:end:Species_identity.Rmd-->
+<!--chapter:end:/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/inst/supp_materials/Species_identity.Rmd-->
 
 # Peaks differentiating callow and mature *F. sanguinea* workers
 
@@ -490,33 +490,33 @@ The procedure identifying species markers was also applied to determine peaks ch
 
 \begin{figure}
 
-{\centering \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-31-1} 
+{\centering \includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-26-1} 
 
 }
 
-\caption{Distribution of the samples projected onto two first latent components before optimizing the number of model paramaters.}(\#fig:unnamed-chunk-31)
+\caption{Distribution of the samples projected onto two first latent components before optimizing the number of model paramaters.}(\#fig:unnamed-chunk-26)
 \end{figure}
 
 
 
 \begin{figure}
 
-{\centering \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-33-1} 
+{\centering \includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-28-1} 
 
 }
 
-\caption{Projection of the samples in onto two first discriminant analysis components after model tuning.}(\#fig:unnamed-chunk-33)
+\caption{Projection of the samples in onto two first discriminant analysis components after model tuning.}(\#fig:unnamed-chunk-28)
 \end{figure}
 
 
 
 \begin{longtable}[t]{rlrlrl}
-\caption{(\#tab:unnamed-chunk-35)List of the peaks with the score indicating their importance as a marker of mature \textit{F. fusca}, mature \textit{F. sanguinea}, or callow \textit{F. sanguinea} samples.}\\
+\caption{(\#tab:unnamed-chunk-30)List of the peaks with the score indicating their importance as a marker of mature \textit{F. fusca}, mature \textit{F. sanguinea}, or callow \textit{F. sanguinea} samples.}\\
 \toprule
 Peak ID & Compound & Callow score & Callow marker & Mature score & Mature marker\\
 \midrule
 \endfirsthead
-\caption[]{(\#tab:unnamed-chunk-35)List of the peaks with the score indicating their importance as a marker of mature \textit{F. fusca}, mature \textit{F. sanguinea}, or callow \textit{F. sanguinea} samples. \textit{(continued)}}\\
+\caption[]{(\#tab:unnamed-chunk-30)List of the peaks with the score indicating their importance as a marker of mature \textit{F. fusca}, mature \textit{F. sanguinea}, or callow \textit{F. sanguinea} samples. \textit{(continued)}}\\
 \toprule
 Peak ID & Compound & Callow score & Callow marker & Mature score & Mature marker\\
 \midrule
@@ -608,16 +608,16 @@ The p-value is calculated as proportion of differences with value equal to or le
 
 \begin{figure}
 
-{\centering \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-39-1} 
+{\centering \includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-34-1} 
 
 }
 
-\caption{Distribution of the differences in the performance of the discriminant models trained on true and permuted data. Age status of \textit{F. sanguinea} ants were shuffled in the null variant.}(\#fig:unnamed-chunk-39)
+\caption{Distribution of the differences in the performance of the discriminant models trained on true and permuted data. Age status of \textit{F. sanguinea} ants were shuffled in the null variant.}(\#fig:unnamed-chunk-34)
 \end{figure}
 
 All differences are positive, so the *p*-value is less than 0.001 since the null distribution consists of 1000 values.
 
-<!--chapter:end:Callow_markers.Rmd-->
+<!--chapter:end:/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/inst/supp_materials/Callow_markers.Rmd-->
 
 # Changes in CHC amount over time
 
@@ -675,7 +675,7 @@ $$
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-41-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-41-2} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-36-1} \includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-36-2} \end{center}
 
 ## Change in total CHC mass
 
@@ -729,7 +729,7 @@ where $\text{CHC_mass_sanguinea}$ denotes the total normalized CHC mass on the b
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-42-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-42-2} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-37-1} \includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-37-2} \end{center}
 The model shows no significant effect of body size on CHC amount in *F. sanguinea*, and this term will therefore be excluded from subsequent models for this species.
 
 ### *F. fusca*
@@ -779,7 +779,7 @@ where $\text{CHC_mass_fusca}$ denotes the total normalized CHC mass on the body 
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-43-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-43-2} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-38-1} \includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-38-2} \end{center}
 
 ### Callow *F. sanguinea*
 
@@ -828,7 +828,7 @@ where $\text{CHC_mass_callow}$ denotes the total normalized CHC mass on the body
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-44-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-44-2} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-39-1} \includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-39-2} \end{center}
 Similarly to mature *F. sanguinea* ants, in callow workers there is negative but not significant relationship between body size and normalized CHC amount.
 
 ### Predictions from the linear model
@@ -838,11 +838,11 @@ The linear models explaining the change in CHC amounts in relation to the propor
 
 \begin{figure}
 
-{\centering \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-46-1} 
+{\centering \includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-41-1} 
 
 }
 
-\caption{Ditribution of the ratios (\textit{F. sanguinea}/\textit{F. fusca}) of the predicted CHC mass of workers from pure colonies. The shaded area corresponds to the 95\% highest density interval.}(\#fig:unnamed-chunk-46)
+\caption{Ditribution of the ratios (\textit{F. sanguinea}/\textit{F. fusca}) of the predicted CHC mass of workers from pure colonies. The shaded area corresponds to the 95\% highest density interval.}(\#fig:unnamed-chunk-41)
 \end{figure}
 
 
@@ -901,7 +901,7 @@ where $\text{CHC_mass_mature}$ denotes the normalized mass of *F. sanguinea* mar
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-47-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-47-2} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-42-1} \includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-42-2} \end{center}
 
 ### *F. fusca* ants
 
@@ -950,7 +950,7 @@ where $\text{CHC_mass_fusca}$ denotes the normalized mass of *F. sanguinea* mark
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-48-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-48-2} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-43-1} \includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-43-2} \end{center}
 
 ### Callow *F. sanguinea* ants
 
@@ -991,7 +991,7 @@ where $\text{CHC_mass_mature}$ denotes the normalized mass of *F. sanguinea* mar
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-49-1} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-44-1} \end{center}
 
 ## Change in CHC characteristic of *F. fusca*
 
@@ -1046,7 +1046,7 @@ where $\text{CHC_mass_mature}$ denotes the normalized mass of *F. fusca* markers
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-50-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-50-2} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-45-1} \includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-45-2} \end{center}
 
 ### *F. fusca* ants
 
@@ -1098,7 +1098,7 @@ where $\text{CHC_mass_mature}$ denotes the normalized mass of *F. fusca* markers
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-51-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-51-2} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-46-1} \includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-46-2} \end{center}
 
 ### Callow *F. sanguinea* ants
 
@@ -1147,9 +1147,9 @@ where $\log(\text{CHC_mass_mature})$ denotes the normalized mass of *F. fusca* m
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-52-1} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-47-1} \end{center}
 
-<!--chapter:end:CHCs_over_time.Rmd-->
+<!--chapter:end:/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/inst/supp_materials/CHCs_over_time.Rmd-->
 
 # Comparisons of CHC amounts and proportions between species and age categories
 
@@ -1159,51 +1159,51 @@ This section presents the results of Wilcoxon tests comparing features of CHC pr
 
 ## Difference in total CHC amount between *F. sanguinea* and *F. fusca*
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-54-1} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-49-1} \end{center}
 
 ## Difference in total CHC amount between callow and mature *F. sanguinea*
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-55-1} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-50-1} \end{center}
 
 ## Difference in the proportion of CHC characteristic of *F. sanguinea* between mature *F. sanguinea* and *F. fusca*
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-56-1} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-51-1} \end{center}
 
 ## Difference in the proportion of CHC characteristic of *F. sanguinea* between mature and callow *F. sanguinea* 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-57-1} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-52-1} \end{center}
 
 ## Difference in the proportion of CHC characteristic of callow *F. sanguinea* between mature and callow *F. sanguinea* 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-58-1} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-53-1} \end{center}
 
 
 ## Difference in the amount of CHC characteristic of callow *F. sanguinea* between mature and callow *F. sanguinea* 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-59-1} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-54-1} \end{center}
 
 ## Difference in the proportion of CHC characteristic of *F. fusca* between mature *F. sanguinea* and *F. fusca*
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-60-1} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-55-1} \end{center}
 
 ## Difference in the proportion of CHC characteristic of *F. fusca* between mature and callow *F. sanguinea* 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-61-1} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-56-1} \end{center}
 
 
 ## Difference in the proportion of CHC characteristic of *F. fusca* between callow *F. sanguinea* and *F. fusca*
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-62-1} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-57-1} \end{center}
 
 ## Difference in the mass of *n*-alkanes between callow and mature *F. sanguinea*
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-63-1} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-58-1} \end{center}
 
 ## Difference in the proportion of *n*-alkanes between callow and mature *F. sanguinea*
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-64-1} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-59-1} \end{center}
 
-<!--chapter:end:Non-parametric_tests.Rmd-->
+<!--chapter:end:/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/inst/supp_materials/Non-parametric_tests.Rmd-->
 
 # Change in the CHC profile of separated callow *F. sanguinea* ants
 
@@ -1249,7 +1249,7 @@ This section presents the results of Wilcoxon tests comparing features of CHC pr
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-66-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-66-2} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-61-1} \includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-61-2} \end{center}
 
 ## Change in the amount of compounds characteristic of callow *F. sanguinea*
 
@@ -1290,7 +1290,7 @@ This section presents the results of Wilcoxon tests comparing features of CHC pr
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-67-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-67-2} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-62-1} \includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-62-2} \end{center}
 
 ## Change in the amount of compounds characteristic of *F. sanguinea*
 
@@ -1333,7 +1333,7 @@ This section presents the results of Wilcoxon tests comparing features of CHC pr
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-68-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-68-2} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-63-1} \includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-63-2} \end{center}
 
 ## Change in the amount of compounds characteristic of *F. fusca*
 
@@ -1376,9 +1376,9 @@ This section presents the results of Wilcoxon tests comparing features of CHC pr
 
 
 
-\begin{center}\includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-69-1} \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-69-2} \end{center}
+\begin{center}\includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-64-1} \includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-64-2} \end{center}
 
-<!--chapter:end:Separation_experiment.Rmd-->
+<!--chapter:end:/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/inst/supp_materials/Separation_experiment.Rmd-->
 
 # Impact of slaves on the development of the *F. sanguinea* CHC profile
 
@@ -1448,7 +1448,7 @@ Distribution of p-values for the separation period of 35-40 days:
 ## 6.104e-05 1.807e-02 1.514e-01 2.784e-01 4.887e-01 1.000e+00
 ```
 
-<!--chapter:end:Slave_impact.Rmd-->
+<!--chapter:end:/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/inst/supp_materials/Slave_impact.Rmd-->
 
 # Effect of dummy ants
 
@@ -1473,7 +1473,7 @@ We computed the chemical distance to the CHC profile of ants whose CHC were used
 
 \begin{table}
 \centering
-\caption{(\#tab:unnamed-chunk-82)Chemical distance of separated \textit{F. sanguinea} ants to the CHC profile of \textit{F. fusca} ants from colonies that served as a source of CHC to caot the glass beads. In control variant, glass bead were left clean.}
+\caption{(\#tab:unnamed-chunk-77)Chemical distance of separated \textit{F. sanguinea} ants to the CHC profile of \textit{F. fusca} ants from colonies that served as a source of CHC to caot the glass beads. In control variant, glass bead were left clean.}
 \centering
 \begin{tabular}[t]{ll>{\raggedleft\arraybackslash}p{2cm}l>{\raggedleft\arraybackslash}p{2cm}}
 \toprule
@@ -1505,7 +1505,7 @@ SD20-2 & 12-15 days + F. fusca hydrocarbons & 0.699 & 12-15 days (control) & 0.7
 
 \begin{table}
 \centering
-\caption{(\#tab:unnamed-chunk-83)Chemical distance of separated \textit{F. sanguinea} ants to the CHC profile of \textit{F. sanguinea} ants from colonies that served as a source of CHC to caot the glass beads. In control variant, glass bead were left clean.}
+\caption{(\#tab:unnamed-chunk-78)Chemical distance of separated \textit{F. sanguinea} ants to the CHC profile of \textit{F. sanguinea} ants from colonies that served as a source of CHC to caot the glass beads. In control variant, glass bead were left clean.}
 \centering
 \begin{tabular}[t]{ll>{\raggedleft\arraybackslash}p{2cm}l>{\raggedleft\arraybackslash}p{2cm}}
 \toprule
@@ -1546,7 +1546,7 @@ For the control treatment, glass beads were left uncoated with CHC. In the exper
 
 \begin{table}
 \centering
-\caption{(\#tab:unnamed-chunk-84)Proportion of \textit{n}-docosane in CHC extracted from \textit{F. sanguinea} ants maintained with the glass beads coated with the CHC of \textit{F. fusca} ants and contaminated with \textit{n}-docosane. In control variant, glass bead were left clean.}
+\caption{(\#tab:unnamed-chunk-79)Proportion of \textit{n}-docosane in CHC extracted from \textit{F. sanguinea} ants maintained with the glass beads coated with the CHC of \textit{F. fusca} ants and contaminated with \textit{n}-docosane. In control variant, glass bead were left clean.}
 \centering
 \begin{tabular}[t]{ll>{\raggedleft\arraybackslash}p{2cm}l>{\raggedleft\arraybackslash}p{2cm}}
 \toprule
@@ -1581,7 +1581,7 @@ W17-1 & 12-15 days + F. fusca hydrocarbons & 0.021 & 12-15 days (control) & 0.00
 
 
 \begin{longtable}[t]{ll>{\raggedleft\arraybackslash}p{2cm}l>{\raggedleft\arraybackslash}p{2cm}}
-\caption{(\#tab:unnamed-chunk-85)Proportion of \textit{n}-docosane in CHC extracted from \textit{F. sanguinea} ants maintained with the glass beads coated with the CHC of \textit{F. sanguinea} ants and contaminated with \textit{n}-docosane. In control variant, glass bead were left clean.}\\
+\caption{(\#tab:unnamed-chunk-80)Proportion of \textit{n}-docosane in CHC extracted from \textit{F. sanguinea} ants maintained with the glass beads coated with the CHC of \textit{F. sanguinea} ants and contaminated with \textit{n}-docosane. In control variant, glass bead were left clean.}\\
 \toprule
 Colony ID & Treamtent & Averaged C22 fraction & Contrast & Averaged C22 fraction\\
 \midrule
@@ -1601,7 +1601,7 @@ W17-1 & 12-15 days + F. sanguinea hydrocarbons & 0.003 & 12-15 days (control) & 
 \bottomrule
 \end{longtable}
 
-<!--chapter:end:Dummy_ants.Rmd-->
+<!--chapter:end:/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/inst/supp_materials/Dummy_ants.Rmd-->
 
 # Body surface area of *F. sanguinea* ants and their slaves {#surface-area}
 
@@ -1621,12 +1621,75 @@ These calculations do not reflect the absolute value of body surface area but we
 
 \begin{figure}
 
-{\centering \includegraphics{Supplementary_materials_files/figure-latex/unnamed-chunk-87-1} 
+{\centering \includegraphics{/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/Supplementary_materials_files/figure-latex/unnamed-chunk-82-1} 
 
 }
 
-\caption{Relation between head width and area of the planar projections of ant body parts.}(\#fig:unnamed-chunk-87)
+\caption{Relation between head width and area of the planar projections of ant body parts.}(\#fig:unnamed-chunk-82)
 \end{figure}
 
-<!--chapter:end:Body_surface.Rmd-->
+<!--chapter:end:/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/inst/supp_materials/Body_surface.Rmd-->
+
+# Session info 
+
+This section lists the R session information, including package versions, that were used to generate this report.
+
+
+```
+## R version 4.5.1 (2025-06-13)
+## Platform: x86_64-pc-linux-gnu
+## Running under: Ubuntu 24.04.2 LTS
+## 
+## Matrix products: default
+## BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.12.0 
+## LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.12.0  LAPACK version 3.12.0
+## 
+## locale:
+##  [1] LC_CTYPE=en_GB.UTF-8       LC_NUMERIC=C               LC_TIME=pl_PL.UTF-8       
+##  [4] LC_COLLATE=en_GB.UTF-8     LC_MONETARY=pl_PL.UTF-8    LC_MESSAGES=en_GB.UTF-8   
+##  [7] LC_PAPER=pl_PL.UTF-8       LC_NAME=C                  LC_ADDRESS=C              
+## [10] LC_TELEPHONE=C             LC_MEASUREMENT=pl_PL.UTF-8 LC_IDENTIFICATION=C       
+## 
+## time zone: Europe/Warsaw
+## tzcode source: system (glibc)
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] sangchem_0.0.9000 HDInterval_0.2.4  rstatix_0.7.2     ggpubr_0.6.1      DHARMa_0.4.7     
+##  [6] lmerTest_3.1-3    lme4_1.1-37       Matrix_1.7-3      kableExtra_1.4.0  mixOmics_6.32.0  
+## [11] ggplot2_3.5.2     lattice_0.22-7    MASS_7.3-65       dplyr_1.1.4       stringi_1.8.7    
+## 
+## loaded via a namespace (and not attached):
+##   [1] Rdpack_2.6.4        gridExtra_2.3       remotes_2.5.0       permute_0.9-8      
+##   [5] testthat_3.2.3      rlang_1.1.6         magrittr_2.0.3      matrixStats_1.5.0  
+##   [9] compiler_4.5.1      mgcv_1.9-3          systemfonts_1.2.3   vctrs_0.6.5        
+##  [13] reshape2_1.4.4      stringr_1.5.1       profvis_0.4.0       pkgconfig_2.0.3    
+##  [17] fastmap_1.2.0       backports_1.5.0     ellipsis_0.3.2      labeling_0.4.3     
+##  [21] promises_1.3.3      rmarkdown_2.29      sessioninfo_1.2.3   nloptr_2.2.1       
+##  [25] tinytex_0.57        purrr_1.1.0         xfun_0.53           cachem_1.1.0       
+##  [29] later_1.4.4         BiocParallel_1.42.2 broom_1.0.9         parallel_4.5.1     
+##  [33] cluster_2.1.8.1     gap.datasets_0.0.6  R6_2.6.1            qgam_2.0.0         
+##  [37] RColorBrewer_1.1-3  car_3.1-3           boot_1.3-31         pkgload_1.4.0      
+##  [41] brio_1.1.5          numDeriv_2016.8-1.1 iterators_1.0.14    Rcpp_1.1.0         
+##  [45] bookdown_0.44       knitr_1.50          usethis_3.2.0       httpuv_1.6.16      
+##  [49] splines_4.5.1       igraph_2.1.4        tidyselect_1.2.1    abind_1.4-8        
+##  [53] rstudioapi_0.17.1   dichromat_2.0-0.1   yaml_2.3.10         vegan_2.7-1        
+##  [57] doParallel_1.0.17   codetools_0.2-20    miniUI_0.1.2        pkgbuild_1.4.8     
+##  [61] tibble_3.3.0        plyr_1.8.9          shiny_1.11.1        withr_3.0.2        
+##  [65] rARPACK_0.11-0      evaluate_1.0.5      desc_1.4.3          urlchecker_1.0.1   
+##  [69] xml2_1.4.0          pillar_1.11.0       carData_3.0-5       gap_1.6            
+##  [73] rsconnect_1.5.1     foreach_1.5.2       reformulas_0.4.1    ellipse_0.5.0      
+##  [77] generics_0.1.4      rprojroot_2.1.1     scales_1.4.0        minqa_1.2.8        
+##  [81] xtable_1.8-4        glue_1.8.0          tools_4.5.1         RSpectra_0.16-2    
+##  [85] ggsignif_0.6.4      fs_1.6.6            grid_4.5.1          tidyr_1.3.1        
+##  [89] rbibutils_2.3       devtools_2.4.5      nlme_3.1-168        Formula_1.2-5      
+##  [93] cli_3.6.5           textshaping_1.0.1   viridisLite_0.4.2   svglite_2.2.1      
+##  [97] corpcor_1.6.10      gtable_0.3.6        digest_0.6.37       ggrepel_0.9.6      
+## [101] htmlwidgets_1.6.4   farver_2.1.2        memoise_2.0.1       htmltools_0.5.8.1  
+## [105] lifecycle_1.0.4     mime_0.13
+```
+
+<!--chapter:end:/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/inst/supp_materials/Session_info.Rmd-->
 

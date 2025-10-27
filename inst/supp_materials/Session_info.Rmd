@@ -1,0 +1,7 @@
+# Session info 
+
+This section lists the R session information, including package versions, that were used to generate this report.
+
+```{r}
+print(sessionInfo())
+```
