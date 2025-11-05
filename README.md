@@ -7,11 +7,11 @@ Coming out from the shadows: facultative slave-making ants reveal their chemical
 Installation
 ```
 if(!require(devtools)) install.packages("devtools")
-devtools::install_github("TomVuod/fusca_counteradaptation", build_vignette = TRUE)
+devtools::install_github("TomVuod/sangchem")
 ```
 Loading
 ```
-library(fusca.defence)
+library(sangchem)
 ```
 Generating supplementary materials (by default in the current working directory)
 ```
