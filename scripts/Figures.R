@@ -207,7 +207,7 @@ p6 <- ggplot(aes(x=as.numeric(callow), y=proportion , group=mature), data=df)+
   scale_x_continuous(breaks = c(0,1), labels = c("callow", "mature"))+
   scale_fill_gradient("Proportion of\nF. sanguinea ants", low="#555C58", high="#BBEA5E")+
   xlab("F. sanguinea - age")+
-  ylab("Proportion of the n-alkanes in the total CHC mass")+
+  ylab("Proportion of n-alkanes in the total CHC mass")+
   theme(axis.text.x = element_text(size = 15))+
   theme(axis.text.y = element_text(size = 15))+
   theme(axis.title=element_text(size=18)) +
