@@ -90,7 +90,7 @@ plot(simulationOutput)
 ### Callow *F. sanguinea*
 
 $$
-\log(\text{CHC_mass_callow}) =  \beta_0 + \text{sanguinea_proportion} + \newline(1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+\log(\text{CHC_mass_callow+1}) =  \beta_0 + \text{sanguinea_proportion} + \newline(1|\text{colony_ID}) + (1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
 $$
 where $\text{CHC_mass_callow}$ denotes the total normalized CHC mass on the body of callow *F. sanguinea* worker.
 
@@ -99,7 +99,7 @@ model_input <- filter(development_data, caste=="worker",!is.na(head_width), !rem
   dplyr::select(chromatogram_ID, species, colony, sang_prop, head_width, mass, census_date) %>%
   mutate(normalized_mass=mass*CHC_normalizer(species, head_width))
 
-lm_model <- lmer(I(log(normalized_mass)) ~ sang_prop + (1|colony), data=model_input)
+lm_model <- lmer(I(log(normalized_mass+1)) ~ sang_prop + (1|colony), data=model_input)
 print(summary(lm_model))
 
 # model diagnostics

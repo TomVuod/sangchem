@@ -53,7 +53,7 @@ plot(simulationOutput)
 ## Change in the amount of compounds characteristic of *F. fusca*
 ```{r}
 separation_data$normalized_mass_part <- separation_data$normalized_mass * subsample_proportion(peaks_fusca, separation_data$chromatogram_ID)
-lm_model <- lmer(normalized_mass_part~mean_delta+(1|colony), data = separation_data)
+lm_model <- lmer(log(normalized_mass_part)~mean_delta+(1|colony), data = separation_data)
 print(summary(lm_model))
 hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
 shapiro.test(residuals(lm_model))

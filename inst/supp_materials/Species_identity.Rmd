@@ -2,7 +2,7 @@
 To classify the CHC samples collected from mixed colonies, we need a measure which positions a sample between the *F. sanguinea* and *F. fusca* CHC profiles. Therefore, using `mixOmics` R package [@R-mixOmics], we performed a discriminant analysis training the model on the chemical data collected from the filed colonies in the earlier study [@WLODARCZYK201798]. The model was subsequently used to predict identity of new samples.
 
 ## Species markers
-To figure out the importance of each input variable in the prediction of the species identity made by discriminant model, we calculated the vector of weights using the following formula [@Tenenhaus, @Rohart].
+To figure out the importance of each input variable in the prediction of the species identity made by discriminant model, we calculated the vector of weights using the following formula [@Tenenhaus; @Rohart]:
 $$
 \textbf{W}(\textbf{P}^\intercal\textbf{W})^{-1}\textbf{c}
 $$
@@ -18,7 +18,7 @@ $\textbf{V}$ is the matrix of the coordinates of each observation on latent comp
 $\textbf{X}$ is the input data matrix\newline
 $\textbf{y}$ is the vector of zero-centered one-hot encoded class labels of the samples for a selected class (here, *F. sanguinea* sample)
 
-To project the weights assigned to principal components onto the original variables one has to reverse data transformation. Technically, this is achieved by multiplying with the pseudoinverse of the rotation matrix produced by PCA. We use pseudoinverse because the rotation matrix has been reduced by removing principal components with low variance.
+To project the weights assigned to principal components back into the space spanned by the original variables, one has to reverse data transformation. Technically, this is achieved by multiplying with the pseudoinverse of the rotation matrix produced by PCA. We use pseudoinverse because the rotation matrix has been reduced by removing principal components with low variance.
 
 $$
 \textbf{R}^{+}\textbf{W}(\textbf{P}^\intercal\textbf{W})^{-1}\textbf{c},
@@ -238,12 +238,12 @@ plot(simulationOutput)
 
 #### *F. fusca*
 $$
-\sqrt{\text{Species_Identity_Score+10}}= \beta_0 + \text{sanguinea_proportion} + (1|\text{colony})+(1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
+\text{Species_Identity_Score}= \beta_0 + \text{sanguinea_proportion} + (1|\text{colony})+(1|\text{colony_ID:sampling_occasion_ID}) + \epsilon,
 $$
 where $\text{Species_Identity_Score}$ denotes the Species Identity Score of the mature *F. fusca* workers.
 ```{r}
 model_input <- dev_samples[dev_samples$species=="F. fusca",]
-lm_model <- lmer(I(sqrt(predicted_species+10))~sang_prop+(1|colony)+(1|colony:census_date), data=model_input)
+lm_model <- lmer(I((predicted_species))~sang_prop+(1|colony)+(1|colony:census_date), data=model_input)
 print(summary(lm_model))
 
 # model diagnostics
