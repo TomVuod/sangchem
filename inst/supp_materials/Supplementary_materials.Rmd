@@ -670,15 +670,17 @@ hist(results_basic-results_null, breaks=15, xlab = "Difference in AUROC",
      main = "Basic vs. null models")
 ```
 
-
-```{r echo=FALSE, fig.cap="Distribution of the differences in the performance of the discriminant models trained on true and permuted data. Age status of \\textit{F. sanguinea} ants were shuffled in the null variant."}
+```{r echo=FALSE}
 data("discrimination_model_validation")
+```
+```{r fig.cap="Distribution of the differences in the performance of the discriminant models trained on true and permuted data. Age status of \\textit{F. sanguinea} ants were shuffled in the null variant.", ref.label='perf-test'}
+
 # summary(discrimination_model_validation[[1]] - discrimination_model_validation[[2]])
 hist(discrimination_model_validation[[1]]-discrimination_model_validation[[2]], breaks=15, xlab = "Difference in AUROC",
-     main = "Basic vs. null models")
+     main = "Basic vs. null model")
 ```
 
-All differences are positive, so the *p*-value is less than 0.001 since the null distribution consists of 1000 values.
+All differences are positive, so the *p*-value is less than 0.001 since the null distribution consists of 1000 values (Figure \@ref(fig:perf-test)).
 
 <!--chapter:end:/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/inst/supp_materials/Callow_markers.Rmd-->
 

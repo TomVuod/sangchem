@@ -83,7 +83,7 @@ p1 <- ggplot(aes(x=species, y=proportion , group=species), data=df)+
                                  colour = "black"))+
   geom_signif(
     y_position = max(df[["proportion"]])*1.1, xmin = 1, xmax = 2,
-    annotation = "0.000061", tip_length = 0.02)
+    annotation = "6.1e-5", tip_length = 0.02)
 
 
 df <- paired_observations(list(species = "F. sanguinea", callow = 0),
@@ -114,7 +114,7 @@ p2 <- ggplot(aes(x=species, y=proportion , group=species), data=df)+
                                  colour = "black"))+
   geom_signif(
     y_position = max(df[["proportion"]])*1.1, xmin = 1, xmax = 2,
-    annotation = "0.000153", tip_length = 0.02)
+    annotation = "6.1e-5", tip_length = 0.02)
 
 
 
@@ -149,7 +149,7 @@ p3 <- ggplot(aes(x=species, y=mass , group=species), data=df)+
                                  colour = "black"))+
   geom_signif(
     y_position = 5, xmin = 1, xmax = 2,
-    annotation = "0.00058", tip_length = 0.02)
+    annotation = "0.00043", tip_length = 0.02)
 
 
 
@@ -225,7 +225,7 @@ p6 <- ggplot(aes(x=as.numeric(callow), y=proportion , group=mature), data=df)+
 
 
 
-
+dev.new()
 pdf("./inst/figures/Fig2.pdf", width = 19, height = 7.5)
 #dev.new()
 ggarrange(p1, p2, p4, p3, p6, ncol=5, labels=LETTERS[1:5], widths = c(4.5, 4.5, 4, 4, 4))
@@ -319,7 +319,6 @@ mean_ret_times <- unlist(lapply(peaks, function(x) mean(batch7[batch7$peak_ID==x
 peaks_ordered <- peaks[order(mean_ret_times)]
 
 peak_ID_df <- data.frame(peak_ID = 1:length(peaks_ordered), old_ID = peaks_ordered)
-marker_scores_df$peak_ID <- peak_ID_df$peak_ID[match(marker_scores_df$peak_ID, peak_ID_df$old_ID)]
 age_profiles[[1]]$peak_ID <-  peak_ID_df$peak_ID[match(age_profiles[[1]]$peak_ID, peak_ID_df$old_ID)]
 age_profiles[[2]]$peak_ID <- peak_ID_df$peak_ID[match(age_profiles[[2]]$peak_ID, peak_ID_df$old_ID)]
 diff_data$peak_ID <- peak_ID_df$peak_ID[match(diff_data$peak_ID, peak_ID_df$old_ID)]
