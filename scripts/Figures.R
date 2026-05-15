@@ -425,7 +425,7 @@ names(colony_to_chrID) <- gsub("Chot", "Ch", names(colony_to_chrID))
 
 
 for(n in 1:4){
-  treatment_df <- filter(separation_data, treatment_id ==n)
+  treatment_df <- filter(separation_experiment_data, treatment_id ==n)
   treatment_df <- treatment_df[!is.na(colony_to_chrID[slave_source_colony[treatment_df$colony]]),]
   treatment_df <- arrange(treatment_df, colony)
   colonies <- sort(unique(treatment_df$colony))

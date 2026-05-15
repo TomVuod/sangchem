@@ -197,8 +197,8 @@ orig_var_effects <- t(t(transf_matr) %*% ginv(rot_m))
 orig_var_effects <- orig_var_effects 
 rownames(orig_var_effects) <- rownames(rot_m)
 
-peaks_fusca <- as.numeric(rownames(orig_var_effects)[orig_var_effects[,2]<=quantile(orig_var_effects[,2], 0.2)])
-peaks_sang <- as.numeric(rownames(orig_var_effects)[orig_var_effects[,2]>=quantile(orig_var_effects[,2], 0.8)])
+peaks_fusca <- as.numeric(rownames(orig_var_effects)[orig_var_effects[,2]<=quantile(orig_var_effects[,2], 0.1)])
+peaks_sang <- as.numeric(rownames(orig_var_effects)[orig_var_effects[,2]>=quantile(orig_var_effects[,2], 0.9)])
 # peaks_fusca <- as.numeric(rownames(orig_var_effects)[orig_var_effects[,2]<=-0.015])
 # peaks_sang <- as.numeric(rownames(orig_var_effects)[orig_var_effects[,2]>=0.015])
 
