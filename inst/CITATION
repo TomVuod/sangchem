@@ -1,0 +1,11 @@
+bibentry(
+  bibtype  = "Article",
+  title    = "Coming out from the shadows: facultative slave-making ants reveal their chemical identity during colony development",
+  author   = c(person("Tomasz", "Włodarczyk"), person("Thomas","Schmitt")),
+  journal  = "Behavioral Ecology and Sociobiology",
+  number = "71",
+  volume = "80",
+  year     = "2026",
+  doi      = "https://doi.org/10.1007/s00265-026-03738-0",
+  url.     = "https://link.springer.com/article/10.1007/s00265-026-03738-0?utm_source=rct_congratemailt&utm_medium=email&utm_campaign=oa_20260519&utm_content=10.1007%2Fs00265-026-03738-0"
+)
