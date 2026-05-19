@@ -72,8 +72,6 @@ summary(test_stats[[4]]$p_val)
 ```{r}
 library(dplyr)
 library(sangchem)
-separation_data$cocoon_1 <- as.numeric(separation_data$cocoon_1)
-separation_data$cocoon_2 <- as.numeric(separation_data$cocoon_2)
 set.seed(3810)
 dist_matr <- sangchem:::global_distances_matrix()
 n_rep = 1e3
@@ -107,8 +105,8 @@ for(n in 1:4){
       }
     }
     res <- wilcox.test(distance_df$d_related, distance_df$d_unrelated, paired = TRUE)
-    test_stats_c[[n]]$V <- c(test_stats[[n]]$V, res$statistic)
-    test_stats_c[[n]]$p_val <- c(test_stats[[n]]$p_val, res$p.value)
+    test_stats_c[[n]]$V <- c(test_stats_c[[n]]$V, res$statistic)
+    test_stats_c[[n]]$p_val <- c(test_stats_c[[n]]$p_val, res$p.value)
   }
 
 }

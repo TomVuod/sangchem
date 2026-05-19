@@ -11,10 +11,12 @@ clean: false
 output:
   bookdown::pdf_document2:
     keep_tex: true
+urlcolor: blue
+reference-section-title: References
 ---
 
 # Introduction
-This document presents graphical results generated as output from analytic workflows written in *R* language and available in [the public GitHub repository - https://github.com/TomVuod/sangchem](https://github.com/TomVuod/sangchem).   
+This document presents graphical results generated as output from analytic workflows written in *R* language and available in the public [GitHub repository](https://github.com/TomVuod/sangchem).   
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   fig.align = 'center',
@@ -30,5 +32,3 @@ knitr::opts_chunk$set(
 ```{r echo=FALSE}
 options("width"=100)
 ```
-
-

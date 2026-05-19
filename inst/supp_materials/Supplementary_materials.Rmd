@@ -11,10 +11,12 @@ clean: false
 output:
   bookdown::pdf_document2:
     keep_tex: true
+urlcolor: blue
+reference-section-title: References
 ---
 
 # Introduction
-This document presents graphical results generated as output from analytic workflows written in *R* language and available in [the public GitHub repository - https://github.com/TomVuod/sangchem](https://github.com/TomVuod/sangchem).   
+This document presents graphical results generated as output from analytic workflows written in *R* language and available in the public [GitHub repository](https://github.com/TomVuod/sangchem).   
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   fig.align = 'center',
@@ -30,8 +32,6 @@ knitr::opts_chunk$set(
 ```{r echo=FALSE}
 options("width"=100)
 ```
-
-
 
 <!--chapter:end:/home/user/Documents/Ekologia chemiczna kolonii inicjalnych F. sanguinea/sangchem/inst/supp_materials/index.Rmd-->
 
@@ -1390,8 +1390,6 @@ summary(test_stats[[4]]$p_val)
 ```{r}
 library(dplyr)
 library(sangchem)
-separation_data$cocoon_1 <- as.numeric(separation_data$cocoon_1)
-separation_data$cocoon_2 <- as.numeric(separation_data$cocoon_2)
 set.seed(3810)
 dist_matr <- sangchem:::global_distances_matrix()
 n_rep = 1e3
@@ -1425,8 +1423,8 @@ for(n in 1:4){
       }
     }
     res <- wilcox.test(distance_df$d_related, distance_df$d_unrelated, paired = TRUE)
-    test_stats_c[[n]]$V <- c(test_stats[[n]]$V, res$statistic)
-    test_stats_c[[n]]$p_val <- c(test_stats[[n]]$p_val, res$p.value)
+    test_stats_c[[n]]$V <- c(test_stats_c[[n]]$V, res$statistic)
+    test_stats_c[[n]]$p_val <- c(test_stats_c[[n]]$p_val, res$p.value)
   }
 
 }
