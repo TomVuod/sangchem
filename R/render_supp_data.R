@@ -16,7 +16,9 @@ merge_chapters = function(files, to, before = NULL, after = NULL, orig = files) 
 }
 
 #' @export
-render_supp_materials <- function(save_globals=FALSE, output_path = NULL){
+render_supp_materials <- function(save_globals=FALSE, output_path = NULL,
+                                  PC_var_thershold=NULL, PC_var_total=0.8,
+                                  output_file = "Supplementary_materials.pdf"){
   if(is.null(output_path)){
     output_path <- getwd()
   }
@@ -34,7 +36,9 @@ render_supp_materials <- function(save_globals=FALSE, output_path = NULL){
   merge_chapters(chapters, file.path(system.file("supp_materials/",package="sangchem"), "Supplementary_materials.Rmd"))
 
   rmarkdown::render(system.file("supp_materials/Supplementary_materials.Rmd",package="sangchem"),
-                    output_file = file.path(output_path, "Supplementary_materials.pdf"),
-                    params=list(save_globals=save_globals))
+                    output_file = file.path(output_path, output_file),
+                    params=list(save_globals=save_globals,
+                                PC_var_thershold=PC_var_thershold,
+                                PC_var_total=PC_var_total))
 }
 

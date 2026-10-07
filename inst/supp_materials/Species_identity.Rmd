@@ -43,12 +43,6 @@ data("mass_spectra_data")
 fusca_samples <- as.character(unique(field_colonies$chromatogram_ID)[stri_detect_regex(unique(field_colonies$chromatogram_ID), "fus[0-9].?-[0-9]\\([1-2]\\)")])
 sanguinea_samples<-as.character(unique(field_colonies$chromatogram_ID)[stri_detect_regex(unique(field_colonies$chromatogram_ID),"sangFs[0-9].?\\([0-9]\\)")])
 
-
-# "sangFs[0-9].?(pocz|)\\([0-9]\\)"
-
-# remove outliers
-# sanguinea_samples <- setdiff(sanguinea_samples,c("sangFs2(1)","sangFs5(2)","sangFs26(1)","sangFs26(2)"))
-# fusca_samples <- setdiff(fusca_samples,c("fus9-2(1)", "fus26-3(2)"))
 discrimination_data <- filter(field_colonies,chromatogram_ID %in% c(fusca_samples,sanguinea_samples),
                               peak_ID %in% mass_spectra_data$peak_ID) 
 peak_prop <- peak_proportions_table(discrimination_data)
@@ -67,14 +61,23 @@ PCA_species_discr <- prcomp(peak_transformed, scale. = TRUE)
 
 ```{r echo=FALSE}
 PC_var = apply(PCA_species_discr$x,2,var)
+n_PCs <- {
+  if (is.null(params$PC_var_thershold)){
+     sum((cumsum(PC_var)/sum(PC_var))<params$PC_var_total)+1
+  }
+  else {
+      sum(((PC_var)/sum(PC_var))>params$PC_var_thershold)
+  }
+}
+
 ```
 
-```{r fig.cap="Variance of each principal compnent. Data was fed into the discriminat model to find features separating both species.", fig.show="asis", echo=FALSE}
-plot(PC_var, xlab="Principal components", ylab="Variance")
+```{r fig.cap="Variance of each principal compnent. Data was fed into the discriminat model to find features separating both species. Points in red represent principal components selected for downstream analyses.", fig.show="asis", echo=FALSE}
+plot(PC_var/sum(PC_var), xlab="Principal components", ylab="Variance (proportion of total)", col=c(rep("red", n_PCs), rep("black",length(PC_var)-n_PCs)),pch=16)
+border_line <- ((PC_var[n_PCs] + PC_var[n_PCs+1])/2)/sum(PC_var)
 ```
 
 ```{r eval=TRUE}
-n_PCs <- sum(cumsum(apply(PCA_species_discr$x,2,var))/sum(apply(PCA_species_discr$x,2,var))<0.8)+1
 PCA_species_discr$rotation <- PCA_species_discr$rotation[,1:n_PCs]
 PCA_species_discr$x <- PCA_species_discr$x[,1:n_PCs]
 ```
@@ -162,8 +165,6 @@ rownames(orig_var_effects) <- rownames(rot_m)
 
 peaks_fusca <- as.numeric(rownames(orig_var_effects)[orig_var_effects[,2]<=quantile(orig_var_effects[,2], 0.1)])
 peaks_sang <- as.numeric(rownames(orig_var_effects)[orig_var_effects[,2]>=quantile(orig_var_effects[,2], 0.9)])
-# peaks_fusca <- as.numeric(rownames(orig_var_effects)[orig_var_effects[,2]<=-0.015])
-# peaks_sang <- as.numeric(rownames(orig_var_effects)[orig_var_effects[,2]>=0.015])
 
 
 compounds <- c()
@@ -193,12 +194,13 @@ globals[["species_prediction_model"]] <- species_prediction_model
 globals[["PCA_species_discr"]] <- PCA_species_discr
 globals[["peaks_sang"]] <- peaks_sang
 globals[["peaks_fusca"]] <- peaks_fusca
+globals[["marker_scores_species"]] <- marker_scores_df
 saveRDS(globals, system.file("globals.rds", package="sangchem"))
 ```
 
 ## Species Identity Score
 
-Ants in the mixed colonies exchanged their CHC to produce a hybrid chemical identity. We developed a method to assign each sample a value measuring similarity to one or the other species. It is based on a discriminant model that predicts the class of new samples using `predict` method from `mixOmics` R package. The input data are processed in the same way as the training set, i.e. central-log transformation is followed by projection into principal component space. In the latter step, the same rotation matrix and scaling vector is applied as those used for the training set are applied. This is achieved by using `predict` method on the object of `prcomp` class.
+Ants in the mixed colonies exchanged their CHC to produce a hybrid chemical identity. We developed a method to assign each sample a value measuring similarity to one or the other species. It is based on a discriminant model that predicts the class of new samples using `predict` method from `mixOmics` R package. The input data are processed in the same way as the training set, i.e. central-log transformation is followed by projection into principal component space. In the latter step, the same rotation matrix and scaling vector is applied as that used for the training set. This is achieved by using `predict` method on the object of `prcomp` class.
 
 ```{r warning=FALSE, message=FALSE}
 data("development_data")
@@ -291,16 +293,6 @@ ggboxplot(df, x="species", y="species_identity_index")+
   ylab("Species Identity Score")+
   xlab("Species")
 
-# model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==0,]
-# model_input$index_diff <- model_input$predicted_species - find_nestmates_SII(model_input$chromatogram_ID, dev_samples)
-# lm_model <- lmer(index_diff~sang_prop+(1|colony)+(1|colony:census_date), data=model_input)
-# print(summary(lm_model))
-# 
-# # model diagnostics
-# hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
-# print(shapiro.test(residuals(lm_model)))
-# simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n=1e4)
-# plot(simulationOutput)
 ```
 
 ### Difference in Species Identity Score between callow *F. sanguinea* ants and *F. fusca* slaves
@@ -322,18 +314,6 @@ hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
 print(shapiro.test(residuals(lm_model)))
 simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n=1e4)
 plot(simulationOutput)
-
-# model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==1,]
-# model_input$slave_species_index <- find_nestmates_SII(model_input$chromatogram_ID, dev_samples)
-# print(wilcox.test(model_input$predicted_species, model_input$slave_species_index, paired=TRUE))
-# df <- data.frame(species_identity_index=c(model_input$predicted_species, model_input$slave_species_index), species="F. fusca")
-# df$species[1:nrow(model_input)] <- "callow F. sanguinea"
-# stat_tests <- wilcox_test(df, species_identity_index~species, paired=TRUE) %>%
-#   add_significance("p") %>%
-#   add_xy_position(x="species", dodge=0.8, fun="max")
-# ggboxplot(df, x="species", y="species_identity_index")+
-#   scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
-#   stat_pvalue_manual(stat_tests, label="p", tip.length = 0, size=3.5)
 ```
 
 ### Difference in Species Identity Score between callow and mature *F. sanguinea* ants
@@ -349,16 +329,4 @@ hist(residuals(lm_model), main="Model conditional residuals", xlab="Residuals")
 print(shapiro.test(residuals(lm_model)))
 simulationOutput <- simulateResiduals(fittedModel = lm_model, plot = FALSE, n=1e4)
 plot(simulationOutput)
-
-# model_input <- dev_samples[dev_samples$species=="F. sanguinea"&dev_samples$callow==1,]
-# model_input$mature_ant_index <- find_nestmates_SII(model_input$chromatogram_ID, dev_samples, heterospecific = FALSE)
-# print(wilcox.test(model_input$predicted_species, model_input$mature_ant_index, paired=TRUE))
-# df <- data.frame(species_identity_index=c(model_input$predicted_species, model_input$mature_ant_index), age="mature")
-# df$age[1:nrow(model_input)] <- "callow"
-# stat_tests <- wilcox_test(df, species_identity_index~age, paired=TRUE) %>%
-#   add_significance("p") %>%
-#   add_xy_position(x="age", dodge=0.8, fun="max")
-# ggboxplot(df, x="age", y="species_identity_index")+
-#   scale_y_continuous(expand = expansion(mult=c(0.02,0.1)))+
-#   stat_pvalue_manual(stat_tests, label="p", tip.length = 0, size=3.5)
 ```

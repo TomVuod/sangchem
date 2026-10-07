@@ -36,8 +36,25 @@ peak_prop <- peak_prop/rowSums(peak_prop)
 # apply central log ratio transformation
 peak_transformed <- t(apply(peak_prop, 1, clr_transformation))
 PCA_callow_discr <- prcomp(peak_transformed, scale. = TRUE)
-# PCA_callow_discr$x <- withinVariation(PCA_callow_discr$x, data.frame(DA_data$group))
-n_PCs <- sum(cumsum(apply(PCA_callow_discr$x,2,var))/sum(apply(PCA_callow_discr$x,2,var))<0.8)+1
+```
+```{r}
+PC_var = apply(PCA_callow_discr$x,2,var)
+n_PCs <- {
+  if (is.null(params$PC_var_thershold)){
+     sum((cumsum(PC_var)/sum(PC_var))<params$PC_var_total)+1
+  }
+  else {
+      sum(((PC_var)/sum(PC_var))>params$PC_var_thershold)
+  }
+}
+```
+
+```{r fig.cap="Variance of each principal compnent. Data was fed into the discriminat model to find features separating age/species groups. Points in red represent principal components selected for downstream analyses.", fig.show="asis", echo=FALSE}
+plot(PC_var/sum(PC_var), xlab="Principal components", ylab="Variance (proportion of total)", col=c(rep("red", n_PCs), rep("black",length(PC_var)-n_PCs)),pch=16)
+border_line <- ((PC_var[n_PCs] + PC_var[n_PCs+1])/2)/sum(PC_var)
+```
+
+```{r}
 PCA_callow_discr$rotation <- PCA_callow_discr$rotation[,1:n_PCs]
 PCA_callow_discr$x <- PCA_callow_discr$x[,1:n_PCs]
 ```
@@ -137,7 +154,7 @@ marker_scores_df$peak_ID <- peak_ID_df$peak_ID[match(marker_scores_df$peak_ID, p
 ```
 ```{r}
 kableExtra::kbl(marker_scores_df, longtable=TRUE, booktabs = TRUE, caption = 'List of the peaks with the score indicating their importance as a marker of mature \\textit{F. fusca}, mature \\textit{F. sanguinea}, or callow \\textit{F. sanguinea} samples.',col.names = c("Peak ID", "Compound", "Callow score", "Callow marker", "Mature score", "Mature marker")) %>%
-  kable_styling(latex_options = c("repeat_header"))
+  kableExtra::kable_styling(latex_options = c("repeat_header"))
 ```
 ```{r eval=params$save_globals}
 globals <- readRDS(system.file("globals.rds", package="sangchem"))
@@ -145,6 +162,7 @@ globals[["discr_analysis_callows_final"]] <- discr_analysis_callows_final
 globals[["PCA_callow_discr"]] <- PCA_callow_discr
 globals[["peaks_mature"]] <- as.numeric(peaks_mature)
 globals[["peaks_callow"]] <- as.numeric(peaks_callow)
+globals[["marker_scores_age"]] <- marker_scores_df
 saveRDS(globals, system.file("globals.rds", package="sangchem"))
 ```
 
@@ -269,11 +287,11 @@ hist(results_basic-results_null, breaks=15, xlab = "Difference in AUROC",
 ```{r echo=FALSE}
 data("discrimination_model_validation")
 ```
-```{r fig.cap="Distribution of the differences in the performance of the discriminant models trained on true and permuted data. Age status of \\textit{F. sanguinea} ants were shuffled in the null variant.", ref.label='perf-test'}
+```{r perf-test, fig.cap="Distribution of the differences in the performance of the discriminant models trained on true and permuted data. Age status of F. sanguinea ants were shuffled in the null variant."}
 
 # summary(discrimination_model_validation[[1]] - discrimination_model_validation[[2]])
 hist(discrimination_model_validation[[1]]-discrimination_model_validation[[2]], breaks=15, xlab = "Difference in AUROC",
      main = "Basic vs. null model")
 ```
 
-All differences are positive, so the *p*-value is less than 0.001 since the null distribution consists of 1000 values (Figure \@ref(fig:perf-test)).
+All differences are positive, so the *p*-value is less than 0.001 since the null distribution consists of 1000 values (Figure S\@ref(fig:perf-test)).

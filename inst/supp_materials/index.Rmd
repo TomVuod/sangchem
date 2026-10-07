@@ -7,6 +7,9 @@ author:
 bibliography: book.bib
 params:
   save_globals: FALSE
+  PC_var_thershold: NULL
+  PC_var_total: 0.8
+  
 clean: false
 output:
   bookdown::pdf_document2:
